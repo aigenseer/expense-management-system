@@ -19,7 +19,7 @@ public class User {
     private UUID id;
 
     @Column(name = "name", nullable = false)
-    private String Name;
+    private String name;
 
     @Column(name = "hashed_password", nullable = false)
     private String hashedPassword;
