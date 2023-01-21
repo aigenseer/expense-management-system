@@ -1,7 +1,6 @@
 package de.dhbw.cleanproject.abstractioncode.valueobject.phonennumber;
 
 
-import de.dhbw.cleanproject.abstractioncode.valueobject.money.CurrencyType;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
