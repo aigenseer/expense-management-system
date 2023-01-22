@@ -3,7 +3,10 @@ package de.dhbw.cleanproject.domain.user;
 import de.dhbw.cleanproject.abstractioncode.valueobject.email.Email;
 import de.dhbw.cleanproject.abstractioncode.valueobject.phonennumber.PhoneNumber;
 import de.dhbw.cleanproject.domain.financialledger.FinancialLedger;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -12,6 +15,9 @@ import java.util.UUID;
 @Entity
 @Table(name = "ems_user")
 @Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class User {
 
     @Id
@@ -21,16 +27,13 @@ public class User {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "hashed_password", nullable = false)
-    private String hashedPassword;
-
     @Embedded
     @Column(name = "email", nullable = false)
     private Email email;
 
     @Embedded
     @Column(name = "phone_number", nullable = true)
-    private PhoneNumber phoneNumber = null;
+    private PhoneNumber phoneNumber;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @Column(name = "authorized_financial_ledgers")
