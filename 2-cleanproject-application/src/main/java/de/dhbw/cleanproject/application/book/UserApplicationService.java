@@ -44,4 +44,15 @@ public class UserApplicationService {
         return Optional.empty();
     }
 
+    public Optional<FinancialLedger> addFinancialLedgerByUserId(UUID id, FinancialLedger financialLedger){
+        Optional<User> userOptional = findById(id);
+        if (!userOptional.isPresent()){
+            User user = userOptional.get();
+            user.getFinancialLedgers().add(financialLedger);
+            save(user);
+            return findFinancialLedgerByUserId(id, financialLedger.getId());
+        }
+        return Optional.empty();
+    }
+
 }
