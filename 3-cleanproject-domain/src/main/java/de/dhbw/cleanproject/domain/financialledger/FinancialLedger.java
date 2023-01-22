@@ -28,7 +28,10 @@ public class FinancialLedger {
     private String name;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @Column(name = "authorized_user")
+    @JoinTable(name="ems_user_to_financial_ledger",
+            joinColumns=@JoinColumn(name="ems_user_id"),
+            inverseJoinColumns=@JoinColumn(name="financial_ledger_id")
+    )
     @Getter
     private Set<User> authorizedUser;
 

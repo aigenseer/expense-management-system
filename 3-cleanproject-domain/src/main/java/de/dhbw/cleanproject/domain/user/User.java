@@ -36,7 +36,10 @@ public class User {
     private PhoneNumber phoneNumber;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @Column(name = "authorized_financial_ledgers")
+    @JoinTable(name="ems_user_to_financial_ledger",
+            joinColumns=@JoinColumn(name="financial_ledger_id"),
+            inverseJoinColumns=@JoinColumn(name="ems_user_id")
+    )
     private Set<FinancialLedger> financialLedgers;
 
 
