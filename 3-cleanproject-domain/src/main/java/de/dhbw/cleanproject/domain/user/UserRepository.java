@@ -1,10 +1,16 @@
 package de.dhbw.cleanproject.domain.user;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 public interface UserRepository {
 
-    List<User> findAllUsers();
+    List<User> findAll();
 
-    User saveUser(User user);
+    Optional<User> findById(UUID id);
+
+    User save(User user);
+
+    void deleteById(UUID id);
 }

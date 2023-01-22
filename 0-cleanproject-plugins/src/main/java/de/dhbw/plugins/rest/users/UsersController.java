@@ -2,9 +2,9 @@ package de.dhbw.plugins.rest.users;
 
 import de.dhbw.cleanproject.adapter.user.registeruser.RegisterUser;
 import de.dhbw.cleanproject.adapter.user.registeruser.RegisterUserToUserMapper;
-import de.dhbw.cleanproject.adapter.user.userpreview.UserPreview;
-import de.dhbw.cleanproject.adapter.user.userpreview.UserPreviewCollectionModel;
-import de.dhbw.cleanproject.adapter.user.userpreview.UserToUserPreviewModelMapper;
+import de.dhbw.cleanproject.adapter.user.preview.UserPreview;
+import de.dhbw.cleanproject.adapter.user.preview.UserPreviewCollectionModel;
+import de.dhbw.cleanproject.adapter.user.preview.UserToUserPreviewModelMapper;
 import de.dhbw.cleanproject.domain.user.User;
 import de.dhbw.plugins.persistence.hibernate.user.UserRepositoryBridge;
 import de.dhbw.plugins.rest.user.UserController;
@@ -33,7 +33,7 @@ public class UsersController {
 
     @GetMapping("/")
     public ResponseEntity<UserPreviewCollectionModel> listAll() {
-        List<UserPreview> userPreviewModels = userRepositoryBridge.findAllUsers().stream()
+        List<UserPreview> userPreviewModels = userRepositoryBridge.findAll().stream()
                 .map(user -> {
                     UserPreview userPreview = userToUserPreviewModelMapper.apply(user);
                     Link selfLink = WebMvcLinkBuilder.linkTo(methodOn(UserController.class).findOne(user.getId())).withSelfRel();
@@ -54,7 +54,7 @@ public class UsersController {
     @PostMapping("/")
     public ResponseEntity<Void> create(@Valid @RequestBody RegisterUser registerUser) {
         User user = registerUserToUserMapper.apply(registerUser);
-        userRepositoryBridge.saveUser(user);
+        userRepositoryBridge.save(user);
         WebMvcLinkBuilder uriComponents = WebMvcLinkBuilder.linkTo(methodOn(UserController.class).findOne(user.getId()));
         return new ResponseEntity<>(WebMvcLinkBuilderUtils.createLocationHeader(uriComponents), HttpStatus.CREATED);
     }
