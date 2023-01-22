@@ -1,14 +1,14 @@
 package de.dhbw.cleanproject.abstractioncode.valueobject.email;
 
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Embeddable;
 import java.util.Objects;
 
 @Embeddable
 @RequiredArgsConstructor
+@AllArgsConstructor
 public class Email {
 
     @Getter
@@ -25,5 +25,10 @@ public class Email {
     @Override
     public int hashCode() {
         return Objects.hash(email);
+    }
+
+    @Override
+    public String toString(){
+        return email;
     }
 }
