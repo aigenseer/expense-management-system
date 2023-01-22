@@ -1,12 +1,12 @@
 package de.dhbw.plugins.rest.users;
 
-import de.dhbw.cleanproject.adapter.user.registeruser.RegisterUser;
-import de.dhbw.cleanproject.adapter.user.registeruser.RegisterUserToUserMapper;
 import de.dhbw.cleanproject.adapter.user.preview.UserPreview;
 import de.dhbw.cleanproject.adapter.user.preview.UserPreviewCollectionModel;
 import de.dhbw.cleanproject.adapter.user.preview.UserToUserPreviewModelMapper;
+import de.dhbw.cleanproject.adapter.user.registeruser.RegisterUser;
+import de.dhbw.cleanproject.adapter.user.registeruser.RegisterUserToUserMapper;
+import de.dhbw.cleanproject.application.book.UserApplicationService;
 import de.dhbw.cleanproject.domain.user.User;
-import de.dhbw.plugins.persistence.hibernate.user.UserRepositoryBridge;
 import de.dhbw.plugins.rest.user.UserController;
 import de.dhbw.plugins.rest.utils.WebMvcLinkBuilderUtils;
 import lombok.RequiredArgsConstructor;
@@ -27,13 +27,13 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 @RequiredArgsConstructor
 public class UsersController {
 
-    private final UserRepositoryBridge userRepositoryBridge;
+    private final UserApplicationService userApplicationService;
     private final UserToUserPreviewModelMapper userToUserPreviewModelMapper;
     private final RegisterUserToUserMapper registerUserToUserMapper;
 
     @GetMapping("/")
     public ResponseEntity<UserPreviewCollectionModel> listAll() {
-        List<UserPreview> userPreviewModels = userRepositoryBridge.findAll().stream()
+        List<UserPreview> userPreviewModels = userApplicationService.findAll().stream()
                 .map(user -> {
                     UserPreview userPreview = userToUserPreviewModelMapper.apply(user);
                     Link selfLink = WebMvcLinkBuilder.linkTo(methodOn(UserController.class).findOne(user.getId())).withSelfRel();
@@ -54,7 +54,7 @@ public class UsersController {
     @PostMapping("/")
     public ResponseEntity<Void> create(@Valid @RequestBody RegisterUser registerUser) {
         User user = registerUserToUserMapper.apply(registerUser);
-        userRepositoryBridge.save(user);
+        userApplicationService.save(user);
         WebMvcLinkBuilder uriComponents = WebMvcLinkBuilder.linkTo(methodOn(UserController.class).findOne(user.getId()));
         return new ResponseEntity<>(WebMvcLinkBuilderUtils.createLocationHeader(uriComponents), HttpStatus.CREATED);
     }
