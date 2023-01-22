@@ -26,7 +26,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RestController
 @RequestMapping(value = "/api/user/{userId}/financialledger/", produces = "application/vnd.siren+json")
 @RequiredArgsConstructor
-public class FinancialLedgerController {
+public class FinancialLedgersController {
 
     private final UserApplicationService userApplicationService;
     private final FinancialLedgerToFinancialLedgerPreviewModelMapper previewModelMapper;
