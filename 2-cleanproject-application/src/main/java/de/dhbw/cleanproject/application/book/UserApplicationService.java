@@ -1,6 +1,7 @@
 package de.dhbw.cleanproject.application.book;
 
 import de.dhbw.cleanproject.domain.financialledger.FinancialLedger;
+import de.dhbw.cleanproject.domain.financialledger.FinancialLedgerRepository;
 import de.dhbw.cleanproject.domain.user.User;
 import de.dhbw.cleanproject.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ import java.util.UUID;
 public class UserApplicationService {
 
     private final UserRepository repository;
+    private final FinancialLedgerRepository financialLedgerRepository;
 
     public List<User> findAll() {
         return repository.findAll();
@@ -47,6 +49,7 @@ public class UserApplicationService {
     public Optional<FinancialLedger> addFinancialLedgerByUserId(UUID id, FinancialLedger financialLedger){
         Optional<User> userOptional = findById(id);
         if (userOptional.isPresent()){
+            financialLedger = financialLedgerRepository.save(financialLedger);
             User user = userOptional.get();
             user.getFinancialLedgers().add(financialLedger);
             save(user);
