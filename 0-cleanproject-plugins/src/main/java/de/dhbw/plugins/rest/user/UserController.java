@@ -1,27 +1,63 @@
 package de.dhbw.plugins.rest.user;
 
+import de.dhbw.cleanproject.adapter.user.updatedata.UserUpdateData;
+import de.dhbw.cleanproject.adapter.user.updatedata.UserUpdateDataToUserMapper;
+import de.dhbw.cleanproject.adapter.user.userdata.UserDataToUserMapper;
+import de.dhbw.cleanproject.adapter.user.usermodel.UserModel;
+import de.dhbw.cleanproject.adapter.user.usermodel.UserToUserModelMapper;
+import de.dhbw.cleanproject.application.book.UserApplicationService;
 import de.dhbw.cleanproject.domain.user.User;
-import org.springframework.hateoas.EntityModel;
+import de.dhbw.plugins.rest.utils.WebMvcLinkBuilderUtils;
+import lombok.AllArgsConstructor;
+import org.javatuples.Pair;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.util.Optional;
 import java.util.UUID;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+
 @RestController
-@RequestMapping(value = "/api/user")
+@RequestMapping(value = "/api/user/{id}", produces = "application/vnd.siren+json")
+@AllArgsConstructor
+
 public class UserController {
 
-    @GetMapping("/{id}")
-    public ResponseEntity<EntityModel<User>> findOne(@PathVariable("id") UUID id) {
-        return null;
+    private final UserApplicationService userApplicationService;
+    private final UserToUserModelMapper userToUserModelMapper;
+    private final UserDataToUserMapper userDataToUserMapper;
+    private final UserUpdateDataToUserMapper userUpdateDataToUserMapper;
+
+    @GetMapping("/")
+    public ResponseEntity<UserModel> findOne(@PathVariable("id") UUID id) {
+        Optional<User> userOptional = userApplicationService.findById(id);
+        if (!userOptional.isPresent()) new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        UserModel userModel = userToUserModelMapper.apply(userOptional.get());
+
+        Link selfLink = linkTo(methodOn(UserController.class).findOne(id)).withSelfRel()
+                .andAffordance(afford(methodOn(UserController.class).update(id, null)))
+                .andAffordance(afford(methodOn(UserController.class).delete(id)));
+        userModel.add(selfLink);
+
+        return ResponseEntity.ok(userModel);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<EntityModel<User>> update(@PathVariable("id") UUID id, @RequestBody User user) {
-        return null;
+    @PutMapping("/")
+    public ResponseEntity<Void> update(@PathVariable("id") UUID id, @Valid @RequestBody UserUpdateData userUpdateData) {
+        Optional<User> userOptional = userApplicationService.findById(id);
+        if (!userOptional.isPresent()) new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        User user = userUpdateDataToUserMapper.apply(Pair.with(userOptional.get(), userUpdateData));
+        userApplicationService.save(user);
+        WebMvcLinkBuilder uriComponents = WebMvcLinkBuilder.linkTo(methodOn(UserController.class).findOne(user.getId()));
+        return new ResponseEntity<>(WebMvcLinkBuilderUtils.createLocationHeader(uriComponents), HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/")
     public ResponseEntity<Void> delete(@PathVariable("id") UUID id) {
         return null;
     }
