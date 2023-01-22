@@ -1,6 +1,7 @@
 package de.dhbw.cleanproject.abstractioncode.valueobject.phonennumber;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -9,10 +10,11 @@ import java.util.Objects;
 
 @Embeddable
 @RequiredArgsConstructor
-public class PhoneNumber {
+@AllArgsConstructor
+public class PhoneNumber  {
 
     @Getter
-    private double phoneNumber;
+    private Double phoneNumber;
     @Getter
     private InternationalPhoneCode internationalPhoneCode;
 
