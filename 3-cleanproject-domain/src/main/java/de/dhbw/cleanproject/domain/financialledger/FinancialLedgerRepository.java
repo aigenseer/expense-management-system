@@ -13,4 +13,6 @@ public interface FinancialLedgerRepository {
     FinancialLedger save(FinancialLedger user);
 
     void deleteById(UUID id);
+
+
 }
