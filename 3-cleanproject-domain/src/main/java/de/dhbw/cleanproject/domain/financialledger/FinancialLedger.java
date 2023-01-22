@@ -17,6 +17,7 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
 public class FinancialLedger {
 
     @Id
