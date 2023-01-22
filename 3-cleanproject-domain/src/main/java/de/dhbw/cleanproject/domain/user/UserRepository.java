@@ -1,5 +1,7 @@
 package de.dhbw.cleanproject.domain.user;
 
+import de.dhbw.cleanproject.domain.financialledger.FinancialLedger;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -13,4 +15,6 @@ public interface UserRepository {
     User save(User user);
 
     void deleteById(UUID id);
+
+    List<User> findAllById(Iterable<UUID> ids);
 }

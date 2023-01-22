@@ -1,5 +1,6 @@
 package de.dhbw.plugins.persistence.hibernate.user;
 
+import de.dhbw.cleanproject.domain.financialledger.FinancialLedger;
 import de.dhbw.cleanproject.domain.user.User;
 import de.dhbw.cleanproject.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,26 +14,31 @@ import java.util.UUID;
 @Repository
 public class UserRepositoryBridge implements UserRepository {
 
-    private final SpringDataUserRepository springDataUserRepository;
+    private final SpringDataUserRepository springDataRepository;
 
     @Override
     public List<User> findAll() {
-        return springDataUserRepository.findAll();
+        return springDataRepository.findAll();
     }
 
     @Override
     public Optional<User> findById(UUID id) {
-        return springDataUserRepository.findById(id);
+        return springDataRepository.findById(id);
     }
 
     @Override
     public User save(User user) {
-        return springDataUserRepository.save(user);
+        return springDataRepository.save(user);
     }
 
     @Override
     public void deleteById(UUID id) {
-        springDataUserRepository.deleteById(id);
+        springDataRepository.deleteById(id);
+    }
+
+    @Override
+    public List<User> findAllById(Iterable<UUID> ids) {
+        return springDataRepository.findAllById(ids);
     }
 
 }

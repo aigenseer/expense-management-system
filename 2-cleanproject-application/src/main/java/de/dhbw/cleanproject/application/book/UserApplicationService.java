@@ -1,5 +1,6 @@
 package de.dhbw.cleanproject.application.book;
 
+import de.dhbw.cleanproject.domain.financialledger.FinancialLedger;
 import de.dhbw.cleanproject.domain.user.User;
 import de.dhbw.cleanproject.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,22 +14,26 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserApplicationService {
 
-    private final UserRepository userRepository;
+    private final UserRepository repository;
 
     public List<User> findAll() {
-        return userRepository.findAll();
+        return repository.findAll();
     }
 
     public Optional<User> findById(UUID id) {
-        return userRepository.findById(id);
+        return repository.findById(id);
     }
 
     public User save(User user) {
-        return userRepository.save(user);
+        return repository.save(user);
     }
 
     public void deleteById(UUID id) {
-        userRepository.deleteById(id);
+        repository.deleteById(id);
+    }
+
+    public List<User> findAllById(Iterable<UUID> ids){
+        return repository.findAllById(ids);
     }
 
 }
