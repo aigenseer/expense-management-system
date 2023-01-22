@@ -36,4 +36,12 @@ public class UserApplicationService {
         return repository.findAllById(ids);
     }
 
+    public Optional<FinancialLedger> findFinancialLedgerByUserId(UUID id, UUID financialLedgerId){
+        Optional<User> userOptional = findById(id);
+        if (!userOptional.isPresent()){
+            return userOptional.get().getFinancialLedgers().stream().filter(f -> f.getId().equals(financialLedgerId)).findFirst();
+        }
+        return Optional.empty();
+    }
+
 }
