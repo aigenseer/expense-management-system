@@ -3,7 +3,10 @@ package de.dhbw.cleanproject.domain.financialledger;
 import de.dhbw.cleanproject.domain.booking.Booking;
 import de.dhbw.cleanproject.domain.bookingcategory.BookingCategory;
 import de.dhbw.cleanproject.domain.user.User;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -11,6 +14,9 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "financial_ledger")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class FinancialLedger {
 
     @Id
