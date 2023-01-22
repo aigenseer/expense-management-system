@@ -23,6 +23,9 @@ public class FinancialLedger {
     @Column(name = "id", nullable = false)
     private UUID id;
 
+    @Column(name = "name", nullable = false)
+    private String name;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @Column(name = "authorized_user")
     @Getter
