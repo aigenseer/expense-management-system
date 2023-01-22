@@ -14,7 +14,7 @@ import java.util.Objects;
 public class PhoneNumber  {
 
     @Getter
-    private Double phoneNumber;
+    private Integer phoneNumber;
     @Getter
     private InternationalPhoneCode internationalPhoneCode;
 
@@ -30,4 +30,10 @@ public class PhoneNumber  {
     public int hashCode() {
         return Objects.hash(phoneNumber, internationalPhoneCode);
     }
+
+    @Override
+    public String toString(){
+        return String.format("%s %s", internationalPhoneCode.getCode(), phoneNumber);
+    }
+
 }
