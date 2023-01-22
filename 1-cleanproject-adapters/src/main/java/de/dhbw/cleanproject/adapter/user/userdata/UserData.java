@@ -1,4 +1,4 @@
-package de.dhbw.cleanproject.adapter.user.registeruser;
+package de.dhbw.cleanproject.adapter.user.userdata;
 
 import de.dhbw.cleanproject.abstractioncode.valueobject.phonennumber.InternationalPhoneCode;
 import de.dhbw.cleanproject.adapter.config.customvalidatior.ValueOfEnum;
@@ -8,7 +8,7 @@ import javax.validation.constraints.*;
 
 
 @Data
-public class RegisterUser {
+public class UserData {
 
     @NotEmpty(message = "The full name is required.")
     @Size(min = 2, max = 100, message = "The length of full name must be between 2 and 100 characters.")
