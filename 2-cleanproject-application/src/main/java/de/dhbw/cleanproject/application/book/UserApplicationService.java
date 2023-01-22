@@ -38,7 +38,7 @@ public class UserApplicationService {
 
     public Optional<FinancialLedger> findFinancialLedgerByUserId(UUID id, UUID financialLedgerId){
         Optional<User> userOptional = findById(id);
-        if (!userOptional.isPresent()){
+        if (userOptional.isPresent()){
             return userOptional.get().getFinancialLedgers().stream().filter(f -> f.getId().equals(financialLedgerId)).findFirst();
         }
         return Optional.empty();
@@ -46,7 +46,7 @@ public class UserApplicationService {
 
     public Optional<FinancialLedger> addFinancialLedgerByUserId(UUID id, FinancialLedger financialLedger){
         Optional<User> userOptional = findById(id);
-        if (!userOptional.isPresent()){
+        if (userOptional.isPresent()){
             User user = userOptional.get();
             user.getFinancialLedgers().add(financialLedger);
             save(user);
