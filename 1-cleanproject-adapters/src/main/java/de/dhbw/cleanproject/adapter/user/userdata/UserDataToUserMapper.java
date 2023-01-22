@@ -10,14 +10,14 @@ import java.util.UUID;
 import java.util.function.Function;
 
 @Component
-public class UserDataToUserMapper implements Function<UserData, User> {
+public class UserDataToUserMapper implements Function<IUserData, User> {
 
     @Override
-    public User apply(final UserData userData) {
+    public User apply(final IUserData userData) {
         return map(userData);
     }
 
-    private User map(final UserData userData) {
+    private User map(final IUserData userData) {
         User.UserBuilder builder = User.builder();
         builder.id(UUID.randomUUID());
         builder.name(userData.getName()).email(new Email(userData.getEmail()));
