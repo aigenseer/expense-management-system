@@ -1,6 +1,5 @@
 package de.dhbw.cleanproject.application;
 
-import de.dhbw.cleanproject.domain.financialledger.FinancialLedger;
 import de.dhbw.cleanproject.domain.financialledger.FinancialLedgerRepository;
 import de.dhbw.cleanproject.domain.user.User;
 import de.dhbw.cleanproject.domain.user.UserRepository;
