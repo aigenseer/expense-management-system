@@ -3,7 +3,10 @@ package de.dhbw.cleanproject.domain.booking;
 import de.dhbw.cleanproject.abstractioncode.valueobject.money.Money;
 import de.dhbw.cleanproject.domain.bookingcategory.BookingCategory;
 import de.dhbw.cleanproject.domain.user.User;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -12,6 +15,9 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "booking")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 public class Booking {
 
@@ -29,6 +35,10 @@ public class Booking {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    @JoinColumn(referencedColumnName = "FinancialLedger")
+    @JoinColumn(name="financial_ledger_id", nullable=false)
+    private UUID financialLedgerId;
 
     @Column(name = "creation_date", nullable = false)
     private LocalDate creationDate;
