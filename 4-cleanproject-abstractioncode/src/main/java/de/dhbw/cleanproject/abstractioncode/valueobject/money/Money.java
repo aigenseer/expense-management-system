@@ -1,6 +1,7 @@
 package de.dhbw.cleanproject.abstractioncode.valueobject.money;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -9,11 +10,11 @@ import java.util.Objects;
 
 @Embeddable
 @RequiredArgsConstructor
+@AllArgsConstructor
+@Getter
 public class Money {
 
-    @Getter
-    private double amount;
-    @Getter
+    private Double amount;
     private CurrencyType currencyType;
 
     @Override
