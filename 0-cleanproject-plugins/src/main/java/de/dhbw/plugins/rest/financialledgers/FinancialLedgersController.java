@@ -6,6 +6,7 @@ import de.dhbw.cleanproject.adapter.financialledger.preview.FinancialLedgerPrevi
 import de.dhbw.cleanproject.adapter.financialledger.preview.FinancialLedgerPreviewModel;
 import de.dhbw.cleanproject.adapter.financialledger.preview.FinancialLedgerToFinancialLedgerPreviewModelMapper;
 import de.dhbw.cleanproject.application.UserApplicationService;
+import de.dhbw.cleanproject.application.UserOperationService;
 import de.dhbw.cleanproject.domain.financialledger.FinancialLedger;
 import de.dhbw.cleanproject.domain.user.User;
 import de.dhbw.plugins.rest.financialledger.FinancialLedgerController;
@@ -31,6 +32,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 public class FinancialLedgersController {
 
     private final UserApplicationService userApplicationService;
+    private final UserOperationService userOperationService;
     private final FinancialLedgerToFinancialLedgerPreviewModelMapper previewModelMapper;
     private final FinancialLedgerDataToFinancialLedgerMapper financialLedgerMapper;
 
@@ -61,7 +63,7 @@ public class FinancialLedgersController {
     @PostMapping
     public ResponseEntity<Void> create(@PathVariable("userId") UUID userId, @Valid @RequestBody FinancialLedgerData data) {
         FinancialLedger financialLedger = financialLedgerMapper.apply(data);
-        Optional<FinancialLedger> optionalFinancialLedger = userApplicationService.addFinancialLedgerByUserId(userId, financialLedger);
+        Optional<FinancialLedger> optionalFinancialLedger = userOperationService.addFinancialLedgerByUserId(userId, financialLedger);
         if (!optionalFinancialLedger.isPresent()) new ResponseEntity<>(HttpStatus.FORBIDDEN);
         financialLedger = optionalFinancialLedger.get();
         WebMvcLinkBuilder uriComponents = WebMvcLinkBuilder.linkTo(methodOn(FinancialLedgerController.class).findOne(userId, financialLedger.getId()));
