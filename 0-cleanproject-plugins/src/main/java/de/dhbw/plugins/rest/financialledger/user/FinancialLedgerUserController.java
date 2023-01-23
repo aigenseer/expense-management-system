@@ -3,6 +3,7 @@ package de.dhbw.plugins.rest.financialledger.user;
 import de.dhbw.cleanproject.adapter.user.preview.UserPreview;
 import de.dhbw.cleanproject.adapter.user.preview.UserToUserPreviewModelMapper;
 import de.dhbw.cleanproject.application.UserApplicationService;
+import de.dhbw.cleanproject.application.UserOperationService;
 import de.dhbw.cleanproject.domain.user.User;
 import lombok.AllArgsConstructor;
 import org.springframework.hateoas.Link;
@@ -22,12 +23,13 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 public class FinancialLedgerUserController {
 
     private final UserApplicationService userApplicationService;
+    private final UserOperationService userOperationService;
     private final UserToUserPreviewModelMapper userToUserPreviewModelMapper;
 
     @GetMapping
     public ResponseEntity<UserPreview> findOne(@PathVariable("financialLedgerId") UUID financialLedgerId, @PathVariable("financialLedgerUserId") UUID financialLedgerUserId) {
         Optional<User> optionalUser = userApplicationService.findById(financialLedgerUserId);
-        if (!optionalUser.isPresent() || !userApplicationService.hasUserPermissionToFinancialLedger(financialLedgerUserId, financialLedgerId))
+        if (!optionalUser.isPresent() || !userOperationService.hasUserPermissionToFinancialLedger(financialLedgerUserId, financialLedgerId))
             new ResponseEntity<>(HttpStatus.NOT_FOUND);
         User user = optionalUser.get();
         UserPreview userPreview = userToUserPreviewModelMapper.apply(user);
