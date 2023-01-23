@@ -1,4 +1,4 @@
-package de.dhbw.cleanproject.application.book;
+package de.dhbw.cleanproject.application;
 
 import de.dhbw.cleanproject.domain.financialledger.FinancialLedger;
 import de.dhbw.cleanproject.domain.financialledger.FinancialLedgerRepository;

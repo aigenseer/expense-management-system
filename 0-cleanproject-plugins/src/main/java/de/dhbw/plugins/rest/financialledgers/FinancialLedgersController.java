@@ -5,7 +5,7 @@ import de.dhbw.cleanproject.adapter.financialledger.data.FinancialLedgerDataToFi
 import de.dhbw.cleanproject.adapter.financialledger.preview.FinancialLedgerPreviewCollectionModel;
 import de.dhbw.cleanproject.adapter.financialledger.preview.FinancialLedgerPreviewModel;
 import de.dhbw.cleanproject.adapter.financialledger.preview.FinancialLedgerToFinancialLedgerPreviewModelMapper;
-import de.dhbw.cleanproject.application.book.UserApplicationService;
+import de.dhbw.cleanproject.application.UserApplicationService;
 import de.dhbw.cleanproject.domain.financialledger.FinancialLedger;
 import de.dhbw.cleanproject.domain.user.User;
 import de.dhbw.plugins.rest.financialledger.FinancialLedgerController;

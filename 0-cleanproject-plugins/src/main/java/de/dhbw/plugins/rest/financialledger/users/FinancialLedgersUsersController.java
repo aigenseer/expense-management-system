@@ -4,7 +4,7 @@ import de.dhbw.cleanproject.adapter.financialledger.data.FinancialLedgerUserAppe
 import de.dhbw.cleanproject.adapter.user.preview.UserPreview;
 import de.dhbw.cleanproject.adapter.user.preview.UserPreviewCollectionModel;
 import de.dhbw.cleanproject.adapter.user.preview.UserToUserPreviewModelMapper;
-import de.dhbw.cleanproject.application.book.UserApplicationService;
+import de.dhbw.cleanproject.application.UserApplicationService;
 import de.dhbw.cleanproject.domain.financialledger.FinancialLedger;
 import de.dhbw.plugins.rest.financialledger.user.FinancialLedgerUserController;
 import de.dhbw.plugins.rest.utils.WebMvcLinkBuilderUtils;

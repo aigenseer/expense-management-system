@@ -5,7 +5,7 @@ import de.dhbw.cleanproject.adapter.user.updatedata.UserUpdateDataToUserMapper;
 import de.dhbw.cleanproject.adapter.user.userdata.UserDataToUserMapper;
 import de.dhbw.cleanproject.adapter.user.usermodel.UserModel;
 import de.dhbw.cleanproject.adapter.user.usermodel.UserToUserModelMapper;
-import de.dhbw.cleanproject.application.book.UserApplicationService;
+import de.dhbw.cleanproject.application.UserApplicationService;
 import de.dhbw.cleanproject.domain.user.User;
 import de.dhbw.plugins.rest.utils.WebMvcLinkBuilderUtils;
 import lombok.AllArgsConstructor;

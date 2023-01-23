@@ -2,7 +2,7 @@ package de.dhbw.plugins.rest.financialledger.user;
 
 import de.dhbw.cleanproject.adapter.user.preview.UserPreview;
 import de.dhbw.cleanproject.adapter.user.preview.UserToUserPreviewModelMapper;
-import de.dhbw.cleanproject.application.book.UserApplicationService;
+import de.dhbw.cleanproject.application.UserApplicationService;
 import de.dhbw.cleanproject.domain.user.User;
 import lombok.AllArgsConstructor;
 import org.springframework.hateoas.Link;

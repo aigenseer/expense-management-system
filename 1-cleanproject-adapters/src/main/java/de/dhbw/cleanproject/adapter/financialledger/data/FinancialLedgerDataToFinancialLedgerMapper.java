@@ -1,6 +1,6 @@
 package de.dhbw.cleanproject.adapter.financialledger.data;
 
-import de.dhbw.cleanproject.application.book.UserApplicationService;
+import de.dhbw.cleanproject.application.UserApplicationService;
 import de.dhbw.cleanproject.domain.financialledger.FinancialLedger;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

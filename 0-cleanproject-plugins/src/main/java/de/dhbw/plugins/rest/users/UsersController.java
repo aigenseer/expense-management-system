@@ -5,7 +5,7 @@ import de.dhbw.cleanproject.adapter.user.preview.UserPreviewCollectionModel;
 import de.dhbw.cleanproject.adapter.user.preview.UserToUserPreviewModelMapper;
 import de.dhbw.cleanproject.adapter.user.userdata.UserData;
 import de.dhbw.cleanproject.adapter.user.userdata.UserDataToUserMapper;
-import de.dhbw.cleanproject.application.book.UserApplicationService;
+import de.dhbw.cleanproject.application.UserApplicationService;
 import de.dhbw.cleanproject.domain.user.User;
 import de.dhbw.plugins.rest.user.UserController;
 import de.dhbw.plugins.rest.utils.WebMvcLinkBuilderUtils;

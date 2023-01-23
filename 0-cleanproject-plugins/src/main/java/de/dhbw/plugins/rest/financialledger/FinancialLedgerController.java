@@ -8,8 +8,8 @@ import de.dhbw.cleanproject.adapter.financialledger.preview.FinancialLedgerToFin
 import de.dhbw.cleanproject.adapter.user.preview.UserPreview;
 import de.dhbw.cleanproject.adapter.user.preview.UserPreviewCollectionModel;
 import de.dhbw.cleanproject.adapter.user.preview.UserToUserPreviewModelMapper;
-import de.dhbw.cleanproject.application.book.FinancialLedgerApplicationService;
-import de.dhbw.cleanproject.application.book.UserApplicationService;
+import de.dhbw.cleanproject.application.FinancialLedgerApplicationService;
+import de.dhbw.cleanproject.application.UserApplicationService;
 import de.dhbw.cleanproject.domain.financialledger.FinancialLedger;
 import de.dhbw.plugins.rest.utils.WebMvcLinkBuilderUtils;
 import lombok.AllArgsConstructor;
