@@ -4,7 +4,7 @@ import de.dhbw.cleanproject.adapter.financialledger.data.FinancialLedgerUserAppe
 import de.dhbw.cleanproject.adapter.user.preview.UserPreview;
 import de.dhbw.cleanproject.adapter.user.preview.UserPreviewCollectionModel;
 import de.dhbw.cleanproject.adapter.user.preview.UserToUserPreviewModelMapper;
-import de.dhbw.cleanproject.application.UserApplicationService;
+import de.dhbw.cleanproject.application.UserOperationService;
 import de.dhbw.cleanproject.domain.financialledger.FinancialLedger;
 import de.dhbw.plugins.rest.financialledger.user.FinancialLedgerUserController;
 import de.dhbw.plugins.rest.utils.WebMvcLinkBuilderUtils;
@@ -28,12 +28,12 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 @RequiredArgsConstructor
 public class FinancialLedgersUsersController {
 
-    private final UserApplicationService userApplicationService;
+    private final UserOperationService userOperationService;
     private final UserToUserPreviewModelMapper userToUserPreviewModelMapper;
 
     @GetMapping
     public ResponseEntity<UserPreviewCollectionModel> listAll(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId) {
-        Optional<FinancialLedger> optionalFinancialLedger = userApplicationService.findFinancialLedgerByUserId(userId, financialLedgerId);
+        Optional<FinancialLedger> optionalFinancialLedger = userOperationService.findFinancialLedgerByUserId(userId, financialLedgerId);
         if (!optionalFinancialLedger.isPresent()) new ResponseEntity<>(HttpStatus.FORBIDDEN);
         FinancialLedger financialLedger = optionalFinancialLedger.get();
 
@@ -54,11 +54,11 @@ public class FinancialLedgersUsersController {
 
     @PostMapping
     public ResponseEntity<Void> create(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId, @Valid @RequestBody FinancialLedgerUserAppendData data) {
-        Optional<FinancialLedger> optionalFinancialLedger = userApplicationService.findFinancialLedgerByUserId(userId, financialLedgerId);
+        Optional<FinancialLedger> optionalFinancialLedger = userOperationService.findFinancialLedgerByUserId(userId, financialLedgerId);
         if (!optionalFinancialLedger.isPresent()) new ResponseEntity<>(HttpStatus.FORBIDDEN);
         FinancialLedger financialLedger = optionalFinancialLedger.get();
         UUID financialLedgerUserId = UUID.fromString(data.getUserId());
-        if (!userApplicationService.appendUserToFinancialLedger(financialLedgerUserId, financialLedger.getId())) new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        if (!userOperationService.appendUserToFinancialLedger(financialLedgerUserId, financialLedger.getId())) new ResponseEntity<>(HttpStatus.FORBIDDEN);
         WebMvcLinkBuilder uriComponents = WebMvcLinkBuilder.linkTo(methodOn(FinancialLedgerUserController.class).findOne(financialLedger.getId(), financialLedgerUserId));
         return new ResponseEntity<>(WebMvcLinkBuilderUtils.createLocationHeader(uriComponents), HttpStatus.CREATED);
     }

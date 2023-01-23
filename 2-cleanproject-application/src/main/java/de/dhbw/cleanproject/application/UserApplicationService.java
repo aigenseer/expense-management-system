@@ -38,42 +38,6 @@ public class UserApplicationService {
         return repository.findAllById(ids);
     }
 
-    public Optional<FinancialLedger> findFinancialLedgerByUserId(UUID id, UUID financialLedgerId){
-        Optional<User> userOptional = findById(id);
-        if (userOptional.isPresent()){
-            return userOptional.get().getFinancialLedgers().stream().filter(f -> f.getId().equals(financialLedgerId)).findFirst();
-        }
-        return Optional.empty();
-    }
 
-    public boolean hasUserPermissionToFinancialLedger(UUID id, UUID financialLedgerId){
-        return findFinancialLedgerByUserId(id, financialLedgerId).isPresent();
-    }
-
-    public boolean appendUserToFinancialLedger(UUID id, UUID financialLedgerId){
-        Optional<User> userOptional = findById(id);
-        if (userOptional.isPresent()){
-            Optional<FinancialLedger> financialLedgerOptional = financialLedgerRepository.findById(financialLedgerId);
-            if (financialLedgerOptional.isPresent()){
-                User user = userOptional.get();
-                user.getFinancialLedgers().add(financialLedgerOptional.get());
-                save(user);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public Optional<FinancialLedger> addFinancialLedgerByUserId(UUID id, FinancialLedger financialLedger){
-        Optional<User> userOptional = findById(id);
-        if (userOptional.isPresent()){
-            financialLedger = financialLedgerRepository.save(financialLedger);
-            User user = userOptional.get();
-            user.getFinancialLedgers().add(financialLedger);
-            save(user);
-            return findFinancialLedgerByUserId(id, financialLedger.getId());
-        }
-        return Optional.empty();
-    }
 
 }

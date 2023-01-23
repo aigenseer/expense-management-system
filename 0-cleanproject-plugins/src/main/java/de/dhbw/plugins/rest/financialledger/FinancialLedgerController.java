@@ -9,7 +9,7 @@ import de.dhbw.cleanproject.adapter.user.preview.UserPreview;
 import de.dhbw.cleanproject.adapter.user.preview.UserPreviewCollectionModel;
 import de.dhbw.cleanproject.adapter.user.preview.UserToUserPreviewModelMapper;
 import de.dhbw.cleanproject.application.FinancialLedgerApplicationService;
-import de.dhbw.cleanproject.application.UserApplicationService;
+import de.dhbw.cleanproject.application.UserOperationService;
 import de.dhbw.cleanproject.domain.financialledger.FinancialLedger;
 import de.dhbw.plugins.rest.utils.WebMvcLinkBuilderUtils;
 import lombok.AllArgsConstructor;
@@ -33,7 +33,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 public class FinancialLedgerController {
 
-    private final UserApplicationService userApplicationService;
+    private final UserOperationService userOperationService;
     private final FinancialLedgerApplicationService financialLedgerApplicationService;
     private final FinancialLedgerToFinancialLedgerPreviewModelMapper previewModelMapper;
     private final FinancialLedgerUpdateDataToFinancialLedgerMapper updateDataMapper;
@@ -42,7 +42,7 @@ public class FinancialLedgerController {
 
     @GetMapping
     public ResponseEntity<FinancialLedgerModel> findOne(@PathVariable("userId") UUID userId, @PathVariable("id") UUID id) {
-        Optional<FinancialLedger> optionalFinancialLedger = userApplicationService.findFinancialLedgerByUserId(userId, id);
+        Optional<FinancialLedger> optionalFinancialLedger = userOperationService.findFinancialLedgerByUserId(userId, id);
         if (!optionalFinancialLedger.isPresent()) new ResponseEntity<>(HttpStatus.FORBIDDEN);
         FinancialLedger financialLedger = optionalFinancialLedger.get();
 
@@ -67,7 +67,7 @@ public class FinancialLedgerController {
 
     @PutMapping
     public ResponseEntity<Void> update(@PathVariable("userId") UUID userId, @PathVariable("id") UUID id, @Valid @RequestBody FinancialLedgerData data) {
-        Optional<FinancialLedger> optionalFinancialLedger = userApplicationService.findFinancialLedgerByUserId(userId, id);
+        Optional<FinancialLedger> optionalFinancialLedger = userOperationService.findFinancialLedgerByUserId(userId, id);
         if (!optionalFinancialLedger.isPresent()) new ResponseEntity<>(HttpStatus.FORBIDDEN);
         FinancialLedger financialLedger = updateDataMapper.apply(Pair.with(optionalFinancialLedger.get(), data));
         financialLedgerApplicationService.save(financialLedger);
