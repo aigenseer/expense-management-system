@@ -46,6 +46,24 @@ public class UserApplicationService {
         return Optional.empty();
     }
 
+    public boolean hasUserPermissionToFinancialLedger(UUID id, UUID financialLedgerId){
+        return findFinancialLedgerByUserId(id, financialLedgerId).isPresent();
+    }
+
+    public boolean appendUserToFinancialLedger(UUID id, UUID financialLedgerId){
+        Optional<User> userOptional = findById(id);
+        if (userOptional.isPresent()){
+            Optional<FinancialLedger> financialLedgerOptional = financialLedgerRepository.findById(financialLedgerId);
+            if (financialLedgerOptional.isPresent()){
+                User user = userOptional.get();
+                user.getFinancialLedgers().add(financialLedgerOptional.get());
+                save(user);
+                return true;
+            }
+        }
+        return false;
+    }
+
     public Optional<FinancialLedger> addFinancialLedgerByUserId(UUID id, FinancialLedger financialLedger){
         Optional<User> userOptional = findById(id);
         if (userOptional.isPresent()){
