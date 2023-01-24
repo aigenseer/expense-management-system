@@ -71,4 +71,18 @@ public class UserOperationService {
         return Optional.of(booking);
     }
 
+    public boolean referenceUserToBooking(UUID id, UUID financialLedgerId, UUID bookingId, UUID referenceUserId){
+        Optional<User> optionalReferenceUser = userApplicationService.findById(referenceUserId);
+        if (optionalReferenceUser.isPresent()){
+            Optional<Booking> optionalBooking = getBooking(id, financialLedgerId, bookingId);
+            if (optionalBooking.isPresent()){
+                Booking booking = optionalBooking.get();
+                booking.getReferencedUsers().add(optionalReferenceUser.get());
+                bookingApplicationService.save(booking);
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
