@@ -1,7 +1,5 @@
 package de.dhbw.cleanproject.adapter.booking.data;
 
-import de.dhbw.cleanproject.abstractioncode.valueobject.money.CurrencyType;
-import de.dhbw.cleanproject.abstractioncode.valueobject.money.Money;
 import de.dhbw.cleanproject.domain.booking.Booking;
 import lombok.RequiredArgsConstructor;
 import org.javatuples.Pair;
@@ -11,29 +9,26 @@ import java.util.function.Function;
 
 @Component
 @RequiredArgsConstructor
-public class BookingUpdateDataToBookingMapper implements Function<Pair<Booking, BookingUpdateData>, Booking> {
+public class BookingUpdateDataToBookingMapper implements Function<Pair<Booking, IBookingData>, Booking> {
+
+    private final BookingDataToBookingMapper bookingDataToBookingMapper;
 
     @Override
-    public Booking apply(final Pair<Booking, BookingUpdateData> data) {
+    public Booking apply(final Pair<Booking, IBookingData> data) {
         return map(data);
     }
 
-    private Booking map(final Pair<Booking, BookingUpdateData> pair) {
-        Booking.BookingBuilder builder = Booking.builder();
+    private Booking map(final Pair<Booking, IBookingData> pair) {
         Booking booking = pair.getValue0();
-        BookingUpdateData data = pair.getValue1();
-
+        Booking.BookingBuilder builder = Booking.builder();
+        Booking updateBooking = bookingDataToBookingMapper.apply(Pair.with(pair.getValue1(), booking.getUser()));
         builder.id(booking.getId());
         builder.title(booking.getTitle());
-        if (data.getTitle() != null) builder.title(data.getTitle());
+        builder.creationDate(booking.getCreationDate());
+        builder.user(booking.getUser());
+        if (updateBooking.getTitle() != null) builder.title(updateBooking.getTitle());
         builder.money(booking.getMoney());
-        try {
-            CurrencyType currencyType = CurrencyType.valueOf(data.getCurrencyType());
-            if(data.getCurrencyType() != null){
-                Money money = new Money(data.getAmount(), currencyType);
-                builder.money(money);
-            }
-        }catch (IllegalArgumentException|NullPointerException ignored){}
+        if (updateBooking.getMoney() != null) builder.money(updateBooking.getMoney());
         return builder.build();
     }
 
