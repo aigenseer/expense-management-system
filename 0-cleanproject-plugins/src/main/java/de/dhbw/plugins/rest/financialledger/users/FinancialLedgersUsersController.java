@@ -1,6 +1,6 @@
 package de.dhbw.plugins.rest.financialledger.users;
 
-import de.dhbw.cleanproject.adapter.financialledger.data.FinancialLedgerUserAppendData;
+import de.dhbw.cleanproject.adapter.user.userdata.AppendUserData;
 import de.dhbw.cleanproject.adapter.user.preview.UserPreview;
 import de.dhbw.cleanproject.adapter.user.preview.UserPreviewCollectionModel;
 import de.dhbw.cleanproject.adapter.user.preview.UserToUserPreviewModelMapper;
@@ -53,7 +53,7 @@ public class FinancialLedgersUsersController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> create(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId, @Valid @RequestBody FinancialLedgerUserAppendData data) {
+    public ResponseEntity<Void> create(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId, @Valid @RequestBody AppendUserData data) {
         Optional<FinancialLedger> optionalFinancialLedger = userOperationService.findFinancialLedgerByUserId(userId, financialLedgerId);
         if (!optionalFinancialLedger.isPresent()) new ResponseEntity<>(HttpStatus.FORBIDDEN);
         FinancialLedger financialLedger = optionalFinancialLedger.get();
