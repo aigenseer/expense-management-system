@@ -15,6 +15,7 @@ public class UserOperationService {
 
     private final UserApplicationService userApplicationService;
     private final FinancialLedgerApplicationService financialLedgerApplicationService;
+    private final BookingApplicationService bookingApplicationService;
 
     public Optional<FinancialLedger> findFinancialLedgerByUserId(UUID id, UUID financialLedgerId){
         Optional<User> userOptional = userApplicationService.findById(id);
@@ -58,6 +59,16 @@ public class UserOperationService {
         Optional<FinancialLedger> optionalFinancialLedger = findFinancialLedgerByUserId(id, financialLedgerId);
         if (!optionalFinancialLedger.isPresent()) return Optional.empty();
         return optionalFinancialLedger.get().getBookings().stream().filter(b -> b.getId().equals(bookingId)).findFirst();
+    }
+
+    public Optional<Booking> addBooking(UUID id, UUID financialLedgerId, Booking booking){
+        Optional<FinancialLedger> optionalFinancialLedger = findFinancialLedgerByUserId(id, financialLedgerId);
+        if (!optionalFinancialLedger.isPresent()) return Optional.empty();
+        bookingApplicationService.save(booking);
+        FinancialLedger financialLedger = optionalFinancialLedger.get();
+        financialLedger.getBookings().add(booking);
+        financialLedgerApplicationService.save(financialLedger);
+        return Optional.of(booking);
     }
 
 }
