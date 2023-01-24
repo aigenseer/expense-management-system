@@ -23,8 +23,8 @@ public class FinancialLedgerApplicationService {
         return repository.findById(id);
     }
 
-    public FinancialLedger save(FinancialLedger user) {
-        return repository.save(user);
+    public FinancialLedger save(FinancialLedger financialLedger) {
+        return repository.save(financialLedger);
     }
 
     public void deleteById(UUID id) {
