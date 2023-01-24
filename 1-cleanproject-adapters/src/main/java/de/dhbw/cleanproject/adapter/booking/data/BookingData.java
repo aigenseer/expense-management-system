@@ -9,14 +9,13 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 @Data
-public class BookingData {
+public class BookingData implements IBookingData {
 
     @NotEmpty(message = "The title is required.")
     @Size(min = 2, max = 100, message = "The length of full title must be between 2 and 100 characters.")
     private String title;
 
-    @NotEmpty(message = "The amount is required.")
-    @DecimalMin("0.0")
+    @DecimalMin(value = "0.0", message = "The amount is not valid.")
     private Double amount;
 
     @NotEmpty(message = "The currencyType is required.")
