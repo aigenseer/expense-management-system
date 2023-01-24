@@ -8,7 +8,7 @@ import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Size;
 
 @Data
-public class BookingUpdateData {
+public class BookingUpdateData implements IBookingData {
 
     @Size(min = 2, max = 100, message = "The length of full title must be between 2 and 100 characters.")
     private String title;
