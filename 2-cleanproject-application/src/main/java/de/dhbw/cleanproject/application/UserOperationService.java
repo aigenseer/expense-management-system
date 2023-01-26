@@ -17,6 +17,7 @@ public class UserOperationService {
     private final UserApplicationService userApplicationService;
     private final FinancialLedgerApplicationService financialLedgerApplicationService;
     private final BookingApplicationService bookingApplicationService;
+    private final BookingCategoryApplicationService bookingCategoryApplicationService;
 
     public Optional<FinancialLedger> findFinancialLedgerByUserId(UUID id, UUID financialLedgerId){
         Optional<User> userOptional = userApplicationService.findById(id);
@@ -76,6 +77,16 @@ public class UserOperationService {
         financialLedger.getBookings().add(booking);
         financialLedgerApplicationService.save(financialLedger);
         return Optional.of(booking);
+    }
+
+    public Optional<BookingCategory> addBookingCategory(UUID id, UUID financialLedgerId, BookingCategory bookingCategory){
+        Optional<FinancialLedger> optionalFinancialLedger = findFinancialLedgerByUserId(id, financialLedgerId);
+        if (!optionalFinancialLedger.isPresent()) return Optional.empty();
+        bookingCategoryApplicationService.save(bookingCategory);
+        FinancialLedger financialLedger = optionalFinancialLedger.get();
+        financialLedger.getBookingCategories().add(bookingCategory);
+        financialLedgerApplicationService.save(financialLedger);
+        return Optional.of(bookingCategory);
     }
 
     public boolean referenceUserToBooking(UUID id, UUID financialLedgerId, UUID bookingId, UUID referenceUserId){
