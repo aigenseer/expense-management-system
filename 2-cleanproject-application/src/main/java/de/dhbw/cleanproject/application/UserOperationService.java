@@ -1,6 +1,7 @@
 package de.dhbw.cleanproject.application;
 
 import de.dhbw.cleanproject.domain.booking.Booking;
+import de.dhbw.cleanproject.domain.bookingcategory.BookingCategory;
 import de.dhbw.cleanproject.domain.financialledger.FinancialLedger;
 import de.dhbw.cleanproject.domain.user.User;
 import lombok.RequiredArgsConstructor;
@@ -59,6 +60,12 @@ public class UserOperationService {
         Optional<FinancialLedger> optionalFinancialLedger = findFinancialLedgerByUserId(id, financialLedgerId);
         if (!optionalFinancialLedger.isPresent()) return Optional.empty();
         return optionalFinancialLedger.get().getBookings().stream().filter(b -> b.getId().equals(bookingId)).findFirst();
+    }
+
+    public Optional<BookingCategory> getBookingCategory(UUID id, UUID financialLedgerId, UUID bookingCategoryId){
+        Optional<FinancialLedger> optionalFinancialLedger = findFinancialLedgerByUserId(id, financialLedgerId);
+        if (!optionalFinancialLedger.isPresent()) return Optional.empty();
+        return optionalFinancialLedger.get().getBookingCategories().stream().filter(b -> b.getId().equals(bookingCategoryId)).findFirst();
     }
 
     public Optional<Booking> addBooking(UUID id, UUID financialLedgerId, Booking booking){
