@@ -7,7 +7,5 @@ import org.springframework.hateoas.RepresentationModel;
 @Builder
 @Getter
 public class BookingCategoryPreviewModel extends RepresentationModel<BookingCategoryPreviewModel>{
-    private String name;
-    private String email;
-    private String phoneNumber;
+    private String title;
 }

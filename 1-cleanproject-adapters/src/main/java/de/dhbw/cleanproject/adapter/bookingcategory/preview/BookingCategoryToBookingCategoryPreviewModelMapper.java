@@ -15,7 +15,7 @@ public class BookingCategoryToBookingCategoryPreviewModelMapper implements Funct
 
     private BookingCategoryPreviewModel map(final BookingCategory category) {
         return BookingCategoryPreviewModel.builder()
-                .name(category.getTitle())
+                .title(category.getTitle())
                 .build();
     }
 }
