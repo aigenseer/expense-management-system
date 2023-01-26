@@ -14,6 +14,7 @@ import de.dhbw.cleanproject.application.UserOperationService;
 import de.dhbw.cleanproject.domain.booking.Booking;
 import de.dhbw.cleanproject.domain.bookingcategory.BookingCategory;
 import de.dhbw.plugins.rest.bookingcategory.BookingCategoryController;
+import de.dhbw.plugins.rest.user.UserController;
 import de.dhbw.plugins.rest.utils.WebMvcLinkBuilderUtils;
 import lombok.RequiredArgsConstructor;
 import org.javatuples.Pair;
@@ -55,8 +56,8 @@ public class BookingController {
         List<UserPreview> referencedUsers = booking.getReferencedUsers().stream()
                 .map(user -> {
                     UserPreview userPreview = userToUserPreviewModelMapper.apply(user);
-//                    Link selfLink = WebMvcLinkBuilder.linkTo(methodOn(UserController.class).findOne(user.getId())).withSelfRel();
-//                    userPreview.add(selfLink);
+                    Link selfLink = WebMvcLinkBuilder.linkTo(methodOn(UserController.class).findOne(user.getId())).withSelfRel();
+                    userPreview.add(selfLink);
                     return userPreview;
                 })
                 .collect(Collectors.toList());
