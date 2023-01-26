@@ -4,4 +4,5 @@ public interface IBookingData {
     String getTitle();
     Double getAmount();
     String getCurrencyType();
+    String getBookingCategoryId();
 }

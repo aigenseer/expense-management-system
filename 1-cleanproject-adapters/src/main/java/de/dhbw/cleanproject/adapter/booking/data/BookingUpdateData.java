@@ -2,6 +2,7 @@ package de.dhbw.cleanproject.adapter.booking.data;
 
 import de.dhbw.cleanproject.abstractioncode.valueobject.money.CurrencyType;
 import de.dhbw.cleanproject.adapter.config.customvalidatior.ValueOfEnum;
+import de.dhbw.cleanproject.adapter.config.customvalidatior.ValueOfUUID;
 import lombok.Data;
 
 import javax.validation.constraints.DecimalMin;
@@ -18,5 +19,8 @@ public class BookingUpdateData implements IBookingData {
 
     @ValueOfEnum(enumClass = CurrencyType.class, message = "Invalid currency type")
     private String currencyType;
+
+    @ValueOfUUID(message = "The bookingCategoryId is invalid UUID.")
+    private String bookingCategoryId;
 
 }

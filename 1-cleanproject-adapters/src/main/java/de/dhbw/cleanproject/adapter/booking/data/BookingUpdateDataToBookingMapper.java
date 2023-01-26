@@ -29,6 +29,7 @@ public class BookingUpdateDataToBookingMapper implements Function<Pair<Booking, 
         if (updateBooking.getTitle() != null) builder.title(updateBooking.getTitle());
         builder.money(booking.getMoney());
         if (updateBooking.getMoney() != null) builder.money(updateBooking.getMoney());
+        if (updateBooking.getCategory() != null) builder.category(updateBooking.getCategory());
         return builder.build();
     }
 

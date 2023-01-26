@@ -2,19 +2,24 @@ package de.dhbw.cleanproject.adapter.booking.data;
 
 import de.dhbw.cleanproject.abstractioncode.valueobject.money.CurrencyType;
 import de.dhbw.cleanproject.abstractioncode.valueobject.money.Money;
+import de.dhbw.cleanproject.application.BookingCategoryApplicationService;
 import de.dhbw.cleanproject.domain.booking.Booking;
+import de.dhbw.cleanproject.domain.bookingcategory.BookingCategory;
 import de.dhbw.cleanproject.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import org.javatuples.Pair;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Function;
 
 @Component
 @RequiredArgsConstructor
 public class BookingDataToBookingMapper implements Function<Pair<IBookingData, User>, Booking> {
+
+    private final BookingCategoryApplicationService bookingCategoryApplicationService;
 
     @Override
     public Booking apply(final Pair<IBookingData, User> pair) {
@@ -37,6 +42,12 @@ public class BookingDataToBookingMapper implements Function<Pair<IBookingData, U
                 builder.money(money);
             }
         }catch (IllegalArgumentException|NullPointerException ignored){}
+        if(data.getBookingCategoryId() != null){
+            UUID bookingCategoryId = UUID.fromString(data.getBookingCategoryId());
+            Optional<BookingCategory> optionalBooking = bookingCategoryApplicationService.findById(bookingCategoryId);
+            optionalBooking.ifPresent(builder::category);
+        }
+
         return builder.build();
     }
 
