@@ -79,6 +79,18 @@ public class UserOperationService {
         return Optional.of(booking);
     }
 
+    public boolean existsBookingById(UUID id, UUID financialLedgerId, UUID bookingId){
+        return getBooking(id, financialLedgerId, bookingId).isPresent();
+    }
+
+    public boolean deleteBookingById(UUID id, UUID financialLedgerId, UUID bookingId){
+        if (existsBookingById(id, financialLedgerId, bookingId)) {
+            bookingApplicationService.deleteById(bookingId);
+            return true;
+        }
+        return false;
+    }
+
     public Optional<BookingCategory> addBookingCategory(UUID id, UUID financialLedgerId, BookingCategory bookingCategory){
         Optional<FinancialLedger> optionalFinancialLedger = findFinancialLedgerByUserId(id, financialLedgerId);
         if (!optionalFinancialLedger.isPresent()) return Optional.empty();
