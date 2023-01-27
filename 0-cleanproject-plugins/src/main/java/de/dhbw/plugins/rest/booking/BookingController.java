@@ -74,7 +74,8 @@ public class BookingController {
         BookingModel model = bookingToBookingModelMapper.apply(Triplet.with(booking, referencedUserPreviewCollectionModel, bookingCategoryPreviewModel));
 
         Link selfLink = linkTo(methodOn(getClass()).findOne(userId, financialLedgerId, bookingId)).withSelfRel()
-                .andAffordance(afford(methodOn(getClass()).update(userId, financialLedgerId, bookingId, null)));
+                .andAffordance(afford(methodOn(getClass()).update(userId, financialLedgerId, bookingId, null)))
+                .andAffordance(afford(methodOn(getClass()).delete(userId, financialLedgerId, bookingId)));
         model.add(selfLink);
 
         return ResponseEntity.ok(model);
@@ -89,6 +90,12 @@ public class BookingController {
         bookingApplicationService.save(booking);
         WebMvcLinkBuilder uriComponents = linkTo(methodOn(this.getClass()).findOne(userId, financialLedgerId, bookingId));
         return new ResponseEntity<>(WebMvcLinkBuilderUtils.createLocationHeader(uriComponents), HttpStatus.ACCEPTED);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<Void> delete(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId, @PathVariable("bookingId") UUID bookingId) {
+        if (!userOperationService.deleteBookingById(userId, financialLedgerId, bookingId)) new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
 
