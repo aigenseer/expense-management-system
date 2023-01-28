@@ -21,6 +21,7 @@ public class BookingCategory {
 
     @Id
     @Column(name = "id", nullable = false)
+    @org.hibernate.annotations.Type(type="uuid-char")
     private UUID id;
 
     @Column(name = "title", nullable = false)

@@ -22,6 +22,7 @@ public class FinancialLedger {
 
     @Id
     @Column(name = "id", nullable = false)
+    @org.hibernate.annotations.Type(type="uuid-char")
     private UUID id;
 
     @Column(name = "name", nullable = false)

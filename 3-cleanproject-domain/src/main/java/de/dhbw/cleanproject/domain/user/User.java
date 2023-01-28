@@ -22,6 +22,7 @@ public class User {
 
     @Id
     @Column(name = "id", nullable = false)
+    @org.hibernate.annotations.Type(type="uuid-char")
     private UUID id;
 
     @Column(name = "name", nullable = false)
@@ -37,8 +38,8 @@ public class User {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name="ems_user_to_financial_ledger",
-            joinColumns=@JoinColumn(name="financial_ledger_id"),
-            inverseJoinColumns=@JoinColumn(name="ems_user_id")
+            joinColumns=@JoinColumn(name="ems_user_id"),
+            inverseJoinColumns=@JoinColumn(name="financial_ledger_id")
     )
     private Set<FinancialLedger> financialLedgers;
 

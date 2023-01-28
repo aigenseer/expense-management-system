@@ -2,6 +2,7 @@ package de.dhbw.cleanproject.domain.booking;
 
 import de.dhbw.cleanproject.abstractioncode.valueobject.money.Money;
 import de.dhbw.cleanproject.domain.bookingcategory.BookingCategory;
+import de.dhbw.cleanproject.domain.financialledger.FinancialLedger;
 import de.dhbw.cleanproject.domain.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,6 +24,7 @@ public class Booking {
 
     @Id
     @Column(name = "id", nullable = false)
+    @org.hibernate.annotations.Type(type="uuid-char")
     private UUID id;
 
     @Column(name = "title", nullable = false)
