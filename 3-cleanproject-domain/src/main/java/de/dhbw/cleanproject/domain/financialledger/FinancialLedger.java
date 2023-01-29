@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -22,7 +23,7 @@ public class FinancialLedger {
 
     @Id
     @Column(name = "id", nullable = false)
-    @org.hibernate.annotations.Type(type="uuid-char")
+    @Type(type="uuid-char")
     private UUID id;
 
     @Column(name = "name", nullable = false)
@@ -36,7 +37,7 @@ public class FinancialLedger {
     @Getter
     private Set<User> authorizedUser;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.EAGER)
     @Getter
     private Set<Booking> bookings;
 

@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -22,7 +23,7 @@ public class User {
 
     @Id
     @Column(name = "id", nullable = false)
-    @org.hibernate.annotations.Type(type="uuid-char")
+    @Type(type="uuid-char")
     private UUID id;
 
     @Column(name = "name", nullable = false)
@@ -36,7 +37,7 @@ public class User {
     @Column(name = "phone_number", nullable = true)
     private PhoneNumber phoneNumber;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="ems_user_to_financial_ledger",
             joinColumns=@JoinColumn(name="ems_user_id"),
             inverseJoinColumns=@JoinColumn(name="financial_ledger_id")

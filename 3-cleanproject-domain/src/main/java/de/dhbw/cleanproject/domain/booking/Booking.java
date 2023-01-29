@@ -8,6 +8,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -24,7 +27,7 @@ public class Booking {
 
     @Id
     @Column(name = "id", nullable = false)
-    @org.hibernate.annotations.Type(type="uuid-char")
+    @Type(type="uuid-char")
     private UUID id;
 
     @Column(name = "title", nullable = false)
@@ -38,8 +41,13 @@ public class Booking {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @JoinColumn(referencedColumnName = "FinancialLedger")
-    @JoinColumn(name="financial_ledger_id", nullable=false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "financial_ledger_id", nullable = false, updatable = false, insertable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private FinancialLedger financialLedger;
+
+    @Column(name="financial_ledger_id", nullable=false)
+    @Type(type="uuid-char")
     private UUID financialLedgerId;
 
     @Column(name = "creation_date", nullable = false)

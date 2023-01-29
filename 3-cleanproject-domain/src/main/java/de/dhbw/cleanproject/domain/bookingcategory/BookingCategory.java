@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -21,7 +22,7 @@ public class BookingCategory {
 
     @Id
     @Column(name = "id", nullable = false)
-    @org.hibernate.annotations.Type(type="uuid-char")
+    @Type(type="uuid-char")
     private UUID id;
 
     @Column(name = "title", nullable = false)
