@@ -35,7 +35,7 @@ public class BookingReferencedUsersController {
     @GetMapping
     public ResponseEntity<UserPreviewCollectionModel> listAll(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId, @PathVariable("bookingId") UUID bookingId) {
         Optional<Booking> optionalBooking = userOperationService.getBooking(userId, financialLedgerId, bookingId);
-        if (!optionalBooking.isPresent()) new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        if (!optionalBooking.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         Booking booking = optionalBooking.get();
 
         List<UserPreview> userPreviewModels = booking.getReferencedUsers().stream().map(user -> {
@@ -56,7 +56,7 @@ public class BookingReferencedUsersController {
     @PostMapping
     public ResponseEntity<Void> create(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId, @PathVariable("bookingId") UUID bookingId, @Valid @RequestBody AppendUserData data) {
         UUID referencedUserId = UUID.fromString(data.getUserId());
-        if (!userOperationService.referenceUserToBooking(userId, financialLedgerId, bookingId, referencedUserId)) new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        if (!userOperationService.referenceUserToBooking(userId, financialLedgerId, bookingId, referencedUserId)) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         WebMvcLinkBuilder uriComponents = WebMvcLinkBuilder.linkTo(methodOn(BookingReferencedUserController.class).findOne(userId, financialLedgerId, bookingId, referencedUserId));
         return new ResponseEntity<>(WebMvcLinkBuilderUtils.createLocationHeader(uriComponents), HttpStatus.CREATED);
     }
