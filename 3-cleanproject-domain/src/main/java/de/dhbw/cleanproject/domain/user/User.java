@@ -2,6 +2,7 @@ package de.dhbw.cleanproject.domain.user;
 
 import de.dhbw.cleanproject.abstractioncode.valueobject.email.Email;
 import de.dhbw.cleanproject.abstractioncode.valueobject.phonennumber.PhoneNumber;
+import de.dhbw.cleanproject.domain.booking.Booking;
 import de.dhbw.cleanproject.domain.financialledger.FinancialLedger;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -37,12 +38,19 @@ public class User {
     @Column(name = "phone_number", nullable = true)
     private PhoneNumber phoneNumber;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name="ems_user_to_financial_ledger",
             joinColumns=@JoinColumn(name="ems_user_id"),
             inverseJoinColumns=@JoinColumn(name="financial_ledger_id")
     )
     private Set<FinancialLedger> financialLedgers;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name="ems_user_to_booking",
+            joinColumns=@JoinColumn(name="ems_user_id"),
+            inverseJoinColumns=@JoinColumn(name="booking_id")
+    )
+    private Set<Booking> referencedBookings;
 
 
 

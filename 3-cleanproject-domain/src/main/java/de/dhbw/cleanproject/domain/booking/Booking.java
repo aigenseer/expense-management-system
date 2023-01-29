@@ -53,8 +53,11 @@ public class Booking {
     @Column(name = "creation_date", nullable = false)
     private LocalDate creationDate;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @Column(name = "referenced_users")
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name="ems_user_to_booking",
+            joinColumns=@JoinColumn(name="booking_id"),
+            inverseJoinColumns=@JoinColumn(name="ems_user_id")
+    )
     private Set<User> referencedUsers;
 
     @ManyToOne
