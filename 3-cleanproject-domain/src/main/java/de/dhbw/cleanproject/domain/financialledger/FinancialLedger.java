@@ -37,7 +37,7 @@ public class FinancialLedger {
     @Getter
     private Set<User> authorizedUser;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.LAZY)
     @Getter
     private Set<Booking> bookings;
 
