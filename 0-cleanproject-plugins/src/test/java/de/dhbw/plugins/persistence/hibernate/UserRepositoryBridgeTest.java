@@ -30,7 +30,7 @@ public class UserRepositoryBridgeTest {
     private SpringDataUserRepository springDataRepository;
 
     @InjectMocks
-    private UserRepositoryBridge repository;
+    private UserRepositoryBridge repositoryBridge;
 
     private final User entity = User.builder().id(UUID.randomUUID()).build();
     private final List<UUID> entityIds = new ArrayList<UUID>(){{ add(entity.getId()); }};
@@ -45,19 +45,19 @@ public class UserRepositoryBridgeTest {
 
     @Test
     public void testSave() {
-        repository.save(entity);
+        repositoryBridge.save(entity);
         verify(springDataRepository).save(entity);
     }
 
     @Test
     public void testDeleteById() {
-        repository.deleteById(entity.getId());
+        repositoryBridge.deleteById(entity.getId());
         verify(springDataRepository).deleteById(entity.getId());
     }
 
     @Test
     public void testFindAll(){
-        List<User> result = repository.findAll();
+        List<User> result = repositoryBridge.findAll();
         assertEquals(1, result.size());
         assertTrue(result.contains(entity));
         verify(springDataRepository).findAll();
@@ -65,7 +65,7 @@ public class UserRepositoryBridgeTest {
 
     @Test
     public void testFindById(){
-        Optional<User> result = repository.findById(entity.getId());
+        Optional<User> result = repositoryBridge.findById(entity.getId());
         assertTrue(result.isPresent());
         assertEquals(entity, result.get());
         verify(springDataRepository).findById(entity.getId());
@@ -73,7 +73,7 @@ public class UserRepositoryBridgeTest {
 
     @Test
     public void testFindAllById() {
-        List<User> result = repository.findAllById(entityIds);
+        List<User> result = repositoryBridge.findAllById(entityIds);
         assertEquals(1, result.size());
         assertTrue(result.contains(entity));
         verify(springDataRepository).findAllById(entityIds);
