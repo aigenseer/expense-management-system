@@ -27,14 +27,14 @@ public class UserRepositoryTest {
     @Autowired
     private UserRepository repository;
 
-    private User entity1 = User.builder()
+    private final User entity1 = User.builder()
             .id(UUID.fromString("12345678-1234-1234-a123-123456789001"))
             .email(new Email("example-user-1@example.de"))
             .name("Example-User-1")
             .phoneNumber(new PhoneNumber(123456789, InternationalPhoneCode.DE))
         .build();
 
-    private User entity2 = User.builder()
+    private final User entity2 = User.builder()
             .id(UUID.fromString("12345678-1234-1234-a123-123456789003"))
             .email(new Email("example-user-3@example.de"))
             .name("Example-User-3")

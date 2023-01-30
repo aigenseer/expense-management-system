@@ -31,9 +31,9 @@ public class UserRepositoryBridge {
     @InjectMocks
     private de.dhbw.plugins.persistence.hibernate.user.UserRepositoryBridge repository;
 
-    private User entity = User.builder().id(UUID.randomUUID()).build();
-    private List<UUID> entityIds = new ArrayList<UUID>(){{ add(entity.getId()); }};
-    private List<User> entities = new ArrayList<User>(){{ add(entity); }};
+    private final User entity = User.builder().id(UUID.randomUUID()).build();
+    private final List<UUID> entityIds = new ArrayList<UUID>(){{ add(entity.getId()); }};
+    private final List<User> entities = new ArrayList<User>(){{ add(entity); }};
 
     @Before()
     public void setup(){
