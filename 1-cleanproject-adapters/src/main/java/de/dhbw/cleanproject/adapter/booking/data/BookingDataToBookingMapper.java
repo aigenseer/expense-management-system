@@ -7,7 +7,7 @@ import de.dhbw.cleanproject.domain.booking.Booking;
 import de.dhbw.cleanproject.domain.bookingcategory.BookingCategory;
 import de.dhbw.cleanproject.domain.user.User;
 import lombok.RequiredArgsConstructor;
-import org.javatuples.Pair;
+import org.javatuples.Triplet;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -17,21 +17,23 @@ import java.util.function.Function;
 
 @Component
 @RequiredArgsConstructor
-public class BookingDataToBookingMapper implements Function<Pair<IBookingData, User>, Booking> {
+public class BookingDataToBookingMapper implements Function<Triplet<IBookingData, UUID, User>, Booking> {
 
     private final BookingCategoryApplicationService bookingCategoryApplicationService;
 
     @Override
-    public Booking apply(final Pair<IBookingData, User> pair) {
-        return map(pair);
+    public Booking apply(final Triplet<IBookingData, UUID, User> triplet) {
+        return map(triplet);
     }
 
-    private Booking map(final Pair<IBookingData, User> pair) {
-        IBookingData data = pair.getValue0();
-        User user = pair.getValue1();
+    private Booking map(final Triplet<IBookingData, UUID, User> triplet) {
+        IBookingData data = triplet.getValue0();
+        UUID financialLedgerId = triplet.getValue1();
+        User user = triplet.getValue2();
         Booking.BookingBuilder builder = Booking.builder();
         builder.id(UUID.randomUUID());
         builder.title(data.getTitle());
+        builder.financialLedgerId(financialLedgerId);
         builder.user(user);
         builder.creationDate(LocalDate.now());
         if (data.getTitle() != null) builder.title(data.getTitle());

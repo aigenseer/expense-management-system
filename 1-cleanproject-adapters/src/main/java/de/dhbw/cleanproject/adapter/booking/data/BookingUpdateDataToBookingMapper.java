@@ -3,6 +3,7 @@ package de.dhbw.cleanproject.adapter.booking.data;
 import de.dhbw.cleanproject.domain.booking.Booking;
 import lombok.RequiredArgsConstructor;
 import org.javatuples.Pair;
+import org.javatuples.Triplet;
 import org.springframework.stereotype.Component;
 
 import java.util.function.Function;
@@ -21,7 +22,7 @@ public class BookingUpdateDataToBookingMapper implements Function<Pair<Booking, 
     private Booking map(final Pair<Booking, IBookingData> pair) {
         Booking booking = pair.getValue0();
         Booking.BookingBuilder builder = Booking.builder();
-        Booking updateBooking = bookingDataToBookingMapper.apply(Pair.with(pair.getValue1(), booking.getUser()));
+        Booking updateBooking = bookingDataToBookingMapper.apply(Triplet.with(pair.getValue1(), booking.getFinancialLedgerId(), booking.getUser()));
         builder.id(booking.getId());
         builder.title(booking.getTitle());
         builder.creationDate(booking.getCreationDate());

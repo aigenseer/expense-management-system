@@ -13,7 +13,7 @@ import de.dhbw.cleanproject.domain.user.User;
 import de.dhbw.plugins.rest.booking.BookingController;
 import de.dhbw.plugins.rest.utils.WebMvcLinkBuilderUtils;
 import lombok.RequiredArgsConstructor;
-import org.javatuples.Pair;
+import org.javatuples.Triplet;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
@@ -68,7 +68,7 @@ public class BookingsController {
         if (!optionalUser.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         User user = optionalUser.get();
 
-        Booking booking = bookingDataToBookingMapper.apply(Pair.with(data, user));
+        Booking booking = bookingDataToBookingMapper.apply(Triplet.with(data, financialLedgerId, user));
         Optional<Booking> optionalBooking = userOperationService.addBooking(userId, financialLedgerId, booking);
         if (!optionalBooking.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 
