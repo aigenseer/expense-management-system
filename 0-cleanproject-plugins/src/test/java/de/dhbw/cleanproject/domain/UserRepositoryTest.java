@@ -12,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -74,8 +75,8 @@ public class UserRepositoryTest {
 
     @Test
     public void testFindAllById() {
-        List<User> resultList = repository.findAll();
-        assertEquals(2, resultList.size());
+        List<User> resultList = repository.findAllById(new ArrayList<UUID>(){{ add(entity1.getId()); }});
+        assertEquals(1, resultList.size());
         Optional<User> result = resultList.stream().filter(user -> user.getId().equals( entity1.getId())).findFirst();
         assertTrue(result.isPresent());
         checkEntity(entity1, result.get());
