@@ -1,4 +1,4 @@
-package de.dhbw.plugins.persistence.hibernate.repository;
+package de.dhbw.plugins.persistence.hibernate;
 
 import de.dhbw.cleanproject.domain.user.User;
 import de.dhbw.plugins.persistence.hibernate.user.SpringDataUserRepository;
