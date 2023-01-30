@@ -2,6 +2,7 @@ package de.dhbw.plugins.persistence.hibernate;
 
 import de.dhbw.cleanproject.domain.user.User;
 import de.dhbw.plugins.persistence.hibernate.user.SpringDataUserRepository;
+import de.dhbw.plugins.persistence.hibernate.user.UserRepositoryBridge;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,13 +24,13 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 @ComponentScan("de.dhbw.plugins.persistence.hibernate")
-public class UserRepositoryBridge {
+public class UserRepositoryBridgeTest {
 
     @Mock
     private SpringDataUserRepository springDataRepository;
 
     @InjectMocks
-    private de.dhbw.plugins.persistence.hibernate.user.UserRepositoryBridge repository;
+    private UserRepositoryBridge repository;
 
     private final User entity = User.builder().id(UUID.randomUUID()).build();
     private final List<UUID> entityIds = new ArrayList<UUID>(){{ add(entity.getId()); }};
