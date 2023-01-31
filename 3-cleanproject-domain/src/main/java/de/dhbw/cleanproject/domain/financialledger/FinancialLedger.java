@@ -34,15 +34,12 @@ public class FinancialLedger {
             joinColumns=@JoinColumn(name="ems_user_id"),
             inverseJoinColumns=@JoinColumn(name="financial_ledger_id")
     )
-    @Getter
     private Set<User> authorizedUser;
 
     @OneToMany(fetch = FetchType.LAZY)
-    @Getter
     private Set<Booking> bookings;
 
     @OneToMany(fetch = FetchType.LAZY)
-    @Getter
     private Set<BookingCategory> bookingCategories;
 
 
