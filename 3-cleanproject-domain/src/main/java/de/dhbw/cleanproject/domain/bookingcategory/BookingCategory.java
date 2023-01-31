@@ -1,10 +1,7 @@
 package de.dhbw.cleanproject.domain.bookingcategory;
 
 import de.dhbw.cleanproject.domain.booking.Booking;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -18,6 +15,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 public class BookingCategory {
 
     @Id
@@ -28,7 +26,7 @@ public class BookingCategory {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="category")
     private Set<Booking> bookings;
 
 }

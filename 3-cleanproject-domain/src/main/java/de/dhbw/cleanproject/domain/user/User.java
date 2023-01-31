@@ -4,10 +4,7 @@ import de.dhbw.cleanproject.abstractioncode.valueobject.email.Email;
 import de.dhbw.cleanproject.abstractioncode.valueobject.phonennumber.PhoneNumber;
 import de.dhbw.cleanproject.domain.booking.Booking;
 import de.dhbw.cleanproject.domain.financialledger.FinancialLedger;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -17,6 +14,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "ems_user")
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
