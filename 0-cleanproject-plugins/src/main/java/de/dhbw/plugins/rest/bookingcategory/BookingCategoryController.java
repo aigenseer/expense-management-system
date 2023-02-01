@@ -80,7 +80,9 @@ public class BookingCategoryController {
 
     @DeleteMapping("/")
     public ResponseEntity<Void> delete(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId, @PathVariable("bookingCategoryId") UUID bookingCategoryId) {
-        return null;
+        if (!userOperationService.existsBookingCategoryById(userId, financialLedgerId, bookingCategoryId)) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        userOperationService.deleteBookingCategoryById(userId, financialLedgerId, bookingCategoryId);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
 
