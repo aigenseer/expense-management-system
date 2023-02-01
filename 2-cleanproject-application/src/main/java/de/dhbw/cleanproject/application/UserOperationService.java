@@ -69,6 +69,26 @@ public class UserOperationService {
         return optionalFinancialLedger.get().getBookingCategories().stream().filter(b -> b.getId().equals(bookingCategoryId)).findFirst();
     }
 
+    public boolean existsBookingCategoryById(UUID id, UUID financialLedgerId, UUID bookingCategoryId){
+        return getBookingCategory(id, financialLedgerId, bookingCategoryId).isPresent();
+    }
+
+    public boolean deleteBookingCategoryById(UUID id, UUID financialLedgerId, UUID bookingCategoryId){
+        Optional<BookingCategory> optionalBookingCategory = getBookingCategory(id, financialLedgerId, bookingCategoryId);
+        if (optionalBookingCategory.isPresent()) {
+            optionalBookingCategory.get().getBookings().forEach(booking -> {
+                booking.setCategory(null);
+                bookingApplicationService.save(booking);
+            });
+            FinancialLedger financialLedger = optionalBookingCategory.get().getFinancialLedger();
+            financialLedger.getBookingCategories().remove(optionalBookingCategory.get());
+            financialLedgerApplicationService.save(financialLedger);
+            bookingCategoryApplicationService.deleteById(bookingCategoryId);
+            return true;
+        }
+        return false;
+    }
+
     public Optional<Booking> addBooking(UUID id, UUID financialLedgerId, Booking booking){
         Optional<FinancialLedger> optionalFinancialLedger = findFinancialLedgerByUserId(id, financialLedgerId);
         if (!optionalFinancialLedger.isPresent()) return Optional.empty();
