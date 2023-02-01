@@ -37,7 +37,7 @@ public class FinancialLedger {
     @OneToMany(fetch = FetchType.LAZY)
     private Set<Booking> bookings;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy="financialLedger", targetEntity = BookingCategory.class)
     private Set<BookingCategory> bookingCategories;
 
 
