@@ -1,6 +1,7 @@
 package de.dhbw.cleanproject.domain.bookingcategory;
 
 import de.dhbw.cleanproject.domain.booking.Booking;
+import de.dhbw.cleanproject.domain.financialledger.FinancialLedger;
 import lombok.*;
 import org.hibernate.annotations.Type;
 
@@ -28,5 +29,8 @@ public class BookingCategory {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy="category")
     private Set<Booking> bookings;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private FinancialLedger financialLedger;
 
 }
