@@ -104,7 +104,20 @@ public class UserOperationService {
     }
 
     public boolean deleteBookingById(UUID id, UUID financialLedgerId, UUID bookingId){
-        if (existsBookingById(id, financialLedgerId, bookingId)) {
+        Optional<Booking> optionalBooking = getBooking(id, financialLedgerId, bookingId);
+        if (optionalBooking.isPresent()) {
+            optionalBooking.get().getReferencedUsers().forEach(user -> {
+                user.getReferencedBookings().remove(optionalBooking.get());
+                userApplicationService.save(user);
+            });
+            FinancialLedger financialLedger = optionalBooking.get().getFinancialLedger();
+            financialLedger.getBookings().remove(optionalBooking.get());
+            financialLedgerApplicationService.save(financialLedger);
+
+            BookingCategory bookingCategory = optionalBooking.get().getCategory();
+            bookingCategory.getBookings().remove(optionalBooking.get());
+            bookingCategoryApplicationService.save(bookingCategory);
+
             bookingApplicationService.deleteById(bookingId);
             return true;
         }
