@@ -139,7 +139,11 @@ public class UserOperationService {
         if (optionalReferenceUser.isPresent()){
             Optional<Booking> optionalBooking = getBooking(id, financialLedgerId, bookingId);
             if (optionalBooking.isPresent()){
+                User user = optionalReferenceUser.get();
                 Booking booking = optionalBooking.get();
+
+                user.getReferencedBookings().add(booking);
+                userApplicationService.save(user);
                 booking.getReferencedUsers().add(optionalReferenceUser.get());
                 bookingApplicationService.save(booking);
                 return true;
