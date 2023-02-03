@@ -217,11 +217,15 @@ public class UserOperationService {
             if (optionalBooking.isPresent()) {
                 User user = optionalReferenceUser.get();
                 Booking booking = optionalBooking.get();
-                user.getReferencedBookings().remove(booking);
-                userApplicationService.save(user);
-                booking.getReferencedUsers().remove(optionalReferenceUser.get());
-                bookingApplicationService.save(booking);
-                return true;
+                if (booking.getReferencedUsers().contains(user) ||
+                    user.getReferencedBookings().contains(booking)
+                ){
+                    user.getReferencedBookings().remove(booking);
+                    userApplicationService.save(user);
+                    booking.getReferencedUsers().remove(optionalReferenceUser.get());
+                    bookingApplicationService.save(booking);
+                    return true;
+                }
             }
         }
         return false;
