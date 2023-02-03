@@ -24,7 +24,7 @@ import java.util.UUID;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 @RestController
-@RequestMapping(value = "/api/user/{id}", produces = "application/vnd.siren+json")
+@RequestMapping(value = "/api/user/{userId}", produces = "application/vnd.siren+json")
 @AllArgsConstructor
 
 public class UserController {
@@ -36,7 +36,7 @@ public class UserController {
     private final UserOperationService userOperationService;
 
     @GetMapping("/")
-    public ResponseEntity<UserModel> findOne(@PathVariable("id") UUID id) {
+    public ResponseEntity<UserModel> findOne(@PathVariable("userId") UUID id) {
         Optional<User> userOptional = userApplicationService.findById(id);
         if (!userOptional.isPresent()) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         UserModel userModel = userToUserModelMapper.apply(userOptional.get());
@@ -50,7 +50,7 @@ public class UserController {
     }
 
     @PutMapping("/")
-    public ResponseEntity<Void> update(@PathVariable("id") UUID id, @Valid @RequestBody UserUpdateData userUpdateData) {
+    public ResponseEntity<Void> update(@PathVariable("userId") UUID id, @Valid @RequestBody UserUpdateData userUpdateData) {
         Optional<User> userOptional = userApplicationService.findById(id);
         if (!userOptional.isPresent()) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         User user = userUpdateDataToUserMapper.apply(Pair.with(userOptional.get(), userUpdateData));
@@ -60,7 +60,7 @@ public class UserController {
     }
 
     @DeleteMapping("/")
-    public ResponseEntity<Void> delete(@PathVariable("id") UUID userId) {
+    public ResponseEntity<Void> delete(@PathVariable("userId") UUID userId) {
         if (!userOperationService.deleteUser(userId)) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
