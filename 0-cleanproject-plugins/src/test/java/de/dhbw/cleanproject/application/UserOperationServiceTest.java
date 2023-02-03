@@ -249,5 +249,41 @@ public class UserOperationServiceTest {
         assertEquals(user, optionalUser.get());
     }
 
+    @Test
+    public void testUnlinkUserToFinancialLedger(){
+        boolean result = userOperationService.unlinkUserToFinancialLedger(userId, financialLedgerId);
+        assertTrue(result);
+
+        Optional<FinancialLedger> optionalFinancialLedger = financialLedgerApplicationService.findById(financialLedgerId);
+        assertTrue(optionalFinancialLedger.isPresent());
+        Optional<User> optionalUser = optionalFinancialLedger.get().getAuthorizedUser().stream().filter(f -> f.getId().equals(userId)).findFirst();
+        assertFalse(optionalUser.isPresent());
+
+        optionalUser = userApplicationService.findById(userId);
+        assertTrue(optionalUser.isPresent());
+        optionalFinancialLedger = optionalUser.get().getFinancialLedgers().stream().filter(f -> f.getId().equals(f)).findFirst();
+        assertFalse(optionalFinancialLedger.isPresent());
+    }
+
+
+    @Test
+    public void testDeleteFinancialLedgerById() {
+        boolean result = userOperationService.deleteFinancialLedgerById(userId, financialLedgerId);
+        assertTrue(result);
+        Optional<FinancialLedger> optionalFinancialLedger = financialLedgerApplicationService.findById(financialLedgerId);
+        assertFalse(optionalFinancialLedger.isPresent());
+
+        Optional<User> optionalUser = userApplicationService.findById(userId);
+        assertTrue(optionalUser.isPresent());
+        optionalFinancialLedger = optionalUser.get().getFinancialLedgers().stream().filter(f -> f.getId().equals(financialLedgerId)).findFirst();
+        assertFalse(optionalFinancialLedger.isPresent());
+
+        Optional<Booking> optionalBooking = bookingApplicationService.findById(bookingId);
+        assertFalse(optionalBooking.isPresent());
+
+        Optional<BookingCategory> optionalBookingCategory = bookingCategoryApplicationService.findById(bookingCategoryId);
+        assertFalse(optionalBookingCategory.isPresent());
+    }
+
 
 }
