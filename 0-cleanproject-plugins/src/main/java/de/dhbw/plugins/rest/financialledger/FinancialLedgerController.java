@@ -11,9 +11,11 @@ import de.dhbw.cleanproject.adapter.user.preview.UserToUserPreviewModelMapper;
 import de.dhbw.cleanproject.application.FinancialLedgerApplicationService;
 import de.dhbw.cleanproject.application.UserOperationService;
 import de.dhbw.cleanproject.domain.financialledger.FinancialLedger;
+import de.dhbw.plugins.rest.user.UserController;
 import de.dhbw.plugins.rest.utils.WebMvcLinkBuilderUtils;
 import lombok.AllArgsConstructor;
 import org.javatuples.Pair;
+import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,10 +27,10 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 @RestController
-@RequestMapping(value = "/api/user/{userId}/financialledger/{id}/", produces = "application/vnd.siren+json")
+@RequestMapping(value = "/api/user/{userId}/financialledger/{financialLedgerId}/", produces = "application/vnd.siren+json")
 @AllArgsConstructor
 
 public class FinancialLedgerController {
@@ -41,24 +43,25 @@ public class FinancialLedgerController {
     private final UserToUserPreviewModelMapper userToUserPreviewModelMapper;
 
     @GetMapping
-    public ResponseEntity<FinancialLedgerModel> findOne(@PathVariable("userId") UUID userId, @PathVariable("id") UUID id) {
-        Optional<FinancialLedger> optionalFinancialLedger = userOperationService.findFinancialLedgerByUserId(userId, id);
-        if (!optionalFinancialLedger.isPresent()) new ResponseEntity<>(HttpStatus.FORBIDDEN);
+    public ResponseEntity<FinancialLedgerModel> findOne(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId) {
+        Optional<FinancialLedger> optionalFinancialLedger = userOperationService.findFinancialLedgerByUserId(userId, financialLedgerId);
+        if (!optionalFinancialLedger.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         FinancialLedger financialLedger = optionalFinancialLedger.get();
 
         List<UserPreview> userPreviewModels = financialLedger.getAuthorizedUser().stream()
                 .map(user -> {
                     UserPreview userPreview = userToUserPreviewModelMapper.apply(user);
-//                    Link selfLink = WebMvcLinkBuilder.linkTo(methodOn(UserController.class).findOne(user.getId())).withSelfRel();
-//                    userPreview.add(selfLink);
+                    Link selfLink = linkTo(methodOn(UserController.class).findOne(user.getId())).withSelfRel();
+                    userPreview.add(selfLink);
                     return userPreview;
                 })
                 .collect(Collectors.toList());
         UserPreviewCollectionModel userPreviewCollectionModel = new UserPreviewCollectionModel(userPreviewModels);
 
-//        Link selfLink = linkTo(methodOn(UsersController.class).listAll()).withSelfRel()
-//                .andAffordance(afford(methodOn(UsersController.class).create(null)));
-//        userPreviewCollectionModel.add(selfLink);
+        Link selfLink = linkTo(methodOn(getClass()).findOne(userId, financialLedgerId)).withSelfRel()
+                .andAffordance(afford(methodOn(getClass()).update(userId, financialLedgerId, null)))
+                .andAffordance(afford(methodOn(getClass()).delete(userId, financialLedgerId)));
+        userPreviewCollectionModel.add(selfLink);
 
         FinancialLedgerModel model = modelMapper.apply(Pair.with(financialLedger, userPreviewCollectionModel));
 
@@ -66,18 +69,19 @@ public class FinancialLedgerController {
     }
 
     @PutMapping
-    public ResponseEntity<Void> update(@PathVariable("userId") UUID userId, @PathVariable("id") UUID id, @Valid @RequestBody FinancialLedgerData data) {
-        Optional<FinancialLedger> optionalFinancialLedger = userOperationService.findFinancialLedgerByUserId(userId, id);
+    public ResponseEntity<Void> update(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId, @Valid @RequestBody FinancialLedgerData data) {
+        Optional<FinancialLedger> optionalFinancialLedger = userOperationService.findFinancialLedgerByUserId(userId, financialLedgerId);
         if (!optionalFinancialLedger.isPresent()) new ResponseEntity<>(HttpStatus.FORBIDDEN);
         FinancialLedger financialLedger = updateDataMapper.apply(Pair.with(optionalFinancialLedger.get(), data));
         financialLedgerApplicationService.save(financialLedger);
-        WebMvcLinkBuilder uriComponents = WebMvcLinkBuilder.linkTo(methodOn(FinancialLedgerController.class).findOne(userId, id));
+        WebMvcLinkBuilder uriComponents = linkTo(methodOn(FinancialLedgerController.class).findOne(userId, financialLedgerId));
         return new ResponseEntity<>(WebMvcLinkBuilderUtils.createLocationHeader(uriComponents), HttpStatus.CREATED);
     }
 
     @DeleteMapping
-    public ResponseEntity<Void> delete(@PathVariable("id") UUID id) {
-        return null;
+    public ResponseEntity<Void> delete(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId) {
+        if (!userOperationService.deleteFinancialLedgerById(userId, financialLedgerId)) new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
 }
