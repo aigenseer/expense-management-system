@@ -285,5 +285,36 @@ public class UserOperationServiceTest {
         assertFalse(optionalBookingCategory.isPresent());
     }
 
+    @Test
+    public void testUnlinkUserToBooking() {
+        boolean result = userOperationService.unlinkUserToBooking(userId, financialLedgerId, bookingId);
+        assertTrue(result);
+        Optional<Booking> optionalBooking = bookingApplicationService.findById(bookingId);
+        assertTrue(optionalBooking.isPresent());
+        Optional<User> optionalUser  =  optionalBooking.get().getReferencedUsers().stream().filter(f -> f.getId().equals(userId)).findFirst();
+        assertFalse(optionalUser.isPresent());
+
+        optionalUser = userApplicationService.findById(userId);
+        assertTrue(optionalUser.isPresent());
+        optionalBooking =  optionalUser.get().getReferencedBookings().stream().filter(f -> f.getId().equals(bookingId)).findFirst();
+        assertFalse(optionalBooking.isPresent());
+    }
+
+    @Test
+    public void testDeleteUser(){
+        boolean result = userOperationService.deleteUser(userId);
+        assertTrue(result);
+        Optional<User> optionalUser = userApplicationService.findById(userId);
+        assertFalse(optionalUser.isPresent());
+
+        Optional<FinancialLedger> optionalFinancialLedger = financialLedgerApplicationService.findById(financialLedgerId);
+        assertTrue(optionalFinancialLedger.isPresent());
+        optionalUser = optionalFinancialLedger.get().getAuthorizedUser().stream().filter(f -> f.getId().equals(userId)).findFirst();
+        assertFalse(optionalUser.isPresent());
+
+        Optional<Booking> optionalBooking = bookingApplicationService.findById(bookingId);
+        assertFalse(optionalBooking.isPresent());
+    }
+
 
 }
