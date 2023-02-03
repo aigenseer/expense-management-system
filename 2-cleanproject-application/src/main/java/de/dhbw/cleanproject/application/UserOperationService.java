@@ -22,14 +22,14 @@ public class UserOperationService {
     public boolean deleteUser(UUID id){
         Optional<User> optionalUser = userApplicationService.findById(id);
         if (optionalUser.isPresent()){
-            optionalUser.get().getFinancialLedgers().forEach(financialLedger -> {
-                unlinkUserToFinancialLedger(id, financialLedger.getId());
-            });
             optionalUser.get().getReferencedBookings().forEach(booking -> {
                 unlinkUserToBooking(id, booking.getFinancialLedgerId(), booking.getId());
             });
             optionalUser.get().getCreatedBookings().forEach(booking -> {
                 deleteBookingById(id, booking.getFinancialLedgerId(), booking.getId());
+            });
+            optionalUser.get().getFinancialLedgers().forEach(financialLedger -> {
+                unlinkUserToFinancialLedger(id, financialLedger.getId());
             });
             userApplicationService.deleteById(id);
             return true;
@@ -164,6 +164,10 @@ public class UserOperationService {
                 user.getReferencedBookings().remove(optionalBooking.get());
                 userApplicationService.save(user);
             });
+            User user = optionalBooking.get().getUser();
+            user.getCreatedBookings().remove(optionalBooking.get());
+            userApplicationService.save(user);
+
             FinancialLedger financialLedger = optionalBooking.get().getFinancialLedger();
             financialLedger.getBookings().remove(optionalBooking.get());
             financialLedgerApplicationService.save(financialLedger);
