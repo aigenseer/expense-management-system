@@ -44,8 +44,9 @@ public class BookingReferencedUserController {
 
     @DeleteMapping("/")
     public ResponseEntity<Void> delete(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId, @PathVariable("bookingId") UUID bookingId, @PathVariable("referencedUserId") UUID referencedUserId) {
-
-        return null;
+        if (!userOperationService.existsBookingById(userId, financialLedgerId, bookingId)) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        if (!userOperationService.unlinkUserToBooking(referencedUserId, financialLedgerId, bookingId)) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
 
