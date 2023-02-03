@@ -1,27 +1,23 @@
 package de.dhbw.cleanproject.adapter.financialledger.model;
 
-import de.dhbw.cleanproject.adapter.user.preview.UserPreviewCollectionModel;
 import de.dhbw.cleanproject.domain.financialledger.FinancialLedger;
 import lombok.RequiredArgsConstructor;
-import org.javatuples.Pair;
 import org.springframework.stereotype.Component;
 
 import java.util.function.Function;
 
 @Component
 @RequiredArgsConstructor
-public class FinancialLedgerToFinancialLedgerModelMapper implements Function<Pair<FinancialLedger, UserPreviewCollectionModel>, FinancialLedgerModel> {
+public class FinancialLedgerToFinancialLedgerModelMapper implements Function<FinancialLedger, FinancialLedgerModel> {
 
     @Override
-    public FinancialLedgerModel apply(final Pair<FinancialLedger, UserPreviewCollectionModel> pair) {
-        return map(pair);
+    public FinancialLedgerModel apply(final FinancialLedger financialLedger) {
+        return map(financialLedger);
     }
 
-    private FinancialLedgerModel map(final Pair<FinancialLedger, UserPreviewCollectionModel> pair) {
-        FinancialLedger financialLedger = pair.getValue0();
+    private FinancialLedgerModel map(final FinancialLedger financialLedger) {
         FinancialLedgerModel.FinancialLedgerModelBuilder builder = FinancialLedgerModel.builder()
-                .name(financialLedger.getName())
-                .userPreviewCollectionModel(pair.getValue1());
+                .name(financialLedger.getName());
         return builder.build();
     }
 }
