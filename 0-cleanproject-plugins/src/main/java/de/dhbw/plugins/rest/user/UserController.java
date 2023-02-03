@@ -36,7 +36,7 @@ public class UserController {
     @GetMapping("/")
     public ResponseEntity<UserModel> findOne(@PathVariable("id") UUID id) {
         Optional<User> userOptional = userApplicationService.findById(id);
-        if (!userOptional.isPresent()) new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if (!userOptional.isPresent()) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         UserModel userModel = userToUserModelMapper.apply(userOptional.get());
 
         Link selfLink = linkTo(methodOn(UserController.class).findOne(id)).withSelfRel()
@@ -50,7 +50,7 @@ public class UserController {
     @PutMapping("/")
     public ResponseEntity<Void> update(@PathVariable("id") UUID id, @Valid @RequestBody UserUpdateData userUpdateData) {
         Optional<User> userOptional = userApplicationService.findById(id);
-        if (!userOptional.isPresent()) new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if (!userOptional.isPresent()) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         User user = userUpdateDataToUserMapper.apply(Pair.with(userOptional.get(), userUpdateData));
         userApplicationService.save(user);
         WebMvcLinkBuilder uriComponents = WebMvcLinkBuilder.linkTo(methodOn(UserController.class).findOne(user.getId()));
