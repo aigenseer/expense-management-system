@@ -28,10 +28,10 @@ public class BookingReferencedUserController {
     @GetMapping
     public ResponseEntity<UserPreview> findOne(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId, @PathVariable("bookingId") UUID bookingId, @PathVariable("referencedUserId") UUID referencedUserId) {
         Optional<Booking> optionalBooking = userOperationService.getBooking(userId, financialLedgerId, bookingId);
-        if (!optionalBooking.isPresent()) new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        if (!optionalBooking.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         Booking booking = optionalBooking.get();
         Optional<User> optionalReferencedUser = booking.getReferencedUsers().stream().filter(user -> user.getId().equals(referencedUserId)).findFirst();
-        if (!optionalReferencedUser.isPresent()) new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if (!optionalReferencedUser.isPresent()) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         User referencedUser = optionalReferencedUser.get();
         UserPreview model = userToUserPreviewModelMapper.apply(referencedUser);
 
