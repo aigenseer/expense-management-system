@@ -10,6 +10,7 @@ import de.dhbw.cleanproject.adapter.bookingcategory.data.BookingCategoryUpdateDa
 import de.dhbw.cleanproject.application.BookingCategoryApplicationService;
 import de.dhbw.cleanproject.application.UserOperationService;
 import de.dhbw.cleanproject.domain.bookingcategory.BookingCategory;
+import de.dhbw.plugins.rest.booking.BookingController;
 import de.dhbw.plugins.rest.utils.WebMvcLinkBuilderUtils;
 import lombok.RequiredArgsConstructor;
 import org.javatuples.Pair;
@@ -48,8 +49,8 @@ public class BookingCategoryController {
         List<BookingPreviewModel> previewModels = bookingCategory.getBookings().stream()
                 .map(booking -> {
                     BookingPreviewModel preview = previewModelMapper.apply(booking);
-//                    Link selfLink = WebMvcLinkBuilder.linkTo(methodOn(BookingController.class).findOne(userId, financialLedgerId, booking.getId())).withSelfRel();
-//                    preview.add(selfLink);
+                    Link selfLink = WebMvcLinkBuilder.linkTo(methodOn(BookingController.class).findOne(userId, financialLedgerId, booking.getId())).withSelfRel();
+                    preview.add(selfLink);
                     return preview;
                 })
                 .collect(Collectors.toList());
