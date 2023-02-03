@@ -45,6 +45,24 @@ public class UserOperationService {
         return false;
     }
 
+    public boolean unlinkUserToFinancialLedger(UUID id, UUID financialLedgerId){
+        Optional<User> optionalUser = userApplicationService.findById(id);
+        if (optionalUser.isPresent()){
+            Optional<FinancialLedger> optionalFinancialLedger = financialLedgerApplicationService.findById(financialLedgerId);
+            if (optionalFinancialLedger.isPresent()){
+                User user = optionalUser.get();
+                FinancialLedger financialLedger = optionalFinancialLedger.get();
+
+                user.getFinancialLedgers().remove(optionalFinancialLedger.get());
+                userApplicationService.save(user);
+                financialLedger.getAuthorizedUser().remove(user);
+                financialLedgerApplicationService.save(financialLedger);
+                return true;
+            }
+        }
+        return false;
+    }
+
     public Optional<FinancialLedger> addFinancialLedgerByUserId(UUID id, FinancialLedger financialLedger){
         Optional<User> userOptional = userApplicationService.findById(id);
         if (userOptional.isPresent()){
@@ -55,6 +73,24 @@ public class UserOperationService {
             return findFinancialLedgerByUserId(id, financialLedger.getId());
         }
         return Optional.empty();
+    }
+
+    public boolean deleteFinancialLedgerById(UUID id, UUID financialLedgerId){
+        Optional<FinancialLedger> optionalFinancialLedger = findFinancialLedgerByUserId(id, financialLedgerId);
+        if (optionalFinancialLedger.isPresent()) {
+            optionalFinancialLedger.get().getBookings().forEach(booking -> {
+                deleteBookingById(id, financialLedgerId, booking.getId());
+            });
+            optionalFinancialLedger.get().getBookingCategories().forEach(category -> {
+                deleteBookingCategoryById(id, financialLedgerId, category.getId());
+            });
+            optionalFinancialLedger.get().getAuthorizedUser().forEach(user -> {
+                unlinkUserToFinancialLedger(user.getId(), financialLedgerId);
+            });
+            financialLedgerApplicationService.deleteById(financialLedgerId);
+            return true;
+        }
+        return false;
     }
 
     public Optional<Booking> getBooking(UUID id, UUID financialLedgerId, UUID bookingId){
