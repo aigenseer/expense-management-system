@@ -6,6 +6,7 @@ import de.dhbw.cleanproject.adapter.user.userdata.UserDataToUserMapper;
 import de.dhbw.cleanproject.adapter.user.usermodel.UserModel;
 import de.dhbw.cleanproject.adapter.user.usermodel.UserToUserModelMapper;
 import de.dhbw.cleanproject.application.UserApplicationService;
+import de.dhbw.cleanproject.application.UserOperationService;
 import de.dhbw.cleanproject.domain.user.User;
 import de.dhbw.plugins.rest.utils.WebMvcLinkBuilderUtils;
 import lombok.AllArgsConstructor;
@@ -32,6 +33,7 @@ public class UserController {
     private final UserToUserModelMapper userToUserModelMapper;
     private final UserDataToUserMapper userDataToUserMapper;
     private final UserUpdateDataToUserMapper userUpdateDataToUserMapper;
+    private final UserOperationService userOperationService;
 
     @GetMapping("/")
     public ResponseEntity<UserModel> findOne(@PathVariable("id") UUID id) {
@@ -58,8 +60,9 @@ public class UserController {
     }
 
     @DeleteMapping("/")
-    public ResponseEntity<Void> delete(@PathVariable("id") UUID id) {
-        return null;
+    public ResponseEntity<Void> delete(@PathVariable("id") UUID userId) {
+        if (!userOperationService.deleteUser(userId)) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
 }
