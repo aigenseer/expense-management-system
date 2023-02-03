@@ -1,5 +1,11 @@
 package de.dhbw.plugins.rest.financialledger;
 
+import de.dhbw.cleanproject.adapter.booking.preview.BookingPreviewCollectionModel;
+import de.dhbw.cleanproject.adapter.booking.preview.BookingPreviewModel;
+import de.dhbw.cleanproject.adapter.booking.preview.BookingToBookingPreviewModelMapper;
+import de.dhbw.cleanproject.adapter.bookingcategory.preview.BookingCategoryPreviewCollectionModel;
+import de.dhbw.cleanproject.adapter.bookingcategory.preview.BookingCategoryPreviewModel;
+import de.dhbw.cleanproject.adapter.bookingcategory.preview.BookingCategoryToBookingCategoryPreviewModelMapper;
 import de.dhbw.cleanproject.adapter.financialledger.data.FinancialLedgerData;
 import de.dhbw.cleanproject.adapter.financialledger.data.FinancialLedgerUpdateDataToFinancialLedgerMapper;
 import de.dhbw.cleanproject.adapter.financialledger.model.FinancialLedgerModel;
@@ -11,7 +17,9 @@ import de.dhbw.cleanproject.adapter.user.preview.UserToUserPreviewModelMapper;
 import de.dhbw.cleanproject.application.FinancialLedgerApplicationService;
 import de.dhbw.cleanproject.application.UserOperationService;
 import de.dhbw.cleanproject.domain.financialledger.FinancialLedger;
-import de.dhbw.plugins.rest.user.UserController;
+import de.dhbw.plugins.rest.bookingcategories.BookingCategoriesController;
+import de.dhbw.plugins.rest.bookings.BookingsController;
+import de.dhbw.plugins.rest.financialledger.users.FinancialLedgerUsersController;
 import de.dhbw.plugins.rest.utils.WebMvcLinkBuilderUtils;
 import lombok.AllArgsConstructor;
 import org.javatuples.Pair;
@@ -41,29 +49,45 @@ public class FinancialLedgerController {
     private final FinancialLedgerUpdateDataToFinancialLedgerMapper updateDataMapper;
     private final FinancialLedgerToFinancialLedgerModelMapper modelMapper;
     private final UserToUserPreviewModelMapper userToUserPreviewModelMapper;
+    private final BookingCategoryToBookingCategoryPreviewModelMapper bookingCategoryToBookingCategoryPreviewModelMapper;
+    private final BookingToBookingPreviewModelMapper bookingToBookingPreviewModelMapper;
 
     @GetMapping
     public ResponseEntity<FinancialLedgerModel> findOne(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId) {
         Optional<FinancialLedger> optionalFinancialLedger = userOperationService.findFinancialLedgerByUserId(userId, financialLedgerId);
         if (!optionalFinancialLedger.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         FinancialLedger financialLedger = optionalFinancialLedger.get();
+        FinancialLedgerModel model = modelMapper.apply(financialLedger);
 
         List<UserPreview> userPreviewModels = financialLedger.getAuthorizedUser().stream()
-                .map(user -> {
-                    UserPreview userPreview = userToUserPreviewModelMapper.apply(user);
-                    Link selfLink = linkTo(methodOn(UserController.class).findOne(user.getId())).withSelfRel();
-                    userPreview.add(selfLink);
-                    return userPreview;
-                })
+                .map(userToUserPreviewModelMapper)
                 .collect(Collectors.toList());
         UserPreviewCollectionModel userPreviewCollectionModel = new UserPreviewCollectionModel(userPreviewModels);
-
-        Link selfLink = linkTo(methodOn(getClass()).findOne(userId, financialLedgerId)).withSelfRel()
-                .andAffordance(afford(methodOn(getClass()).update(userId, financialLedgerId, null)))
-                .andAffordance(afford(methodOn(getClass()).delete(userId, financialLedgerId)));
+        Link selfLink = linkTo(methodOn(FinancialLedgerUsersController.class).listAll(userId, financialLedgerId)).withSelfRel();
         userPreviewCollectionModel.add(selfLink);
 
-        FinancialLedgerModel model = modelMapper.apply(Pair.with(financialLedger, userPreviewCollectionModel));
+        List<BookingCategoryPreviewModel> bookingCategoryPreviewModels = financialLedger.getBookingCategories().stream()
+                .map(bookingCategoryToBookingCategoryPreviewModelMapper)
+                .collect(Collectors.toList());
+        BookingCategoryPreviewCollectionModel bookingCategoryPreviewCollectionModel = new BookingCategoryPreviewCollectionModel(bookingCategoryPreviewModels);
+        selfLink = linkTo(methodOn(BookingCategoriesController.class).listAll(userId, financialLedgerId)).withSelfRel();
+        bookingCategoryPreviewCollectionModel.add(selfLink);
+
+        List<BookingPreviewModel> bookingPreviewModels = financialLedger.getBookings().stream()
+                .map(bookingToBookingPreviewModelMapper)
+                .collect(Collectors.toList());
+        BookingPreviewCollectionModel bookingPreviewCollectionModel = new BookingPreviewCollectionModel(bookingPreviewModels);
+        selfLink = linkTo(methodOn(BookingsController.class).listAll(userId, financialLedgerId)).withSelfRel();
+        bookingPreviewCollectionModel.add(selfLink);
+
+        selfLink = linkTo(methodOn(getClass()).findOne(userId, financialLedgerId)).withSelfRel()
+                .andAffordance(afford(methodOn(getClass()).update(userId, financialLedgerId, null)))
+                .andAffordance(afford(methodOn(getClass()).delete(userId, financialLedgerId)));
+        model.add(selfLink);
+
+        model.setUserPreviewCollectionModel(userPreviewCollectionModel);
+        model.setBookingCategoryPreviewCollectionModel(bookingCategoryPreviewCollectionModel);
+        model.setBookingPreviewCollectionModel(bookingPreviewCollectionModel);
 
         return ResponseEntity.ok(model);
     }
