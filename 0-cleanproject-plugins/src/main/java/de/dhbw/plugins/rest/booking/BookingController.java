@@ -13,6 +13,8 @@ import de.dhbw.cleanproject.application.BookingApplicationService;
 import de.dhbw.cleanproject.application.UserOperationService;
 import de.dhbw.cleanproject.domain.booking.Booking;
 import de.dhbw.cleanproject.domain.bookingcategory.BookingCategory;
+import de.dhbw.plugins.rest.booking.user.BookingReferencedUserController;
+import de.dhbw.plugins.rest.booking.users.BookingReferencedUsersController;
 import de.dhbw.plugins.rest.bookingcategory.BookingCategoryController;
 import de.dhbw.plugins.rest.user.UserController;
 import de.dhbw.plugins.rest.utils.WebMvcLinkBuilderUtils;
@@ -52,28 +54,23 @@ public class BookingController {
         if (!optionalBooking.isPresent()) new ResponseEntity<>(HttpStatus.FORBIDDEN);
         Booking booking = optionalBooking.get();
 
-
         List<UserPreview> referencedUsers = booking.getReferencedUsers().stream()
-                .map(user -> {
-                    UserPreview userPreview = userToUserPreviewModelMapper.apply(user);
-                    Link selfLink = WebMvcLinkBuilder.linkTo(methodOn(UserController.class).findOne(user.getId())).withSelfRel();
-                    userPreview.add(selfLink);
-                    return userPreview;
-                })
+                .map(userToUserPreviewModelMapper)
                 .collect(Collectors.toList());
         UserPreviewCollectionModel referencedUserPreviewCollectionModel = new UserPreviewCollectionModel(referencedUsers);
+        Link selfLink = WebMvcLinkBuilder.linkTo(methodOn(BookingReferencedUsersController.class).listAll(userId, financialLedgerId, bookingId)).withSelfRel();
+        referencedUserPreviewCollectionModel.add(selfLink);
 
         BookingCategory category = booking.getCategory();
         BookingCategoryPreviewModel bookingCategoryPreviewModel = null;
         if(category != null){
             bookingCategoryPreviewModel = bookingCategoryToBookingCategoryPreviewModelMapper.apply(category);
-            Link selfLink = linkTo(methodOn(BookingCategoryController.class).findOne(userId, financialLedgerId, category.getId())).withSelfRel();
+            selfLink = linkTo(methodOn(BookingCategoryController.class).findOne(userId, financialLedgerId, category.getId())).withSelfRel();
             bookingCategoryPreviewModel.add(selfLink);
         }
-
         BookingModel model = bookingToBookingModelMapper.apply(Triplet.with(booking, referencedUserPreviewCollectionModel, bookingCategoryPreviewModel));
 
-        Link selfLink = linkTo(methodOn(getClass()).findOne(userId, financialLedgerId, bookingId)).withSelfRel()
+        selfLink = linkTo(methodOn(getClass()).findOne(userId, financialLedgerId, bookingId)).withSelfRel()
                 .andAffordance(afford(methodOn(getClass()).update(userId, financialLedgerId, bookingId, null)))
                 .andAffordance(afford(methodOn(getClass()).delete(userId, financialLedgerId, bookingId)));
         model.add(selfLink);
