@@ -40,7 +40,7 @@ public class BookingReferencedUsersController {
 
         List<UserPreview> userPreviewModels = booking.getReferencedUsers().stream().map(user -> {
             UserPreview preview = previewModelMapper.apply(user);
-            Link selfLink = linkTo(methodOn(FinancialLedgerUserController.class).findOne(user.getId(), financialLedgerId)).withSelfRel();
+            Link selfLink = linkTo(methodOn(BookingReferencedUserController.class).findOne(userId, financialLedgerId, bookingId, user.getId())).withSelfRel();
             preview.add(selfLink);
             return preview;
         }).collect(Collectors.toList());
