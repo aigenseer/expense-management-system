@@ -50,6 +50,7 @@ public class User {
     )
     private Set<Booking> referencedBookings;
 
-
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE}, mappedBy="user", targetEntity = Booking.class)
+    private Set<Booking> createdBookings;
 
 }
