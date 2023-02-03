@@ -19,6 +19,24 @@ public class UserOperationService {
     private final BookingApplicationService bookingApplicationService;
     private final BookingCategoryApplicationService bookingCategoryApplicationService;
 
+    public boolean deleteUser(UUID id){
+        Optional<User> optionalUser = userApplicationService.findById(id);
+        if (optionalUser.isPresent()){
+            optionalUser.get().getFinancialLedgers().forEach(financialLedger -> {
+                unlinkUserToFinancialLedger(id, financialLedger.getId());
+            });
+            optionalUser.get().getReferencedBookings().forEach(booking -> {
+                unlinkUserToBooking(id, booking.getFinancialLedgerId(), booking.getId());
+            });
+            optionalUser.get().getCreatedBookings().forEach(booking -> {
+                deleteBookingById(id, booking.getFinancialLedgerId(), booking.getId());
+            });
+            userApplicationService.deleteById(id);
+            return true;
+        }
+        return false;
+    }
+
     public Optional<FinancialLedger> findFinancialLedgerByUserId(UUID id, UUID financialLedgerId){
         Optional<User> userOptional = userApplicationService.findById(id);
         if (userOptional.isPresent()){
@@ -181,6 +199,23 @@ public class UserOperationService {
                 user.getReferencedBookings().add(booking);
                 userApplicationService.save(user);
                 booking.getReferencedUsers().add(optionalReferenceUser.get());
+                bookingApplicationService.save(booking);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean unlinkUserToBooking(UUID id, UUID financialLedgerId, UUID bookingId){
+        Optional<User> optionalReferenceUser = userApplicationService.findById(id);
+        if (optionalReferenceUser.isPresent()){
+            Optional<Booking> optionalBooking = getBooking(id, financialLedgerId, bookingId);
+            if (optionalBooking.isPresent()) {
+                User user = optionalReferenceUser.get();
+                Booking booking = optionalBooking.get();
+                user.getReferencedBookings().remove(booking);
+                userApplicationService.save(user);
+                booking.getReferencedUsers().remove(optionalReferenceUser.get());
                 bookingApplicationService.save(booking);
                 return true;
             }
