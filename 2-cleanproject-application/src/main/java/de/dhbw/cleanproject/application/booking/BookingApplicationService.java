@@ -34,7 +34,7 @@ public class BookingApplicationService {
         repository.deleteById(id);
     }
 
-    public Optional<Booking> create(User user, FinancialLedger financialLedger, BookingAttributeData attributeData){
+    public Optional<Booking> createByAttributeData(User user, FinancialLedger financialLedger, BookingAttributeData attributeData){
         Booking booking = Booking.builder()
                 .id(UUID.randomUUID())
                 .user(user)

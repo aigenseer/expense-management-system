@@ -160,7 +160,7 @@ public class UserOperationService {
         if (!optionalUser.isPresent()) return Optional.empty();
         Optional<FinancialLedger> optionalFinancialLedger = findFinancialLedgerByUserId(id, financialLedgerId);
         if (!optionalFinancialLedger.isPresent()) return Optional.empty();
-        Optional<Booking> optionalBooking = bookingApplicationService.create(optionalUser.get(), optionalFinancialLedger.get(), attributeData);
+        Optional<Booking> optionalBooking = bookingApplicationService.createByAttributeData(optionalUser.get(), optionalFinancialLedger.get(), attributeData);
         if (!optionalBooking.isPresent()) return Optional.empty();
         User user = optionalUser.get();
         user.getCreatedBookings().add(optionalBooking.get());
