@@ -1,7 +1,10 @@
 package de.dhbw.cleanproject.application;
 
 import de.dhbw.cleanproject.application.financialledger.FinancialLedgerApplicationService;
+import de.dhbw.cleanproject.application.financialledger.FinancialLedgerAttributeData;
+import de.dhbw.cleanproject.application.user.UserAttributeData;
 import de.dhbw.cleanproject.domain.financialledger.FinancialLedger;
+import de.dhbw.cleanproject.domain.user.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +30,15 @@ public class FinancialLedgerApplicationServiceTest {
     private final FinancialLedger entity1 = FinancialLedger.builder()
             .id(UUID.fromString("12345678-1234-1234-a123-123456789011"))
             .name("Example-Financial-Ledger")
-        .build();
+            .build();
 
     private final FinancialLedger entity2 = FinancialLedger.builder()
             .id(UUID.fromString("12345678-1234-1234-a123-123456789012"))
             .name("Example-Financial-Ledger-2")
+            .build();
+
+    private final FinancialLedgerAttributeData attributeData = FinancialLedgerAttributeData.builder()
+            .name("Name")
             .build();
 
     @Test
@@ -50,24 +57,45 @@ public class FinancialLedgerApplicationServiceTest {
     }
 
     @Test
-    public void testFindAll(){
+    public void testFindAll() {
         List<FinancialLedger> resultList = applicationService.findAll();
         assertEquals(1, resultList.size());
-        Optional<FinancialLedger> result = resultList.stream().filter(user -> user.getId().equals( entity1.getId())).findFirst();
+        Optional<FinancialLedger> result = resultList.stream().filter(user -> user.getId().equals(entity1.getId())).findFirst();
         assertTrue(result.isPresent());
         checkEntity(entity1, result.get());
     }
 
     @Test
-    public void testFindById(){
+    public void testFindById() {
         Optional<FinancialLedger> result = applicationService.findById(entity1.getId());
         assertTrue(result.isPresent());
         checkEntity(entity1, result.get());
     }
 
-    private void checkEntity(FinancialLedger expectedEntity, FinancialLedger actualEntity){
+    private void checkEntity(FinancialLedger expectedEntity, FinancialLedger actualEntity) {
         assertEquals(expectedEntity.getId(), actualEntity.getId());
         assertEquals(expectedEntity.getName(), actualEntity.getName());
+    }
+
+    @Test
+    public void testCreateByAttributeData() {
+        Optional<FinancialLedger> optionalFinancialLedger = applicationService.createByAttributeData(attributeData);
+        assertTrue(optionalFinancialLedger.isPresent());
+        checkAttributeData(attributeData, optionalFinancialLedger.get());
+    }
+
+    @Test
+    public void testUpdateByAttributeData() {
+        Optional<FinancialLedger> optionalFinancialLedger = applicationService.updateByAttributeData(entity1, attributeData);
+        assertTrue(optionalFinancialLedger.isPresent());
+        checkAttributeData(attributeData, optionalFinancialLedger.get());
+        optionalFinancialLedger = applicationService.findById(entity1.getId());
+        assertTrue(optionalFinancialLedger.isPresent());
+        checkAttributeData(attributeData, optionalFinancialLedger.get());
+    }
+
+    private void checkAttributeData(FinancialLedgerAttributeData attributeData, FinancialLedger actualEntity) {
+        assertEquals(attributeData.getName(), actualEntity.getName());
     }
 
 }
