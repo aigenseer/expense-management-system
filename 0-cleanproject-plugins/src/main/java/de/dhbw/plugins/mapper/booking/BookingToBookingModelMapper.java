@@ -3,9 +3,11 @@ package de.dhbw.plugins.mapper.booking;
 import de.dhbw.cleanproject.adapter.booking.model.BookingModel;
 import de.dhbw.cleanproject.adapter.booking.model.BookingToBookingModelAdapterMapper;
 import de.dhbw.cleanproject.adapter.bookingcategory.preview.BookingCategoryPreviewModel;
+import de.dhbw.cleanproject.adapter.user.preview.UserPreview;
 import de.dhbw.cleanproject.adapter.user.preview.UserPreviewCollectionModel;
 import de.dhbw.cleanproject.domain.booking.Booking;
 import de.dhbw.plugins.mapper.bookingcategory.BookingCategoryToBookingCategoryPreviewMapper;
+import de.dhbw.plugins.mapper.user.UserToUserPreviewMapper;
 import de.dhbw.plugins.mapper.user.UsersToUserPreviewCollectionMapper;
 import de.dhbw.plugins.rest.booking.BookingController;
 import de.dhbw.plugins.rest.booking.users.BookingReferencedUsersController;
@@ -37,6 +39,7 @@ public class BookingToBookingModelMapper implements Function<BookingToBookingMod
     private final BookingToBookingModelAdapterMapper bookingToBookingModelAdapterMapper;
     private final UsersToUserPreviewCollectionMapper usersToUserPreviewCollectionMapper;
     private final BookingCategoryToBookingCategoryPreviewMapper bookingCategoryToBookingCategoryPreviewMapper;
+    private final UserToUserPreviewMapper userToUserPreviewMapper;
 
     @Override
     public BookingModel apply(final BookingToBookingModelMapper.Context context) {
@@ -47,6 +50,9 @@ public class BookingToBookingModelMapper implements Function<BookingToBookingMod
         UUID userId = context.getUserId();
         Booking booking = context.getBooking();
         BookingModel model = bookingToBookingModelAdapterMapper.apply(context.getBooking());
+
+        UserPreview creatorPreview = userToUserPreviewMapper.apply(booking.getUser());
+        model.setCreator(creatorPreview);
 
         UserPreviewCollectionModel referencedUserPreviewCollectionModel = usersToUserPreviewCollectionMapper.apply(booking.getReferencedUsers());
         Link selfLink = WebMvcLinkBuilder.linkTo(methodOn(BookingReferencedUsersController.class).listAll(userId, booking.getFinancialLedgerId(), booking.getId())).withSelfRel();

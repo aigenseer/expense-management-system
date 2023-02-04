@@ -13,6 +13,7 @@ import org.springframework.hateoas.RepresentationModel;
 @Getter
 public class BookingModel extends RepresentationModel<BookingModel>{
     private String title;
+    @Setter
     private UserPreview creator;
     private Double amount;
     private CurrencyType currencyType;
