@@ -3,7 +3,7 @@ package de.dhbw.plugins.rest.financialledgers;
 import de.dhbw.cleanproject.adapter.financialledger.data.FinancialLedgerData;
 import de.dhbw.cleanproject.adapter.financialledger.data.FinancialLedgerDataToFinancialLedgerMapper;
 import de.dhbw.cleanproject.adapter.financialledger.preview.FinancialLedgerPreviewCollectionModel;
-import de.dhbw.cleanproject.application.UserApplicationService;
+import de.dhbw.cleanproject.application.user.UserApplicationService;
 import de.dhbw.cleanproject.application.UserOperationService;
 import de.dhbw.cleanproject.domain.financialledger.FinancialLedger;
 import de.dhbw.cleanproject.domain.user.User;

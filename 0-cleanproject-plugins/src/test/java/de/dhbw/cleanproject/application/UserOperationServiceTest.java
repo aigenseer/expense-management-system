@@ -2,6 +2,7 @@ package de.dhbw.cleanproject.application;
 
 import de.dhbw.cleanproject.abstractioncode.valueobject.money.CurrencyType;
 import de.dhbw.cleanproject.abstractioncode.valueobject.money.Money;
+import de.dhbw.cleanproject.application.user.UserApplicationService;
 import de.dhbw.cleanproject.domain.booking.Booking;
 import de.dhbw.cleanproject.domain.bookingcategory.BookingCategory;
 import de.dhbw.cleanproject.domain.financialledger.FinancialLedger;
