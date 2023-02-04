@@ -53,7 +53,7 @@ public class BookingCategoriesController {
     @PostMapping
     public ResponseEntity<Void> create(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId, @Valid @RequestBody BookingCategoryData data) {
         BookingCategoryAttributeData attributeData = bookingCategoryDataToBookingCategoryAttributeDataAdapterMapper.apply(data);
-        Optional<BookingCategory> optionalBookingCategory = userOperationService.addBookingCategory(userId, financialLedgerId, attributeData);
+        Optional<BookingCategory> optionalBookingCategory = userOperationService.createBookingCategory(userId, financialLedgerId, attributeData);
         if (!optionalBookingCategory.isPresent()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         WebMvcLinkBuilder uriComponents = WebMvcLinkBuilder.linkTo(methodOn(BookingCategoryController.class).findOne(userId, financialLedgerId, optionalBookingCategory.get().getId()));
         return new ResponseEntity<>(WebMvcLinkBuilderUtils.createLocationHeader(uriComponents), HttpStatus.CREATED);

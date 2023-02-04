@@ -217,7 +217,7 @@ public class UserOperationServiceTest {
     @Test
     public void testAddBookingCategory() {
         BookingCategoryAttributeData attributeData = BookingCategoryAttributeData.builder().title("Example-Category-2").build();
-        Optional<BookingCategory> optionalBookingCategory = userOperationService.addBookingCategory(userId, financialLedgerId, attributeData);
+        Optional<BookingCategory> optionalBookingCategory = userOperationService.createBookingCategory(userId, financialLedgerId, attributeData);
         assertTrue(optionalBookingCategory.isPresent());
         assertEquals(attributeData.getTitle(), optionalBookingCategory.get().getTitle());
 

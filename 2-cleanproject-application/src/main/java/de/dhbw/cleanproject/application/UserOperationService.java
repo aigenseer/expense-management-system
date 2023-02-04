@@ -192,7 +192,7 @@ public class UserOperationService {
         return false;
     }
 
-    public Optional<BookingCategory> addBookingCategory(UUID id, UUID financialLedgerId, BookingCategoryAttributeData attributeData){
+    public Optional<BookingCategory> createBookingCategory(UUID id, UUID financialLedgerId, BookingCategoryAttributeData attributeData){
         Optional<FinancialLedger> optionalFinancialLedger = findFinancialLedgerByUserId(id, financialLedgerId);
         if (!optionalFinancialLedger.isPresent()) return Optional.empty();
         Optional<BookingCategory> optionalBookingCategory = bookingCategoryApplicationService.createByAttributeData(optionalFinancialLedger.get(), attributeData);
