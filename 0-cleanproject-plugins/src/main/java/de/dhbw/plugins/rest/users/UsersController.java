@@ -45,7 +45,7 @@ public class UsersController {
     @PostMapping("/")
     public ResponseEntity<Void> create(@Valid @RequestBody UserData userData) {
         UserAttributeData userAttributeData = userDataToUserMapper.apply(userData);
-        Optional<User> optionalUser = userApplicationService.create(userAttributeData);
+        Optional<User> optionalUser = userApplicationService.createByAttributeData(userAttributeData);
         if (!optionalUser.isPresent()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         WebMvcLinkBuilder uriComponents = WebMvcLinkBuilder.linkTo(methodOn(UserController.class).findOne(optionalUser.get().getId()));
         return new ResponseEntity<>(WebMvcLinkBuilderUtils.createLocationHeader(uriComponents), HttpStatus.CREATED);

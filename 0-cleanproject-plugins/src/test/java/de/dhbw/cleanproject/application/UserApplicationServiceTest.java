@@ -90,7 +90,7 @@ public class UserApplicationServiceTest {
 
     @Test
     public void testCreate(){
-        Optional<User> optionalUser = applicationService.create(userAttributeData);
+        Optional<User> optionalUser = applicationService.createByAttributeData(userAttributeData);
         assertTrue(optionalUser.isPresent());
         checkAttributeData(userAttributeData, optionalUser.get());
     }

@@ -35,7 +35,7 @@ public class UserApplicationService {
         return repository.findAllById(ids);
     }
 
-    public Optional<User> create(UserAttributeData userData){
+    public Optional<User> createByAttributeData(UserAttributeData userData){
         User user = User.builder().id(UUID.randomUUID()).build();
         return update(user, userData);
     }
