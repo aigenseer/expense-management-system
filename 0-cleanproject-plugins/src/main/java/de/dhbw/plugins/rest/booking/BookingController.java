@@ -3,7 +3,7 @@ package de.dhbw.plugins.rest.booking;
 import de.dhbw.cleanproject.adapter.booking.data.BookingUpdateData;
 import de.dhbw.cleanproject.adapter.booking.data.BookingUpdateDataToBookingMapper;
 import de.dhbw.cleanproject.adapter.booking.model.BookingModel;
-import de.dhbw.cleanproject.application.BookingApplicationService;
+import de.dhbw.cleanproject.application.booking.BookingApplicationService;
 import de.dhbw.cleanproject.application.UserOperationService;
 import de.dhbw.cleanproject.domain.booking.Booking;
 import de.dhbw.plugins.mapper.booking.BookingToBookingModelMapper;

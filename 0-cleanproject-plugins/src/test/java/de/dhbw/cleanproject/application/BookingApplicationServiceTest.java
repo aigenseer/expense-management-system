@@ -1,5 +1,6 @@
 package de.dhbw.cleanproject.application;
 
+import de.dhbw.cleanproject.application.booking.BookingApplicationService;
 import de.dhbw.cleanproject.domain.booking.Booking;
 import org.junit.Test;
 import org.junit.runner.RunWith;

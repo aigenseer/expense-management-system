@@ -1,4 +1,4 @@
-package de.dhbw.cleanproject.application;
+package de.dhbw.cleanproject.application.booking;
 
 import de.dhbw.cleanproject.domain.booking.Booking;
 import de.dhbw.cleanproject.domain.booking.BookingRepository;
