@@ -1,6 +1,7 @@
 package de.dhbw.cleanproject.application;
 
 import de.dhbw.cleanproject.application.bookingcategory.BookingCategoryApplicationService;
+import de.dhbw.cleanproject.application.bookingcategory.BookingCategoryAttributeData;
 import de.dhbw.cleanproject.application.financialledger.FinancialLedgerApplicationService;
 import de.dhbw.cleanproject.application.financialledger.FinancialLedgerAttributeData;
 import de.dhbw.cleanproject.application.user.UserApplicationService;
@@ -191,14 +192,18 @@ public class UserOperationService {
         return false;
     }
 
-    public Optional<BookingCategory> addBookingCategory(UUID id, UUID financialLedgerId, BookingCategory bookingCategory){
+    public Optional<BookingCategory> addBookingCategory(UUID id, UUID financialLedgerId, BookingCategoryAttributeData attributeData){
         Optional<FinancialLedger> optionalFinancialLedger = findFinancialLedgerByUserId(id, financialLedgerId);
         if (!optionalFinancialLedger.isPresent()) return Optional.empty();
-        bookingCategoryApplicationService.save(bookingCategory);
-        FinancialLedger financialLedger = optionalFinancialLedger.get();
-        financialLedger.getBookingCategories().add(bookingCategory);
-        financialLedgerApplicationService.save(financialLedger);
-        return Optional.of(bookingCategory);
+        Optional<BookingCategory> optionalBookingCategory = bookingCategoryApplicationService.createByAttributeData(attributeData);
+        if (optionalBookingCategory.isPresent()){
+            FinancialLedger financialLedger = optionalFinancialLedger.get();
+            financialLedger.getBookingCategories().add(optionalBookingCategory.get());
+            financialLedgerApplicationService.save(financialLedger);
+            return getBookingCategory(id, financialLedgerId, optionalBookingCategory.get().getId());
+        }
+        return Optional.empty();
+
     }
 
     public boolean referenceUserToBooking(UUID id, UUID financialLedgerId, UUID bookingId, UUID referenceUserId){

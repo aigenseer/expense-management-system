@@ -3,6 +3,7 @@ package de.dhbw.cleanproject.application;
 import de.dhbw.cleanproject.abstractioncode.valueobject.money.CurrencyType;
 import de.dhbw.cleanproject.abstractioncode.valueobject.money.Money;
 import de.dhbw.cleanproject.application.bookingcategory.BookingCategoryApplicationService;
+import de.dhbw.cleanproject.application.bookingcategory.BookingCategoryAttributeData;
 import de.dhbw.cleanproject.application.financialledger.FinancialLedgerApplicationService;
 import de.dhbw.cleanproject.application.financialledger.FinancialLedgerAttributeData;
 import de.dhbw.cleanproject.application.user.UserApplicationService;
@@ -215,20 +216,16 @@ public class UserOperationServiceTest {
 
     @Test
     public void testAddBookingCategory() {
-        BookingCategory entity = BookingCategory.builder()
-                .id(UUID.fromString("12345678-1234-1234-a123-123456789022"))
-                .title("Example-Category-2")
-                .financialLedger(financialLedger)
-                .build();
-        Optional<BookingCategory> optionalBookingCategory = userOperationService.addBookingCategory(userId, financialLedgerId, entity);
+        BookingCategoryAttributeData attributeData = BookingCategoryAttributeData.builder().title("Example-Category-2").build();
+        Optional<BookingCategory> optionalBookingCategory = userOperationService.addBookingCategory(userId, financialLedgerId, attributeData);
         assertTrue(optionalBookingCategory.isPresent());
-        assertEquals(entity.getId(), optionalBookingCategory.get().getId());
+        assertEquals(attributeData.getTitle(), optionalBookingCategory.get().getTitle());
 
         Optional<FinancialLedger> optionalFinancialLedger = financialLedgerApplicationService.findById(financialLedgerId);
         assertTrue(optionalFinancialLedger.isPresent());
-        optionalBookingCategory = optionalFinancialLedger.get().getBookingCategories().stream().filter(f -> f.getId().equals(entity.getId())).findFirst();
+        Optional<BookingCategory> optionalReferencedBookingCategory = optionalFinancialLedger.get().getBookingCategories().stream().filter(f -> f.getId().equals(optionalBookingCategory.get().getId())).findFirst();
         assertTrue(optionalBookingCategory.isPresent());
-        assertEquals(entity.getId(), optionalBookingCategory.get().getId());
+        assertEquals(optionalBookingCategory.get().getId(), optionalReferencedBookingCategory.get().getId());
     }
 
     @Test
