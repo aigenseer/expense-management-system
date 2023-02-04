@@ -3,12 +3,13 @@ package de.dhbw.plugins.rest.financialledger;
 import de.dhbw.cleanproject.adapter.booking.preview.BookingPreviewCollectionModel;
 import de.dhbw.cleanproject.adapter.bookingcategory.preview.BookingCategoryPreviewCollectionModel;
 import de.dhbw.cleanproject.adapter.financialledger.data.FinancialLedgerData;
-import de.dhbw.cleanproject.adapter.financialledger.data.FinancialLedgerUpdateDataToFinancialLedgerMapper;
+import de.dhbw.cleanproject.adapter.financialledger.data.FinancialLedgerDataToFinancialLedgerAttributeDataAdapterMapper;
 import de.dhbw.cleanproject.adapter.financialledger.model.FinancialLedgerModel;
 import de.dhbw.cleanproject.adapter.financialledger.model.FinancialLedgerToFinancialLedgerModelMapper;
 import de.dhbw.cleanproject.adapter.user.preview.UserPreviewCollectionModel;
-import de.dhbw.cleanproject.application.financialledger.FinancialLedgerApplicationService;
 import de.dhbw.cleanproject.application.UserOperationService;
+import de.dhbw.cleanproject.application.financialledger.FinancialLedgerApplicationService;
+import de.dhbw.cleanproject.application.financialledger.FinancialLedgerAttributeData;
 import de.dhbw.cleanproject.domain.financialledger.FinancialLedger;
 import de.dhbw.plugins.mapper.booking.BookingsToBookingPreviewCollectionMapper;
 import de.dhbw.plugins.mapper.bookingcategory.BookingCategoriesToBookingCategoryPreviewCollectionMapper;
@@ -16,11 +17,8 @@ import de.dhbw.plugins.mapper.user.UsersToUserPreviewCollectionMapper;
 import de.dhbw.plugins.rest.bookingcategories.BookingCategoriesController;
 import de.dhbw.plugins.rest.bookings.BookingsController;
 import de.dhbw.plugins.rest.financialledger.users.FinancialLedgerUsersController;
-import de.dhbw.plugins.rest.utils.WebMvcLinkBuilderUtils;
 import lombok.AllArgsConstructor;
-import org.javatuples.Pair;
 import org.springframework.hateoas.Link;
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +37,7 @@ public class FinancialLedgerController {
 
     private final UserOperationService userOperationService;
     private final FinancialLedgerApplicationService financialLedgerApplicationService;
-    private final FinancialLedgerUpdateDataToFinancialLedgerMapper updateDataMapper;
+    private final FinancialLedgerDataToFinancialLedgerAttributeDataAdapterMapper adapterMapper;
     private final FinancialLedgerToFinancialLedgerModelMapper modelMapper;
 
     private final UsersToUserPreviewCollectionMapper usersToUserPreviewCollectionMapper;
@@ -89,10 +87,10 @@ public class FinancialLedgerController {
     public ResponseEntity<Void> update(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId, @Valid @RequestBody FinancialLedgerData data) {
         Optional<FinancialLedger> optionalFinancialLedger = userOperationService.findFinancialLedgerByUserId(userId, financialLedgerId);
         if (!optionalFinancialLedger.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        FinancialLedger financialLedger = updateDataMapper.apply(Pair.with(optionalFinancialLedger.get(), data));
-        financialLedgerApplicationService.save(financialLedger);
-        WebMvcLinkBuilder uriComponents = linkTo(methodOn(FinancialLedgerController.class).findOne(userId, financialLedgerId));
-        return new ResponseEntity<>(WebMvcLinkBuilderUtils.createLocationHeader(uriComponents), HttpStatus.CREATED);
+        FinancialLedgerAttributeData financialLedgerAttributeData = adapterMapper.apply(data);
+        optionalFinancialLedger = financialLedgerApplicationService.updateByAttributeData(optionalFinancialLedger.get(), financialLedgerAttributeData);
+        if (!optionalFinancialLedger.isPresent()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping
