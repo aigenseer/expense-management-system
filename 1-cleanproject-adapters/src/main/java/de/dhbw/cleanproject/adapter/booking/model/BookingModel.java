@@ -6,6 +6,7 @@ import de.dhbw.cleanproject.adapter.user.preview.UserPreview;
 import de.dhbw.cleanproject.adapter.user.preview.UserPreviewCollectionModel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.hateoas.RepresentationModel;
 
 @Builder
@@ -15,6 +16,8 @@ public class BookingModel extends RepresentationModel<BookingModel>{
     private UserPreview creator;
     private Double amount;
     private CurrencyType currencyType;
+    @Setter
     private UserPreviewCollectionModel referencedUsers;
+    @Setter
     private BookingCategoryPreviewModel category;
 }
