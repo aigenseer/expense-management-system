@@ -96,9 +96,9 @@ public class UserOperationServiceTest {
     }
 
     @Test
-    public void testAddFinancialLedgerByUserId() {
+    public void testCreateFinancialLedgerByUserId() {
         FinancialLedgerAttributeData attributeData = FinancialLedgerAttributeData.builder().name("Example-Financial-Ledger-3").build();
-        Optional<FinancialLedger> optionalFinancialLedger = userOperationService.addFinancialLedgerByUserId(userId, attributeData);
+        Optional<FinancialLedger> optionalFinancialLedger = userOperationService.createFinancialLedgerByUserId(userId, attributeData);
         assertTrue(optionalFinancialLedger.isPresent());
         assertEquals(attributeData.getName(), optionalFinancialLedger.get().getName());
 

@@ -87,7 +87,7 @@ public class UserOperationService {
         return false;
     }
 
-    public Optional<FinancialLedger> addFinancialLedgerByUserId(UUID id, FinancialLedgerAttributeData financialLedgerAttributeData){
+    public Optional<FinancialLedger> createFinancialLedgerByUserId(UUID id, FinancialLedgerAttributeData financialLedgerAttributeData){
         Optional<User> userOptional = userApplicationService.findById(id);
         if (userOptional.isPresent()){
             Optional<FinancialLedger> optionalFinancialLedger = financialLedgerApplicationService.createByAttributeData(financialLedgerAttributeData);

@@ -56,7 +56,7 @@ public class FinancialLedgersController {
     @PostMapping
     public ResponseEntity<Void> create(@PathVariable("userId") UUID userId, @Valid @RequestBody FinancialLedgerData data) {
         FinancialLedgerAttributeData financialLedgerAttributeData = dataAdapterMapper.apply(data);
-        Optional<FinancialLedger> optionalFinancialLedger = userOperationService.addFinancialLedgerByUserId(userId, financialLedgerAttributeData);
+        Optional<FinancialLedger> optionalFinancialLedger = userOperationService.createFinancialLedgerByUserId(userId, financialLedgerAttributeData);
         if (!optionalFinancialLedger.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         FinancialLedger financialLedger = optionalFinancialLedger.get();
         WebMvcLinkBuilder uriComponents = WebMvcLinkBuilder.linkTo(methodOn(FinancialLedgerController.class).findOne(userId, financialLedger.getId()));
