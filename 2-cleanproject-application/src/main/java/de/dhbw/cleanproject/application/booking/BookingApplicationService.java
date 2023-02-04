@@ -41,10 +41,10 @@ public class BookingApplicationService {
                 .creationDate(LocalDate.now())
                 .financialLedgerId(financialLedger.getId())
                 .build();
-        return update(booking, attributeData);
+        return updateByAttributeData(booking, attributeData);
     }
 
-    public Optional<Booking> update(Booking booking, BookingAttributeData attributeData){
+    public Optional<Booking> updateByAttributeData(Booking booking, BookingAttributeData attributeData){
         if (attributeData.getTitle() != null){
             booking.setTitle(attributeData.getTitle());
         }
