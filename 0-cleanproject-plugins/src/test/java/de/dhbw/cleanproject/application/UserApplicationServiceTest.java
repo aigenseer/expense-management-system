@@ -3,6 +3,7 @@ package de.dhbw.cleanproject.application;
 import de.dhbw.cleanproject.abstractioncode.valueobject.email.Email;
 import de.dhbw.cleanproject.abstractioncode.valueobject.phonennumber.InternationalPhoneCode;
 import de.dhbw.cleanproject.abstractioncode.valueobject.phonennumber.PhoneNumber;
+import de.dhbw.cleanproject.application.user.UserApplicationService;
 import de.dhbw.cleanproject.domain.user.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
