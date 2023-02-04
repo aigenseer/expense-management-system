@@ -1,7 +1,7 @@
 package de.dhbw.plugins.mapper.bookingcategory;
 
 import de.dhbw.cleanproject.adapter.bookingcategory.preview.BookingCategoryPreviewModel;
-import de.dhbw.cleanproject.adapter.bookingcategory.preview.BookingCategoryToBookingCategoryPreviewModelMapper;
+import de.dhbw.cleanproject.adapter.bookingcategory.preview.BookingCategoryToBookingCategoryPreviewModelAdapterMapper;
 import de.dhbw.cleanproject.domain.bookingcategory.BookingCategory;
 import de.dhbw.plugins.rest.bookingcategory.BookingCategoryController;
 import lombok.Builder;
@@ -29,7 +29,7 @@ public class BookingCategoryToBookingCategoryPreviewMapper implements Function<B
         private final BookingCategory bookingCategory;
     }
 
-    private final BookingCategoryToBookingCategoryPreviewModelMapper previewModelMapper;
+    private final BookingCategoryToBookingCategoryPreviewModelAdapterMapper previewModelMapper;
 
     @Override
     public BookingCategoryPreviewModel apply(final BookingCategoryToBookingCategoryPreviewMapper.Context context) {
