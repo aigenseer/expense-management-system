@@ -2,14 +2,14 @@ package de.dhbw.cleanproject.adapter.user.updatedata;
 
 import de.dhbw.cleanproject.abstractioncode.valueobject.phonennumber.InternationalPhoneCode;
 import de.dhbw.cleanproject.adapter.config.customvalidatior.ValueOfEnum;
-import de.dhbw.cleanproject.adapter.user.userdata.IUserData;
+import de.dhbw.cleanproject.adapter.user.userdata.IUserUnsafeData;
 import lombok.Data;
 
 import javax.validation.constraints.*;
 
 
 @Data
-public class UserUpdateData implements IUserData {
+public class UserUpdateData implements IUserUnsafeData {
 
     @Size(min = 2, max = 100, message = "The length of full name must be between 2 and 100 characters.")
     private String name;
