@@ -1,6 +1,6 @@
 package de.dhbw.cleanproject.adapter.user.userdata;
 
-public interface IUserData {
+public interface IUserUnsafeData {
     String getName();
     String getEmail();
     Integer getPhoneNumber();
