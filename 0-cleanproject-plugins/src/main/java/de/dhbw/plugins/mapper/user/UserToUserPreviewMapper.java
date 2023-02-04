@@ -1,7 +1,7 @@
 package de.dhbw.plugins.mapper.user;
 
 import de.dhbw.cleanproject.adapter.user.preview.UserPreview;
-import de.dhbw.cleanproject.adapter.user.preview.UserToUserPreviewModelMapper;
+import de.dhbw.cleanproject.adapter.user.preview.UserToUserPreviewModelAdapterMapper;
 import de.dhbw.cleanproject.domain.user.User;
 import de.dhbw.plugins.rest.user.UserController;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RequiredArgsConstructor
 public class UserToUserPreviewMapper implements Function<User, UserPreview> {
 
-    private final UserToUserPreviewModelMapper userToUserPreviewModelMapper;
+    private final UserToUserPreviewModelAdapterMapper userToUserPreviewModelAdapterMapper;
 
     @Override
     public UserPreview apply(final User user) {
@@ -25,7 +25,7 @@ public class UserToUserPreviewMapper implements Function<User, UserPreview> {
     }
 
     private UserPreview map(final User user) {
-        UserPreview userPreview = userToUserPreviewModelMapper.apply(user);
+        UserPreview userPreview = userToUserPreviewModelAdapterMapper.apply(user);
         Link selfLink = WebMvcLinkBuilder.linkTo(methodOn(UserController.class).findOne(user.getId())).withSelfRel();
         userPreview.add(selfLink);
         return userPreview;

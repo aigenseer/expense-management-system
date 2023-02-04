@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import java.util.function.Function;
 
 @Component
-public class UserToUserPreviewModelMapper implements Function<User, UserPreview> {
+public class UserToUserPreviewModelAdapterMapper implements Function<User, UserPreview> {
 
     @Override
     public UserPreview apply(final User user) {
