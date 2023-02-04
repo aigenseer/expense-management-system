@@ -105,6 +105,16 @@ public class UserApplicationServiceTest {
         checkAttributeData(userAttributeData, optionalUser.get());
     }
 
+    @Test
+    public void testUpdateByEntity(){
+        Optional<User> optionalUser = applicationService.update(entity1, userAttributeData);
+        assertTrue(optionalUser.isPresent());
+        checkAttributeData(userAttributeData, optionalUser.get());
+        optionalUser = applicationService.findById(entity1.getId());
+        assertTrue(optionalUser.isPresent());
+        checkAttributeData(userAttributeData, optionalUser.get());
+    }
+
     private void checkAttributeData(UserAttributeData attributeData, User actualEntity){
         assertEquals(attributeData.getEmail(), actualEntity.getEmail());
         assertEquals(attributeData.getName(), actualEntity.getName());
