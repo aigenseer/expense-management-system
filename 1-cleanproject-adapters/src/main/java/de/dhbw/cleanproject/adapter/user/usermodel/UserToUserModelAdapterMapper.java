@@ -1,6 +1,5 @@
 package de.dhbw.cleanproject.adapter.user.usermodel;
 
-import de.dhbw.cleanproject.adapter.financialledger.preview.FinancialLedgerToFinancialLedgerPreviewModelMapper;
 import de.dhbw.cleanproject.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -10,8 +9,6 @@ import java.util.function.Function;
 @Component
 @RequiredArgsConstructor
 public class UserToUserModelAdapterMapper implements Function<User, UserModel> {
-
-    private final FinancialLedgerToFinancialLedgerPreviewModelMapper financialLedgerToFinancialLedgerPreviewModelMapper;
 
     @Override
     public UserModel apply(final User user) {
