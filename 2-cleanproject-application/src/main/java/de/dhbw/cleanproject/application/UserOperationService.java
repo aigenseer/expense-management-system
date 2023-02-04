@@ -1,6 +1,7 @@
 package de.dhbw.cleanproject.application;
 
 import de.dhbw.cleanproject.application.financialledger.FinancialLedgerApplicationService;
+import de.dhbw.cleanproject.application.financialledger.FinancialLedgerAttributeData;
 import de.dhbw.cleanproject.application.user.UserApplicationService;
 import de.dhbw.cleanproject.domain.booking.Booking;
 import de.dhbw.cleanproject.domain.bookingcategory.BookingCategory;
@@ -86,14 +87,16 @@ public class UserOperationService {
         return false;
     }
 
-    public Optional<FinancialLedger> addFinancialLedgerByUserId(UUID id, FinancialLedger financialLedger){
+    public Optional<FinancialLedger> addFinancialLedgerByUserId(UUID id, FinancialLedgerAttributeData financialLedgerAttributeData){
         Optional<User> userOptional = userApplicationService.findById(id);
         if (userOptional.isPresent()){
-            financialLedger = financialLedgerApplicationService.save(financialLedger);
-            User user = userOptional.get();
-            user.getFinancialLedgers().add(financialLedger);
-            userApplicationService.save(user);
-            return findFinancialLedgerByUserId(id, financialLedger.getId());
+            Optional<FinancialLedger> optionalFinancialLedger = financialLedgerApplicationService.createByAttributeData(financialLedgerAttributeData);
+            if (optionalFinancialLedger.isPresent()){
+                User user = userOptional.get();
+                user.getFinancialLedgers().add(optionalFinancialLedger.get());
+                userApplicationService.save(user);
+                return findFinancialLedgerByUserId(id, optionalFinancialLedger.get().getId());
+            }
         }
         return Optional.empty();
     }

@@ -3,6 +3,7 @@ package de.dhbw.cleanproject.application;
 import de.dhbw.cleanproject.abstractioncode.valueobject.money.CurrencyType;
 import de.dhbw.cleanproject.abstractioncode.valueobject.money.Money;
 import de.dhbw.cleanproject.application.financialledger.FinancialLedgerApplicationService;
+import de.dhbw.cleanproject.application.financialledger.FinancialLedgerAttributeData;
 import de.dhbw.cleanproject.application.user.UserApplicationService;
 import de.dhbw.cleanproject.domain.booking.Booking;
 import de.dhbw.cleanproject.domain.bookingcategory.BookingCategory;
@@ -96,19 +97,16 @@ public class UserOperationServiceTest {
 
     @Test
     public void testAddFinancialLedgerByUserId() {
-        FinancialLedger entity = FinancialLedger.builder()
-                .id(UUID.fromString("12345678-1234-1234-a123-123456789011"))
-                .name("Example-Financial-Ledger-3")
-                .build();
-        Optional<FinancialLedger> optionalFinancialLedger = userOperationService.addFinancialLedgerByUserId(userId, entity);
+        FinancialLedgerAttributeData attributeData = FinancialLedgerAttributeData.builder().name("Example-Financial-Ledger-3").build();
+        Optional<FinancialLedger> optionalFinancialLedger = userOperationService.addFinancialLedgerByUserId(userId, attributeData);
         assertTrue(optionalFinancialLedger.isPresent());
-        assertEquals(entity.getId(), optionalFinancialLedger.get().getId());
+        assertEquals(attributeData.getName(), optionalFinancialLedger.get().getName());
 
         Optional<User> optionalUser = userApplicationService.findById(userId);
         assertTrue(optionalUser.isPresent());
-        optionalFinancialLedger = optionalUser.get().getFinancialLedgers().stream().filter(f -> f.getId().equals(entity.getId())).findFirst();
-        assertTrue(optionalFinancialLedger.isPresent());
-        assertEquals(entity.getId(), optionalFinancialLedger.get().getId());
+        Optional<FinancialLedger> optionalFoundFinancialLedger = optionalUser.get().getFinancialLedgers().stream().filter(f -> f.getId().equals(optionalFinancialLedger.get().getId())).findFirst();
+        assertTrue(optionalFoundFinancialLedger.isPresent());
+        assertEquals(optionalFinancialLedger.get().getId(), optionalFoundFinancialLedger.get().getId());
     }
 
     @Test
