@@ -49,8 +49,8 @@ public class BookingApplicationService {
         if (attributeData.getMoney() != null){
             booking.setMoney(attributeData.getMoney());
         }
-        if (attributeData.getFinancialLedgerId() != null){
-            booking.setFinancialLedgerId(attributeData.getFinancialLedgerId());
+        if (attributeData.getBookingCategory() != null){
+            booking.setCategory(attributeData.getBookingCategory());
         }
         return Optional.of(save(booking));
     }
