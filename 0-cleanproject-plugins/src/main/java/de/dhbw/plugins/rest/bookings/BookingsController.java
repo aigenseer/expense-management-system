@@ -3,13 +3,12 @@ package de.dhbw.plugins.rest.bookings;
 import de.dhbw.cleanproject.adapter.booking.data.BookingData;
 import de.dhbw.cleanproject.adapter.booking.data.BookingDataToBookingMapper;
 import de.dhbw.cleanproject.adapter.booking.preview.BookingPreviewCollectionModel;
-import de.dhbw.cleanproject.adapter.booking.preview.BookingPreviewModel;
-import de.dhbw.cleanproject.adapter.booking.preview.BookingToBookingPreviewModelMapper;
 import de.dhbw.cleanproject.application.UserApplicationService;
 import de.dhbw.cleanproject.application.UserOperationService;
 import de.dhbw.cleanproject.domain.booking.Booking;
 import de.dhbw.cleanproject.domain.financialledger.FinancialLedger;
 import de.dhbw.cleanproject.domain.user.User;
+import de.dhbw.plugins.mapper.booking.BookingsToBookingPreviewCollectionMapper;
 import de.dhbw.plugins.rest.booking.BookingController;
 import de.dhbw.plugins.rest.utils.WebMvcLinkBuilderUtils;
 import lombok.RequiredArgsConstructor;
@@ -21,10 +20,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
@@ -35,8 +32,8 @@ public class BookingsController {
 
     private final UserApplicationService userApplicationService;
     private final UserOperationService userOperationService;
-    private final BookingToBookingPreviewModelMapper previewModelMapper;
     private final BookingDataToBookingMapper bookingDataToBookingMapper;
+    private final BookingsToBookingPreviewCollectionMapper bookingsToBookingPreviewCollectionMapper;
 
     @GetMapping
     public ResponseEntity<BookingPreviewCollectionModel> listAll(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId) {
@@ -44,16 +41,11 @@ public class BookingsController {
         if (!optionalFinancialLedger.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         FinancialLedger financialLedger = optionalFinancialLedger.get();
 
-        List<BookingPreviewModel> previewModels = financialLedger.getBookings().stream()
-                .map(booking -> {
-                    BookingPreviewModel preview = previewModelMapper.apply(booking);
-                    Link selfLink = WebMvcLinkBuilder.linkTo(methodOn(BookingController.class).findOne(userId, financialLedgerId, booking.getId())).withSelfRel();
-                    preview.add(selfLink);
-                    return preview;
-                })
-                .collect(Collectors.toList());
-
-        BookingPreviewCollectionModel previewCollectionModel = new BookingPreviewCollectionModel(previewModels);
+        BookingPreviewCollectionModel previewCollectionModel = bookingsToBookingPreviewCollectionMapper.apply(BookingsToBookingPreviewCollectionMapper
+                .Context.builder()
+                        .userId(userId)
+                        .bookings(financialLedger.getBookings())
+                .build());
 
         Link selfLink = linkTo(methodOn(this.getClass()).listAll(userId, financialLedgerId)).withSelfRel()
                 .andAffordance(afford(methodOn(this.getClass()).create(userId, financialLedgerId, null)));

@@ -2,12 +2,11 @@ package de.dhbw.plugins.rest.user;
 
 import de.dhbw.cleanproject.adapter.user.updatedata.UserUpdateData;
 import de.dhbw.cleanproject.adapter.user.updatedata.UserUpdateDataToUserMapper;
-import de.dhbw.cleanproject.adapter.user.userdata.UserDataToUserMapper;
 import de.dhbw.cleanproject.adapter.user.usermodel.UserModel;
-import de.dhbw.cleanproject.adapter.user.usermodel.UserToUserModelMapper;
 import de.dhbw.cleanproject.application.UserApplicationService;
 import de.dhbw.cleanproject.application.UserOperationService;
 import de.dhbw.cleanproject.domain.user.User;
+import de.dhbw.plugins.mapper.user.UserToUserModelMapper;
 import de.dhbw.plugins.rest.utils.WebMvcLinkBuilderUtils;
 import lombok.AllArgsConstructor;
 import org.javatuples.Pair;
@@ -30,10 +29,10 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 public class UserController {
 
     private final UserApplicationService userApplicationService;
-    private final UserToUserModelMapper userToUserModelMapper;
-    private final UserDataToUserMapper userDataToUserMapper;
+
     private final UserUpdateDataToUserMapper userUpdateDataToUserMapper;
     private final UserOperationService userOperationService;
+    private final UserToUserModelMapper userToUserModelMapper;
 
     @GetMapping("/")
     public ResponseEntity<UserModel> findOne(@PathVariable("userId") UUID id) {

@@ -1,13 +1,11 @@
 package de.dhbw.plugins.rest.booking.users;
 
-import de.dhbw.cleanproject.adapter.user.preview.UserPreview;
 import de.dhbw.cleanproject.adapter.user.preview.UserPreviewCollectionModel;
-import de.dhbw.cleanproject.adapter.user.preview.UserToUserPreviewModelMapper;
 import de.dhbw.cleanproject.adapter.user.userdata.AppendUserData;
 import de.dhbw.cleanproject.application.UserOperationService;
 import de.dhbw.cleanproject.domain.booking.Booking;
+import de.dhbw.plugins.mapper.user.UsersToUserPreviewCollectionMapper;
 import de.dhbw.plugins.rest.booking.user.BookingReferencedUserController;
-import de.dhbw.plugins.rest.financialledger.user.FinancialLedgerUserController;
 import de.dhbw.plugins.rest.utils.WebMvcLinkBuilderUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.Link;
@@ -17,10 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
@@ -30,7 +26,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 public class BookingReferencedUsersController {
 
     private final UserOperationService userOperationService;
-    private final UserToUserPreviewModelMapper previewModelMapper;
+    private final UsersToUserPreviewCollectionMapper usersToUserPreviewCollectionMapper;
 
     @GetMapping
     public ResponseEntity<UserPreviewCollectionModel> listAll(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId, @PathVariable("bookingId") UUID bookingId) {
@@ -38,13 +34,12 @@ public class BookingReferencedUsersController {
         if (!optionalBooking.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         Booking booking = optionalBooking.get();
 
-        List<UserPreview> userPreviewModels = booking.getReferencedUsers().stream().map(user -> {
-            UserPreview preview = previewModelMapper.apply(user);
-            Link selfLink = linkTo(methodOn(BookingReferencedUserController.class).findOne(userId, financialLedgerId, bookingId, user.getId())).withSelfRel();
-            preview.add(selfLink);
-            return preview;
-        }).collect(Collectors.toList());
-        UserPreviewCollectionModel previewCollectionModel = new UserPreviewCollectionModel(userPreviewModels);
+        UserPreviewCollectionModel previewCollectionModel = usersToUserPreviewCollectionMapper.apply(booking.getReferencedUsers());
+        previewCollectionModel.getContent().forEach(userPreview -> {
+            Link selfLink = linkTo(methodOn(BookingReferencedUserController.class).findOne(userId, financialLedgerId, bookingId, userPreview.getId())).withSelfRel();
+            userPreview.removeLinks();
+            userPreview.add(selfLink);
+        });
 
         Link selfLink = linkTo(methodOn(getClass()).listAll(userId, financialLedgerId, bookingId)).withSelfRel()
                 .andAffordance(afford(methodOn(getClass()).create(userId, financialLedgerId, bookingId, null)));

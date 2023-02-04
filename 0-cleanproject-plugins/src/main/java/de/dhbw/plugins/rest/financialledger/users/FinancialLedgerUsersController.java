@@ -1,11 +1,10 @@
 package de.dhbw.plugins.rest.financialledger.users;
 
-import de.dhbw.cleanproject.adapter.user.userdata.AppendUserData;
-import de.dhbw.cleanproject.adapter.user.preview.UserPreview;
 import de.dhbw.cleanproject.adapter.user.preview.UserPreviewCollectionModel;
-import de.dhbw.cleanproject.adapter.user.preview.UserToUserPreviewModelMapper;
+import de.dhbw.cleanproject.adapter.user.userdata.AppendUserData;
 import de.dhbw.cleanproject.application.UserOperationService;
 import de.dhbw.cleanproject.domain.financialledger.FinancialLedger;
+import de.dhbw.plugins.mapper.user.UsersToUserPreviewCollectionMapper;
 import de.dhbw.plugins.rest.financialledger.user.FinancialLedgerUserController;
 import de.dhbw.plugins.rest.utils.WebMvcLinkBuilderUtils;
 import lombok.RequiredArgsConstructor;
@@ -16,10 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
@@ -29,7 +26,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 public class FinancialLedgerUsersController {
 
     private final UserOperationService userOperationService;
-    private final UserToUserPreviewModelMapper userToUserPreviewModelMapper;
+    private final UsersToUserPreviewCollectionMapper usersToUserPreviewCollectionMapper;
 
     @GetMapping
     public ResponseEntity<UserPreviewCollectionModel> listAll(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId) {
@@ -37,13 +34,12 @@ public class FinancialLedgerUsersController {
         if (!optionalFinancialLedger.isPresent()) new ResponseEntity<>(HttpStatus.FORBIDDEN);
         FinancialLedger financialLedger = optionalFinancialLedger.get();
 
-        List<UserPreview> userPreviewModels = financialLedger.getAuthorizedUser().stream().map(user -> {
-            UserPreview preview = userToUserPreviewModelMapper.apply(user);
-            Link selfLink = linkTo(methodOn(FinancialLedgerUserController.class).findOne(user.getId(), financialLedgerId)).withSelfRel();
-            preview.add(selfLink);
-            return preview;
-        }).collect(Collectors.toList());
-        UserPreviewCollectionModel previewCollectionModel = new UserPreviewCollectionModel(userPreviewModels);
+        UserPreviewCollectionModel previewCollectionModel = usersToUserPreviewCollectionMapper.apply(financialLedger.getAuthorizedUser());
+        previewCollectionModel.getContent().forEach(userPreview -> {
+            Link selfLink = linkTo(methodOn(FinancialLedgerUserController.class).findOne(financialLedgerId, userPreview.getId())).withSelfRel();
+            userPreview.removeLinks();
+            userPreview.add(selfLink);
+        });
 
         Link selfLink = linkTo(methodOn(this.getClass()).listAll(userId, financialLedgerId)).withSelfRel()
                 .andAffordance(afford(methodOn(this.getClass()).create(userId, financialLedgerId, null)));

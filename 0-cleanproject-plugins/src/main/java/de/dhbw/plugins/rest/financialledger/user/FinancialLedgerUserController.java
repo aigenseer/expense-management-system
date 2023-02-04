@@ -1,10 +1,10 @@
 package de.dhbw.plugins.rest.financialledger.user;
 
 import de.dhbw.cleanproject.adapter.user.preview.UserPreview;
-import de.dhbw.cleanproject.adapter.user.preview.UserToUserPreviewModelMapper;
 import de.dhbw.cleanproject.application.UserApplicationService;
 import de.dhbw.cleanproject.application.UserOperationService;
 import de.dhbw.cleanproject.domain.user.User;
+import de.dhbw.plugins.mapper.user.UserToUserPreviewMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
@@ -24,15 +24,15 @@ public class FinancialLedgerUserController {
 
     private final UserApplicationService userApplicationService;
     private final UserOperationService userOperationService;
-    private final UserToUserPreviewModelMapper userToUserPreviewModelMapper;
+    private final UserToUserPreviewMapper userToUserPreviewMapper;
 
     @GetMapping
     public ResponseEntity<UserPreview> findOne(@PathVariable("financialLedgerId") UUID financialLedgerId, @PathVariable("financialLedgerUserId") UUID financialLedgerUserId) {
         Optional<User> optionalUser = userApplicationService.findById(financialLedgerUserId);
         if (!optionalUser.isPresent() || !userOperationService.hasUserPermissionToFinancialLedger(financialLedgerUserId, financialLedgerId))
-            new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        User user = optionalUser.get();
-        UserPreview userPreview = userToUserPreviewModelMapper.apply(user);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        UserPreview userPreview = userToUserPreviewMapper.apply(optionalUser.get());
+        userPreview.removeLinks();
 
         Link selfLink = linkTo(methodOn(this.getClass()).findOne(financialLedgerId, financialLedgerUserId)).withSelfRel()
                 .andAffordance(afford(methodOn(this.getClass()).delete(financialLedgerId, financialLedgerUserId)));

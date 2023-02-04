@@ -1,10 +1,10 @@
 package de.dhbw.plugins.rest.booking.user;
 
 import de.dhbw.cleanproject.adapter.user.preview.UserPreview;
-import de.dhbw.cleanproject.adapter.user.preview.UserToUserPreviewModelMapper;
 import de.dhbw.cleanproject.application.UserOperationService;
 import de.dhbw.cleanproject.domain.booking.Booking;
 import de.dhbw.cleanproject.domain.user.User;
+import de.dhbw.plugins.mapper.user.UserToUserPreviewMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
@@ -22,8 +22,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 public class BookingReferencedUserController {
 
     private final UserOperationService userOperationService;
-    private final UserToUserPreviewModelMapper userToUserPreviewModelMapper;
-
+    private final UserToUserPreviewMapper userToUserPreviewMapper;
 
     @GetMapping
     public ResponseEntity<UserPreview> findOne(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId, @PathVariable("bookingId") UUID bookingId, @PathVariable("referencedUserId") UUID referencedUserId) {
@@ -33,7 +32,9 @@ public class BookingReferencedUserController {
         Optional<User> optionalReferencedUser = booking.getReferencedUsers().stream().filter(user -> user.getId().equals(referencedUserId)).findFirst();
         if (!optionalReferencedUser.isPresent()) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         User referencedUser = optionalReferencedUser.get();
-        UserPreview model = userToUserPreviewModelMapper.apply(referencedUser);
+
+        UserPreview model = userToUserPreviewMapper.apply(referencedUser);
+        model.removeLinks();
 
         Link selfLink = linkTo(methodOn(getClass()).findOne(userId, financialLedgerId, bookingId, referencedUserId)).withSelfRel()
                 .andAffordance(afford(methodOn(getClass()).delete(userId, financialLedgerId, bookingId, referencedUserId)));

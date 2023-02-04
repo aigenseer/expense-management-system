@@ -1,22 +1,18 @@
 package de.dhbw.plugins.rest.financialledger;
 
 import de.dhbw.cleanproject.adapter.booking.preview.BookingPreviewCollectionModel;
-import de.dhbw.cleanproject.adapter.booking.preview.BookingPreviewModel;
-import de.dhbw.cleanproject.adapter.booking.preview.BookingToBookingPreviewModelMapper;
 import de.dhbw.cleanproject.adapter.bookingcategory.preview.BookingCategoryPreviewCollectionModel;
-import de.dhbw.cleanproject.adapter.bookingcategory.preview.BookingCategoryPreviewModel;
-import de.dhbw.cleanproject.adapter.bookingcategory.preview.BookingCategoryToBookingCategoryPreviewModelMapper;
 import de.dhbw.cleanproject.adapter.financialledger.data.FinancialLedgerData;
 import de.dhbw.cleanproject.adapter.financialledger.data.FinancialLedgerUpdateDataToFinancialLedgerMapper;
 import de.dhbw.cleanproject.adapter.financialledger.model.FinancialLedgerModel;
 import de.dhbw.cleanproject.adapter.financialledger.model.FinancialLedgerToFinancialLedgerModelMapper;
-import de.dhbw.cleanproject.adapter.financialledger.preview.FinancialLedgerToFinancialLedgerPreviewModelMapper;
-import de.dhbw.cleanproject.adapter.user.preview.UserPreview;
 import de.dhbw.cleanproject.adapter.user.preview.UserPreviewCollectionModel;
-import de.dhbw.cleanproject.adapter.user.preview.UserToUserPreviewModelMapper;
 import de.dhbw.cleanproject.application.FinancialLedgerApplicationService;
 import de.dhbw.cleanproject.application.UserOperationService;
 import de.dhbw.cleanproject.domain.financialledger.FinancialLedger;
+import de.dhbw.plugins.mapper.booking.BookingsToBookingPreviewCollectionMapper;
+import de.dhbw.plugins.mapper.bookingcategory.BookingCategoriesToBookingCategoryPreviewCollectionMapper;
+import de.dhbw.plugins.mapper.user.UsersToUserPreviewCollectionMapper;
 import de.dhbw.plugins.rest.bookingcategories.BookingCategoriesController;
 import de.dhbw.plugins.rest.bookings.BookingsController;
 import de.dhbw.plugins.rest.financialledger.users.FinancialLedgerUsersController;
@@ -30,10 +26,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
@@ -45,12 +39,12 @@ public class FinancialLedgerController {
 
     private final UserOperationService userOperationService;
     private final FinancialLedgerApplicationService financialLedgerApplicationService;
-    private final FinancialLedgerToFinancialLedgerPreviewModelMapper previewModelMapper;
     private final FinancialLedgerUpdateDataToFinancialLedgerMapper updateDataMapper;
     private final FinancialLedgerToFinancialLedgerModelMapper modelMapper;
-    private final UserToUserPreviewModelMapper userToUserPreviewModelMapper;
-    private final BookingCategoryToBookingCategoryPreviewModelMapper bookingCategoryToBookingCategoryPreviewModelMapper;
-    private final BookingToBookingPreviewModelMapper bookingToBookingPreviewModelMapper;
+
+    private final UsersToUserPreviewCollectionMapper usersToUserPreviewCollectionMapper;
+    private final BookingCategoriesToBookingCategoryPreviewCollectionMapper bookingCategoriesToBookingCategoryPreviewCollectionMapper;
+    private final BookingsToBookingPreviewCollectionMapper bookingsToBookingPreviewCollectionMapper;
 
     @GetMapping
     public ResponseEntity<FinancialLedgerModel> findOne(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId) {
@@ -59,24 +53,23 @@ public class FinancialLedgerController {
         FinancialLedger financialLedger = optionalFinancialLedger.get();
         FinancialLedgerModel model = modelMapper.apply(financialLedger);
 
-        List<UserPreview> userPreviewModels = financialLedger.getAuthorizedUser().stream()
-                .map(userToUserPreviewModelMapper)
-                .collect(Collectors.toList());
-        UserPreviewCollectionModel userPreviewCollectionModel = new UserPreviewCollectionModel(userPreviewModels);
+        UserPreviewCollectionModel userPreviewCollectionModel = usersToUserPreviewCollectionMapper.apply(financialLedger.getAuthorizedUser());
         Link selfLink = linkTo(methodOn(FinancialLedgerUsersController.class).listAll(userId, financialLedgerId)).withSelfRel();
         userPreviewCollectionModel.add(selfLink);
 
-        List<BookingCategoryPreviewModel> bookingCategoryPreviewModels = financialLedger.getBookingCategories().stream()
-                .map(bookingCategoryToBookingCategoryPreviewModelMapper)
-                .collect(Collectors.toList());
-        BookingCategoryPreviewCollectionModel bookingCategoryPreviewCollectionModel = new BookingCategoryPreviewCollectionModel(bookingCategoryPreviewModels);
+        BookingCategoryPreviewCollectionModel bookingCategoryPreviewCollectionModel = bookingCategoriesToBookingCategoryPreviewCollectionMapper
+                .apply(BookingCategoriesToBookingCategoryPreviewCollectionMapper.Context.builder()
+                        .userId(userId)
+                        .bookingCategories(financialLedger.getBookingCategories())
+                        .build());
         selfLink = linkTo(methodOn(BookingCategoriesController.class).listAll(userId, financialLedgerId)).withSelfRel();
         bookingCategoryPreviewCollectionModel.add(selfLink);
 
-        List<BookingPreviewModel> bookingPreviewModels = financialLedger.getBookings().stream()
-                .map(bookingToBookingPreviewModelMapper)
-                .collect(Collectors.toList());
-        BookingPreviewCollectionModel bookingPreviewCollectionModel = new BookingPreviewCollectionModel(bookingPreviewModels);
+        BookingPreviewCollectionModel bookingPreviewCollectionModel = bookingsToBookingPreviewCollectionMapper.apply(BookingsToBookingPreviewCollectionMapper
+                .Context.builder()
+                .userId(userId)
+                .bookings(financialLedger.getBookings())
+                .build());
         selfLink = linkTo(methodOn(BookingsController.class).listAll(userId, financialLedgerId)).withSelfRel();
         bookingPreviewCollectionModel.add(selfLink);
 
