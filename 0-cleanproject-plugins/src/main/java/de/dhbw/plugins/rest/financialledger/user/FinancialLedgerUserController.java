@@ -43,7 +43,8 @@ public class FinancialLedgerUserController {
 
     @DeleteMapping
     public ResponseEntity<Void> delete(@PathVariable("financialLedgerId") UUID financialLedgerId, @PathVariable("financialLedgerUserId") UUID financialLedgerUserId) {
-        return null;
+        if (!userOperationService.unlinkUserToFinancialLedger(financialLedgerUserId, financialLedgerId)) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
 }
