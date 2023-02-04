@@ -53,7 +53,7 @@ public class UserController {
         Optional<User> userOptional = userApplicationService.findById(id);
         if (!userOptional.isPresent()) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         UserAttributeData userAttributeData = userUnsafeDataToUserAttributeDataAdapterMapper.apply(userUpdateData);
-        Optional<User> optionalUser = userApplicationService.update(id, userAttributeData);
+        Optional<User> optionalUser = userApplicationService.updateByAttributeDataWithId(id, userAttributeData);
         if (!optionalUser.isPresent()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         WebMvcLinkBuilder uriComponents = WebMvcLinkBuilder.linkTo(methodOn(UserController.class).findOne(optionalUser.get().getId()));
         return new ResponseEntity<>(WebMvcLinkBuilderUtils.createLocationHeader(uriComponents), HttpStatus.CREATED);

@@ -40,7 +40,7 @@ public class UserApplicationService {
         return update(user, userData);
     }
 
-    public Optional<User> update(UUID id, UserAttributeData userData){
+    public Optional<User> updateByAttributeDataWithId(UUID id, UserAttributeData userData){
         Optional<User> optionalUser = findById(id);
         if (optionalUser.isPresent()){
             return update(optionalUser.get(), userData);
