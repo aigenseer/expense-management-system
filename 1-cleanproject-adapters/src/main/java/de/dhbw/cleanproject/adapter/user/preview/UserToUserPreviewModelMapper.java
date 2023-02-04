@@ -15,6 +15,7 @@ public class UserToUserPreviewModelMapper implements Function<User, UserPreview>
 
     private UserPreview map(final User user) {
         return UserPreview.builder()
+                .id(user.getId())
                 .name(user.getName())
                 .email(user.getEmail().toString())
                 .phoneNumber(user.getPhoneNumber() != null? user.getPhoneNumber().toString(): null)
