@@ -63,7 +63,7 @@ public class BookingCategoryController {
     @PutMapping
     public ResponseEntity<Void> update(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId, @PathVariable("bookingCategoryId") UUID bookingCategoryId, @Valid @RequestBody BookingCategoryData data) {
         Optional<BookingCategory> optionalBookingCategory = userOperationService.getBookingCategory(userId, financialLedgerId, bookingCategoryId);
-        if (!optionalBookingCategory.isPresent()) new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        if (!optionalBookingCategory.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         BookingCategory bookingCategory = optionalBookingCategory.get();
 
         bookingCategory = bookingCategoryUpdateDataToBookingCategoryMapper.apply(Pair.with(bookingCategory, data));

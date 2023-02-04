@@ -54,7 +54,7 @@ public class BookingController {
     @PutMapping
     public ResponseEntity<Void> update(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId, @PathVariable("bookingId") UUID bookingId, @Valid @RequestBody BookingUpdateData data) {
         Optional<Booking> optionalBooking = userOperationService.getBooking(userId, financialLedgerId, bookingId);
-        if (!optionalBooking.isPresent()) new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        if (!optionalBooking.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         Booking booking = optionalBooking.get();
         booking = bookingUpdateDataToBookingMapper.apply(Pair.with(booking, data));
         bookingApplicationService.save(booking);
@@ -64,7 +64,7 @@ public class BookingController {
 
     @DeleteMapping
     public ResponseEntity<Void> delete(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId, @PathVariable("bookingId") UUID bookingId) {
-        if (!userOperationService.deleteBookingById(userId, financialLedgerId, bookingId)) new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        if (!userOperationService.deleteBookingById(userId, financialLedgerId, bookingId)) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 

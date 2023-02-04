@@ -36,7 +36,7 @@ public class FinancialLedgersController {
     @GetMapping
     public ResponseEntity<FinancialLedgerPreviewCollectionModel> listAll(@PathVariable("userId") UUID userId) {
         Optional<User> userOptional = userApplicationService.findById(userId);
-        if (!userOptional.isPresent()) new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        if (!userOptional.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         User user = userOptional.get();
 
         FinancialLedgerPreviewCollectionModel previewCollectionModel = financialLedgersToFinancialLedgerPreviewCollectionMapper.apply(FinancialLedgersToFinancialLedgerPreviewCollectionMapper.Context
