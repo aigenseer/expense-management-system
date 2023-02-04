@@ -6,5 +6,5 @@ import lombok.Data;
 @Data
 @Builder
 public class BookingCategoryAttributeData {
-    private String name;
+    private String title;
 }

@@ -34,7 +34,7 @@ public class BookingCategoryApplicationService {
     }
 
     public Optional<BookingCategory> updateByAttributeData(BookingCategory bookingCategory, BookingCategoryAttributeData data){
-        bookingCategory.setTitle(data.getName());
+        bookingCategory.setTitle(data.getTitle());
         return Optional.of(save(bookingCategory));
     }
 
