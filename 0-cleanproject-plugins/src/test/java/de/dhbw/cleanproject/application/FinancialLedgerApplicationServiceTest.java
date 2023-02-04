@@ -2,9 +2,7 @@ package de.dhbw.cleanproject.application;
 
 import de.dhbw.cleanproject.application.financialledger.FinancialLedgerApplicationService;
 import de.dhbw.cleanproject.application.financialledger.FinancialLedgerAttributeData;
-import de.dhbw.cleanproject.application.user.UserAttributeData;
 import de.dhbw.cleanproject.domain.financialledger.FinancialLedger;
-import de.dhbw.cleanproject.domain.user.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
