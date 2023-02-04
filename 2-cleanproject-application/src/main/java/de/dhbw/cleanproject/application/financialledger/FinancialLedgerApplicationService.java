@@ -36,14 +36,6 @@ public class FinancialLedgerApplicationService {
         return updateByAttributeData(financialLedger, data);
     }
 
-    public Optional<FinancialLedger> updateByAttributeData(UUID id, FinancialLedgerAttributeData data){
-        Optional<FinancialLedger> optionalFinancialLedger = findById(id);
-        if (optionalFinancialLedger.isPresent()){
-            return updateByAttributeData(optionalFinancialLedger.get(), data);
-        }
-        return Optional.empty();
-    }
-
     public Optional<FinancialLedger> updateByAttributeData(FinancialLedger financialLedger, FinancialLedgerAttributeData data){
         financialLedger.setName(data.getName());
         return Optional.of(save(financialLedger));
