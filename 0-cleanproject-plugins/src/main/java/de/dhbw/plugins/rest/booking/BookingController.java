@@ -1,10 +1,12 @@
 package de.dhbw.plugins.rest.booking;
 
+import de.dhbw.cleanproject.adapter.booking.data.BookingUnsafeDataToBookingAttributeDataAdapterMapper;
 import de.dhbw.cleanproject.adapter.booking.data.BookingUpdateData;
-import de.dhbw.cleanproject.adapter.booking.data.BookingUpdateDataToBookingMapper;
 import de.dhbw.cleanproject.adapter.booking.model.BookingModel;
-import de.dhbw.cleanproject.application.booking.BookingApplicationService;
+import de.dhbw.cleanproject.adapter.bookingcategory.data.BookingCategoryDataToBookingCategoryAttributeDataAdapterMapper;
 import de.dhbw.cleanproject.application.UserOperationService;
+import de.dhbw.cleanproject.application.booking.BookingApplicationService;
+import de.dhbw.cleanproject.application.booking.BookingAttributeData;
 import de.dhbw.cleanproject.domain.booking.Booking;
 import de.dhbw.plugins.mapper.booking.BookingToBookingModelMapper;
 import de.dhbw.plugins.rest.utils.WebMvcLinkBuilderUtils;
@@ -28,9 +30,9 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 public class BookingController {
 
     private final UserOperationService userOperationService;
-    private final BookingUpdateDataToBookingMapper bookingUpdateDataToBookingMapper;
     private final BookingApplicationService bookingApplicationService;
     private final BookingToBookingModelMapper bookingToBookingModelMapper;
+    private final BookingUnsafeDataToBookingAttributeDataAdapterMapper dataAdapterMapper;
 
     @GetMapping
     public ResponseEntity<BookingModel> findOne(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId, @PathVariable("bookingId") UUID bookingId) {
@@ -56,8 +58,9 @@ public class BookingController {
         Optional<Booking> optionalBooking = userOperationService.getBooking(userId, financialLedgerId, bookingId);
         if (!optionalBooking.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         Booking booking = optionalBooking.get();
-        booking = bookingUpdateDataToBookingMapper.apply(Pair.with(booking, data));
-        bookingApplicationService.save(booking);
+        BookingAttributeData attributeData = dataAdapterMapper.apply(data);
+        optionalBooking = bookingApplicationService.update(booking, attributeData);
+        if (!optionalBooking.isPresent()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         WebMvcLinkBuilder uriComponents = linkTo(methodOn(this.getClass()).findOne(userId, financialLedgerId, bookingId));
         return new ResponseEntity<>(WebMvcLinkBuilderUtils.createLocationHeader(uriComponents), HttpStatus.ACCEPTED);
     }
