@@ -1,15 +1,15 @@
 package de.dhbw.plugins.rest.user;
 
 import de.dhbw.cleanproject.adapter.user.updatedata.UserUpdateData;
-import de.dhbw.cleanproject.adapter.user.updatedata.UserUpdateDataToUserMapper;
+import de.dhbw.cleanproject.adapter.user.userdata.UserUnsafeDataToUserAttributeDataAdapterMapper;
 import de.dhbw.cleanproject.adapter.user.usermodel.UserModel;
-import de.dhbw.cleanproject.application.UserApplicationService;
 import de.dhbw.cleanproject.application.UserOperationService;
+import de.dhbw.cleanproject.application.user.UserApplicationService;
+import de.dhbw.cleanproject.application.user.UserAttributeData;
 import de.dhbw.cleanproject.domain.user.User;
 import de.dhbw.plugins.mapper.user.UserToUserModelMapper;
 import de.dhbw.plugins.rest.utils.WebMvcLinkBuilderUtils;
 import lombok.AllArgsConstructor;
-import org.javatuples.Pair;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
@@ -30,7 +30,7 @@ public class UserController {
 
     private final UserApplicationService userApplicationService;
 
-    private final UserUpdateDataToUserMapper userUpdateDataToUserMapper;
+    private final UserUnsafeDataToUserAttributeDataAdapterMapper userUnsafeDataToUserAttributeDataAdapterMapper;
     private final UserOperationService userOperationService;
     private final UserToUserModelMapper userToUserModelMapper;
 
@@ -52,9 +52,10 @@ public class UserController {
     public ResponseEntity<Void> update(@PathVariable("userId") UUID id, @Valid @RequestBody UserUpdateData userUpdateData) {
         Optional<User> userOptional = userApplicationService.findById(id);
         if (!userOptional.isPresent()) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        User user = userUpdateDataToUserMapper.apply(Pair.with(userOptional.get(), userUpdateData));
-        userApplicationService.save(user);
-        WebMvcLinkBuilder uriComponents = WebMvcLinkBuilder.linkTo(methodOn(UserController.class).findOne(user.getId()));
+        UserAttributeData userAttributeData = userUnsafeDataToUserAttributeDataAdapterMapper.apply(userUpdateData);
+        Optional<User> optionalUser = userApplicationService.update(id, userAttributeData);
+        if (!optionalUser.isPresent()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        WebMvcLinkBuilder uriComponents = WebMvcLinkBuilder.linkTo(methodOn(UserController.class).findOne(optionalUser.get().getId()));
         return new ResponseEntity<>(WebMvcLinkBuilderUtils.createLocationHeader(uriComponents), HttpStatus.CREATED);
     }
 

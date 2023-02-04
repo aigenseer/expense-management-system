@@ -2,8 +2,9 @@ package de.dhbw.plugins.rest.users;
 
 import de.dhbw.cleanproject.adapter.user.preview.UserPreviewCollectionModel;
 import de.dhbw.cleanproject.adapter.user.userdata.UserData;
-import de.dhbw.cleanproject.adapter.user.userdata.UserDataToUserMapper;
-import de.dhbw.cleanproject.application.UserApplicationService;
+import de.dhbw.cleanproject.adapter.user.userdata.UserUnsafeDataToUserAttributeDataAdapterMapper;
+import de.dhbw.cleanproject.application.user.UserApplicationService;
+import de.dhbw.cleanproject.application.user.UserAttributeData;
 import de.dhbw.cleanproject.domain.user.User;
 import de.dhbw.plugins.mapper.user.UsersToUserPreviewCollectionMapper;
 import de.dhbw.plugins.rest.user.UserController;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+import java.util.Optional;
+
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 @RestController
@@ -25,7 +28,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 public class UsersController {
 
     private final UserApplicationService userApplicationService;
-    private final UserDataToUserMapper userDataToUserMapper;
+    private final UserUnsafeDataToUserAttributeDataAdapterMapper userDataToUserMapper;
     private final UsersToUserPreviewCollectionMapper usersToUserPreviewCollectionMapper;
 
     @GetMapping("/")
@@ -41,9 +44,10 @@ public class UsersController {
 
     @PostMapping("/")
     public ResponseEntity<Void> create(@Valid @RequestBody UserData userData) {
-        User user = userDataToUserMapper.apply(userData);
-        userApplicationService.save(user);
-        WebMvcLinkBuilder uriComponents = WebMvcLinkBuilder.linkTo(methodOn(UserController.class).findOne(user.getId()));
+        UserAttributeData userAttributeData = userDataToUserMapper.apply(userData);
+        Optional<User> optionalUser = userApplicationService.create(userAttributeData);
+        if (!optionalUser.isPresent()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        WebMvcLinkBuilder uriComponents = WebMvcLinkBuilder.linkTo(methodOn(UserController.class).findOne(optionalUser.get().getId()));
         return new ResponseEntity<>(WebMvcLinkBuilderUtils.createLocationHeader(uriComponents), HttpStatus.CREATED);
     }
 
