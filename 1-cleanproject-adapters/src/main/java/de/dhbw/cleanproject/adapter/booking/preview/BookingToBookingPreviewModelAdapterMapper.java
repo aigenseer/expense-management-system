@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import java.util.function.Function;
 
 @Component
-public class BookingToBookingPreviewModelMapper implements Function<Booking, BookingPreviewModel> {
+public class BookingToBookingPreviewModelAdapterMapper implements Function<Booking, BookingPreviewModel> {
 
     @Override
     public BookingPreviewModel apply(final Booking category) {
