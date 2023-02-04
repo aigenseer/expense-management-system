@@ -5,7 +5,7 @@ import de.dhbw.cleanproject.adapter.bookingcategory.data.BookingCategoryData;
 import de.dhbw.cleanproject.adapter.bookingcategory.data.BookingCategoryModel;
 import de.dhbw.cleanproject.adapter.bookingcategory.data.BookingCategoryToBookingCategoryModelMapper;
 import de.dhbw.cleanproject.adapter.bookingcategory.data.BookingCategoryUpdateDataToBookingCategoryMapper;
-import de.dhbw.cleanproject.application.BookingCategoryApplicationService;
+import de.dhbw.cleanproject.application.bookingcategory.BookingCategoryApplicationService;
 import de.dhbw.cleanproject.application.UserOperationService;
 import de.dhbw.cleanproject.domain.bookingcategory.BookingCategory;
 import de.dhbw.plugins.mapper.booking.BookingsToBookingPreviewCollectionMapper;

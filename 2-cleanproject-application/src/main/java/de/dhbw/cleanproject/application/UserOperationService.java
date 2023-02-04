@@ -1,5 +1,6 @@
 package de.dhbw.cleanproject.application;
 
+import de.dhbw.cleanproject.application.bookingcategory.BookingCategoryApplicationService;
 import de.dhbw.cleanproject.application.financialledger.FinancialLedgerApplicationService;
 import de.dhbw.cleanproject.application.financialledger.FinancialLedgerAttributeData;
 import de.dhbw.cleanproject.application.user.UserApplicationService;

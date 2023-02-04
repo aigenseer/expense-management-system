@@ -1,4 +1,4 @@
-package de.dhbw.cleanproject.application;
+package de.dhbw.cleanproject.application.bookingcategory;
 
 import de.dhbw.cleanproject.domain.bookingcategory.BookingCategory;
 import de.dhbw.cleanproject.domain.bookingcategory.BookingCategoryRepository;
