@@ -1,7 +1,7 @@
 package de.dhbw.plugins.mapper.booking;
 
 import de.dhbw.cleanproject.adapter.booking.preview.BookingPreviewModel;
-import de.dhbw.cleanproject.adapter.booking.preview.BookingToBookingPreviewModelMapper;
+import de.dhbw.cleanproject.adapter.booking.preview.BookingToBookingPreviewModelAdapterMapper;
 import de.dhbw.cleanproject.domain.booking.Booking;
 import de.dhbw.plugins.rest.booking.BookingController;
 import lombok.Builder;
@@ -29,7 +29,7 @@ public class BookingToBookingPreviewMapper implements Function<BookingToBookingP
         private final Booking booking;
     }
 
-    private final BookingToBookingPreviewModelMapper previewModelMapper;
+    private final BookingToBookingPreviewModelAdapterMapper previewModelMapper;
 
     @Override
     public BookingPreviewModel apply(final BookingToBookingPreviewMapper.Context context) {

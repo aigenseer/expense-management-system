@@ -4,7 +4,7 @@ import de.dhbw.cleanproject.adapter.booking.preview.BookingPreviewCollectionMode
 import de.dhbw.cleanproject.adapter.bookingcategory.data.BookingCategoryData;
 import de.dhbw.cleanproject.adapter.bookingcategory.data.BookingCategoryDataToBookingCategoryAttributeDataAdapterMapper;
 import de.dhbw.cleanproject.adapter.bookingcategory.data.BookingCategoryModel;
-import de.dhbw.cleanproject.adapter.bookingcategory.data.BookingCategoryToBookingCategoryModelMapper;
+import de.dhbw.cleanproject.adapter.bookingcategory.data.BookingCategoryToBookingCategoryModelAdapterMapper;
 import de.dhbw.cleanproject.application.UserOperationService;
 import de.dhbw.cleanproject.application.bookingcategory.BookingCategoryApplicationService;
 import de.dhbw.cleanproject.application.bookingcategory.BookingCategoryAttributeData;
@@ -33,7 +33,7 @@ public class BookingCategoryController {
 
     private final UserOperationService userOperationService;
     private final BookingCategoryApplicationService bookingCategoryApplicationService;
-    private final BookingCategoryToBookingCategoryModelMapper bookingCategoryToBookingCategoryModelMapper;
+    private final BookingCategoryToBookingCategoryModelAdapterMapper bookingCategoryToBookingCategoryModelAdapterMapper;
     private final BookingsToBookingPreviewCollectionMapper bookingsToBookingPreviewCollectionMapper;
     private final BookingCategoryDataToBookingCategoryAttributeDataAdapterMapper bookingCategoryDataToBookingCategoryAttributeDataAdapterMapper;
 
@@ -51,7 +51,8 @@ public class BookingCategoryController {
         Link selfLink = linkTo(methodOn(BookingsController.class).listAll(userId, financialLedgerId)).withSelfRel();
         previewCollectionModel.add(selfLink);
 
-        BookingCategoryModel model = bookingCategoryToBookingCategoryModelMapper.apply(Pair.with(bookingCategory, previewCollectionModel));
+        BookingCategoryModel model = bookingCategoryToBookingCategoryModelAdapterMapper.apply(bookingCategory);
+        model.setBookingPreviewCollectionModel(previewCollectionModel);
 
         selfLink = linkTo(methodOn(getClass()).findOne(userId, financialLedgerId, bookingCategoryId)).withSelfRel()
                 .andAffordance(afford(methodOn(getClass()).update(userId, financialLedgerId, bookingCategoryId, null)))
