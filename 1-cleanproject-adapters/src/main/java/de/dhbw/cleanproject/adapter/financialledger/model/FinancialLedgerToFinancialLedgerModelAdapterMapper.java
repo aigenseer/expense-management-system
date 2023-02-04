@@ -8,7 +8,7 @@ import java.util.function.Function;
 
 @Component
 @RequiredArgsConstructor
-public class FinancialLedgerToFinancialLedgerModelMapper implements Function<FinancialLedger, FinancialLedgerModel> {
+public class FinancialLedgerToFinancialLedgerModelAdapterMapper implements Function<FinancialLedger, FinancialLedgerModel> {
 
     @Override
     public FinancialLedgerModel apply(final FinancialLedger financialLedger) {

@@ -5,7 +5,7 @@ import de.dhbw.cleanproject.adapter.bookingcategory.preview.BookingCategoryPrevi
 import de.dhbw.cleanproject.adapter.financialledger.data.FinancialLedgerData;
 import de.dhbw.cleanproject.adapter.financialledger.data.FinancialLedgerDataToFinancialLedgerAttributeDataAdapterMapper;
 import de.dhbw.cleanproject.adapter.financialledger.model.FinancialLedgerModel;
-import de.dhbw.cleanproject.adapter.financialledger.model.FinancialLedgerToFinancialLedgerModelMapper;
+import de.dhbw.cleanproject.adapter.financialledger.model.FinancialLedgerToFinancialLedgerModelAdapterMapper;
 import de.dhbw.cleanproject.adapter.user.preview.UserPreviewCollectionModel;
 import de.dhbw.cleanproject.application.UserOperationService;
 import de.dhbw.cleanproject.application.financialledger.FinancialLedgerApplicationService;
@@ -40,7 +40,7 @@ public class FinancialLedgerController {
     private final UserOperationService userOperationService;
     private final FinancialLedgerApplicationService financialLedgerApplicationService;
     private final FinancialLedgerDataToFinancialLedgerAttributeDataAdapterMapper adapterMapper;
-    private final FinancialLedgerToFinancialLedgerModelMapper modelMapper;
+    private final FinancialLedgerToFinancialLedgerModelAdapterMapper modelMapper;
 
     private final UsersToUserPreviewCollectionMapper usersToUserPreviewCollectionMapper;
     private final BookingCategoriesToBookingCategoryPreviewCollectionMapper bookingCategoriesToBookingCategoryPreviewCollectionMapper;
