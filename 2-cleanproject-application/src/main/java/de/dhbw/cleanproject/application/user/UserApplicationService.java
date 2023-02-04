@@ -37,18 +37,18 @@ public class UserApplicationService {
 
     public Optional<User> createByAttributeData(UserAttributeData userData){
         User user = User.builder().id(UUID.randomUUID()).build();
-        return update(user, userData);
+        return updateByAttributeData(user, userData);
     }
 
     public Optional<User> updateByAttributeDataWithId(UUID id, UserAttributeData userData){
         Optional<User> optionalUser = findById(id);
         if (optionalUser.isPresent()){
-            return update(optionalUser.get(), userData);
+            return updateByAttributeData(optionalUser.get(), userData);
         }
         return Optional.empty();
     }
 
-    public Optional<User> update(User user, UserAttributeData userData){
+    public Optional<User> updateByAttributeData(User user, UserAttributeData userData){
         if (userData.getName() != null){
             user.setName(userData.getName());
         }

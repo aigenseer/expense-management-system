@@ -107,7 +107,7 @@ public class UserApplicationServiceTest {
 
     @Test
     public void testUpdateByEntity(){
-        Optional<User> optionalUser = applicationService.update(entity1, userAttributeData);
+        Optional<User> optionalUser = applicationService.updateByAttributeData(entity1, userAttributeData);
         assertTrue(optionalUser.isPresent());
         checkAttributeData(userAttributeData, optionalUser.get());
         optionalUser = applicationService.findById(entity1.getId());
