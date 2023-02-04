@@ -17,8 +17,10 @@ import de.dhbw.plugins.mapper.user.UsersToUserPreviewCollectionMapper;
 import de.dhbw.plugins.rest.bookingcategories.BookingCategoriesController;
 import de.dhbw.plugins.rest.bookings.BookingsController;
 import de.dhbw.plugins.rest.financialledger.users.FinancialLedgerUsersController;
+import de.dhbw.plugins.rest.utils.WebMvcLinkBuilderUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.hateoas.Link;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -90,7 +92,8 @@ public class FinancialLedgerController {
         FinancialLedgerAttributeData financialLedgerAttributeData = adapterMapper.apply(data);
         optionalFinancialLedger = financialLedgerApplicationService.updateByAttributeData(optionalFinancialLedger.get(), financialLedgerAttributeData);
         if (!optionalFinancialLedger.isPresent()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        WebMvcLinkBuilder uriComponents = linkTo(methodOn(this.getClass()).findOne(userId, financialLedgerId));
+        return new ResponseEntity<>(WebMvcLinkBuilderUtils.createLocationHeader(uriComponents), HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping
