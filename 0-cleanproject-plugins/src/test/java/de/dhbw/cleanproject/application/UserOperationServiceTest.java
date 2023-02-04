@@ -3,6 +3,7 @@ package de.dhbw.cleanproject.application;
 import de.dhbw.cleanproject.abstractioncode.valueobject.money.CurrencyType;
 import de.dhbw.cleanproject.abstractioncode.valueobject.money.Money;
 import de.dhbw.cleanproject.application.booking.BookingApplicationService;
+import de.dhbw.cleanproject.application.booking.BookingAttributeData;
 import de.dhbw.cleanproject.application.bookingcategory.BookingCategoryApplicationService;
 import de.dhbw.cleanproject.application.bookingcategory.BookingCategoryAttributeData;
 import de.dhbw.cleanproject.application.financialledger.FinancialLedgerApplicationService;
@@ -160,30 +161,27 @@ public class UserOperationServiceTest {
 
     @Test
     public void testAddBooking() {
-        Booking entity = Booking.builder()
-                .id(UUID.fromString("12345678-1234-1234-a123-123456789031"))
+        BookingAttributeData attributeData = BookingAttributeData.builder()
                 .title("Example-Booking-3")
-                .user(user)
-                .category(bookingCategory)
+                .bookingCategory(bookingCategory)
                 .money(new Money(19.00, CurrencyType.EURO))
-                .financialLedgerId(financialLedgerId)
-                .creationDate(LocalDate.now())
-                .referencedUsers(new HashSet<User>(){{add(user);}})
                 .build();
-        Optional<Booking> optionalBooking = userOperationService.addBooking(userId, financialLedgerId, booking);
+
+        Optional<Booking> optionalBooking = userOperationService.addBooking(userId, financialLedgerId, attributeData);
         assertTrue(optionalBooking.isPresent());
-        assertEquals(entity.getId(), optionalBooking.get().getId());
+        assertEquals(attributeData.getTitle(), optionalBooking.get().getTitle());
 
         Optional<User> optionalUser = userApplicationService.findById(userId);
         assertTrue(optionalUser.isPresent());
-        optionalBooking = optionalUser.get().getReferencedBookings().stream().filter(f -> f.getId().equals(entity.getId())).findFirst();
-        assertTrue(optionalBooking.isPresent());
-        assertEquals(entity.getId(), optionalBooking.get().getId());
+        Optional<Booking> optionalReferencedBooking = optionalUser.get().getCreatedBookings().stream().filter(f -> f.getId().equals(optionalBooking.get().getId())).findFirst();
+        assertTrue(optionalReferencedBooking.isPresent());
+        assertEquals(optionalBooking.get().getId(), optionalReferencedBooking.get().getId());
 
         Optional<FinancialLedger> optionalFinancialLedger = financialLedgerApplicationService.findById(financialLedgerId);
         assertTrue(optionalFinancialLedger.isPresent());
-        optionalBooking = optionalFinancialLedger.get().getBookings().stream().filter(f -> f.getId().equals(entity.getId())).findFirst();
-        assertTrue(optionalBooking.isPresent());
+        optionalReferencedBooking =  optionalFinancialLedger.get().getBookings().stream().filter(f -> f.getId().equals(optionalBooking.get().getId())).findFirst();
+        assertTrue(optionalReferencedBooking.isPresent());
+        assertEquals(optionalBooking.get().getId(), optionalReferencedBooking.get().getId());
     }
 
     @Test

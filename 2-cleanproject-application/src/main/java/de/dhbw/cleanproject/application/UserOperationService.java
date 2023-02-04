@@ -1,6 +1,7 @@
 package de.dhbw.cleanproject.application;
 
 import de.dhbw.cleanproject.application.booking.BookingApplicationService;
+import de.dhbw.cleanproject.application.booking.BookingAttributeData;
 import de.dhbw.cleanproject.application.bookingcategory.BookingCategoryApplicationService;
 import de.dhbw.cleanproject.application.bookingcategory.BookingCategoryAttributeData;
 import de.dhbw.cleanproject.application.financialledger.FinancialLedgerApplicationService;
@@ -154,14 +155,21 @@ public class UserOperationService {
         return false;
     }
 
-    public Optional<Booking> addBooking(UUID id, UUID financialLedgerId, Booking booking){
+    public Optional<Booking> addBooking(UUID id, UUID financialLedgerId, BookingAttributeData attributeData){
+        Optional<User> optionalUser = userApplicationService.findById(id);
+        if (!optionalUser.isPresent()) return Optional.empty();
         Optional<FinancialLedger> optionalFinancialLedger = findFinancialLedgerByUserId(id, financialLedgerId);
         if (!optionalFinancialLedger.isPresent()) return Optional.empty();
-        bookingApplicationService.save(booking);
+        Optional<Booking> optionalBooking = bookingApplicationService.create(optionalUser.get(), optionalFinancialLedger.get(), attributeData);
+        if (!optionalBooking.isPresent()) return Optional.empty();
+        User user = optionalUser.get();
+        user.getCreatedBookings().add(optionalBooking.get());
+        userApplicationService.save(user);
+
         FinancialLedger financialLedger = optionalFinancialLedger.get();
-        financialLedger.getBookings().add(booking);
+        financialLedger.getBookings().add(optionalBooking.get());
         financialLedgerApplicationService.save(financialLedger);
-        return Optional.of(booking);
+        return getBooking(id, financialLedgerId, optionalBooking.get().getId());
     }
 
     public boolean existsBookingById(UUID id, UUID financialLedgerId, UUID bookingId){
