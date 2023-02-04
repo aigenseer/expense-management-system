@@ -1,6 +1,6 @@
 package de.dhbw.cleanproject.adapter.booking.data;
 
-public interface IBookingData {
+public interface IBookingUnsafeData {
     String getTitle();
     Double getAmount();
     String getCurrencyType();
