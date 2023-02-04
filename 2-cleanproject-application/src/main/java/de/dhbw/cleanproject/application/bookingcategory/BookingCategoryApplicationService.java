@@ -28,8 +28,8 @@ public class BookingCategoryApplicationService {
         repository.deleteById(id);
     }
 
-    public Optional<BookingCategory> createByAttributeData(BookingCategoryAttributeData data){
-        BookingCategory bookingCategory = BookingCategory.builder().id(UUID.randomUUID()).build();
+    public Optional<BookingCategory> createByAttributeData(FinancialLedger financialLedger, BookingCategoryAttributeData data){
+        BookingCategory bookingCategory = BookingCategory.builder().id(UUID.randomUUID()).financialLedger(financialLedger).build();
         return updateByAttributeData(bookingCategory, data);
     }
 
