@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import java.util.function.Function;
 
 @Component
-public class FinancialLedgerToFinancialLedgerPreviewModelMapper implements Function<FinancialLedger, FinancialLedgerPreviewModel> {
+public class FinancialLedgerToFinancialLedgerPreviewModelAdapterMapper implements Function<FinancialLedger, FinancialLedgerPreviewModel> {
 
     @Override
     public FinancialLedgerPreviewModel apply(final FinancialLedger financialLedger) {

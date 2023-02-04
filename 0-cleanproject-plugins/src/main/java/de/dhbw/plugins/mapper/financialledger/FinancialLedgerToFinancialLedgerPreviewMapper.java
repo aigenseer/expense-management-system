@@ -1,7 +1,7 @@
 package de.dhbw.plugins.mapper.financialledger;
 
 import de.dhbw.cleanproject.adapter.financialledger.preview.FinancialLedgerPreviewModel;
-import de.dhbw.cleanproject.adapter.financialledger.preview.FinancialLedgerToFinancialLedgerPreviewModelMapper;
+import de.dhbw.cleanproject.adapter.financialledger.preview.FinancialLedgerToFinancialLedgerPreviewModelAdapterMapper;
 import de.dhbw.cleanproject.domain.financialledger.FinancialLedger;
 import de.dhbw.plugins.rest.financialledger.FinancialLedgerController;
 import lombok.Builder;
@@ -30,7 +30,7 @@ public class FinancialLedgerToFinancialLedgerPreviewMapper implements Function<F
         private final FinancialLedger financialLedger;
     }
 
-    private final FinancialLedgerToFinancialLedgerPreviewModelMapper financialLedgerToFinancialLedgerPreviewModelMapper;
+    private final FinancialLedgerToFinancialLedgerPreviewModelAdapterMapper financialLedgerToFinancialLedgerPreviewModelMapper;
 
     @Override
     public FinancialLedgerPreviewModel apply(final FinancialLedgerToFinancialLedgerPreviewMapper.Context context) {
