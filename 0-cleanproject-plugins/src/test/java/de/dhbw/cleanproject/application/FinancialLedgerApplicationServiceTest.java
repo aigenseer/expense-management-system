@@ -1,5 +1,6 @@
 package de.dhbw.cleanproject.application;
 
+import de.dhbw.cleanproject.application.financialledger.FinancialLedgerApplicationService;
 import de.dhbw.cleanproject.domain.financialledger.FinancialLedger;
 import org.junit.Test;
 import org.junit.runner.RunWith;

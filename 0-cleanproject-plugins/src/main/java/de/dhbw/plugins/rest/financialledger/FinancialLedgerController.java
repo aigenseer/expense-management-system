@@ -7,7 +7,7 @@ import de.dhbw.cleanproject.adapter.financialledger.data.FinancialLedgerUpdateDa
 import de.dhbw.cleanproject.adapter.financialledger.model.FinancialLedgerModel;
 import de.dhbw.cleanproject.adapter.financialledger.model.FinancialLedgerToFinancialLedgerModelMapper;
 import de.dhbw.cleanproject.adapter.user.preview.UserPreviewCollectionModel;
-import de.dhbw.cleanproject.application.FinancialLedgerApplicationService;
+import de.dhbw.cleanproject.application.financialledger.FinancialLedgerApplicationService;
 import de.dhbw.cleanproject.application.UserOperationService;
 import de.dhbw.cleanproject.domain.financialledger.FinancialLedger;
 import de.dhbw.plugins.mapper.booking.BookingsToBookingPreviewCollectionMapper;
