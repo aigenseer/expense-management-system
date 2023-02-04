@@ -1,9 +1,12 @@
 package de.dhbw.plugins.rest.bookingcategory;
 
 import de.dhbw.cleanproject.adapter.booking.preview.BookingPreviewCollectionModel;
-import de.dhbw.cleanproject.adapter.bookingcategory.data.*;
-import de.dhbw.cleanproject.application.bookingcategory.BookingCategoryApplicationService;
+import de.dhbw.cleanproject.adapter.bookingcategory.data.BookingCategoryData;
+import de.dhbw.cleanproject.adapter.bookingcategory.data.BookingCategoryDataToBookingCategoryAttributeDataAdapterMapper;
+import de.dhbw.cleanproject.adapter.bookingcategory.data.BookingCategoryModel;
+import de.dhbw.cleanproject.adapter.bookingcategory.data.BookingCategoryToBookingCategoryModelMapper;
 import de.dhbw.cleanproject.application.UserOperationService;
+import de.dhbw.cleanproject.application.bookingcategory.BookingCategoryApplicationService;
 import de.dhbw.cleanproject.application.bookingcategory.BookingCategoryAttributeData;
 import de.dhbw.cleanproject.domain.bookingcategory.BookingCategory;
 import de.dhbw.plugins.mapper.booking.BookingsToBookingPreviewCollectionMapper;
@@ -31,7 +34,6 @@ public class BookingCategoryController {
     private final UserOperationService userOperationService;
     private final BookingCategoryApplicationService bookingCategoryApplicationService;
     private final BookingCategoryToBookingCategoryModelMapper bookingCategoryToBookingCategoryModelMapper;
-    private final BookingCategoryUpdateDataToBookingCategoryMapper bookingCategoryUpdateDataToBookingCategoryMapper;
     private final BookingsToBookingPreviewCollectionMapper bookingsToBookingPreviewCollectionMapper;
     private final BookingCategoryDataToBookingCategoryAttributeDataAdapterMapper bookingCategoryDataToBookingCategoryAttributeDataAdapterMapper;
 

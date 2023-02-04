@@ -2,7 +2,6 @@ package de.dhbw.plugins.rest.bookingcategories;
 
 import de.dhbw.cleanproject.adapter.bookingcategory.data.BookingCategoryData;
 import de.dhbw.cleanproject.adapter.bookingcategory.data.BookingCategoryDataToBookingCategoryAttributeDataAdapterMapper;
-import de.dhbw.cleanproject.adapter.bookingcategory.data.BookingCategoryDataToBookingCategoryMapper;
 import de.dhbw.cleanproject.adapter.bookingcategory.preview.BookingCategoryPreviewCollectionModel;
 import de.dhbw.cleanproject.application.UserOperationService;
 import de.dhbw.cleanproject.application.bookingcategory.BookingCategoryAttributeData;
@@ -30,7 +29,6 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 public class BookingCategoriesController {
 
     private final UserOperationService userOperationService;
-    private final BookingCategoryDataToBookingCategoryMapper bookingCategoryDataToBookingCategoryMapper;
     private final BookingCategoriesToBookingCategoryPreviewCollectionMapper bookingCategoriesToBookingCategoryPreviewCollectionMapper;
     private final BookingCategoryDataToBookingCategoryAttributeDataAdapterMapper bookingCategoryDataToBookingCategoryAttributeDataAdapterMapper;
 
