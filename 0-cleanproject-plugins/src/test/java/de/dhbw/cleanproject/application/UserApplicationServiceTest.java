@@ -4,6 +4,7 @@ import de.dhbw.cleanproject.abstractioncode.valueobject.email.Email;
 import de.dhbw.cleanproject.abstractioncode.valueobject.phonennumber.InternationalPhoneCode;
 import de.dhbw.cleanproject.abstractioncode.valueobject.phonennumber.PhoneNumber;
 import de.dhbw.cleanproject.application.user.UserApplicationService;
+import de.dhbw.cleanproject.application.user.UserAttributeData;
 import de.dhbw.cleanproject.domain.user.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -40,6 +41,11 @@ public class UserApplicationServiceTest {
             .email(new Email("example-user-3@example.de"))
             .name("Example-User-3")
             .phoneNumber(new PhoneNumber(123456789, InternationalPhoneCode.DE))
+            .build();
+    private final UserAttributeData userAttributeData = UserAttributeData.builder()
+            .email(new Email("test@test.de"))
+            .name("Name")
+            .phoneNumber(new PhoneNumber(1234567, InternationalPhoneCode.DE))
             .build();
 
     @Test
@@ -82,12 +88,24 @@ public class UserApplicationServiceTest {
         checkEntity(entity1, result.get());
     }
 
+    @Test
+    public void testCreate(){
+        Optional<User> optionalUser = applicationService.create(userAttributeData);
+        assertTrue(optionalUser.isPresent());
+        checkAttributeData(userAttributeData, optionalUser.get());
+    }
+
+    private void checkAttributeData(UserAttributeData attributeData, User actualEntity){
+        assertEquals(attributeData.getEmail(), actualEntity.getEmail());
+        assertEquals(attributeData.getName(), actualEntity.getName());
+        assertEquals(attributeData.getPhoneNumber(), actualEntity.getPhoneNumber());
+    }
+
     private void checkEntity(User expectedEntity, User actualEntity){
         assertEquals(expectedEntity.getId(), actualEntity.getId());
         assertEquals(expectedEntity.getEmail(), actualEntity.getEmail());
         assertEquals(expectedEntity.getName(), actualEntity.getName());
         assertEquals(expectedEntity.getPhoneNumber(), actualEntity.getPhoneNumber());
-
     }
 
 }
