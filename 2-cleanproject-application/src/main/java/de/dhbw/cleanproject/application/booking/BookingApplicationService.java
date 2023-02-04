@@ -7,6 +7,7 @@ import de.dhbw.cleanproject.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -37,7 +38,8 @@ public class BookingApplicationService {
         Booking booking = Booking.builder()
                 .id(UUID.randomUUID())
                 .user(user)
-                .financialLedger(financialLedger)
+                .creationDate(LocalDate.now())
+                .financialLedgerId(financialLedger.getId())
                 .build();
         return update(booking, attributeData);
     }
