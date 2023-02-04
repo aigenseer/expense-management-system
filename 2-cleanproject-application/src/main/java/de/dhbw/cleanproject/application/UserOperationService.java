@@ -70,12 +70,15 @@ public class UserOperationService {
             if (optionalFinancialLedger.isPresent()){
                 User user = optionalUser.get();
                 FinancialLedger financialLedger = optionalFinancialLedger.get();
-
-                user.getFinancialLedgers().remove(optionalFinancialLedger.get());
-                userApplicationService.save(user);
-                financialLedger.getAuthorizedUser().remove(user);
-                financialLedgerApplicationService.save(financialLedger);
-                return true;
+                if (financialLedger.getAuthorizedUser().contains(user) ||
+                        user.getFinancialLedgers().contains(financialLedger)
+                ){
+                    user.getFinancialLedgers().remove(optionalFinancialLedger.get());
+                    userApplicationService.save(user);
+                    financialLedger.getAuthorizedUser().remove(user);
+                    financialLedgerApplicationService.save(financialLedger);
+                    return true;
+                }
             }
         }
         return false;
