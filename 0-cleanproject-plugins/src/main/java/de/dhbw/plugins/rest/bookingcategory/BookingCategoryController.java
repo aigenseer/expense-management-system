@@ -10,6 +10,7 @@ import de.dhbw.cleanproject.application.bookingcategory.BookingCategoryApplicati
 import de.dhbw.cleanproject.application.bookingcategory.BookingCategoryAttributeData;
 import de.dhbw.cleanproject.domain.bookingcategory.BookingCategory;
 import de.dhbw.plugins.mapper.booking.BookingsToBookingPreviewCollectionMapper;
+import de.dhbw.plugins.mapper.bookingcategory.BookingCategoryModelFactory;
 import de.dhbw.plugins.rest.bookings.BookingsController;
 import de.dhbw.plugins.rest.utils.WebMvcLinkBuilderUtils;
 import lombok.RequiredArgsConstructor;
@@ -32,33 +33,15 @@ public class BookingCategoryController {
 
     private final UserOperationService userOperationService;
     private final BookingCategoryApplicationService bookingCategoryApplicationService;
-    private final BookingCategoryToBookingCategoryModelAdapterMapper bookingCategoryToBookingCategoryModelAdapterMapper;
-    private final BookingsToBookingPreviewCollectionMapper bookingsToBookingPreviewCollectionMapper;
+    private final BookingCategoryModelFactory bookingCategoryModelFactory;
+
     private final BookingCategoryDataToBookingCategoryAttributeDataAdapterMapper bookingCategoryDataToBookingCategoryAttributeDataAdapterMapper;
 
     @GetMapping
     public ResponseEntity<BookingCategoryModel> findOne(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId, @PathVariable("bookingCategoryId") UUID bookingCategoryId) {
         Optional<BookingCategory> optionalBookingCategory = userOperationService.getBookingCategory(userId, financialLedgerId, bookingCategoryId);
         if (!optionalBookingCategory.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        BookingCategory bookingCategory = optionalBookingCategory.get();
-
-        BookingPreviewCollectionModel previewCollectionModel = bookingsToBookingPreviewCollectionMapper.apply(BookingsToBookingPreviewCollectionMapper
-                .Context.builder()
-                .userId(userId)
-                .bookings(bookingCategory.getBookings())
-                .build());
-        Link selfLink = linkTo(methodOn(BookingsController.class).listAll(userId, financialLedgerId)).withSelfRel();
-        previewCollectionModel.add(selfLink);
-
-        BookingCategoryModel model = bookingCategoryToBookingCategoryModelAdapterMapper.apply(bookingCategory);
-        model.setBookingPreviewCollectionModel(previewCollectionModel);
-
-        selfLink = linkTo(methodOn(getClass()).findOne(userId, financialLedgerId, bookingCategoryId)).withSelfRel()
-                .andAffordance(afford(methodOn(getClass()).update(userId, financialLedgerId, bookingCategoryId, null)))
-                .andAffordance(afford(methodOn(getClass()).delete(userId, financialLedgerId, bookingCategoryId)));
-        model.add(selfLink);
-
-        return ResponseEntity.ok(model);
+        return ResponseEntity.ok(bookingCategoryModelFactory.create(userId, financialLedgerId, optionalBookingCategory.get()));
     }
 
     @PutMapping
