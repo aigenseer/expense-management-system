@@ -4,6 +4,7 @@ import de.dhbw.cleanproject.adapter.model.user.preview.UserPreviewCollectionMode
 import de.dhbw.cleanproject.adapter.model.user.userdata.AppendUserData;
 import de.dhbw.cleanproject.application.UserOperationService;
 import de.dhbw.cleanproject.domain.booking.Booking;
+import de.dhbw.plugins.mapper.booking.ReferencedUserPreviewCollectionModelFactory;
 import de.dhbw.plugins.mapper.user.UsersToUserPreviewCollectionMapper;
 import de.dhbw.plugins.rest.booking.user.BookingReferencedUserController;
 import de.dhbw.plugins.rest.utils.WebMvcLinkBuilderUtils;
@@ -26,26 +27,13 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 public class BookingReferencedUsersController {
 
     private final UserOperationService userOperationService;
-    private final UsersToUserPreviewCollectionMapper usersToUserPreviewCollectionMapper;
+    private final ReferencedUserPreviewCollectionModelFactory referencedUserPreviewCollectionModelFactory;
 
     @GetMapping
     public ResponseEntity<UserPreviewCollectionModel> listAll(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId, @PathVariable("bookingId") UUID bookingId) {
         Optional<Booking> optionalBooking = userOperationService.getBooking(userId, financialLedgerId, bookingId);
         if (!optionalBooking.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        Booking booking = optionalBooking.get();
-
-        UserPreviewCollectionModel previewCollectionModel = usersToUserPreviewCollectionMapper.apply(booking.getReferencedUsers());
-        previewCollectionModel.getContent().forEach(userPreview -> {
-            Link selfLink = linkTo(methodOn(BookingReferencedUserController.class).findOne(userId, financialLedgerId, bookingId, userPreview.getId())).withSelfRel();
-            userPreview.removeLinks();
-            userPreview.add(selfLink);
-        });
-
-        Link selfLink = linkTo(methodOn(getClass()).listAll(userId, financialLedgerId, bookingId)).withSelfRel()
-                .andAffordance(afford(methodOn(getClass()).create(userId, financialLedgerId, bookingId, null)));
-        previewCollectionModel.add(selfLink);
-
-        return ResponseEntity.ok(previewCollectionModel);
+        return ResponseEntity.ok(referencedUserPreviewCollectionModelFactory.create(userId, financialLedgerId, bookingId, optionalBooking.get().getReferencedUsers()));
     }
 
     @PostMapping
