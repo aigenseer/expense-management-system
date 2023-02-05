@@ -7,6 +7,7 @@ import de.dhbw.cleanproject.application.UserOperationService;
 import de.dhbw.cleanproject.application.booking.BookingAttributeData;
 import de.dhbw.cleanproject.domain.booking.Booking;
 import de.dhbw.cleanproject.domain.financialledger.FinancialLedger;
+import de.dhbw.plugins.mapper.booking.BookingPreviewCollectionModelFactory;
 import de.dhbw.plugins.mapper.booking.BookingsToBookingPreviewCollectionMapper;
 import de.dhbw.plugins.rest.booking.BookingController;
 import de.dhbw.plugins.rest.utils.WebMvcLinkBuilderUtils;
@@ -29,26 +30,14 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 public class BookingsController {
 
     private final UserOperationService userOperationService;
-    private final BookingsToBookingPreviewCollectionMapper bookingsToBookingPreviewCollectionMapper;
     private final BookingUnsafeDataToBookingAttributeDataAdapterMapper dataAdapterMapper;
+    private final BookingPreviewCollectionModelFactory bookingPreviewCollectionModelFactory;
 
     @GetMapping
     public ResponseEntity<BookingPreviewCollectionModel> listAll(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId) {
         Optional<FinancialLedger> optionalFinancialLedger = userOperationService.findFinancialLedgerByUserId(userId, financialLedgerId);
         if (!optionalFinancialLedger.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        FinancialLedger financialLedger = optionalFinancialLedger.get();
-
-        BookingPreviewCollectionModel previewCollectionModel = bookingsToBookingPreviewCollectionMapper.apply(BookingsToBookingPreviewCollectionMapper
-                .Context.builder()
-                        .userId(userId)
-                        .bookings(financialLedger.getBookings())
-                .build());
-
-        Link selfLink = linkTo(methodOn(this.getClass()).listAll(userId, financialLedgerId)).withSelfRel()
-                .andAffordance(afford(methodOn(this.getClass()).create(userId, financialLedgerId, null)));
-        previewCollectionModel.add(selfLink);
-
-        return ResponseEntity.ok(previewCollectionModel);
+        return ResponseEntity.ok(bookingPreviewCollectionModelFactory.create(userId, financialLedgerId, optionalFinancialLedger.get().getBookings()));
     }
 
     @PostMapping
