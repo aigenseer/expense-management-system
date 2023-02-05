@@ -4,8 +4,8 @@ import de.dhbw.cleanproject.adapter.model.booking.data.BookingUnsafeDataToBookin
 import de.dhbw.cleanproject.adapter.model.booking.data.BookingUpdateData;
 import de.dhbw.cleanproject.adapter.model.booking.model.BookingModel;
 import de.dhbw.cleanproject.application.UserOperationService;
-import de.dhbw.cleanproject.application.booking.BookingApplicationService;
 import de.dhbw.cleanproject.application.booking.BookingAttributeData;
+import de.dhbw.cleanproject.application.booking.BookingDomainService;
 import de.dhbw.cleanproject.domain.booking.Booking;
 import de.dhbw.plugins.mapper.booking.BookingModelFactory;
 import de.dhbw.plugins.rest.utils.WebMvcLinkBuilderUtils;
@@ -28,7 +28,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class BookingController {
 
     private final UserOperationService userOperationService;
-    private final BookingApplicationService bookingApplicationService;
+    private final BookingDomainService bookingDomainService;
     private final BookingUnsafeDataToBookingAttributeDataAdapterMapper dataAdapterMapper;
     private final BookingModelFactory bookingModelFactory;
 
@@ -45,7 +45,7 @@ public class BookingController {
         if (!optionalBooking.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         Booking booking = optionalBooking.get();
         BookingAttributeData attributeData = dataAdapterMapper.apply(data);
-        optionalBooking = bookingApplicationService.updateByAttributeData(booking, attributeData);
+        optionalBooking = bookingDomainService.updateByAttributeData(booking, attributeData);
         if (!optionalBooking.isPresent()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         WebMvcLinkBuilder uriComponents = linkTo(methodOn(this.getClass()).findOne(userId, financialLedgerId, bookingId));
         return new ResponseEntity<>(WebMvcLinkBuilderUtils.createLocationHeader(uriComponents), HttpStatus.ACCEPTED);

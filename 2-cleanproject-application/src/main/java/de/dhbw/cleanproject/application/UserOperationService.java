@@ -2,8 +2,8 @@ package de.dhbw.cleanproject.application;
 
 import de.dhbw.cleanproject.abstractioncode.valueobject.money.CurrencyType;
 import de.dhbw.cleanproject.abstractioncode.valueobject.money.Money;
-import de.dhbw.cleanproject.application.booking.BookingApplicationService;
 import de.dhbw.cleanproject.application.booking.BookingAttributeData;
+import de.dhbw.cleanproject.application.booking.BookingDomainService;
 import de.dhbw.cleanproject.application.bookingcategory.BookingCategoryApplicationService;
 import de.dhbw.cleanproject.application.bookingcategory.BookingCategoryAttributeData;
 import de.dhbw.cleanproject.application.currency.exchange.CurrencyExchangeOfficeService;
@@ -27,7 +27,7 @@ public class UserOperationService {
 
     private final UserApplicationService userApplicationService;
     private final FinancialLedgerApplicationService financialLedgerApplicationService;
-    private final BookingApplicationService bookingApplicationService;
+    private final BookingDomainService bookingDomainService;
     private final BookingCategoryApplicationService bookingCategoryApplicationService;
     private final CurrencyExchangeOfficeService currencyExchangeOfficeService;
 
@@ -149,7 +149,7 @@ public class UserOperationService {
         if (optionalBookingCategory.isPresent()) {
             optionalBookingCategory.get().getBookings().forEach(booking -> {
                 booking.setCategory(null);
-                bookingApplicationService.save(booking);
+                bookingDomainService.save(booking);
             });
             FinancialLedger financialLedger = optionalBookingCategory.get().getFinancialLedger();
             financialLedger.getBookingCategories().remove(optionalBookingCategory.get());
@@ -165,7 +165,7 @@ public class UserOperationService {
         if (!optionalUser.isPresent()) return Optional.empty();
         Optional<FinancialLedger> optionalFinancialLedger = findFinancialLedgerByUserId(id, financialLedgerId);
         if (!optionalFinancialLedger.isPresent()) return Optional.empty();
-        Optional<Booking> optionalBooking = bookingApplicationService.createByAttributeData(optionalUser.get(), optionalFinancialLedger.get(), attributeData);
+        Optional<Booking> optionalBooking = bookingDomainService.createByAttributeData(optionalUser.get(), optionalFinancialLedger.get(), attributeData);
         if (!optionalBooking.isPresent()) return Optional.empty();
         User user = optionalUser.get();
         user.getCreatedBookings().add(optionalBooking.get());
@@ -200,7 +200,7 @@ public class UserOperationService {
             bookingCategory.getBookings().remove(optionalBooking.get());
             bookingCategoryApplicationService.save(bookingCategory);
 
-            bookingApplicationService.deleteById(bookingId);
+            bookingDomainService.deleteById(bookingId);
             return true;
         }
         return false;
@@ -231,7 +231,7 @@ public class UserOperationService {
                 user.getReferencedBookings().add(booking);
                 userApplicationService.save(user);
                 booking.getReferencedUsers().add(optionalReferenceUser.get());
-                bookingApplicationService.save(booking);
+                bookingDomainService.save(booking);
                 return true;
             }
         }
@@ -251,7 +251,7 @@ public class UserOperationService {
                     user.getReferencedBookings().remove(booking);
                     userApplicationService.save(user);
                     booking.getReferencedUsers().remove(optionalReferenceUser.get());
-                    bookingApplicationService.save(booking);
+                    bookingDomainService.save(booking);
                     return true;
                 }
             }
@@ -272,7 +272,7 @@ public class UserOperationService {
         double amount = money.getAmount() * rate.get();
         amount = Math.round(amount*100.0)/100.0;
         booking.setMoney(new Money(amount, targetCurrencyType));
-        bookingApplicationService.save(booking);
+        bookingDomainService.save(booking);
         return true;
     }
 
