@@ -6,7 +6,7 @@ import de.dhbw.cleanproject.application.booking.BookingApplicationService;
 import de.dhbw.cleanproject.application.booking.BookingAttributeData;
 import de.dhbw.cleanproject.application.bookingcategory.BookingCategoryApplicationService;
 import de.dhbw.cleanproject.application.bookingcategory.BookingCategoryAttributeData;
-import de.dhbw.cleanproject.application.currency.exchange.CurrencyExchangeOffice;
+import de.dhbw.cleanproject.application.currency.exchange.CurrencyExchangeOfficeService;
 import de.dhbw.cleanproject.application.currency.exchange.CurrencyExchangeRequest;
 import de.dhbw.cleanproject.application.financialledger.FinancialLedgerApplicationService;
 import de.dhbw.cleanproject.application.financialledger.FinancialLedgerAttributeData;
@@ -29,7 +29,7 @@ public class UserOperationService {
     private final FinancialLedgerApplicationService financialLedgerApplicationService;
     private final BookingApplicationService bookingApplicationService;
     private final BookingCategoryApplicationService bookingCategoryApplicationService;
-    private final CurrencyExchangeOffice currencyExchangeOffice;
+    private final CurrencyExchangeOfficeService currencyExchangeOfficeService;
 
     public boolean deleteUser(UUID id){
         Optional<User> optionalUser = userApplicationService.findById(id);
@@ -264,7 +264,7 @@ public class UserOperationService {
         if (!optionalBooking.isPresent() || optionalBooking.get().getMoney().getCurrencyType().equals(targetCurrencyType)) return false;
         CurrencyExchangeRequest currencyExchangeRequest = CurrencyExchangeRequest.builder().sourceCurrencyType(optionalBooking.get().getMoney().getCurrencyType()).targetCurrencyType(targetCurrencyType).build();
 
-        Optional<Double> rate = currencyExchangeOffice.getExchangeRate(currencyExchangeRequest);
+        Optional<Double> rate = currencyExchangeOfficeService.getExchangeRate(currencyExchangeRequest);
         if (!rate.isPresent()) return false;
 
         Booking booking = optionalBooking.get();
