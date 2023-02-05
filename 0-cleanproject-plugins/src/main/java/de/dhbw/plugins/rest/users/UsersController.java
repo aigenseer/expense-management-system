@@ -6,6 +6,7 @@ import de.dhbw.cleanproject.adapter.model.user.userdata.UserUnsafeDataToUserAttr
 import de.dhbw.cleanproject.application.user.UserApplicationService;
 import de.dhbw.cleanproject.application.user.UserAttributeData;
 import de.dhbw.cleanproject.domain.user.User;
+import de.dhbw.plugins.mapper.user.UserPreviewCollectionModelFactory;
 import de.dhbw.plugins.mapper.user.UsersToUserPreviewCollectionMapper;
 import de.dhbw.plugins.rest.user.UserController;
 import de.dhbw.plugins.rest.utils.WebMvcLinkBuilderUtils;
@@ -29,17 +30,11 @@ public class UsersController {
 
     private final UserApplicationService userApplicationService;
     private final UserUnsafeDataToUserAttributeDataAdapterMapper userDataToUserMapper;
-    private final UsersToUserPreviewCollectionMapper usersToUserPreviewCollectionMapper;
+    private final UserPreviewCollectionModelFactory userPreviewCollectionModelFactory;
 
     @GetMapping("/")
     public ResponseEntity<UserPreviewCollectionModel> listAll() {
-        UserPreviewCollectionModel model = usersToUserPreviewCollectionMapper.apply(userApplicationService.findAll());
-
-        Link selfLink = linkTo(methodOn(UsersController.class).listAll()).withSelfRel()
-                .andAffordance(afford(methodOn(UsersController.class).create(null)));
-        model.add(selfLink);
-
-        return ResponseEntity.ok(model);
+        return ResponseEntity.ok(userPreviewCollectionModelFactory.create(userApplicationService.findAll()));
     }
 
     @PostMapping("/")

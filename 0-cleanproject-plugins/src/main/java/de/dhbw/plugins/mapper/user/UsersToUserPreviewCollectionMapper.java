@@ -26,8 +26,7 @@ public class UsersToUserPreviewCollectionMapper implements Function<Iterable<Use
         List<UserPreview> userPreviewModels = StreamSupport.stream(users.spliterator(), false)
                 .map(userToUserPreviewMapper)
                 .collect(Collectors.toList());
-        UserPreviewCollectionModel userPreviewCollectionModel = new UserPreviewCollectionModel(userPreviewModels);
-        return userPreviewCollectionModel;
+        return new UserPreviewCollectionModel(userPreviewModels);
     }
 
 }
