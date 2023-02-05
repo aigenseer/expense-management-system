@@ -4,6 +4,7 @@ import de.dhbw.cleanproject.adapter.model.user.preview.UserPreviewCollectionMode
 import de.dhbw.cleanproject.adapter.model.user.userdata.AppendUserData;
 import de.dhbw.cleanproject.application.UserOperationService;
 import de.dhbw.cleanproject.domain.financialledger.FinancialLedger;
+import de.dhbw.plugins.mapper.financialledger.FinancialLedgerUserPreviewCollectionModelFactory;
 import de.dhbw.plugins.mapper.user.UsersToUserPreviewCollectionMapper;
 import de.dhbw.plugins.rest.financialledger.user.FinancialLedgerUserController;
 import de.dhbw.plugins.rest.utils.WebMvcLinkBuilderUtils;
@@ -26,26 +27,14 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 public class FinancialLedgerUsersController {
 
     private final UserOperationService userOperationService;
-    private final UsersToUserPreviewCollectionMapper usersToUserPreviewCollectionMapper;
+    private final FinancialLedgerUserPreviewCollectionModelFactory financialLedgerUserPreviewCollectionModelFactory;
 
     @GetMapping
     public ResponseEntity<UserPreviewCollectionModel> listAll(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId) {
         Optional<FinancialLedger> optionalFinancialLedger = userOperationService.findFinancialLedgerByUserId(userId, financialLedgerId);
         if (!optionalFinancialLedger.isPresent()) new ResponseEntity<>(HttpStatus.FORBIDDEN);
         FinancialLedger financialLedger = optionalFinancialLedger.get();
-
-        UserPreviewCollectionModel previewCollectionModel = usersToUserPreviewCollectionMapper.apply(financialLedger.getAuthorizedUser());
-        previewCollectionModel.getContent().forEach(userPreview -> {
-            Link selfLink = linkTo(methodOn(FinancialLedgerUserController.class).findOne(financialLedgerId, userPreview.getId())).withSelfRel();
-            userPreview.removeLinks();
-            userPreview.add(selfLink);
-        });
-
-        Link selfLink = linkTo(methodOn(this.getClass()).listAll(userId, financialLedgerId)).withSelfRel()
-                .andAffordance(afford(methodOn(this.getClass()).create(userId, financialLedgerId, null)));
-        previewCollectionModel.add(selfLink);
-
-        return ResponseEntity.ok(previewCollectionModel);
+        return ResponseEntity.ok(financialLedgerUserPreviewCollectionModelFactory.create(userId, financialLedger));
     }
 
     @PostMapping
