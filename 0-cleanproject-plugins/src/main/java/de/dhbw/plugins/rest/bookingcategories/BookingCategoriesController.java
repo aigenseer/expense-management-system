@@ -1,8 +1,8 @@
 package de.dhbw.plugins.rest.bookingcategories;
 
-import de.dhbw.cleanproject.adapter.bookingcategory.data.BookingCategoryData;
-import de.dhbw.cleanproject.adapter.bookingcategory.data.BookingCategoryDataToBookingCategoryAttributeDataAdapterMapper;
-import de.dhbw.cleanproject.adapter.bookingcategory.preview.BookingCategoryPreviewCollectionModel;
+import de.dhbw.cleanproject.adapter.model.bookingcategory.data.BookingCategoryData;
+import de.dhbw.cleanproject.adapter.model.bookingcategory.data.BookingCategoryDataToBookingCategoryAttributeDataAdapterMapper;
+import de.dhbw.cleanproject.adapter.model.bookingcategory.preview.BookingCategoryPreviewCollectionModel;
 import de.dhbw.cleanproject.application.UserOperationService;
 import de.dhbw.cleanproject.application.bookingcategory.BookingCategoryAttributeData;
 import de.dhbw.cleanproject.domain.bookingcategory.BookingCategory;

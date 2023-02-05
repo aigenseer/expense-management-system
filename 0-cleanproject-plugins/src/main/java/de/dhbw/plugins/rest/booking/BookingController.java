@@ -1,8 +1,8 @@
 package de.dhbw.plugins.rest.booking;
 
-import de.dhbw.cleanproject.adapter.booking.data.BookingUnsafeDataToBookingAttributeDataAdapterMapper;
-import de.dhbw.cleanproject.adapter.booking.data.BookingUpdateData;
-import de.dhbw.cleanproject.adapter.booking.model.BookingModel;
+import de.dhbw.cleanproject.adapter.model.booking.data.BookingUnsafeDataToBookingAttributeDataAdapterMapper;
+import de.dhbw.cleanproject.adapter.model.booking.data.BookingUpdateData;
+import de.dhbw.cleanproject.adapter.model.booking.model.BookingModel;
 import de.dhbw.cleanproject.application.UserOperationService;
 import de.dhbw.cleanproject.application.booking.BookingApplicationService;
 import de.dhbw.cleanproject.application.booking.BookingAttributeData;

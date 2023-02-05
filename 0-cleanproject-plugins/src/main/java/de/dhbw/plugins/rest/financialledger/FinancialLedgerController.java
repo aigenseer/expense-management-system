@@ -1,12 +1,12 @@
 package de.dhbw.plugins.rest.financialledger;
 
-import de.dhbw.cleanproject.adapter.booking.preview.BookingPreviewCollectionModel;
-import de.dhbw.cleanproject.adapter.bookingcategory.preview.BookingCategoryPreviewCollectionModel;
-import de.dhbw.cleanproject.adapter.financialledger.data.FinancialLedgerData;
-import de.dhbw.cleanproject.adapter.financialledger.data.FinancialLedgerDataToFinancialLedgerAttributeDataAdapterMapper;
-import de.dhbw.cleanproject.adapter.financialledger.model.FinancialLedgerModel;
-import de.dhbw.cleanproject.adapter.financialledger.model.FinancialLedgerToFinancialLedgerModelAdapterMapper;
-import de.dhbw.cleanproject.adapter.user.preview.UserPreviewCollectionModel;
+import de.dhbw.cleanproject.adapter.model.booking.preview.BookingPreviewCollectionModel;
+import de.dhbw.cleanproject.adapter.model.bookingcategory.preview.BookingCategoryPreviewCollectionModel;
+import de.dhbw.cleanproject.adapter.model.financialledger.data.FinancialLedgerData;
+import de.dhbw.cleanproject.adapter.model.financialledger.data.FinancialLedgerDataToFinancialLedgerAttributeDataAdapterMapper;
+import de.dhbw.cleanproject.adapter.model.financialledger.model.FinancialLedgerModel;
+import de.dhbw.cleanproject.adapter.model.financialledger.model.FinancialLedgerToFinancialLedgerModelAdapterMapper;
+import de.dhbw.cleanproject.adapter.model.user.preview.UserPreviewCollectionModel;
 import de.dhbw.cleanproject.application.UserOperationService;
 import de.dhbw.cleanproject.application.financialledger.FinancialLedgerApplicationService;
 import de.dhbw.cleanproject.application.financialledger.FinancialLedgerAttributeData;

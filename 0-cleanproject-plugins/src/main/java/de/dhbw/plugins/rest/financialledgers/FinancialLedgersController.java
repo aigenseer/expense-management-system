@@ -1,8 +1,8 @@
 package de.dhbw.plugins.rest.financialledgers;
 
-import de.dhbw.cleanproject.adapter.financialledger.data.FinancialLedgerData;
-import de.dhbw.cleanproject.adapter.financialledger.data.FinancialLedgerDataToFinancialLedgerAttributeDataAdapterMapper;
-import de.dhbw.cleanproject.adapter.financialledger.preview.FinancialLedgerPreviewCollectionModel;
+import de.dhbw.cleanproject.adapter.model.financialledger.data.FinancialLedgerData;
+import de.dhbw.cleanproject.adapter.model.financialledger.data.FinancialLedgerDataToFinancialLedgerAttributeDataAdapterMapper;
+import de.dhbw.cleanproject.adapter.model.financialledger.preview.FinancialLedgerPreviewCollectionModel;
 import de.dhbw.cleanproject.application.financialledger.FinancialLedgerAttributeData;
 import de.dhbw.cleanproject.application.user.UserApplicationService;
 import de.dhbw.cleanproject.application.UserOperationService;

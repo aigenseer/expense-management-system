@@ -1,7 +1,7 @@
 package de.dhbw.plugins.mapper.booking;
 
-import de.dhbw.cleanproject.adapter.booking.preview.BookingPreviewModel;
-import de.dhbw.cleanproject.adapter.booking.preview.BookingToBookingPreviewModelAdapterMapper;
+import de.dhbw.cleanproject.adapter.model.booking.preview.BookingPreviewModel;
+import de.dhbw.cleanproject.adapter.model.booking.preview.BookingToBookingPreviewModelAdapterMapper;
 import de.dhbw.cleanproject.domain.booking.Booking;
 import de.dhbw.plugins.rest.booking.BookingController;
 import lombok.Builder;

@@ -1,8 +1,8 @@
 package de.dhbw.plugins.rest.users;
 
-import de.dhbw.cleanproject.adapter.user.preview.UserPreviewCollectionModel;
-import de.dhbw.cleanproject.adapter.user.userdata.UserData;
-import de.dhbw.cleanproject.adapter.user.userdata.UserUnsafeDataToUserAttributeDataAdapterMapper;
+import de.dhbw.cleanproject.adapter.model.user.preview.UserPreviewCollectionModel;
+import de.dhbw.cleanproject.adapter.model.user.userdata.UserData;
+import de.dhbw.cleanproject.adapter.model.user.userdata.UserUnsafeDataToUserAttributeDataAdapterMapper;
 import de.dhbw.cleanproject.application.user.UserApplicationService;
 import de.dhbw.cleanproject.application.user.UserAttributeData;
 import de.dhbw.cleanproject.domain.user.User;

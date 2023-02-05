@@ -1,7 +1,7 @@
 package de.dhbw.plugins.mapper.bookingcategory;
 
-import de.dhbw.cleanproject.adapter.bookingcategory.preview.BookingCategoryPreviewCollectionModel;
-import de.dhbw.cleanproject.adapter.bookingcategory.preview.BookingCategoryPreviewModel;
+import de.dhbw.cleanproject.adapter.model.bookingcategory.preview.BookingCategoryPreviewCollectionModel;
+import de.dhbw.cleanproject.adapter.model.bookingcategory.preview.BookingCategoryPreviewModel;
 import de.dhbw.cleanproject.domain.bookingcategory.BookingCategory;
 import lombok.Builder;
 import lombok.Getter;

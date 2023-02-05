@@ -1,6 +1,6 @@
 package de.dhbw.plugins.rest.booking.user;
 
-import de.dhbw.cleanproject.adapter.user.preview.UserPreview;
+import de.dhbw.cleanproject.adapter.model.user.preview.UserPreview;
 import de.dhbw.cleanproject.application.UserOperationService;
 import de.dhbw.cleanproject.domain.booking.Booking;
 import de.dhbw.cleanproject.domain.user.User;
