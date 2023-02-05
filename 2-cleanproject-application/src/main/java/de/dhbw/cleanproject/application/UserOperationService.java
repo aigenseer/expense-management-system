@@ -1,9 +1,13 @@
 package de.dhbw.cleanproject.application;
 
+import de.dhbw.cleanproject.abstractioncode.valueobject.money.CurrencyType;
+import de.dhbw.cleanproject.abstractioncode.valueobject.money.Money;
 import de.dhbw.cleanproject.application.booking.BookingApplicationService;
 import de.dhbw.cleanproject.application.booking.BookingAttributeData;
 import de.dhbw.cleanproject.application.bookingcategory.BookingCategoryApplicationService;
 import de.dhbw.cleanproject.application.bookingcategory.BookingCategoryAttributeData;
+import de.dhbw.cleanproject.application.currency.exchange.CurrencyExchangeOffice;
+import de.dhbw.cleanproject.application.currency.exchange.CurrencyExchangeRequest;
 import de.dhbw.cleanproject.application.financialledger.FinancialLedgerApplicationService;
 import de.dhbw.cleanproject.application.financialledger.FinancialLedgerAttributeData;
 import de.dhbw.cleanproject.application.user.UserApplicationService;
@@ -25,6 +29,7 @@ public class UserOperationService {
     private final FinancialLedgerApplicationService financialLedgerApplicationService;
     private final BookingApplicationService bookingApplicationService;
     private final BookingCategoryApplicationService bookingCategoryApplicationService;
+    private final CurrencyExchangeOffice currencyExchangeOffice;
 
     public boolean deleteUser(UUID id){
         Optional<User> optionalUser = userApplicationService.findById(id);
@@ -252,6 +257,23 @@ public class UserOperationService {
             }
         }
         return false;
+    }
+
+    public boolean exchangeCurrencyOfBooking(UUID id, UUID financialLedgerId, UUID bookingId, CurrencyType targetCurrencyType){
+        Optional<Booking> optionalBooking = getBooking(id, financialLedgerId, bookingId);
+        if (!optionalBooking.isPresent() || optionalBooking.get().getMoney().getCurrencyType().equals(targetCurrencyType)) return false;
+        CurrencyExchangeRequest currencyExchangeRequest = CurrencyExchangeRequest.builder().sourceCurrencyType(optionalBooking.get().getMoney().getCurrencyType()).targetCurrencyType(targetCurrencyType).build();
+
+        Optional<Double> rate = currencyExchangeOffice.getExchangeRate(currencyExchangeRequest);
+        if (!rate.isPresent()) return false;
+
+        Booking booking = optionalBooking.get();
+        Money money = booking.getMoney();
+        double amount = money.getAmount() * rate.get();
+        amount = Math.round(amount*100.0)/100.0;
+        booking.setMoney(new Money(amount, targetCurrencyType));
+        bookingApplicationService.save(booking);
+        return true;
     }
 
 }
