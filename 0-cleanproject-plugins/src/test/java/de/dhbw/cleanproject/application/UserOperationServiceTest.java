@@ -6,7 +6,7 @@ import de.dhbw.cleanproject.application.booking.BookingApplicationService;
 import de.dhbw.cleanproject.application.booking.BookingAttributeData;
 import de.dhbw.cleanproject.application.bookingcategory.BookingCategoryApplicationService;
 import de.dhbw.cleanproject.application.bookingcategory.BookingCategoryAttributeData;
-import de.dhbw.cleanproject.application.currency.exchange.CurrencyExchangeOffice;
+import de.dhbw.cleanproject.application.currency.exchange.CurrencyExchangeOfficeService;
 import de.dhbw.cleanproject.application.currency.exchange.CurrencyExchangeRequest;
 import de.dhbw.cleanproject.application.financialledger.FinancialLedgerApplicationService;
 import de.dhbw.cleanproject.application.financialledger.FinancialLedgerAttributeData;
@@ -316,13 +316,14 @@ public class UserOperationServiceTest {
     @Test
     public void testExchangeCurrencyOfBooking(){
         CurrencyExchangeRequest currencyExchangeRequest = CurrencyExchangeRequest.builder().sourceCurrencyType(CurrencyType.EURO).targetCurrencyType(CurrencyType.DOLLAR).build();
-        CurrencyExchangeOffice currencyExchangeOffice = mock(CurrencyExchangeOffice.class);
+        CurrencyExchangeOfficeService currencyExchangeOfficeService = mock(CurrencyExchangeOfficeService.class);
         Double factor = 1.5;
-        when(currencyExchangeOffice.getExchangeRate(currencyExchangeRequest)).thenReturn(Optional.of(factor));
+        when(currencyExchangeOfficeService.getExchangeRate(currencyExchangeRequest)).thenReturn(Optional.of(factor));
 
         Double expectedAmount = booking.getMoney().getAmount() * factor;
+        expectedAmount = Math.round(expectedAmount*100.0)/100.0;
 
-        UserOperationService service = spy(new UserOperationService(userApplicationService, financialLedgerApplicationService, bookingApplicationService, bookingCategoryApplicationService, currencyExchangeOffice));
+        UserOperationService service = spy(new UserOperationService(userApplicationService, financialLedgerApplicationService, bookingApplicationService, bookingCategoryApplicationService, currencyExchangeOfficeService));
 
         boolean result = service.exchangeCurrencyOfBooking(userId, financialLedgerId, bookingId, CurrencyType.DOLLAR);
         assertTrue(result);
