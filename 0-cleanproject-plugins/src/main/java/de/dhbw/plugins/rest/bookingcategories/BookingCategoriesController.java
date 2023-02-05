@@ -7,11 +7,10 @@ import de.dhbw.cleanproject.application.UserOperationService;
 import de.dhbw.cleanproject.application.bookingcategory.BookingCategoryAttributeData;
 import de.dhbw.cleanproject.domain.bookingcategory.BookingCategory;
 import de.dhbw.cleanproject.domain.financialledger.FinancialLedger;
-import de.dhbw.plugins.mapper.bookingcategory.BookingCategoriesToBookingCategoryPreviewCollectionMapper;
+import de.dhbw.plugins.mapper.bookingcategory.BookingCategoryPreviewCollectionModelFactory;
 import de.dhbw.plugins.rest.bookingcategory.BookingCategoryController;
 import de.dhbw.plugins.rest.utils.WebMvcLinkBuilderUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +20,7 @@ import javax.validation.Valid;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping(value = "/api/{userId}/financialledger/{financialLedgerId}/bookingcategories", produces = "application/vnd.siren+json")
@@ -29,25 +28,14 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 public class BookingCategoriesController {
 
     private final UserOperationService userOperationService;
-    private final BookingCategoriesToBookingCategoryPreviewCollectionMapper bookingCategoriesToBookingCategoryPreviewCollectionMapper;
     private final BookingCategoryDataToBookingCategoryAttributeDataAdapterMapper bookingCategoryDataToBookingCategoryAttributeDataAdapterMapper;
+    private final BookingCategoryPreviewCollectionModelFactory bookingCategoryPreviewCollectionModelFactory;
 
     @GetMapping
     public ResponseEntity<BookingCategoryPreviewCollectionModel> listAll(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId) {
         Optional<FinancialLedger> optionalFinancialLedger = userOperationService.findFinancialLedgerByUserId(userId, financialLedgerId);
         if (!optionalFinancialLedger.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        FinancialLedger financialLedger = optionalFinancialLedger.get();
-
-        BookingCategoryPreviewCollectionModel previewCollectionModel = bookingCategoriesToBookingCategoryPreviewCollectionMapper
-                .apply(BookingCategoriesToBookingCategoryPreviewCollectionMapper.Context.builder()
-                        .userId(userId)
-                        .bookingCategories(financialLedger.getBookingCategories())
-                        .build());
-        Link selfLink = linkTo(methodOn(this.getClass()).listAll(userId, financialLedgerId)).withSelfRel()
-                .andAffordance(afford(methodOn(this.getClass()).create(userId, financialLedgerId, null)));
-        previewCollectionModel.add(selfLink);
-
-        return ResponseEntity.ok(previewCollectionModel);
+        return ResponseEntity.ok(bookingCategoryPreviewCollectionModelFactory.create(userId, financialLedgerId, optionalFinancialLedger.get().getBookingCategories()));
     }
 
     @PostMapping
