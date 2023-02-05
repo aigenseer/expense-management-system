@@ -4,9 +4,8 @@ import de.dhbw.cleanproject.adapter.model.user.preview.UserPreview;
 import de.dhbw.cleanproject.application.UserOperationService;
 import de.dhbw.cleanproject.domain.booking.Booking;
 import de.dhbw.cleanproject.domain.user.User;
-import de.dhbw.plugins.mapper.user.UserToUserPreviewMapper;
+import de.dhbw.plugins.mapper.booking.ReferencedUserPreviewModelFactory;
 import lombok.RequiredArgsConstructor;
-import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,15 +13,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
-
 @RestController
 @RequestMapping(value = "/api/{userId}/financialledger/{financialLedgerId}/booking/{bookingId}/user/{referencedUserId}", produces = "application/vnd.siren+json")
 @RequiredArgsConstructor
 public class BookingReferencedUserController {
 
     private final UserOperationService userOperationService;
-    private final UserToUserPreviewMapper userToUserPreviewMapper;
+    private final ReferencedUserPreviewModelFactory referencedUserPreviewModelFactory;
 
     @GetMapping
     public ResponseEntity<UserPreview> findOne(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId, @PathVariable("bookingId") UUID bookingId, @PathVariable("referencedUserId") UUID referencedUserId) {
@@ -31,16 +28,7 @@ public class BookingReferencedUserController {
         Booking booking = optionalBooking.get();
         Optional<User> optionalReferencedUser = booking.getReferencedUsers().stream().filter(user -> user.getId().equals(referencedUserId)).findFirst();
         if (!optionalReferencedUser.isPresent()) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        User referencedUser = optionalReferencedUser.get();
-
-        UserPreview model = userToUserPreviewMapper.apply(referencedUser);
-        model.removeLinks();
-
-        Link selfLink = linkTo(methodOn(getClass()).findOne(userId, financialLedgerId, bookingId, referencedUserId)).withSelfRel()
-                .andAffordance(afford(methodOn(getClass()).delete(userId, financialLedgerId, bookingId, referencedUserId)));
-        model.add(selfLink);
-
-        return ResponseEntity.ok(model);
+        return ResponseEntity.ok(referencedUserPreviewModelFactory.create(userId, financialLedgerId, bookingId, optionalReferencedUser.get()));
     }
 
     @DeleteMapping("/")
