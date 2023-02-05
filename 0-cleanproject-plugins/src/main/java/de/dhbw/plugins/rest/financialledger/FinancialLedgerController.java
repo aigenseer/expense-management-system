@@ -1,26 +1,15 @@
 package de.dhbw.plugins.rest.financialledger;
 
-import de.dhbw.cleanproject.adapter.model.booking.preview.BookingPreviewCollectionModel;
-import de.dhbw.cleanproject.adapter.model.bookingcategory.preview.BookingCategoryPreviewCollectionModel;
 import de.dhbw.cleanproject.adapter.model.financialledger.data.FinancialLedgerData;
 import de.dhbw.cleanproject.adapter.model.financialledger.data.FinancialLedgerDataToFinancialLedgerAttributeDataAdapterMapper;
 import de.dhbw.cleanproject.adapter.model.financialledger.model.FinancialLedgerModel;
-import de.dhbw.cleanproject.adapter.model.financialledger.model.FinancialLedgerToFinancialLedgerModelAdapterMapper;
-import de.dhbw.cleanproject.adapter.model.user.preview.UserPreviewCollectionModel;
 import de.dhbw.cleanproject.application.UserOperationService;
 import de.dhbw.cleanproject.application.financialledger.FinancialLedgerApplicationService;
 import de.dhbw.cleanproject.application.financialledger.FinancialLedgerAttributeData;
 import de.dhbw.cleanproject.domain.financialledger.FinancialLedger;
-import de.dhbw.plugins.mapper.booking.BookingsToBookingPreviewCollectionMapper;
-import de.dhbw.plugins.mapper.bookingcategory.BookingCategoriesToBookingCategoryPreviewCollectionMapper;
 import de.dhbw.plugins.mapper.financialledger.FinancialLedgerModelFactory;
-import de.dhbw.plugins.mapper.user.UsersToUserPreviewCollectionMapper;
-import de.dhbw.plugins.rest.bookingcategories.BookingCategoriesController;
-import de.dhbw.plugins.rest.bookings.BookingsController;
-import de.dhbw.plugins.rest.financialledger.users.FinancialLedgerUsersController;
 import de.dhbw.plugins.rest.utils.WebMvcLinkBuilderUtils;
 import lombok.AllArgsConstructor;
-import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +19,8 @@ import javax.validation.Valid;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping(value = "/api/user/{userId}/financialledger/{financialLedgerId}/", produces = "application/vnd.siren+json")
