@@ -7,10 +7,9 @@ import de.dhbw.cleanproject.application.UserOperationService;
 import de.dhbw.cleanproject.application.booking.BookingApplicationService;
 import de.dhbw.cleanproject.application.booking.BookingAttributeData;
 import de.dhbw.cleanproject.domain.booking.Booking;
-import de.dhbw.plugins.mapper.booking.BookingToBookingModelMapper;
+import de.dhbw.plugins.mapper.booking.BookingModelFactory;
 import de.dhbw.plugins.rest.utils.WebMvcLinkBuilderUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +19,8 @@ import javax.validation.Valid;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping(value = "/api/{userId}/financialledger/{financialLedgerId}/booking/{bookingId}", produces = "application/vnd.siren+json")
@@ -29,26 +29,14 @@ public class BookingController {
 
     private final UserOperationService userOperationService;
     private final BookingApplicationService bookingApplicationService;
-    private final BookingToBookingModelMapper bookingToBookingModelMapper;
     private final BookingUnsafeDataToBookingAttributeDataAdapterMapper dataAdapterMapper;
+    private final BookingModelFactory bookingModelFactory;
 
     @GetMapping
     public ResponseEntity<BookingModel> findOne(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId, @PathVariable("bookingId") UUID bookingId) {
         Optional<Booking> optionalBooking = userOperationService.getBooking(userId, financialLedgerId, bookingId);
         if (!optionalBooking.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-
-        BookingModel model = bookingToBookingModelMapper.apply(BookingToBookingModelMapper
-                .Context.builder()
-                .userId(userId)
-                .booking(optionalBooking.get())
-                .build());
-        model.removeLinks();
-        Link selfLink = linkTo(methodOn(getClass()).findOne(userId, financialLedgerId, bookingId)).withSelfRel()
-                .andAffordance(afford(methodOn(getClass()).update(userId, financialLedgerId, bookingId, null)))
-                .andAffordance(afford(methodOn(getClass()).delete(userId, financialLedgerId, bookingId)));
-        model.add(selfLink);
-
-        return ResponseEntity.ok(model);
+        return ResponseEntity.ok(bookingModelFactory.create(userId, financialLedgerId, optionalBooking.get()));
     }
 
     @PutMapping
