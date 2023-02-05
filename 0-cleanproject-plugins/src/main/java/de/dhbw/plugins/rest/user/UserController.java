@@ -7,6 +7,7 @@ import de.dhbw.cleanproject.application.UserOperationService;
 import de.dhbw.cleanproject.application.user.UserApplicationService;
 import de.dhbw.cleanproject.application.user.UserAttributeData;
 import de.dhbw.cleanproject.domain.user.User;
+import de.dhbw.plugins.mapper.user.UserModelFactory;
 import de.dhbw.plugins.mapper.user.UserToUserModelMapper;
 import de.dhbw.plugins.rest.utils.WebMvcLinkBuilderUtils;
 import lombok.AllArgsConstructor;
@@ -29,23 +30,15 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 public class UserController {
 
     private final UserApplicationService userApplicationService;
-
     private final UserUnsafeDataToUserAttributeDataAdapterMapper userUnsafeDataToUserAttributeDataAdapterMapper;
     private final UserOperationService userOperationService;
-    private final UserToUserModelMapper userToUserModelMapper;
+    private final UserModelFactory userModelFactory;
 
     @GetMapping("/")
     public ResponseEntity<UserModel> findOne(@PathVariable("userId") UUID id) {
         Optional<User> userOptional = userApplicationService.findById(id);
         if (!userOptional.isPresent()) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        UserModel userModel = userToUserModelMapper.apply(userOptional.get());
-
-        Link selfLink = linkTo(methodOn(UserController.class).findOne(id)).withSelfRel()
-                .andAffordance(afford(methodOn(UserController.class).update(id, null)))
-                .andAffordance(afford(methodOn(UserController.class).delete(id)));
-        userModel.add(selfLink);
-
-        return ResponseEntity.ok(userModel);
+        return ResponseEntity.ok(userModelFactory.create(userOptional.get()));
     }
 
     @PutMapping("/")
