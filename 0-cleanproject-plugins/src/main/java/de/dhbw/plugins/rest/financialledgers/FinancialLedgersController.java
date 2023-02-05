@@ -3,16 +3,15 @@ package de.dhbw.plugins.rest.financialledgers;
 import de.dhbw.cleanproject.adapter.model.financialledger.data.FinancialLedgerData;
 import de.dhbw.cleanproject.adapter.model.financialledger.data.FinancialLedgerDataToFinancialLedgerAttributeDataAdapterMapper;
 import de.dhbw.cleanproject.adapter.model.financialledger.preview.FinancialLedgerPreviewCollectionModel;
+import de.dhbw.cleanproject.application.UserOperationService;
 import de.dhbw.cleanproject.application.financialledger.FinancialLedgerAttributeData;
 import de.dhbw.cleanproject.application.user.UserApplicationService;
-import de.dhbw.cleanproject.application.UserOperationService;
 import de.dhbw.cleanproject.domain.financialledger.FinancialLedger;
 import de.dhbw.cleanproject.domain.user.User;
-import de.dhbw.plugins.mapper.financialledger.FinancialLedgersToFinancialLedgerPreviewCollectionMapper;
+import de.dhbw.plugins.mapper.financialledger.FinancialLedgerPreviewCollectionModelFactory;
 import de.dhbw.plugins.rest.financialledger.FinancialLedgerController;
 import de.dhbw.plugins.rest.utils.WebMvcLinkBuilderUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +21,7 @@ import javax.validation.Valid;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping(value = "/api/user/{userId}/financialledger/", produces = "application/vnd.siren+json")
@@ -32,7 +31,7 @@ public class FinancialLedgersController {
     private final UserApplicationService userApplicationService;
     private final UserOperationService userOperationService;
     private final FinancialLedgerDataToFinancialLedgerAttributeDataAdapterMapper dataAdapterMapper;
-    private final FinancialLedgersToFinancialLedgerPreviewCollectionMapper financialLedgersToFinancialLedgerPreviewCollectionMapper;
+    private final FinancialLedgerPreviewCollectionModelFactory financialLedgerPreviewCollectionModelFactory;
 
     @GetMapping
     public ResponseEntity<FinancialLedgerPreviewCollectionModel> listAll(@PathVariable("userId") UUID userId) {
@@ -40,15 +39,7 @@ public class FinancialLedgersController {
         if (!userOptional.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         User user = userOptional.get();
 
-        FinancialLedgerPreviewCollectionModel previewCollectionModel = financialLedgersToFinancialLedgerPreviewCollectionMapper.apply(FinancialLedgersToFinancialLedgerPreviewCollectionMapper.Context
-                .builder()
-                .userId(userId)
-                .financialLedgers(user.getFinancialLedgers())
-                .build());
-
-        Link selfLink = linkTo(methodOn(this.getClass()).listAll(userId)).withSelfRel()
-                .andAffordance(afford(methodOn(this.getClass()).create(userId, null)));
-        previewCollectionModel.add(selfLink);
+        FinancialLedgerPreviewCollectionModel previewCollectionModel = financialLedgerPreviewCollectionModelFactory.create(userId, user.getFinancialLedgers());
 
         return ResponseEntity.ok(previewCollectionModel);
     }
