@@ -6,6 +6,8 @@ import de.dhbw.cleanproject.application.booking.BookingApplicationService;
 import de.dhbw.cleanproject.application.booking.BookingAttributeData;
 import de.dhbw.cleanproject.application.bookingcategory.BookingCategoryApplicationService;
 import de.dhbw.cleanproject.application.bookingcategory.BookingCategoryAttributeData;
+import de.dhbw.cleanproject.application.currency.exchange.CurrencyExchangeOffice;
+import de.dhbw.cleanproject.application.currency.exchange.CurrencyExchangeRequest;
 import de.dhbw.cleanproject.application.financialledger.FinancialLedgerApplicationService;
 import de.dhbw.cleanproject.application.financialledger.FinancialLedgerAttributeData;
 import de.dhbw.cleanproject.application.user.UserApplicationService;
@@ -21,12 +23,11 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 
 @RunWith(SpringRunner.class)
@@ -73,7 +74,6 @@ public class UserOperationServiceTest {
         assertTrue(optionalBooking.isPresent());
         booking = optionalBooking.get();
     }
-
 
     @Test
     public void testFindFinancialLedgerByUserId() {
@@ -311,6 +311,26 @@ public class UserOperationServiceTest {
 
         Optional<Booking> optionalBooking = bookingApplicationService.findById(bookingId);
         assertFalse(optionalBooking.isPresent());
+    }
+
+    @Test
+    public void testExchangeCurrencyOfBooking(){
+        CurrencyExchangeRequest currencyExchangeRequest = CurrencyExchangeRequest.builder().sourceCurrencyType(CurrencyType.EURO).targetCurrencyType(CurrencyType.DOLLAR).build();
+        CurrencyExchangeOffice currencyExchangeOffice = mock(CurrencyExchangeOffice.class);
+        Double factor = 1.5;
+        when(currencyExchangeOffice.getExchangeRate(currencyExchangeRequest)).thenReturn(Optional.of(factor));
+
+        Double expectedAmount = booking.getMoney().getAmount() * factor;
+
+        UserOperationService service = spy(new UserOperationService(userApplicationService, financialLedgerApplicationService, bookingApplicationService, bookingCategoryApplicationService, currencyExchangeOffice));
+
+        boolean result = service.exchangeCurrencyOfBooking(userId, financialLedgerId, bookingId, CurrencyType.DOLLAR);
+        assertTrue(result);
+
+        Optional<Booking> optionalBooking = bookingApplicationService.findById(bookingId);
+        assertTrue(optionalBooking.isPresent());
+        assertEquals(CurrencyType.DOLLAR, optionalBooking.get().getMoney().getCurrencyType());
+        assertEquals(expectedAmount, optionalBooking.get().getMoney().getAmount());
     }
 
 

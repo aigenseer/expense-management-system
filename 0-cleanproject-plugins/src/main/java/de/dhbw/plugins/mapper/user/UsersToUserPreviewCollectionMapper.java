@@ -1,7 +1,7 @@
 package de.dhbw.plugins.mapper.user;
 
-import de.dhbw.cleanproject.adapter.user.preview.UserPreview;
-import de.dhbw.cleanproject.adapter.user.preview.UserPreviewCollectionModel;
+import de.dhbw.cleanproject.adapter.model.user.preview.UserPreview;
+import de.dhbw.cleanproject.adapter.model.user.preview.UserPreviewCollectionModel;
 import de.dhbw.cleanproject.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

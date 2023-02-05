@@ -1,10 +1,10 @@
 package de.dhbw.plugins.rest.bookingcategory;
 
-import de.dhbw.cleanproject.adapter.booking.preview.BookingPreviewCollectionModel;
-import de.dhbw.cleanproject.adapter.bookingcategory.data.BookingCategoryData;
-import de.dhbw.cleanproject.adapter.bookingcategory.data.BookingCategoryDataToBookingCategoryAttributeDataAdapterMapper;
-import de.dhbw.cleanproject.adapter.bookingcategory.data.BookingCategoryModel;
-import de.dhbw.cleanproject.adapter.bookingcategory.data.BookingCategoryToBookingCategoryModelAdapterMapper;
+import de.dhbw.cleanproject.adapter.model.booking.preview.BookingPreviewCollectionModel;
+import de.dhbw.cleanproject.adapter.model.bookingcategory.data.BookingCategoryData;
+import de.dhbw.cleanproject.adapter.model.bookingcategory.data.BookingCategoryDataToBookingCategoryAttributeDataAdapterMapper;
+import de.dhbw.cleanproject.adapter.model.bookingcategory.data.BookingCategoryModel;
+import de.dhbw.cleanproject.adapter.model.bookingcategory.data.BookingCategoryToBookingCategoryModelAdapterMapper;
 import de.dhbw.cleanproject.application.UserOperationService;
 import de.dhbw.cleanproject.application.bookingcategory.BookingCategoryApplicationService;
 import de.dhbw.cleanproject.application.bookingcategory.BookingCategoryAttributeData;
@@ -13,7 +13,6 @@ import de.dhbw.plugins.mapper.booking.BookingsToBookingPreviewCollectionMapper;
 import de.dhbw.plugins.rest.bookings.BookingsController;
 import de.dhbw.plugins.rest.utils.WebMvcLinkBuilderUtils;
 import lombok.RequiredArgsConstructor;
-import org.javatuples.Pair;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;

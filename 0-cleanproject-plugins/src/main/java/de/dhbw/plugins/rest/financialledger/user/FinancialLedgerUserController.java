@@ -1,6 +1,6 @@
 package de.dhbw.plugins.rest.financialledger.user;
 
-import de.dhbw.cleanproject.adapter.user.preview.UserPreview;
+import de.dhbw.cleanproject.adapter.model.user.preview.UserPreview;
 import de.dhbw.cleanproject.application.user.UserApplicationService;
 import de.dhbw.cleanproject.application.UserOperationService;
 import de.dhbw.cleanproject.domain.user.User;
