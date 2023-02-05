@@ -13,6 +13,7 @@ import de.dhbw.cleanproject.application.financialledger.FinancialLedgerAttribute
 import de.dhbw.cleanproject.domain.financialledger.FinancialLedger;
 import de.dhbw.plugins.mapper.booking.BookingsToBookingPreviewCollectionMapper;
 import de.dhbw.plugins.mapper.bookingcategory.BookingCategoriesToBookingCategoryPreviewCollectionMapper;
+import de.dhbw.plugins.mapper.financialledger.FinancialLedgerModelFactory;
 import de.dhbw.plugins.mapper.user.UsersToUserPreviewCollectionMapper;
 import de.dhbw.plugins.rest.bookingcategories.BookingCategoriesController;
 import de.dhbw.plugins.rest.bookings.BookingsController;
@@ -40,49 +41,14 @@ public class FinancialLedgerController {
     private final UserOperationService userOperationService;
     private final FinancialLedgerApplicationService financialLedgerApplicationService;
     private final FinancialLedgerDataToFinancialLedgerAttributeDataAdapterMapper adapterMapper;
-    private final FinancialLedgerToFinancialLedgerModelAdapterMapper modelMapper;
-
-    private final UsersToUserPreviewCollectionMapper usersToUserPreviewCollectionMapper;
-    private final BookingCategoriesToBookingCategoryPreviewCollectionMapper bookingCategoriesToBookingCategoryPreviewCollectionMapper;
-    private final BookingsToBookingPreviewCollectionMapper bookingsToBookingPreviewCollectionMapper;
+    private final FinancialLedgerModelFactory financialLedgerModelFactory;
 
     @GetMapping
     public ResponseEntity<FinancialLedgerModel> findOne(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId) {
         Optional<FinancialLedger> optionalFinancialLedger = userOperationService.findFinancialLedgerByUserId(userId, financialLedgerId);
         if (!optionalFinancialLedger.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        FinancialLedger financialLedger = optionalFinancialLedger.get();
-        FinancialLedgerModel model = modelMapper.apply(financialLedger);
-
-        UserPreviewCollectionModel userPreviewCollectionModel = usersToUserPreviewCollectionMapper.apply(financialLedger.getAuthorizedUser());
-        Link selfLink = linkTo(methodOn(FinancialLedgerUsersController.class).listAll(userId, financialLedgerId)).withSelfRel();
-        userPreviewCollectionModel.add(selfLink);
-
-        BookingCategoryPreviewCollectionModel bookingCategoryPreviewCollectionModel = bookingCategoriesToBookingCategoryPreviewCollectionMapper
-                .apply(BookingCategoriesToBookingCategoryPreviewCollectionMapper.Context.builder()
-                        .userId(userId)
-                        .bookingCategories(financialLedger.getBookingCategories())
-                        .build());
-        selfLink = linkTo(methodOn(BookingCategoriesController.class).listAll(userId, financialLedgerId)).withSelfRel();
-        bookingCategoryPreviewCollectionModel.add(selfLink);
-
-        BookingPreviewCollectionModel bookingPreviewCollectionModel = bookingsToBookingPreviewCollectionMapper.apply(BookingsToBookingPreviewCollectionMapper
-                .Context.builder()
-                .userId(userId)
-                .bookings(financialLedger.getBookings())
-                .build());
-        selfLink = linkTo(methodOn(BookingsController.class).listAll(userId, financialLedgerId)).withSelfRel();
-        bookingPreviewCollectionModel.add(selfLink);
-
-        selfLink = linkTo(methodOn(getClass()).findOne(userId, financialLedgerId)).withSelfRel()
-                .andAffordance(afford(methodOn(getClass()).update(userId, financialLedgerId, null)))
-                .andAffordance(afford(methodOn(getClass()).delete(userId, financialLedgerId)));
-        model.add(selfLink);
-
-        model.setUserPreviewCollectionModel(userPreviewCollectionModel);
-        model.setBookingCategoryPreviewCollectionModel(bookingCategoryPreviewCollectionModel);
-        model.setBookingPreviewCollectionModel(bookingPreviewCollectionModel);
-
-        return ResponseEntity.ok(model);
+        FinancialLedgerModel financialLedgerModel = financialLedgerModelFactory.create(userId, optionalFinancialLedger.get());
+        return ResponseEntity.ok(financialLedgerModel);
     }
 
     @PutMapping
