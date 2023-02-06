@@ -5,7 +5,7 @@ import de.dhbw.cleanproject.adapter.model.financialledger.data.FinancialLedgerDa
 import de.dhbw.cleanproject.adapter.model.financialledger.preview.FinancialLedgerPreviewCollectionModel;
 import de.dhbw.cleanproject.application.UserOperationService;
 import de.dhbw.cleanproject.application.financialledger.FinancialLedgerAttributeData;
-import de.dhbw.cleanproject.application.user.UserApplicationService;
+import de.dhbw.cleanproject.application.user.UserDomainService;
 import de.dhbw.cleanproject.domain.financialledger.FinancialLedger;
 import de.dhbw.cleanproject.domain.user.User;
 import de.dhbw.plugins.mapper.financialledger.FinancialLedgerPreviewCollectionModelFactory;
@@ -28,14 +28,14 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RequiredArgsConstructor
 public class FinancialLedgersController {
 
-    private final UserApplicationService userApplicationService;
+    private final UserDomainService userDomainService;
     private final UserOperationService userOperationService;
     private final FinancialLedgerDataToFinancialLedgerAttributeDataAdapterMapper dataAdapterMapper;
     private final FinancialLedgerPreviewCollectionModelFactory financialLedgerPreviewCollectionModelFactory;
 
     @GetMapping
     public ResponseEntity<FinancialLedgerPreviewCollectionModel> listAll(@PathVariable("userId") UUID userId) {
-        Optional<User> userOptional = userApplicationService.findById(userId);
+        Optional<User> userOptional = userDomainService.findById(userId);
         if (!userOptional.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         User user = userOptional.get();
 

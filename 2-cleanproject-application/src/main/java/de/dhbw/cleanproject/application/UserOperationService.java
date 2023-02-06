@@ -10,7 +10,7 @@ import de.dhbw.cleanproject.application.currency.exchange.CurrencyExchangeOffice
 import de.dhbw.cleanproject.application.currency.exchange.CurrencyExchangeRequest;
 import de.dhbw.cleanproject.application.financialledger.FinancialLedgerApplicationService;
 import de.dhbw.cleanproject.application.financialledger.FinancialLedgerAttributeData;
-import de.dhbw.cleanproject.application.user.UserApplicationService;
+import de.dhbw.cleanproject.application.user.UserDomainService;
 import de.dhbw.cleanproject.domain.booking.Booking;
 import de.dhbw.cleanproject.domain.bookingcategory.BookingCategory;
 import de.dhbw.cleanproject.domain.financialledger.FinancialLedger;
@@ -25,14 +25,14 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserOperationService {
 
-    private final UserApplicationService userApplicationService;
+    private final UserDomainService userDomainService;
     private final FinancialLedgerApplicationService financialLedgerApplicationService;
     private final BookingDomainService bookingDomainService;
     private final BookingCategoryApplicationService bookingCategoryApplicationService;
     private final CurrencyExchangeOfficeService currencyExchangeOfficeService;
 
     public boolean deleteUser(UUID id){
-        Optional<User> optionalUser = userApplicationService.findById(id);
+        Optional<User> optionalUser = userDomainService.findById(id);
         if (optionalUser.isPresent()){
             optionalUser.get().getReferencedBookings().forEach(booking -> {
                 unlinkUserToBooking(id, booking.getFinancialLedgerId(), booking.getId());
@@ -43,14 +43,14 @@ public class UserOperationService {
             optionalUser.get().getFinancialLedgers().forEach(financialLedger -> {
                 unlinkUserToFinancialLedger(id, financialLedger.getId());
             });
-            userApplicationService.deleteById(id);
+            userDomainService.deleteById(id);
             return true;
         }
         return false;
     }
 
     public Optional<FinancialLedger> findFinancialLedgerByUserId(UUID id, UUID financialLedgerId){
-        Optional<User> userOptional = userApplicationService.findById(id);
+        Optional<User> userOptional = userDomainService.findById(id);
         if (userOptional.isPresent()){
             return userOptional.get().getFinancialLedgers().stream().filter(f -> f.getId().equals(financialLedgerId)).findFirst();
         }
@@ -62,13 +62,13 @@ public class UserOperationService {
     }
 
     public boolean appendUserToFinancialLedger(UUID id, UUID financialLedgerId){
-        Optional<User> userOptional = userApplicationService.findById(id);
+        Optional<User> userOptional = userDomainService.findById(id);
         if (userOptional.isPresent()){
             Optional<FinancialLedger> financialLedgerOptional = financialLedgerApplicationService.findById(financialLedgerId);
             if (financialLedgerOptional.isPresent()){
                 User user = userOptional.get();
                 user.getFinancialLedgers().add(financialLedgerOptional.get());
-                userApplicationService.save(user);
+                userDomainService.save(user);
                 return true;
             }
         }
@@ -76,7 +76,7 @@ public class UserOperationService {
     }
 
     public boolean unlinkUserToFinancialLedger(UUID id, UUID financialLedgerId){
-        Optional<User> optionalUser = userApplicationService.findById(id);
+        Optional<User> optionalUser = userDomainService.findById(id);
         if (optionalUser.isPresent()){
             Optional<FinancialLedger> optionalFinancialLedger = financialLedgerApplicationService.findById(financialLedgerId);
             if (optionalFinancialLedger.isPresent()){
@@ -86,7 +86,7 @@ public class UserOperationService {
                         user.getFinancialLedgers().contains(financialLedger)
                 ){
                     user.getFinancialLedgers().remove(optionalFinancialLedger.get());
-                    userApplicationService.save(user);
+                    userDomainService.save(user);
                     financialLedger.getAuthorizedUser().remove(user);
                     financialLedgerApplicationService.save(financialLedger);
                     return true;
@@ -97,13 +97,13 @@ public class UserOperationService {
     }
 
     public Optional<FinancialLedger> createFinancialLedgerByUserId(UUID id, FinancialLedgerAttributeData financialLedgerAttributeData){
-        Optional<User> userOptional = userApplicationService.findById(id);
+        Optional<User> userOptional = userDomainService.findById(id);
         if (userOptional.isPresent()){
             Optional<FinancialLedger> optionalFinancialLedger = financialLedgerApplicationService.createByAttributeData(financialLedgerAttributeData);
             if (optionalFinancialLedger.isPresent()){
                 User user = userOptional.get();
                 user.getFinancialLedgers().add(optionalFinancialLedger.get());
-                userApplicationService.save(user);
+                userDomainService.save(user);
                 return findFinancialLedgerByUserId(id, optionalFinancialLedger.get().getId());
             }
         }
@@ -161,7 +161,7 @@ public class UserOperationService {
     }
 
     public Optional<Booking> addBooking(UUID id, UUID financialLedgerId, BookingAttributeData attributeData){
-        Optional<User> optionalUser = userApplicationService.findById(id);
+        Optional<User> optionalUser = userDomainService.findById(id);
         if (!optionalUser.isPresent()) return Optional.empty();
         Optional<FinancialLedger> optionalFinancialLedger = findFinancialLedgerByUserId(id, financialLedgerId);
         if (!optionalFinancialLedger.isPresent()) return Optional.empty();
@@ -169,7 +169,7 @@ public class UserOperationService {
         if (!optionalBooking.isPresent()) return Optional.empty();
         User user = optionalUser.get();
         user.getCreatedBookings().add(optionalBooking.get());
-        userApplicationService.save(user);
+        userDomainService.save(user);
 
         FinancialLedger financialLedger = optionalFinancialLedger.get();
         financialLedger.getBookings().add(optionalBooking.get());
@@ -186,11 +186,11 @@ public class UserOperationService {
         if (optionalBooking.isPresent()) {
             optionalBooking.get().getReferencedUsers().forEach(user -> {
                 user.getReferencedBookings().remove(optionalBooking.get());
-                userApplicationService.save(user);
+                userDomainService.save(user);
             });
             User user = optionalBooking.get().getUser();
             user.getCreatedBookings().remove(optionalBooking.get());
-            userApplicationService.save(user);
+            userDomainService.save(user);
 
             FinancialLedger financialLedger = optionalBooking.get().getFinancialLedger();
             financialLedger.getBookings().remove(optionalBooking.get());
@@ -221,7 +221,7 @@ public class UserOperationService {
     }
 
     public boolean referenceUserToBooking(UUID id, UUID financialLedgerId, UUID bookingId, UUID referenceUserId){
-        Optional<User> optionalReferenceUser = userApplicationService.findById(referenceUserId);
+        Optional<User> optionalReferenceUser = userDomainService.findById(referenceUserId);
         if (optionalReferenceUser.isPresent()){
             Optional<Booking> optionalBooking = getBooking(id, financialLedgerId, bookingId);
             if (optionalBooking.isPresent()){
@@ -229,7 +229,7 @@ public class UserOperationService {
                 Booking booking = optionalBooking.get();
 
                 user.getReferencedBookings().add(booking);
-                userApplicationService.save(user);
+                userDomainService.save(user);
                 booking.getReferencedUsers().add(optionalReferenceUser.get());
                 bookingDomainService.save(booking);
                 return true;
@@ -239,7 +239,7 @@ public class UserOperationService {
     }
 
     public boolean unlinkUserToBooking(UUID id, UUID financialLedgerId, UUID bookingId){
-        Optional<User> optionalReferenceUser = userApplicationService.findById(id);
+        Optional<User> optionalReferenceUser = userDomainService.findById(id);
         if (optionalReferenceUser.isPresent()){
             Optional<Booking> optionalBooking = getBooking(id, financialLedgerId, bookingId);
             if (optionalBooking.isPresent()) {
@@ -249,7 +249,7 @@ public class UserOperationService {
                     user.getReferencedBookings().contains(booking)
                 ){
                     user.getReferencedBookings().remove(booking);
-                    userApplicationService.save(user);
+                    userDomainService.save(user);
                     booking.getReferencedUsers().remove(optionalReferenceUser.get());
                     bookingDomainService.save(booking);
                     return true;
