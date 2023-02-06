@@ -3,7 +3,7 @@ package de.dhbw.cleanproject.adapter.model.booking.data;
 import de.dhbw.cleanproject.abstractioncode.valueobject.money.CurrencyType;
 import de.dhbw.cleanproject.abstractioncode.valueobject.money.Money;
 import de.dhbw.cleanproject.application.booking.BookingAttributeData;
-import de.dhbw.cleanproject.application.bookingcategory.BookingCategoryApplicationService;
+import de.dhbw.cleanproject.application.bookingcategory.BookingCategoryDomainService;
 import de.dhbw.cleanproject.domain.bookingcategory.BookingCategory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -16,7 +16,7 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 public class BookingUnsafeDataToBookingAttributeDataAdapterMapper implements Function<IBookingUnsafeData, BookingAttributeData> {
 
-    private final BookingCategoryApplicationService bookingCategoryApplicationService;
+    private final BookingCategoryDomainService bookingCategoryDomainService;
 
     @Override
     public BookingAttributeData apply(final IBookingUnsafeData data) {
@@ -36,7 +36,7 @@ public class BookingUnsafeDataToBookingAttributeDataAdapterMapper implements Fun
         }catch (IllegalArgumentException|NullPointerException ignored){}
         if(data.getBookingCategoryId() != null){
             UUID bookingCategoryId = UUID.fromString(data.getBookingCategoryId());
-            Optional<BookingCategory> optionalBooking = bookingCategoryApplicationService.findById(bookingCategoryId);
+            Optional<BookingCategory> optionalBooking = bookingCategoryDomainService.findById(bookingCategoryId);
             optionalBooking.ifPresent(builder::bookingCategory);
         }
         return builder.build();

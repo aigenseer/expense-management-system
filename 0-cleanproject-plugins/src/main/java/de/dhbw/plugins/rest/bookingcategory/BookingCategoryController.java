@@ -1,20 +1,15 @@
 package de.dhbw.plugins.rest.bookingcategory;
 
-import de.dhbw.cleanproject.adapter.model.booking.preview.BookingPreviewCollectionModel;
 import de.dhbw.cleanproject.adapter.model.bookingcategory.data.BookingCategoryData;
 import de.dhbw.cleanproject.adapter.model.bookingcategory.data.BookingCategoryDataToBookingCategoryAttributeDataAdapterMapper;
 import de.dhbw.cleanproject.adapter.model.bookingcategory.data.BookingCategoryModel;
-import de.dhbw.cleanproject.adapter.model.bookingcategory.data.BookingCategoryToBookingCategoryModelAdapterMapper;
 import de.dhbw.cleanproject.application.UserOperationService;
-import de.dhbw.cleanproject.application.bookingcategory.BookingCategoryApplicationService;
 import de.dhbw.cleanproject.application.bookingcategory.BookingCategoryAttributeData;
+import de.dhbw.cleanproject.application.bookingcategory.BookingCategoryDomainService;
 import de.dhbw.cleanproject.domain.bookingcategory.BookingCategory;
-import de.dhbw.plugins.mapper.booking.BookingsToBookingPreviewCollectionMapper;
 import de.dhbw.plugins.mapper.bookingcategory.BookingCategoryModelFactory;
-import de.dhbw.plugins.rest.bookings.BookingsController;
 import de.dhbw.plugins.rest.utils.WebMvcLinkBuilderUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +19,8 @@ import javax.validation.Valid;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping(value = "/api/{userId}/financialledger/{financialLedgerId}/category/{bookingCategoryId}", produces = "application/vnd.siren+json")
@@ -32,7 +28,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 public class BookingCategoryController {
 
     private final UserOperationService userOperationService;
-    private final BookingCategoryApplicationService bookingCategoryApplicationService;
+    private final BookingCategoryDomainService bookingCategoryDomainService;
     private final BookingCategoryModelFactory bookingCategoryModelFactory;
 
     private final BookingCategoryDataToBookingCategoryAttributeDataAdapterMapper bookingCategoryDataToBookingCategoryAttributeDataAdapterMapper;
@@ -51,7 +47,7 @@ public class BookingCategoryController {
         BookingCategory bookingCategory = optionalBookingCategory.get();
 
         BookingCategoryAttributeData attributeData = bookingCategoryDataToBookingCategoryAttributeDataAdapterMapper.apply(data);
-        optionalBookingCategory = bookingCategoryApplicationService.updateByAttributeData(bookingCategory, attributeData);
+        optionalBookingCategory = bookingCategoryDomainService.updateByAttributeData(bookingCategory, attributeData);
         if (!optionalBookingCategory.isPresent()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         WebMvcLinkBuilder uriComponents = linkTo(methodOn(this.getClass()).findOne(userId, financialLedgerId, bookingCategoryId));

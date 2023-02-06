@@ -1,6 +1,5 @@
 package de.dhbw.cleanproject.application.bookingcategory;
 
-import de.dhbw.cleanproject.application.financialledger.FinancialLedgerAttributeData;
 import de.dhbw.cleanproject.domain.bookingcategory.BookingCategory;
 import de.dhbw.cleanproject.domain.bookingcategory.BookingCategoryRepository;
 import de.dhbw.cleanproject.domain.financialledger.FinancialLedger;
@@ -12,7 +11,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class BookingCategoryApplicationService {
+public class BookingCategoryApplicationService implements BookingCategoryDomainService {
 
     private final BookingCategoryRepository repository;
 
