@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class FinancialLedgerApplicationService {
+public class FinancialLedgerApplicationService implements FinancialLedgerDomainService {
 
     private final FinancialLedgerRepository repository;
 

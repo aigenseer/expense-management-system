@@ -4,8 +4,8 @@ import de.dhbw.cleanproject.adapter.model.financialledger.data.FinancialLedgerDa
 import de.dhbw.cleanproject.adapter.model.financialledger.data.FinancialLedgerDataToFinancialLedgerAttributeDataAdapterMapper;
 import de.dhbw.cleanproject.adapter.model.financialledger.model.FinancialLedgerModel;
 import de.dhbw.cleanproject.application.UserOperationService;
-import de.dhbw.cleanproject.application.financialledger.FinancialLedgerApplicationService;
 import de.dhbw.cleanproject.application.financialledger.FinancialLedgerAttributeData;
+import de.dhbw.cleanproject.application.financialledger.FinancialLedgerDomainService;
 import de.dhbw.cleanproject.domain.financialledger.FinancialLedger;
 import de.dhbw.plugins.mapper.financialledger.FinancialLedgerModelFactory;
 import de.dhbw.plugins.rest.utils.WebMvcLinkBuilderUtils;
@@ -29,7 +29,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class FinancialLedgerController {
 
     private final UserOperationService userOperationService;
-    private final FinancialLedgerApplicationService financialLedgerApplicationService;
+    private final FinancialLedgerDomainService financialLedgerDomainService;
     private final FinancialLedgerDataToFinancialLedgerAttributeDataAdapterMapper adapterMapper;
     private final FinancialLedgerModelFactory financialLedgerModelFactory;
 
@@ -46,7 +46,7 @@ public class FinancialLedgerController {
         Optional<FinancialLedger> optionalFinancialLedger = userOperationService.findFinancialLedgerByUserId(userId, financialLedgerId);
         if (!optionalFinancialLedger.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         FinancialLedgerAttributeData financialLedgerAttributeData = adapterMapper.apply(data);
-        optionalFinancialLedger = financialLedgerApplicationService.updateByAttributeData(optionalFinancialLedger.get(), financialLedgerAttributeData);
+        optionalFinancialLedger = financialLedgerDomainService.updateByAttributeData(optionalFinancialLedger.get(), financialLedgerAttributeData);
         if (!optionalFinancialLedger.isPresent()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         WebMvcLinkBuilder uriComponents = linkTo(methodOn(this.getClass()).findOne(userId, financialLedgerId));
         return new ResponseEntity<>(WebMvcLinkBuilderUtils.createLocationHeader(uriComponents), HttpStatus.ACCEPTED);
