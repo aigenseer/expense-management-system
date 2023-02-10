@@ -1,8 +1,7 @@
 package de.dhbw.plugins.mapper.financialledger;
 
-import de.dhbw.cleanproject.adapter.model.financialledger.model.FinancialLedgerModel;
-import de.dhbw.cleanproject.adapter.model.financialledger.preview.FinancialLedgerPreviewCollectionModel;
-import de.dhbw.cleanproject.domain.financialledger.FinancialLedger;
+import de.dhbw.ems.adapter.model.financialledger.preview.FinancialLedgerPreviewCollectionModel;
+import de.dhbw.ems.domain.financialledger.FinancialLedger;
 import de.dhbw.plugins.rest.financialledgers.FinancialLedgersController;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.Link;

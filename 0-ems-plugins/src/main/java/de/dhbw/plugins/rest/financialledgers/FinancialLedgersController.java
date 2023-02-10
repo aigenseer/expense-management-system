@@ -1,13 +1,13 @@
 package de.dhbw.plugins.rest.financialledgers;
 
-import de.dhbw.cleanproject.adapter.model.financialledger.data.FinancialLedgerData;
-import de.dhbw.cleanproject.adapter.model.financialledger.data.FinancialLedgerDataToFinancialLedgerAttributeDataAdapterMapper;
-import de.dhbw.cleanproject.adapter.model.financialledger.preview.FinancialLedgerPreviewCollectionModel;
-import de.dhbw.cleanproject.application.financialledger.FinancialLedgerAttributeData;
-import de.dhbw.cleanproject.application.mediator.service.impl.FinancialLedgerService;
-import de.dhbw.cleanproject.application.user.UserDomainService;
-import de.dhbw.cleanproject.domain.financialledger.FinancialLedger;
-import de.dhbw.cleanproject.domain.user.User;
+import de.dhbw.ems.adapter.model.financialledger.data.FinancialLedgerData;
+import de.dhbw.ems.adapter.model.financialledger.data.FinancialLedgerDataToFinancialLedgerAttributeDataAdapterMapper;
+import de.dhbw.ems.adapter.model.financialledger.preview.FinancialLedgerPreviewCollectionModel;
+import de.dhbw.ems.application.financialledger.FinancialLedgerAttributeData;
+import de.dhbw.ems.application.mediator.service.impl.FinancialLedgerService;
+import de.dhbw.ems.application.user.UserDomainService;
+import de.dhbw.ems.domain.financialledger.FinancialLedger;
+import de.dhbw.ems.domain.user.User;
 import de.dhbw.plugins.mapper.financialledger.FinancialLedgerPreviewCollectionModelFactory;
 import de.dhbw.plugins.rest.financialledger.FinancialLedgerController;
 import de.dhbw.plugins.rest.utils.WebMvcLinkBuilderUtils;

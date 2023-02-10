@@ -1,8 +1,8 @@
 package de.dhbw.plugins.mapper.financialledger;
 
-import de.dhbw.cleanproject.adapter.model.financialledger.preview.FinancialLedgerPreviewModel;
-import de.dhbw.cleanproject.adapter.model.financialledger.preview.FinancialLedgerToFinancialLedgerPreviewModelAdapterMapper;
-import de.dhbw.cleanproject.domain.financialledger.FinancialLedger;
+import de.dhbw.ems.adapter.model.financialledger.preview.FinancialLedgerPreviewModel;
+import de.dhbw.ems.adapter.model.financialledger.preview.FinancialLedgerToFinancialLedgerPreviewModelAdapterMapper;
+import de.dhbw.ems.domain.financialledger.FinancialLedger;
 import de.dhbw.plugins.rest.financialledger.FinancialLedgerController;
 import lombok.Builder;
 import lombok.Getter;

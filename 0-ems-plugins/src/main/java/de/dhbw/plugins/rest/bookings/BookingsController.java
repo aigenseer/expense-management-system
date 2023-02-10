@@ -1,13 +1,13 @@
 package de.dhbw.plugins.rest.bookings;
 
-import de.dhbw.cleanproject.adapter.model.booking.data.BookingData;
-import de.dhbw.cleanproject.adapter.model.booking.data.BookingUnsafeDataToBookingAttributeDataAdapterMapper;
-import de.dhbw.cleanproject.adapter.model.booking.preview.BookingPreviewCollectionModel;
-import de.dhbw.cleanproject.application.booking.BookingAttributeData;
-import de.dhbw.cleanproject.application.mediator.service.impl.BookingService;
-import de.dhbw.cleanproject.application.mediator.service.impl.FinancialLedgerService;
-import de.dhbw.cleanproject.domain.booking.Booking;
-import de.dhbw.cleanproject.domain.financialledger.FinancialLedger;
+import de.dhbw.ems.adapter.model.booking.data.BookingData;
+import de.dhbw.ems.adapter.model.booking.data.BookingUnsafeDataToBookingAttributeDataAdapterMapper;
+import de.dhbw.ems.adapter.model.booking.preview.BookingPreviewCollectionModel;
+import de.dhbw.ems.application.booking.BookingAttributeData;
+import de.dhbw.ems.application.mediator.service.impl.BookingService;
+import de.dhbw.ems.application.mediator.service.impl.FinancialLedgerService;
+import de.dhbw.ems.domain.booking.Booking;
+import de.dhbw.ems.domain.financialledger.FinancialLedger;
 import de.dhbw.plugins.mapper.booking.BookingPreviewCollectionModelFactory;
 import de.dhbw.plugins.rest.booking.BookingController;
 import de.dhbw.plugins.rest.utils.WebMvcLinkBuilderUtils;

@@ -1,6 +1,6 @@
 package de.dhbw.plugins.persistence.hibernate;
 
-import de.dhbw.cleanproject.domain.booking.Booking;
+import de.dhbw.ems.domain.booking.Booking;
 import de.dhbw.plugins.persistence.hibernate.booking.BookingRepositoryBridge;
 import de.dhbw.plugins.persistence.hibernate.booking.SpringDataBookingRepository;
 import org.junit.Before;

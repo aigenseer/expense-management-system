@@ -1,9 +1,9 @@
 package de.dhbw.plugins.rest.financialledger.user;
 
-import de.dhbw.cleanproject.adapter.model.user.preview.UserPreview;
-import de.dhbw.cleanproject.application.mediator.service.impl.FinancialLedgerService;
-import de.dhbw.cleanproject.application.user.UserDomainService;
-import de.dhbw.cleanproject.domain.user.User;
+import de.dhbw.ems.adapter.model.user.preview.UserPreview;
+import de.dhbw.ems.application.mediator.service.impl.FinancialLedgerService;
+import de.dhbw.ems.application.user.UserDomainService;
+import de.dhbw.ems.domain.user.User;
 import de.dhbw.plugins.mapper.financialledger.FinancialLedgerUserPreviewModelFactory;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;

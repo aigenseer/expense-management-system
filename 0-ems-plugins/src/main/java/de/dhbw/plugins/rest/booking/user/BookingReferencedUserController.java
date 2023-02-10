@@ -1,9 +1,9 @@
 package de.dhbw.plugins.rest.booking.user;
 
-import de.dhbw.cleanproject.adapter.model.user.preview.UserPreview;
-import de.dhbw.cleanproject.application.mediator.service.impl.BookingService;
-import de.dhbw.cleanproject.domain.booking.Booking;
-import de.dhbw.cleanproject.domain.user.User;
+import de.dhbw.ems.adapter.model.user.preview.UserPreview;
+import de.dhbw.ems.application.mediator.service.impl.BookingService;
+import de.dhbw.ems.domain.booking.Booking;
+import de.dhbw.ems.domain.user.User;
 import de.dhbw.plugins.mapper.booking.ReferencedUserPreviewModelFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

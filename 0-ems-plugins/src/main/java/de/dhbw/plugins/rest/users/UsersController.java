@@ -1,11 +1,11 @@
 package de.dhbw.plugins.rest.users;
 
-import de.dhbw.cleanproject.adapter.model.user.preview.UserPreviewCollectionModel;
-import de.dhbw.cleanproject.adapter.model.user.userdata.UserData;
-import de.dhbw.cleanproject.adapter.model.user.userdata.UserUnsafeDataToUserAttributeDataAdapterMapper;
-import de.dhbw.cleanproject.application.user.UserAttributeData;
-import de.dhbw.cleanproject.application.user.UserDomainService;
-import de.dhbw.cleanproject.domain.user.User;
+import de.dhbw.ems.adapter.model.user.preview.UserPreviewCollectionModel;
+import de.dhbw.ems.adapter.model.user.userdata.UserData;
+import de.dhbw.ems.adapter.model.user.userdata.UserUnsafeDataToUserAttributeDataAdapterMapper;
+import de.dhbw.ems.application.user.UserAttributeData;
+import de.dhbw.ems.application.user.UserDomainService;
+import de.dhbw.ems.domain.user.User;
 import de.dhbw.plugins.mapper.user.UserPreviewCollectionModelFactory;
 import de.dhbw.plugins.rest.user.UserController;
 import de.dhbw.plugins.rest.utils.WebMvcLinkBuilderUtils;

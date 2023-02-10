@@ -1,6 +1,6 @@
 package de.dhbw.plugins.persistence.hibernate;
 
-import de.dhbw.cleanproject.domain.user.User;
+import de.dhbw.ems.domain.user.User;
 import de.dhbw.plugins.persistence.hibernate.user.SpringDataUserRepository;
 import de.dhbw.plugins.persistence.hibernate.user.UserRepositoryBridge;
 import org.junit.Before;

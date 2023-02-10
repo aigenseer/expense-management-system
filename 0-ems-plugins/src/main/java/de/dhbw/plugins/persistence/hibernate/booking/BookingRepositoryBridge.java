@@ -1,7 +1,7 @@
 package de.dhbw.plugins.persistence.hibernate.booking;
 
-import de.dhbw.cleanproject.domain.booking.Booking;
-import de.dhbw.cleanproject.domain.booking.BookingRepository;
+import de.dhbw.ems.domain.booking.Booking;
+import de.dhbw.ems.domain.booking.BookingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

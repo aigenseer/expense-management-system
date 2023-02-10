@@ -1,7 +1,7 @@
 package de.dhbw.plugins.mapper.booking;
 
-import de.dhbw.cleanproject.adapter.model.user.preview.UserPreviewCollectionModel;
-import de.dhbw.cleanproject.domain.user.User;
+import de.dhbw.ems.adapter.model.user.preview.UserPreviewCollectionModel;
+import de.dhbw.ems.domain.user.User;
 import de.dhbw.plugins.mapper.user.UsersToUserPreviewCollectionMapper;
 import de.dhbw.plugins.rest.booking.user.BookingReferencedUserController;
 import de.dhbw.plugins.rest.booking.users.BookingReferencedUsersController;

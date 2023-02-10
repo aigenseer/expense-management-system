@@ -1,7 +1,7 @@
 package de.dhbw.plugins.mapper.financialledger;
 
-import de.dhbw.cleanproject.adapter.model.user.preview.UserPreviewCollectionModel;
-import de.dhbw.cleanproject.domain.financialledger.FinancialLedger;
+import de.dhbw.ems.adapter.model.user.preview.UserPreviewCollectionModel;
+import de.dhbw.ems.domain.financialledger.FinancialLedger;
 import de.dhbw.plugins.mapper.user.UsersToUserPreviewCollectionMapper;
 import de.dhbw.plugins.rest.financialledger.user.FinancialLedgerUserController;
 import de.dhbw.plugins.rest.financialledger.users.FinancialLedgerUsersController;

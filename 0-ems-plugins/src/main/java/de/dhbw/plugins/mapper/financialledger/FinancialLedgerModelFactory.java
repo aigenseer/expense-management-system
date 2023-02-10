@@ -1,11 +1,11 @@
 package de.dhbw.plugins.mapper.financialledger;
 
-import de.dhbw.cleanproject.adapter.model.booking.preview.BookingPreviewCollectionModel;
-import de.dhbw.cleanproject.adapter.model.bookingcategory.preview.BookingCategoryPreviewCollectionModel;
-import de.dhbw.cleanproject.adapter.model.financialledger.model.FinancialLedgerModel;
-import de.dhbw.cleanproject.adapter.model.financialledger.model.FinancialLedgerToFinancialLedgerModelAdapterMapper;
-import de.dhbw.cleanproject.adapter.model.user.preview.UserPreviewCollectionModel;
-import de.dhbw.cleanproject.domain.financialledger.FinancialLedger;
+import de.dhbw.ems.adapter.model.booking.preview.BookingPreviewCollectionModel;
+import de.dhbw.ems.adapter.model.bookingcategory.preview.BookingCategoryPreviewCollectionModel;
+import de.dhbw.ems.adapter.model.financialledger.model.FinancialLedgerModel;
+import de.dhbw.ems.adapter.model.financialledger.model.FinancialLedgerToFinancialLedgerModelAdapterMapper;
+import de.dhbw.ems.adapter.model.user.preview.UserPreviewCollectionModel;
+import de.dhbw.ems.domain.financialledger.FinancialLedger;
 import de.dhbw.plugins.mapper.booking.BookingsToBookingPreviewCollectionMapper;
 import de.dhbw.plugins.mapper.bookingcategory.BookingCategoriesToBookingCategoryPreviewCollectionMapper;
 import de.dhbw.plugins.mapper.user.UsersToUserPreviewCollectionMapper;

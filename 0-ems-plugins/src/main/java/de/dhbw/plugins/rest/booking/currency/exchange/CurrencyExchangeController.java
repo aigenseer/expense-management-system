@@ -1,11 +1,11 @@
 package de.dhbw.plugins.rest.booking.currency.exchange;
 
-import de.dhbw.cleanproject.adapter.api.currency.exchange.CurrencyExchangeContract;
-import de.dhbw.cleanproject.adapter.api.currency.exchange.CurrencyExchangeContractToCurrencyExchangeRequestAdapterMapper;
-import de.dhbw.cleanproject.application.currency.exchange.CurrencyExchangeRequest;
-import de.dhbw.cleanproject.application.mediator.service.impl.BookingService;
-import de.dhbw.cleanproject.application.mediator.service.impl.ExchangeCurrencyService;
-import de.dhbw.cleanproject.domain.booking.Booking;
+import de.dhbw.ems.adapter.api.currency.exchange.CurrencyExchangeContract;
+import de.dhbw.ems.adapter.api.currency.exchange.CurrencyExchangeContractToCurrencyExchangeRequestAdapterMapper;
+import de.dhbw.ems.application.currency.exchange.CurrencyExchangeRequest;
+import de.dhbw.ems.application.mediator.service.impl.BookingService;
+import de.dhbw.ems.application.mediator.service.impl.ExchangeCurrencyService;
+import de.dhbw.ems.domain.booking.Booking;
 import de.dhbw.plugins.rest.booking.BookingController;
 import de.dhbw.plugins.rest.utils.WebMvcLinkBuilderUtils;
 import lombok.RequiredArgsConstructor;

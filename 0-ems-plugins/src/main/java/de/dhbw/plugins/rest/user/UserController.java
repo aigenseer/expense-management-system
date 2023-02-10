@@ -1,12 +1,12 @@
 package de.dhbw.plugins.rest.user;
 
-import de.dhbw.cleanproject.adapter.model.user.updatedata.UserUpdateData;
-import de.dhbw.cleanproject.adapter.model.user.userdata.UserUnsafeDataToUserAttributeDataAdapterMapper;
-import de.dhbw.cleanproject.adapter.model.user.usermodel.UserModel;
-import de.dhbw.cleanproject.application.mediator.service.impl.UserService;
-import de.dhbw.cleanproject.application.user.UserAttributeData;
-import de.dhbw.cleanproject.application.user.UserDomainService;
-import de.dhbw.cleanproject.domain.user.User;
+import de.dhbw.ems.adapter.model.user.updatedata.UserUpdateData;
+import de.dhbw.ems.adapter.model.user.userdata.UserUnsafeDataToUserAttributeDataAdapterMapper;
+import de.dhbw.ems.adapter.model.user.usermodel.UserModel;
+import de.dhbw.ems.application.mediator.service.impl.UserService;
+import de.dhbw.ems.application.user.UserAttributeData;
+import de.dhbw.ems.application.user.UserDomainService;
+import de.dhbw.ems.domain.user.User;
 import de.dhbw.plugins.mapper.user.UserModelFactory;
 import de.dhbw.plugins.rest.utils.WebMvcLinkBuilderUtils;
 import lombok.AllArgsConstructor;

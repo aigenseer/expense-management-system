@@ -1,8 +1,7 @@
 package de.dhbw.plugins.persistence.hibernate.user;
 
-import de.dhbw.cleanproject.domain.financialledger.FinancialLedger;
-import de.dhbw.cleanproject.domain.user.User;
-import de.dhbw.cleanproject.domain.user.UserRepository;
+import de.dhbw.ems.domain.user.User;
+import de.dhbw.ems.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

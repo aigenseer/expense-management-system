@@ -1,12 +1,12 @@
 package de.dhbw.plugins.rest.booking;
 
-import de.dhbw.cleanproject.adapter.model.booking.data.BookingUnsafeDataToBookingAttributeDataAdapterMapper;
-import de.dhbw.cleanproject.adapter.model.booking.data.BookingUpdateData;
-import de.dhbw.cleanproject.adapter.model.booking.model.BookingModel;
-import de.dhbw.cleanproject.application.booking.BookingAttributeData;
-import de.dhbw.cleanproject.application.booking.BookingDomainService;
-import de.dhbw.cleanproject.application.mediator.service.impl.BookingService;
-import de.dhbw.cleanproject.domain.booking.Booking;
+import de.dhbw.ems.adapter.model.booking.data.BookingUnsafeDataToBookingAttributeDataAdapterMapper;
+import de.dhbw.ems.adapter.model.booking.data.BookingUpdateData;
+import de.dhbw.ems.adapter.model.booking.model.BookingModel;
+import de.dhbw.ems.application.booking.BookingAttributeData;
+import de.dhbw.ems.application.booking.BookingDomainService;
+import de.dhbw.ems.application.mediator.service.impl.BookingService;
+import de.dhbw.ems.domain.booking.Booking;
 import de.dhbw.plugins.mapper.booking.BookingModelFactory;
 import de.dhbw.plugins.rest.utils.WebMvcLinkBuilderUtils;
 import lombok.RequiredArgsConstructor;

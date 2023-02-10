@@ -1,7 +1,7 @@
 package de.dhbw.plugins.mapper.bookingcategory;
 
-import de.dhbw.cleanproject.adapter.model.bookingcategory.preview.BookingCategoryPreviewCollectionModel;
-import de.dhbw.cleanproject.domain.bookingcategory.BookingCategory;
+import de.dhbw.ems.adapter.model.bookingcategory.preview.BookingCategoryPreviewCollectionModel;
+import de.dhbw.ems.domain.bookingcategory.BookingCategory;
 import de.dhbw.plugins.rest.bookingcategories.BookingCategoriesController;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.Link;

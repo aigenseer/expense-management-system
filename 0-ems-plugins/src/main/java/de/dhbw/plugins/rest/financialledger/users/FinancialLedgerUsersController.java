@@ -1,9 +1,9 @@
 package de.dhbw.plugins.rest.financialledger.users;
 
-import de.dhbw.cleanproject.adapter.model.user.preview.UserPreviewCollectionModel;
-import de.dhbw.cleanproject.adapter.model.user.userdata.AppendUserData;
-import de.dhbw.cleanproject.application.mediator.service.impl.FinancialLedgerService;
-import de.dhbw.cleanproject.domain.financialledger.FinancialLedger;
+import de.dhbw.ems.adapter.model.user.preview.UserPreviewCollectionModel;
+import de.dhbw.ems.adapter.model.user.userdata.AppendUserData;
+import de.dhbw.ems.application.mediator.service.impl.FinancialLedgerService;
+import de.dhbw.ems.domain.financialledger.FinancialLedger;
 import de.dhbw.plugins.mapper.financialledger.FinancialLedgerUserPreviewCollectionModelFactory;
 import de.dhbw.plugins.rest.financialledger.user.FinancialLedgerUserController;
 import de.dhbw.plugins.rest.utils.WebMvcLinkBuilderUtils;

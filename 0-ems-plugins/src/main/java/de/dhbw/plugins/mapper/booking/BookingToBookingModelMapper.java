@@ -1,11 +1,11 @@
 package de.dhbw.plugins.mapper.booking;
 
-import de.dhbw.cleanproject.adapter.model.booking.model.BookingModel;
-import de.dhbw.cleanproject.adapter.model.booking.model.BookingToBookingModelAdapterMapper;
-import de.dhbw.cleanproject.adapter.model.bookingcategory.preview.BookingCategoryPreviewModel;
-import de.dhbw.cleanproject.adapter.model.user.preview.UserPreview;
-import de.dhbw.cleanproject.adapter.model.user.preview.UserPreviewCollectionModel;
-import de.dhbw.cleanproject.domain.booking.Booking;
+import de.dhbw.ems.adapter.model.booking.model.BookingModel;
+import de.dhbw.ems.adapter.model.booking.model.BookingToBookingModelAdapterMapper;
+import de.dhbw.ems.adapter.model.bookingcategory.preview.BookingCategoryPreviewModel;
+import de.dhbw.ems.adapter.model.user.preview.UserPreview;
+import de.dhbw.ems.adapter.model.user.preview.UserPreviewCollectionModel;
+import de.dhbw.ems.domain.booking.Booking;
 import de.dhbw.plugins.mapper.bookingcategory.BookingCategoryToBookingCategoryPreviewMapper;
 import de.dhbw.plugins.mapper.user.UserToUserPreviewMapper;
 import de.dhbw.plugins.mapper.user.UsersToUserPreviewCollectionMapper;

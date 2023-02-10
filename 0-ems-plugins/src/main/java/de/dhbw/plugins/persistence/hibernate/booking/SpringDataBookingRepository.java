@@ -1,6 +1,6 @@
 package de.dhbw.plugins.persistence.hibernate.booking;
 
-import de.dhbw.cleanproject.domain.booking.Booking;
+import de.dhbw.ems.domain.booking.Booking;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

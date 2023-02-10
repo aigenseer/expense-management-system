@@ -1,13 +1,13 @@
 package de.dhbw.plugins.rest.bookingcategories;
 
-import de.dhbw.cleanproject.adapter.model.bookingcategory.data.BookingCategoryData;
-import de.dhbw.cleanproject.adapter.model.bookingcategory.data.BookingCategoryDataToBookingCategoryAttributeDataAdapterMapper;
-import de.dhbw.cleanproject.adapter.model.bookingcategory.preview.BookingCategoryPreviewCollectionModel;
-import de.dhbw.cleanproject.application.bookingcategory.BookingCategoryAttributeData;
-import de.dhbw.cleanproject.application.mediator.service.impl.BookingCategoryService;
-import de.dhbw.cleanproject.application.mediator.service.impl.FinancialLedgerService;
-import de.dhbw.cleanproject.domain.bookingcategory.BookingCategory;
-import de.dhbw.cleanproject.domain.financialledger.FinancialLedger;
+import de.dhbw.ems.adapter.model.bookingcategory.data.BookingCategoryData;
+import de.dhbw.ems.adapter.model.bookingcategory.data.BookingCategoryDataToBookingCategoryAttributeDataAdapterMapper;
+import de.dhbw.ems.adapter.model.bookingcategory.preview.BookingCategoryPreviewCollectionModel;
+import de.dhbw.ems.application.bookingcategory.BookingCategoryAttributeData;
+import de.dhbw.ems.application.mediator.service.impl.BookingCategoryService;
+import de.dhbw.ems.application.mediator.service.impl.FinancialLedgerService;
+import de.dhbw.ems.domain.bookingcategory.BookingCategory;
+import de.dhbw.ems.domain.financialledger.FinancialLedger;
 import de.dhbw.plugins.mapper.bookingcategory.BookingCategoryPreviewCollectionModelFactory;
 import de.dhbw.plugins.rest.bookingcategory.BookingCategoryController;
 import de.dhbw.plugins.rest.utils.WebMvcLinkBuilderUtils;
