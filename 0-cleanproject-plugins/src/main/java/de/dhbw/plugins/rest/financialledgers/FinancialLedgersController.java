@@ -3,8 +3,8 @@ package de.dhbw.plugins.rest.financialledgers;
 import de.dhbw.cleanproject.adapter.model.financialledger.data.FinancialLedgerData;
 import de.dhbw.cleanproject.adapter.model.financialledger.data.FinancialLedgerDataToFinancialLedgerAttributeDataAdapterMapper;
 import de.dhbw.cleanproject.adapter.model.financialledger.preview.FinancialLedgerPreviewCollectionModel;
-import de.dhbw.cleanproject.application.UserOperationService;
 import de.dhbw.cleanproject.application.financialledger.FinancialLedgerAttributeData;
+import de.dhbw.cleanproject.application.mediator.service.impl.FinancialLedgerService;
 import de.dhbw.cleanproject.application.user.UserDomainService;
 import de.dhbw.cleanproject.domain.financialledger.FinancialLedger;
 import de.dhbw.cleanproject.domain.user.User;
@@ -29,7 +29,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class FinancialLedgersController {
 
     private final UserDomainService userDomainService;
-    private final UserOperationService userOperationService;
+    private final FinancialLedgerService financialLedgerService;
     private final FinancialLedgerDataToFinancialLedgerAttributeDataAdapterMapper dataAdapterMapper;
     private final FinancialLedgerPreviewCollectionModelFactory financialLedgerPreviewCollectionModelFactory;
 
@@ -47,7 +47,7 @@ public class FinancialLedgersController {
     @PostMapping
     public ResponseEntity<Void> create(@PathVariable("userId") UUID userId, @Valid @RequestBody FinancialLedgerData data) {
         FinancialLedgerAttributeData financialLedgerAttributeData = dataAdapterMapper.apply(data);
-        Optional<FinancialLedger> optionalFinancialLedger = userOperationService.createFinancialLedgerByUserId(userId, financialLedgerAttributeData);
+        Optional<FinancialLedger> optionalFinancialLedger = financialLedgerService.create(userId, financialLedgerAttributeData);
         if (!optionalFinancialLedger.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         FinancialLedger financialLedger = optionalFinancialLedger.get();
         WebMvcLinkBuilder uriComponents = WebMvcLinkBuilder.linkTo(methodOn(FinancialLedgerController.class).findOne(userId, financialLedger.getId()));

@@ -1,7 +1,7 @@
 package de.dhbw.plugins.rest.booking.user;
 
 import de.dhbw.cleanproject.adapter.model.user.preview.UserPreview;
-import de.dhbw.cleanproject.application.UserOperationService;
+import de.dhbw.cleanproject.application.mediator.service.impl.BookingService;
 import de.dhbw.cleanproject.domain.booking.Booking;
 import de.dhbw.cleanproject.domain.user.User;
 import de.dhbw.plugins.mapper.booking.ReferencedUserPreviewModelFactory;
@@ -18,12 +18,12 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class BookingReferencedUserController {
 
-    private final UserOperationService userOperationService;
+    private final BookingService bookingService;
     private final ReferencedUserPreviewModelFactory referencedUserPreviewModelFactory;
 
     @GetMapping
     public ResponseEntity<UserPreview> findOne(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId, @PathVariable("bookingId") UUID bookingId, @PathVariable("referencedUserId") UUID referencedUserId) {
-        Optional<Booking> optionalBooking = userOperationService.getBooking(userId, financialLedgerId, bookingId);
+        Optional<Booking> optionalBooking = bookingService.find(userId, financialLedgerId, bookingId);
         if (!optionalBooking.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         Booking booking = optionalBooking.get();
         Optional<User> optionalReferencedUser = booking.getReferencedUsers().stream().filter(user -> user.getId().equals(referencedUserId)).findFirst();
@@ -33,8 +33,8 @@ public class BookingReferencedUserController {
 
     @DeleteMapping("/")
     public ResponseEntity<Void> delete(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId, @PathVariable("bookingId") UUID bookingId, @PathVariable("referencedUserId") UUID referencedUserId) {
-        if (!userOperationService.existsBookingById(userId, financialLedgerId, bookingId)) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        if (!userOperationService.unlinkUserToBooking(referencedUserId, financialLedgerId, bookingId)) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if (!bookingService.exists(userId, financialLedgerId, bookingId)) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        if (!bookingService.deleteUserReference(referencedUserId, financialLedgerId, bookingId)) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 

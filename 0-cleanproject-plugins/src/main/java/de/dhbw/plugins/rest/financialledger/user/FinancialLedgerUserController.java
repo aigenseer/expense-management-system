@@ -1,7 +1,7 @@
 package de.dhbw.plugins.rest.financialledger.user;
 
 import de.dhbw.cleanproject.adapter.model.user.preview.UserPreview;
-import de.dhbw.cleanproject.application.UserOperationService;
+import de.dhbw.cleanproject.application.mediator.service.impl.FinancialLedgerService;
 import de.dhbw.cleanproject.application.user.UserDomainService;
 import de.dhbw.cleanproject.domain.user.User;
 import de.dhbw.plugins.mapper.financialledger.FinancialLedgerUserPreviewModelFactory;
@@ -20,13 +20,13 @@ import java.util.UUID;
 public class FinancialLedgerUserController {
 
     private final UserDomainService userDomainService;
-    private final UserOperationService userOperationService;
+    private final FinancialLedgerService financialLedgerService;
     private final FinancialLedgerUserPreviewModelFactory financialLedgerUserPreviewModelFactory;
 
     @GetMapping
     public ResponseEntity<UserPreview> findOne(@PathVariable("financialLedgerId") UUID financialLedgerId, @PathVariable("financialLedgerUserId") UUID financialLedgerUserId) {
         Optional<User> optionalUser = userDomainService.findById(financialLedgerUserId);
-        if (!optionalUser.isPresent() || !userOperationService.hasUserPermissionToFinancialLedger(financialLedgerUserId, financialLedgerId))
+        if (!optionalUser.isPresent() || !financialLedgerService.hasUserPermission(financialLedgerUserId, financialLedgerId))
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         return ResponseEntity.ok(financialLedgerUserPreviewModelFactory.create(financialLedgerId, optionalUser.get()));
@@ -34,7 +34,7 @@ public class FinancialLedgerUserController {
 
     @DeleteMapping
     public ResponseEntity<Void> delete(@PathVariable("financialLedgerId") UUID financialLedgerId, @PathVariable("financialLedgerUserId") UUID financialLedgerUserId) {
-        if (!userOperationService.unlinkUserToFinancialLedger(financialLedgerUserId, financialLedgerId)) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if (!financialLedgerService.unlinkUser(financialLedgerUserId, financialLedgerId)) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 

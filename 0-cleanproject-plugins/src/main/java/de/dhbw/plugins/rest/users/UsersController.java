@@ -3,8 +3,8 @@ package de.dhbw.plugins.rest.users;
 import de.dhbw.cleanproject.adapter.model.user.preview.UserPreviewCollectionModel;
 import de.dhbw.cleanproject.adapter.model.user.userdata.UserData;
 import de.dhbw.cleanproject.adapter.model.user.userdata.UserUnsafeDataToUserAttributeDataAdapterMapper;
-import de.dhbw.cleanproject.application.user.UserDomainService;
 import de.dhbw.cleanproject.application.user.UserAttributeData;
+import de.dhbw.cleanproject.application.user.UserDomainService;
 import de.dhbw.cleanproject.domain.user.User;
 import de.dhbw.plugins.mapper.user.UserPreviewCollectionModelFactory;
 import de.dhbw.plugins.rest.user.UserController;
@@ -16,10 +16,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-
 import java.util.Optional;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping(value = "/api/users", produces = "application/vnd.siren+json")

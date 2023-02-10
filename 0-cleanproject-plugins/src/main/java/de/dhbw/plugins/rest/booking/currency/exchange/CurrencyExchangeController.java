@@ -2,8 +2,9 @@ package de.dhbw.plugins.rest.booking.currency.exchange;
 
 import de.dhbw.cleanproject.adapter.api.currency.exchange.CurrencyExchangeContract;
 import de.dhbw.cleanproject.adapter.api.currency.exchange.CurrencyExchangeContractToCurrencyExchangeRequestAdapterMapper;
-import de.dhbw.cleanproject.application.UserOperationService;
 import de.dhbw.cleanproject.application.currency.exchange.CurrencyExchangeRequest;
+import de.dhbw.cleanproject.application.mediator.service.impl.BookingService;
+import de.dhbw.cleanproject.application.mediator.service.impl.ExchangeCurrencyService;
 import de.dhbw.cleanproject.domain.booking.Booking;
 import de.dhbw.plugins.rest.booking.BookingController;
 import de.dhbw.plugins.rest.utils.WebMvcLinkBuilderUtils;
@@ -25,16 +26,16 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RequiredArgsConstructor
 public class CurrencyExchangeController {
 
-    private final UserOperationService userOperationService;
+    private final BookingService bookingService;
+    private final ExchangeCurrencyService exchangeCurrencyService;
     private final CurrencyExchangeContractToCurrencyExchangeRequestAdapterMapper adapterMapper;
-
 
     @PutMapping
     public ResponseEntity<Void> update(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId, @PathVariable("bookingId") UUID bookingId, @Valid @RequestBody CurrencyExchangeContract contract) {
-        Optional<Booking> optionalBooking = userOperationService.getBooking(userId, financialLedgerId, bookingId);
+        Optional<Booking> optionalBooking = bookingService.find(userId, financialLedgerId, bookingId);
         if (!optionalBooking.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         CurrencyExchangeRequest currencyExchangeRequest = adapterMapper.apply(contract);
-        if (!userOperationService.exchangeCurrencyOfBooking(userId, financialLedgerId, bookingId, currencyExchangeRequest.getTargetCurrencyType())) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if (!exchangeCurrencyService.exchangeCurrencyOfBooking(userId, financialLedgerId, bookingId, currencyExchangeRequest.getTargetCurrencyType())) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         WebMvcLinkBuilder uriComponents = linkTo(methodOn(BookingController.class).findOne(userId, financialLedgerId, bookingId));
         return new ResponseEntity<>(WebMvcLinkBuilderUtils.createLocationHeader(uriComponents), HttpStatus.ACCEPTED);
     }

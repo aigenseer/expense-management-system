@@ -3,9 +3,9 @@ package de.dhbw.plugins.rest.user;
 import de.dhbw.cleanproject.adapter.model.user.updatedata.UserUpdateData;
 import de.dhbw.cleanproject.adapter.model.user.userdata.UserUnsafeDataToUserAttributeDataAdapterMapper;
 import de.dhbw.cleanproject.adapter.model.user.usermodel.UserModel;
-import de.dhbw.cleanproject.application.UserOperationService;
-import de.dhbw.cleanproject.application.user.UserDomainService;
+import de.dhbw.cleanproject.application.mediator.service.impl.UserService;
 import de.dhbw.cleanproject.application.user.UserAttributeData;
+import de.dhbw.cleanproject.application.user.UserDomainService;
 import de.dhbw.cleanproject.domain.user.User;
 import de.dhbw.plugins.mapper.user.UserModelFactory;
 import de.dhbw.plugins.rest.utils.WebMvcLinkBuilderUtils;
@@ -19,7 +19,7 @@ import javax.validation.Valid;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping(value = "/api/user/{userId}", produces = "application/vnd.siren+json")
@@ -29,7 +29,7 @@ public class UserController {
 
     private final UserDomainService userDomainService;
     private final UserUnsafeDataToUserAttributeDataAdapterMapper userUnsafeDataToUserAttributeDataAdapterMapper;
-    private final UserOperationService userOperationService;
+    private final UserService userService;
     private final UserModelFactory userModelFactory;
 
     @GetMapping("/")
@@ -52,7 +52,7 @@ public class UserController {
 
     @DeleteMapping("/")
     public ResponseEntity<Void> delete(@PathVariable("userId") UUID userId) {
-        if (!userOperationService.deleteUser(userId)) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        if (!userService.delete(userId)) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
