@@ -1,7 +1,7 @@
 package de.dhbw.ems.domain.user;
 
-import de.dhbw.cleanproject.abstractioncode.valueobject.email.Email;
-import de.dhbw.cleanproject.abstractioncode.valueobject.phonennumber.PhoneNumber;
+import de.dhbw.ems.abstractioncode.valueobject.email.Email;
+import de.dhbw.ems.abstractioncode.valueobject.phonennumber.PhoneNumber;
 import de.dhbw.ems.domain.booking.Booking;
 import de.dhbw.ems.domain.financialledger.FinancialLedger;
 import lombok.*;

@@ -1,6 +1,6 @@
 package de.dhbw.ems.application.mediator;
 
-import de.dhbw.cleanproject.abstractioncode.valueobject.money.CurrencyType;
+import de.dhbw.ems.abstractioncode.valueobject.money.CurrencyType;
 import de.dhbw.ems.application.booking.BookingApplicationService;
 import de.dhbw.ems.application.currency.exchange.CurrencyExchangeOfficeService;
 import de.dhbw.ems.application.currency.exchange.CurrencyExchangeRequest;

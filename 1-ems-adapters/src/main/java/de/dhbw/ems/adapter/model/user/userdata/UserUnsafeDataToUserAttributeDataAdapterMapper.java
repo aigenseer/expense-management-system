@@ -1,8 +1,8 @@
 package de.dhbw.ems.adapter.model.user.userdata;
 
-import de.dhbw.cleanproject.abstractioncode.valueobject.email.Email;
-import de.dhbw.cleanproject.abstractioncode.valueobject.phonennumber.InternationalPhoneCode;
-import de.dhbw.cleanproject.abstractioncode.valueobject.phonennumber.PhoneNumber;
+import de.dhbw.ems.abstractioncode.valueobject.email.Email;
+import de.dhbw.ems.abstractioncode.valueobject.phonennumber.InternationalPhoneCode;
+import de.dhbw.ems.abstractioncode.valueobject.phonennumber.PhoneNumber;
 import de.dhbw.ems.application.user.UserAttributeData;
 import org.springframework.stereotype.Component;
 

@@ -1,4 +1,4 @@
-package de.dhbw.cleanproject.abstractioncode.valueobject.phonennumber;
+package de.dhbw.ems.abstractioncode.valueobject.phonennumber;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

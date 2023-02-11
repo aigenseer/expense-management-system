@@ -1,6 +1,6 @@
 package de.dhbw.ems.application.mediator.service.impl;
 
-import de.dhbw.cleanproject.abstractioncode.valueobject.money.CurrencyType;
+import de.dhbw.ems.abstractioncode.valueobject.money.CurrencyType;
 
 import java.util.UUID;
 

@@ -1,4 +1,4 @@
-package de.dhbw.cleanproject.abstractioncode.valueobject.email;
+package de.dhbw.ems.abstractioncode.valueobject.email;
 
 
 import lombok.*;

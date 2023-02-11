@@ -1,6 +1,6 @@
 package de.dhbw.ems.application.currency.exchange;
 
-import de.dhbw.cleanproject.abstractioncode.valueobject.money.CurrencyType;
+import de.dhbw.ems.abstractioncode.valueobject.money.CurrencyType;
 import lombok.Builder;
 import lombok.Data;
 

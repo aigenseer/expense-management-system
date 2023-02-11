@@ -1,7 +1,7 @@
 package de.dhbw.ems.application;
 
-import de.dhbw.cleanproject.abstractioncode.valueobject.money.CurrencyType;
-import de.dhbw.cleanproject.abstractioncode.valueobject.money.Money;
+import de.dhbw.ems.abstractioncode.valueobject.money.CurrencyType;
+import de.dhbw.ems.abstractioncode.valueobject.money.Money;
 import de.dhbw.ems.application.booking.BookingApplicationService;
 import de.dhbw.ems.application.booking.BookingAttributeData;
 import de.dhbw.ems.domain.booking.Booking;

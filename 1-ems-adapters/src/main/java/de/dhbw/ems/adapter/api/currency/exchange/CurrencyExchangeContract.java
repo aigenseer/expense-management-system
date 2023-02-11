@@ -1,6 +1,6 @@
 package de.dhbw.ems.adapter.api.currency.exchange;
 
-import de.dhbw.cleanproject.abstractioncode.valueobject.money.CurrencyType;
+import de.dhbw.ems.abstractioncode.valueobject.money.CurrencyType;
 import de.dhbw.ems.adapter.model.customvalidatior.ValueOfEnum;
 import lombok.Data;
 

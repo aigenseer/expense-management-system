@@ -1,7 +1,7 @@
 package de.dhbw.ems.application.user;
 
-import de.dhbw.cleanproject.abstractioncode.valueobject.email.Email;
-import de.dhbw.cleanproject.abstractioncode.valueobject.phonennumber.PhoneNumber;
+import de.dhbw.ems.abstractioncode.valueobject.email.Email;
+import de.dhbw.ems.abstractioncode.valueobject.phonennumber.PhoneNumber;
 import lombok.Builder;
 import lombok.Data;
 

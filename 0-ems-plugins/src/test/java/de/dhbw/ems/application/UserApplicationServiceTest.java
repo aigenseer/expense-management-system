@@ -1,8 +1,8 @@
 package de.dhbw.ems.application;
 
-import de.dhbw.cleanproject.abstractioncode.valueobject.email.Email;
-import de.dhbw.cleanproject.abstractioncode.valueobject.phonennumber.InternationalPhoneCode;
-import de.dhbw.cleanproject.abstractioncode.valueobject.phonennumber.PhoneNumber;
+import de.dhbw.ems.abstractioncode.valueobject.email.Email;
+import de.dhbw.ems.abstractioncode.valueobject.phonennumber.InternationalPhoneCode;
+import de.dhbw.ems.abstractioncode.valueobject.phonennumber.PhoneNumber;
 import de.dhbw.ems.application.user.UserApplicationService;
 import de.dhbw.ems.application.user.UserAttributeData;
 import de.dhbw.ems.domain.user.User;

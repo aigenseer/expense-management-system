@@ -1,6 +1,6 @@
 package de.dhbw.ems.adapter.model.booking.model;
 
-import de.dhbw.cleanproject.abstractioncode.valueobject.money.CurrencyType;
+import de.dhbw.ems.abstractioncode.valueobject.money.CurrencyType;
 import de.dhbw.ems.adapter.model.bookingcategory.preview.BookingCategoryPreviewModel;
 import de.dhbw.ems.adapter.model.user.preview.UserPreview;
 import de.dhbw.ems.adapter.model.user.preview.UserPreviewCollectionModel;

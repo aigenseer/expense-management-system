@@ -1,4 +1,4 @@
-package de.dhbw.cleanproject.abstractioncode.valueobject.money;
+package de.dhbw.ems.abstractioncode.valueobject.money;
 
 
 import lombok.AllArgsConstructor;

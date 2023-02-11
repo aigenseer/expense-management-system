@@ -1,6 +1,6 @@
 package de.dhbw.ems.adapter.model.user.userdata;
 
-import de.dhbw.cleanproject.abstractioncode.valueobject.phonennumber.InternationalPhoneCode;
+import de.dhbw.ems.abstractioncode.valueobject.phonennumber.InternationalPhoneCode;
 import de.dhbw.ems.adapter.model.customvalidatior.ValueOfEnum;
 import lombok.Data;
 

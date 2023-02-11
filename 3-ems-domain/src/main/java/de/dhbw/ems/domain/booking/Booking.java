@@ -1,6 +1,6 @@
 package de.dhbw.ems.domain.booking;
 
-import de.dhbw.cleanproject.abstractioncode.valueobject.money.Money;
+import de.dhbw.ems.abstractioncode.valueobject.money.Money;
 import de.dhbw.ems.domain.bookingcategory.BookingCategory;
 import de.dhbw.ems.domain.financialledger.FinancialLedger;
 import de.dhbw.ems.domain.user.User;
