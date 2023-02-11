@@ -1,5 +1,6 @@
 package de.dhbw.ems.adapter.application.booking;
 
+import de.dhbw.ems.abstractioncode.valueobject.money.CurrencyType;
 import de.dhbw.ems.application.booking.BookingAttributeData;
 import de.dhbw.ems.domain.booking.Booking;
 
@@ -19,5 +20,7 @@ public interface BookingApplicationAdapter {
     boolean referenceUser(UUID id, UUID financialLedgerId, UUID bookingId, UUID referenceUserId);
 
     boolean deleteUserReference(UUID id, UUID financialLedgerId, UUID bookingId);
+
+    boolean exchangeCurrencyOfBooking(UUID id, UUID financialLedgerId, UUID bookingId, CurrencyType targetCurrencyType);
 
 }
