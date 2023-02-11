@@ -2,7 +2,6 @@ package de.dhbw.plugins.rest.booking.user;
 
 import de.dhbw.ems.adapter.application.booking.BookingApplicationAdapter;
 import de.dhbw.ems.adapter.model.user.preview.UserPreview;
-import de.dhbw.ems.application.mediator.service.impl.BookingServicePort;
 import de.dhbw.ems.domain.booking.Booking;
 import de.dhbw.ems.domain.user.User;
 import de.dhbw.plugins.mapper.booking.ReferencedUserPreviewModelFactory;

@@ -3,7 +3,6 @@ package de.dhbw.plugins.rest.financialledger.user;
 import de.dhbw.ems.adapter.application.financialledger.FinancialLedgerApplicationAdapter;
 import de.dhbw.ems.adapter.application.user.UserApplicationAdapter;
 import de.dhbw.ems.adapter.model.user.preview.UserPreview;
-import de.dhbw.ems.application.mediator.service.impl.FinancialLedgerServicePort;
 import de.dhbw.ems.domain.user.User;
 import de.dhbw.plugins.mapper.financialledger.FinancialLedgerUserPreviewModelFactory;
 import lombok.AllArgsConstructor;

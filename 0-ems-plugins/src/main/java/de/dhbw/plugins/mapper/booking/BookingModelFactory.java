@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Service
 @RequiredArgsConstructor

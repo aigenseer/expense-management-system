@@ -1,7 +1,9 @@
 package de.dhbw.ems.abstractioncode.valueobject.email;
 
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import javax.persistence.Embeddable;
 import java.util.Objects;

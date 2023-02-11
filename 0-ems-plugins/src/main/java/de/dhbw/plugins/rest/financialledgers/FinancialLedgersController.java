@@ -6,7 +6,6 @@ import de.dhbw.ems.adapter.model.financialledger.data.FinancialLedgerData;
 import de.dhbw.ems.adapter.model.financialledger.data.FinancialLedgerDataToFinancialLedgerAttributeDataAdapterMapper;
 import de.dhbw.ems.adapter.model.financialledger.preview.FinancialLedgerPreviewCollectionModel;
 import de.dhbw.ems.application.financialledger.FinancialLedgerAttributeData;
-import de.dhbw.ems.application.mediator.service.impl.FinancialLedgerServicePort;
 import de.dhbw.ems.domain.financialledger.FinancialLedger;
 import de.dhbw.ems.domain.user.User;
 import de.dhbw.plugins.mapper.financialledger.FinancialLedgerPreviewCollectionModelFactory;
