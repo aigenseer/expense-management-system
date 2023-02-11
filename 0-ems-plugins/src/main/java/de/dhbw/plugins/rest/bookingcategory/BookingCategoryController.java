@@ -5,7 +5,6 @@ import de.dhbw.ems.adapter.model.bookingcategory.data.BookingCategoryData;
 import de.dhbw.ems.adapter.model.bookingcategory.data.BookingCategoryDataToBookingCategoryAttributeDataAdapterMapper;
 import de.dhbw.ems.adapter.model.bookingcategory.data.BookingCategoryModel;
 import de.dhbw.ems.application.bookingcategory.BookingCategoryAttributeData;
-import de.dhbw.ems.application.bookingcategory.BookingCategoryDomainService;
 import de.dhbw.ems.domain.bookingcategory.BookingCategory;
 import de.dhbw.plugins.mapper.bookingcategory.BookingCategoryModelFactory;
 import de.dhbw.plugins.rest.utils.WebMvcLinkBuilderUtils;
@@ -28,7 +27,6 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class BookingCategoryController {
 
     private final BookingCategoryApplicationAdapter bookingCategoryApplicationAdapter;
-    private final BookingCategoryDomainService bookingCategoryDomainService;
     private final BookingCategoryModelFactory bookingCategoryModelFactory;
 
     private final BookingCategoryDataToBookingCategoryAttributeDataAdapterMapper bookingCategoryDataToBookingCategoryAttributeDataAdapterMapper;
@@ -47,7 +45,7 @@ public class BookingCategoryController {
         BookingCategory bookingCategory = optionalBookingCategory.get();
 
         BookingCategoryAttributeData attributeData = bookingCategoryDataToBookingCategoryAttributeDataAdapterMapper.apply(data);
-        optionalBookingCategory = bookingCategoryDomainService.updateByAttributeData(bookingCategory, attributeData);
+        optionalBookingCategory = bookingCategoryApplicationAdapter.updateByAttributeData(bookingCategory, attributeData);
         if (!optionalBookingCategory.isPresent()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         WebMvcLinkBuilder uriComponents = linkTo(methodOn(this.getClass()).findOne(userId, financialLedgerId, bookingCategoryId));
