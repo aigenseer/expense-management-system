@@ -73,9 +73,9 @@ public class BookingApplicationServiceTest {
 
     @Test
     public void testCreateByAttributeData() {
-        Optional<Booking> optionalBooking = applicationService.createByAttributeData(entity1.getUser(), entity1.getFinancialLedger(), attributeData);
+        Optional<Booking> optionalBooking = applicationService.createByAttributeData(entity1.getCreator(), entity1.getFinancialLedger(), attributeData);
         assertTrue(optionalBooking.isPresent());
-        assertEquals(entity1.getUser(), optionalBooking.get().getUser());
+        assertEquals(entity1.getCreator(), optionalBooking.get().getCreator());
         assertEquals(entity1.getFinancialLedger().getId(), optionalBooking.get().getFinancialLedgerId());
     }
 

@@ -71,7 +71,7 @@ public class UserColleague implements Colleague {
             mediator.onDeleteReferenceUserToBooking(user, booking, this);
             onDeleteReferenceUserToBooking(user, booking);
         });
-        User user = booking.getUser();
+        User user = booking.getCreator();
         user.getCreatedBookings().remove(booking);
         userApplicationService.save(user);
     }

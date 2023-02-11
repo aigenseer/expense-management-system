@@ -51,7 +51,7 @@ public class BookingToBookingModelMapper implements Function<BookingToBookingMod
         Booking booking = context.getBooking();
         BookingModel model = bookingToBookingModelAdapterMapper.apply(context.getBooking());
 
-        UserPreview creatorPreview = userToUserPreviewMapper.apply(booking.getUser());
+        UserPreview creatorPreview = userToUserPreviewMapper.apply(booking.getCreator());
         model.setCreator(creatorPreview);
 
         UserPreviewCollectionModel referencedUserPreviewCollectionModel = usersToUserPreviewCollectionMapper.apply(booking.getReferencedUsers());
