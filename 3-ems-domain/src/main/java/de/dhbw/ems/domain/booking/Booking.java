@@ -36,7 +36,7 @@ public class Booking {
     private Money money;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "creator_id", nullable = false)
     private User creator;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
