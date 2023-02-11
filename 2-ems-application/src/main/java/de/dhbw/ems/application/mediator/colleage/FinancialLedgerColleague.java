@@ -7,20 +7,13 @@ import de.dhbw.ems.domain.bookingcategory.BookingCategory;
 import de.dhbw.ems.domain.financialledger.FinancialLedger;
 import de.dhbw.ems.domain.user.User;
 
-public class FinancialLedgerColleague implements Colleague {
+public class FinancialLedgerColleague extends Colleague {
 
-    private final ConcreteApplicationMediator mediator;
     private final FinancialLedgerApplicationService financialLedgerApplicationService;
 
     public FinancialLedgerColleague(final ConcreteApplicationMediator mediator, final FinancialLedgerApplicationService financialLedgerApplicationService) {
-        this.mediator = mediator;
+        super(mediator);
         this.financialLedgerApplicationService = financialLedgerApplicationService;
-        this.mediator.addColleague(this);
-    }
-
-    @Override
-    public void onLinkUserToFinancialLedger(User user, FinancialLedger financialLedger) {
-
     }
 
     @Override
@@ -28,7 +21,7 @@ public class FinancialLedgerColleague implements Colleague {
         financialLedger.getAuthorizedUser().remove(user);
         financialLedgerApplicationService.save(financialLedger);
         if (financialLedger.getAuthorizedUser().size() == 0){
-            mediator.onDeleteFinancialLedger(financialLedger, this);
+            getMediator().onDeleteFinancialLedger(financialLedger, this);
             onDeleteFinancialLedger(financialLedger);
         }
     }
@@ -37,16 +30,6 @@ public class FinancialLedgerColleague implements Colleague {
     public void onCreateBooking(User user, FinancialLedger financialLedger, Booking booking) {
         financialLedger.getBookings().add(booking);
         financialLedgerApplicationService.save(financialLedger);
-    }
-
-    @Override
-    public void onReferenceUserToBooking(User user, Booking booking) {
-
-    }
-
-    @Override
-    public void onDeleteReferenceUserToBooking(User user, Booking booking) {
-
     }
 
     @Override

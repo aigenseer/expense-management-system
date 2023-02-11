@@ -5,48 +5,15 @@ import de.dhbw.ems.application.mediator.ConcreteApplicationMediator;
 import de.dhbw.ems.domain.booking.Booking;
 import de.dhbw.ems.domain.bookingcategory.BookingCategory;
 import de.dhbw.ems.domain.financialledger.FinancialLedger;
-import de.dhbw.ems.domain.user.User;
 
 
-public class BookingCategoryColleague implements Colleague {
+public class BookingCategoryColleague extends Colleague {
 
-    private final ConcreteApplicationMediator mediator;
     private final BookingCategoryApplicationService bookingCategoryApplicationService;
 
     public BookingCategoryColleague(final ConcreteApplicationMediator mediator, final BookingCategoryApplicationService bookingCategoryApplicationService) {
-        this.mediator = mediator;
+        super(mediator);
         this.bookingCategoryApplicationService = bookingCategoryApplicationService;
-        this.mediator.addColleague(this);
-    }
-
-    @Override
-    public void onLinkUserToFinancialLedger(User user, FinancialLedger financialLedger) {
-
-    }
-
-    @Override
-    public void onUnlinkUserToFinancialLedger(User user, FinancialLedger financialLedger) {
-
-    }
-
-    @Override
-    public void onCreateBooking(User user, FinancialLedger financialLedger, Booking booking) {
-
-    }
-
-    @Override
-    public void onReferenceUserToBooking(User user, Booking booking) {
-
-    }
-
-    @Override
-    public void onDeleteReferenceUserToBooking(User user, Booking booking) {
-
-    }
-
-    @Override
-    public void onDeleteUser(User user) {
-
     }
 
     @Override

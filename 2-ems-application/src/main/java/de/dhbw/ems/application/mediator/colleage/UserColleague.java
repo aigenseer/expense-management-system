@@ -3,19 +3,16 @@ package de.dhbw.ems.application.mediator.colleage;
 import de.dhbw.ems.application.mediator.ConcreteApplicationMediator;
 import de.dhbw.ems.application.user.UserApplicationService;
 import de.dhbw.ems.domain.booking.Booking;
-import de.dhbw.ems.domain.bookingcategory.BookingCategory;
 import de.dhbw.ems.domain.financialledger.FinancialLedger;
 import de.dhbw.ems.domain.user.User;
 
-public class UserColleague implements Colleague {
+public class UserColleague extends Colleague {
 
-    private final ConcreteApplicationMediator mediator;
     private final UserApplicationService userApplicationService;
 
     public UserColleague(final ConcreteApplicationMediator mediator, final UserApplicationService userApplicationService) {
-        this.mediator = mediator;
+        super(mediator);
         this.userApplicationService = userApplicationService;
-        this.mediator.addColleague(this);
     }
 
     @Override
@@ -61,14 +58,9 @@ public class UserColleague implements Colleague {
     }
 
     @Override
-    public void onDeleteBookingCategory(BookingCategory bookingCategory) {
-
-    }
-
-    @Override
     public void onDeleteBooking(Booking booking) {
         booking.getReferencedUsers().forEach(user -> {
-            mediator.onDeleteReferenceUserToBooking(user, booking, this);
+            getMediator().onDeleteReferenceUserToBooking(user, booking, this);
             onDeleteReferenceUserToBooking(user, booking);
         });
         User user = booking.getCreator();

@@ -7,30 +7,13 @@ import de.dhbw.ems.domain.bookingcategory.BookingCategory;
 import de.dhbw.ems.domain.financialledger.FinancialLedger;
 import de.dhbw.ems.domain.user.User;
 
-public class BookingColleague implements Colleague {
+public class BookingColleague extends Colleague {
 
-    private final ConcreteApplicationMediator mediator;
     private final BookingApplicationService bookingApplicationService;
 
     public BookingColleague(final ConcreteApplicationMediator mediator, final BookingApplicationService bookingApplicationService) {
-        this.mediator = mediator;
+        super(mediator);
         this.bookingApplicationService = bookingApplicationService;
-        this.mediator.addColleague(this);
-    }
-
-    @Override
-    public void onLinkUserToFinancialLedger(User user, FinancialLedger financialLedger) {
-
-    }
-
-    @Override
-    public void onUnlinkUserToFinancialLedger(User user, FinancialLedger financialLedger) {
-
-    }
-
-    @Override
-    public void onCreateBooking(User user, FinancialLedger financialLedger, Booking booking) {
-
     }
 
     @Override
@@ -50,7 +33,7 @@ public class BookingColleague implements Colleague {
     @Override
     public void onDeleteUser(User user) {
         user.getReferencedBookings().forEach(booking -> {
-            mediator.onDeleteBooking(booking, this);
+            getMediator().onDeleteBooking(booking, this);
             onDeleteBooking(booking);
         });
     }
@@ -58,7 +41,7 @@ public class BookingColleague implements Colleague {
     @Override
     public void onDeleteFinancialLedger(FinancialLedger financialLedger) {
         financialLedger.getBookings().forEach(booking -> {
-            mediator.onDeleteBooking(booking, this);
+            getMediator().onDeleteBooking(booking, this);
             onDeleteBooking(booking);
         });
     }
@@ -75,4 +58,5 @@ public class BookingColleague implements Colleague {
     public void onDeleteBooking(Booking booking) {
         bookingApplicationService.deleteById(booking.getId());
     }
+
 }
