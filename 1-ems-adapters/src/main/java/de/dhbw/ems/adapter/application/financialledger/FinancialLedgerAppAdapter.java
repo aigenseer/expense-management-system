@@ -1,6 +1,7 @@
 package de.dhbw.ems.adapter.application.financialledger;
 
 import de.dhbw.ems.application.financialledger.FinancialLedgerAttributeData;
+import de.dhbw.ems.application.financialledger.FinancialLedgerDomainServicePort;
 import de.dhbw.ems.application.mediator.service.impl.FinancialLedgerServicePort;
 import de.dhbw.ems.domain.financialledger.FinancialLedger;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import java.util.UUID;
 public class FinancialLedgerAppAdapter implements FinancialLedgerApplicationAdapter {
 
     private final FinancialLedgerServicePort financialLedgerServicePort;
+    private final FinancialLedgerDomainServicePort financialLedgerDomainServicePort;
 
 
     @Override
@@ -44,5 +46,10 @@ public class FinancialLedgerAppAdapter implements FinancialLedgerApplicationAdap
     @Override
     public boolean delete(UUID id, UUID financialLedgerId) {
         return financialLedgerServicePort.delete(id, financialLedgerId);
+    }
+
+    @Override
+    public Optional<FinancialLedger> updateByAttributeData(FinancialLedger financialLedger, FinancialLedgerAttributeData data) {
+        return financialLedgerDomainServicePort.updateByAttributeData(financialLedger, data);
     }
 }

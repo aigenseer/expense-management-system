@@ -20,4 +20,6 @@ public interface FinancialLedgerApplicationAdapter {
 
     boolean delete(UUID id, UUID financialLedgerId);
 
+    Optional<FinancialLedger> updateByAttributeData(FinancialLedger financialLedger, FinancialLedgerAttributeData data);
+
 }
