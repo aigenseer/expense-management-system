@@ -16,4 +16,6 @@ public interface BookingCategoryApplicationAdapter {
 
     Optional<BookingCategory> create(UUID id, UUID financialLedgerId, BookingCategoryAttributeData attributeData);
 
+    Optional<BookingCategory> updateByAttributeData(BookingCategory bookingCategory, BookingCategoryAttributeData data);
+
 }

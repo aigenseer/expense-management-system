@@ -1,6 +1,7 @@
 package de.dhbw.ems.adapter.application.bookingcategory;
 
 import de.dhbw.ems.application.bookingcategory.BookingCategoryAttributeData;
+import de.dhbw.ems.application.bookingcategory.BookingCategoryDomainServicePort;
 import de.dhbw.ems.application.mediator.service.impl.BookingCategoryServicePort;
 import de.dhbw.ems.domain.bookingcategory.BookingCategory;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import java.util.UUID;
 public class BookingCategoryAppAdapter implements BookingCategoryApplicationAdapter {
 
     private final BookingCategoryServicePort bookingCategoryServicePort;
+    private final BookingCategoryDomainServicePort bookingCategoryDomainServicePort;
 
     @Override
     public Optional<BookingCategory> find(UUID id, UUID financialLedgerId, UUID bookingCategoryId) {
@@ -33,6 +35,11 @@ public class BookingCategoryAppAdapter implements BookingCategoryApplicationAdap
     @Override
     public Optional<BookingCategory> create(UUID id, UUID financialLedgerId, BookingCategoryAttributeData attributeData) {
         return bookingCategoryServicePort.create(id, financialLedgerId, attributeData);
+    }
+
+    @Override
+    public Optional<BookingCategory> updateByAttributeData(BookingCategory bookingCategory, BookingCategoryAttributeData data) {
+        return bookingCategoryDomainServicePort.updateByAttributeData(bookingCategory, data);
     }
 
 }
