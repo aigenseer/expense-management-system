@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class UserApplicationService implements UserDomainService {
+public class UserApplicationService implements UserDomainServicePort {
 
     private final UserRepository repository;
 
