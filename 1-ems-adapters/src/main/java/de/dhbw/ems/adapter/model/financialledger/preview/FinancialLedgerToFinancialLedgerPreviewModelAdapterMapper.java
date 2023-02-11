@@ -15,7 +15,7 @@ public class FinancialLedgerToFinancialLedgerPreviewModelAdapterMapper implement
 
     private FinancialLedgerPreviewModel map(final FinancialLedger financialLedger) {
         return FinancialLedgerPreviewModel.builder()
-                .name(financialLedger.getName())
+                .name(financialLedger.getTitle())
                 .build();
     }
 }

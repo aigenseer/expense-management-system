@@ -17,7 +17,7 @@ public class FinancialLedgerToFinancialLedgerModelAdapterMapper implements Funct
 
     private FinancialLedgerModel map(final FinancialLedger financialLedger) {
         FinancialLedgerModel.FinancialLedgerModelBuilder builder = FinancialLedgerModel.builder()
-                .name(financialLedger.getName());
+                .name(financialLedger.getTitle());
         return builder.build();
     }
 }

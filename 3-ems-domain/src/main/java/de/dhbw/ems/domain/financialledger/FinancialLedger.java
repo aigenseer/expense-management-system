@@ -24,8 +24,8 @@ public class FinancialLedger {
     @Type(type="uuid-char")
     private UUID id;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name = "title", nullable = false)
+    private String title;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name="ems_user_to_financial_ledger",

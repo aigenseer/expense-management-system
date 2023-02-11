@@ -37,7 +37,7 @@ public class FinancialLedgerApplicationService implements FinancialLedgerDomainS
     }
 
     public Optional<FinancialLedger> updateByAttributeData(FinancialLedger financialLedger, FinancialLedgerAttributeData data){
-        financialLedger.setName(data.getName());
+        financialLedger.setTitle(data.getName());
         return Optional.of(save(financialLedger));
     }
 

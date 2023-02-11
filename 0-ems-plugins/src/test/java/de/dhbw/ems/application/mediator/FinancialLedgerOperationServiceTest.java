@@ -84,7 +84,7 @@ public class FinancialLedgerOperationServiceTest {
         FinancialLedgerAttributeData attributeData = FinancialLedgerAttributeData.builder().name("Example-Financial-Ledger-3").build();
         Optional<FinancialLedger> optionalFinancialLedger = financialLedgerOperationService.create(userId, attributeData);
         assertTrue(optionalFinancialLedger.isPresent());
-        assertEquals(attributeData.getName(), optionalFinancialLedger.get().getName());
+        assertEquals(attributeData.getName(), optionalFinancialLedger.get().getTitle());
 
         Optional<User> optionalUser = userApplicationService.findById(userId);
         assertTrue(optionalUser.isPresent());

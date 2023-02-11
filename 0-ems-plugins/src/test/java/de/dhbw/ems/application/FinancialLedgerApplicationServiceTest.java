@@ -27,12 +27,12 @@ public class FinancialLedgerApplicationServiceTest {
 
     private final FinancialLedger entity1 = FinancialLedger.builder()
             .id(UUID.fromString("12345678-1234-1234-a123-123456789011"))
-            .name("Example-Financial-Ledger")
+            .title("Example-Financial-Ledger")
             .build();
 
     private final FinancialLedger entity2 = FinancialLedger.builder()
             .id(UUID.fromString("12345678-1234-1234-a123-123456789012"))
-            .name("Example-Financial-Ledger-2")
+            .title("Example-Financial-Ledger-2")
             .build();
 
     private final FinancialLedgerAttributeData attributeData = FinancialLedgerAttributeData.builder()
@@ -72,7 +72,7 @@ public class FinancialLedgerApplicationServiceTest {
 
     private void checkEntity(FinancialLedger expectedEntity, FinancialLedger actualEntity) {
         assertEquals(expectedEntity.getId(), actualEntity.getId());
-        assertEquals(expectedEntity.getName(), actualEntity.getName());
+        assertEquals(expectedEntity.getTitle(), actualEntity.getTitle());
     }
 
     @Test
@@ -93,7 +93,7 @@ public class FinancialLedgerApplicationServiceTest {
     }
 
     private void checkAttributeData(FinancialLedgerAttributeData attributeData, FinancialLedger actualEntity) {
-        assertEquals(attributeData.getName(), actualEntity.getName());
+        assertEquals(attributeData.getName(), actualEntity.getTitle());
     }
 
 }
