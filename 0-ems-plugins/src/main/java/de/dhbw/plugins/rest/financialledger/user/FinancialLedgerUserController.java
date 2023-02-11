@@ -1,8 +1,8 @@
 package de.dhbw.plugins.rest.financialledger.user;
 
+import de.dhbw.ems.adapter.application.UserApplicationAdapter;
 import de.dhbw.ems.adapter.model.user.preview.UserPreview;
 import de.dhbw.ems.application.mediator.service.impl.FinancialLedgerService;
-import de.dhbw.ems.application.user.UserDomainService;
 import de.dhbw.ems.domain.user.User;
 import de.dhbw.plugins.mapper.financialledger.FinancialLedgerUserPreviewModelFactory;
 import lombok.AllArgsConstructor;
@@ -19,13 +19,13 @@ import java.util.UUID;
 
 public class FinancialLedgerUserController {
 
-    private final UserDomainService userDomainService;
+    private final UserApplicationAdapter userApplicationAdapter;
     private final FinancialLedgerService financialLedgerService;
     private final FinancialLedgerUserPreviewModelFactory financialLedgerUserPreviewModelFactory;
 
     @GetMapping
     public ResponseEntity<UserPreview> findOne(@PathVariable("financialLedgerId") UUID financialLedgerId, @PathVariable("financialLedgerUserId") UUID financialLedgerUserId) {
-        Optional<User> optionalUser = userDomainService.findById(financialLedgerUserId);
+        Optional<User> optionalUser = userApplicationAdapter.findById(financialLedgerUserId);
         if (!optionalUser.isPresent() || !financialLedgerService.hasUserPermission(financialLedgerUserId, financialLedgerId))
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 

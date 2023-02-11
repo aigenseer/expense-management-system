@@ -1,11 +1,11 @@
 package de.dhbw.plugins.rest.financialledgers;
 
+import de.dhbw.ems.adapter.application.UserApplicationAdapter;
 import de.dhbw.ems.adapter.model.financialledger.data.FinancialLedgerData;
 import de.dhbw.ems.adapter.model.financialledger.data.FinancialLedgerDataToFinancialLedgerAttributeDataAdapterMapper;
 import de.dhbw.ems.adapter.model.financialledger.preview.FinancialLedgerPreviewCollectionModel;
 import de.dhbw.ems.application.financialledger.FinancialLedgerAttributeData;
 import de.dhbw.ems.application.mediator.service.impl.FinancialLedgerService;
-import de.dhbw.ems.application.user.UserDomainService;
 import de.dhbw.ems.domain.financialledger.FinancialLedger;
 import de.dhbw.ems.domain.user.User;
 import de.dhbw.plugins.mapper.financialledger.FinancialLedgerPreviewCollectionModelFactory;
@@ -28,14 +28,14 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RequiredArgsConstructor
 public class FinancialLedgersController {
 
-    private final UserDomainService userDomainService;
+    private final UserApplicationAdapter userApplicationAdapter;
     private final FinancialLedgerService financialLedgerService;
     private final FinancialLedgerDataToFinancialLedgerAttributeDataAdapterMapper dataAdapterMapper;
     private final FinancialLedgerPreviewCollectionModelFactory financialLedgerPreviewCollectionModelFactory;
 
     @GetMapping
     public ResponseEntity<FinancialLedgerPreviewCollectionModel> listAll(@PathVariable("userId") UUID userId) {
-        Optional<User> userOptional = userDomainService.findById(userId);
+        Optional<User> userOptional = userApplicationAdapter.findById(userId);
         if (!userOptional.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         User user = userOptional.get();
 
