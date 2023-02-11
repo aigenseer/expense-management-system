@@ -1,4 +1,4 @@
-package de.dhbw.ems.adapter.application;
+package de.dhbw.ems.adapter.application.user;
 
 import de.dhbw.ems.application.user.UserAttributeData;
 import de.dhbw.ems.domain.user.User;

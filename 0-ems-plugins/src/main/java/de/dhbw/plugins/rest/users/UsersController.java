@@ -1,6 +1,6 @@
 package de.dhbw.plugins.rest.users;
 
-import de.dhbw.ems.adapter.application.UserApplicationAdapter;
+import de.dhbw.ems.adapter.application.user.UserApplicationAdapter;
 import de.dhbw.ems.adapter.model.user.preview.UserPreviewCollectionModel;
 import de.dhbw.ems.adapter.model.user.userdata.UserData;
 import de.dhbw.ems.adapter.model.user.userdata.UserUnsafeDataToUserAttributeDataAdapterMapper;

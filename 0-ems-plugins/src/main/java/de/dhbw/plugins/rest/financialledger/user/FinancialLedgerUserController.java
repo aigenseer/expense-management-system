@@ -1,6 +1,6 @@
 package de.dhbw.plugins.rest.financialledger.user;
 
-import de.dhbw.ems.adapter.application.UserApplicationAdapter;
+import de.dhbw.ems.adapter.application.user.UserApplicationAdapter;
 import de.dhbw.ems.adapter.model.user.preview.UserPreview;
 import de.dhbw.ems.application.mediator.service.impl.FinancialLedgerService;
 import de.dhbw.ems.domain.user.User;
