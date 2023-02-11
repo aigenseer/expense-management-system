@@ -17,7 +17,6 @@ import java.util.UUID;
 @Service
 public class BookingOperationService extends BookingColleague implements BookingServicePort {
 
-    private final ConcreteApplicationMediator mediator;
     private final UserApplicationService userApplicationService;
     private final FinancialLedgerOperationService financialLedgerOperationService;
     private final BookingApplicationService bookingApplicationService;
@@ -29,7 +28,6 @@ public class BookingOperationService extends BookingColleague implements Booking
             final BookingApplicationService bookingApplicationService
             ) {
         super(mediator, bookingApplicationService);
-        this.mediator = mediator;
         this.userApplicationService = userApplicationService;
         this.financialLedgerOperationService = financialLedgerOperationService;
         this.bookingApplicationService = bookingApplicationService;
@@ -48,7 +46,7 @@ public class BookingOperationService extends BookingColleague implements Booking
         if (!optionalFinancialLedger.isPresent()) return Optional.empty();
         Optional<Booking> optionalBooking = bookingApplicationService.createByAttributeData(optionalUser.get(), optionalFinancialLedger.get(), attributeData);
         if (!optionalBooking.isPresent()) return Optional.empty();
-        mediator.onCreateBooking(optionalUser.get(), optionalFinancialLedger.get(), optionalBooking.get(), this);
+        getMediator().onCreateBooking(optionalUser.get(), optionalFinancialLedger.get(), optionalBooking.get(), this);
         return find(userId, financialLedgerId, optionalBooking.get().getId());
     }
 
@@ -59,7 +57,7 @@ public class BookingOperationService extends BookingColleague implements Booking
     public boolean delete(UUID userId, UUID financialLedgerId, UUID bookingId){
         Optional<Booking> optionalBooking = find(userId, financialLedgerId, bookingId);
         if (optionalBooking.isPresent()) {
-            mediator.onDeleteBooking(optionalBooking.get(), this);
+            getMediator().onDeleteBooking(optionalBooking.get(), this);
             onDeleteBooking(optionalBooking.get());
             return true;
         }
@@ -71,7 +69,7 @@ public class BookingOperationService extends BookingColleague implements Booking
         if (optionalReferenceUser.isPresent()){
             Optional<Booking> optionalBooking = find(id, financialLedgerId, bookingId);
             if (optionalBooking.isPresent()){
-                mediator.onReferenceUserToBooking(optionalReferenceUser.get(), optionalBooking.get(), this);
+                getMediator().onReferenceUserToBooking(optionalReferenceUser.get(), optionalBooking.get(), this);
                 onReferenceUserToBooking(optionalReferenceUser.get(), optionalBooking.get());
                 return true;
             }
@@ -87,7 +85,7 @@ public class BookingOperationService extends BookingColleague implements Booking
                 User user = optionalReferenceUser.get();
                 Booking booking = optionalBooking.get();
                 if (booking.getReferencedUsers().contains(user) || user.getReferencedBookings().contains(booking)){
-                    mediator.onDeleteReferenceUserToBooking(user, booking, this);
+                    getMediator().onDeleteReferenceUserToBooking(user, booking, this);
                     onDeleteReferenceUserToBooking(user, booking);
                     return true;
                 }

@@ -16,7 +16,6 @@ import java.util.UUID;
 @Service
 public class BookingCategoryOperationService extends BookingCategoryColleague implements BookingCategoryServicePort {
 
-    private final ConcreteApplicationMediator mediator;
     private final FinancialLedgerOperationService financialLedgerOperationService;
     private final FinancialLedgerApplicationService financialLedgerApplicationService;
     private final BookingCategoryApplicationService bookingCategoryApplicationService;
@@ -28,7 +27,6 @@ public class BookingCategoryOperationService extends BookingCategoryColleague im
             final BookingCategoryApplicationService bookingCategoryApplicationService
             ) {
         super(mediator, bookingCategoryApplicationService);
-        this.mediator = mediator;
         this.financialLedgerOperationService = financialLedgerOperationService;
         this.financialLedgerApplicationService = financialLedgerApplicationService;
         this.bookingCategoryApplicationService = bookingCategoryApplicationService;
@@ -47,7 +45,7 @@ public class BookingCategoryOperationService extends BookingCategoryColleague im
     public boolean delete(UUID id, UUID financialLedgerId, UUID bookingCategoryId){
         Optional<BookingCategory> optionalBookingCategory = find(id, financialLedgerId, bookingCategoryId);
         if (optionalBookingCategory.isPresent()) {
-            mediator.onDeleteBookingCategory(optionalBookingCategory.get(), this);
+            getMediator().onDeleteBookingCategory(optionalBookingCategory.get(), this);
             onDeleteBookingCategory(optionalBookingCategory.get());
             return true;
         }

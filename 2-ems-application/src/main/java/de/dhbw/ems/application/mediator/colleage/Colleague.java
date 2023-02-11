@@ -5,11 +5,12 @@ import de.dhbw.ems.domain.booking.Booking;
 import de.dhbw.ems.domain.bookingcategory.BookingCategory;
 import de.dhbw.ems.domain.financialledger.FinancialLedger;
 import de.dhbw.ems.domain.user.User;
+import lombok.AccessLevel;
 import lombok.Getter;
 
 public abstract class Colleague {
 
-    @Getter
+    @Getter(AccessLevel.PROTECTED)
     private final ConcreteApplicationMediator mediator;
 
     protected Colleague(final ConcreteApplicationMediator mediator) {

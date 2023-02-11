@@ -16,7 +16,6 @@ import java.util.UUID;
 @Service
 public class FinancialLedgerOperationService extends FinancialLedgerColleague implements FinancialLedgerServicePort {
 
-    private final ConcreteApplicationMediator mediator;
     private final UserApplicationService userApplicationService;
     private final FinancialLedgerApplicationService financialLedgerApplicationService;
 
@@ -26,7 +25,6 @@ public class FinancialLedgerOperationService extends FinancialLedgerColleague im
             final FinancialLedgerApplicationService financialLedgerApplicationService
     ) {
         super(mediator, financialLedgerApplicationService);
-        this.mediator = mediator;
         this.userApplicationService = userApplicationService;
         this.financialLedgerApplicationService = financialLedgerApplicationService;
     }
@@ -36,7 +34,7 @@ public class FinancialLedgerOperationService extends FinancialLedgerColleague im
         if (userOptional.isPresent()) {
             Optional<FinancialLedger> optionalFinancialLedger = financialLedgerApplicationService.createByAttributeData(attributeData);
             if (optionalFinancialLedger.isPresent()) {
-                mediator.onLinkUserToFinancialLedger(userOptional.get(), optionalFinancialLedger.get(), this);
+                getMediator().onLinkUserToFinancialLedger(userOptional.get(), optionalFinancialLedger.get(), this);
                 return find(userId, optionalFinancialLedger.get().getId());
             }
         }
@@ -61,7 +59,7 @@ public class FinancialLedgerOperationService extends FinancialLedgerColleague im
                 if (financialLedger.getAuthorizedUser().contains(user) ||
                         user.getFinancialLedgers().contains(financialLedger)
                 ) {
-                    mediator.onUnlinkUserToFinancialLedger(user, financialLedger, this);
+                    getMediator().onUnlinkUserToFinancialLedger(user, financialLedger, this);
                     onUnlinkUserToFinancialLedger(user, financialLedger);
                     return true;
                 }
@@ -79,7 +77,7 @@ public class FinancialLedgerOperationService extends FinancialLedgerColleague im
         if (userOptional.isPresent()) {
             Optional<FinancialLedger> financialLedgerOptional = financialLedgerApplicationService.findById(financialLedgerId);
             if (financialLedgerOptional.isPresent()) {
-                mediator.onLinkUserToFinancialLedger(userOptional.get(), financialLedgerOptional.get(), this);
+                getMediator().onLinkUserToFinancialLedger(userOptional.get(), financialLedgerOptional.get(), this);
                 return true;
             }
         }
@@ -89,7 +87,7 @@ public class FinancialLedgerOperationService extends FinancialLedgerColleague im
     public boolean delete(UUID id, UUID financialLedgerId) {
         Optional<FinancialLedger> optionalFinancialLedger = find(id, financialLedgerId);
         if (optionalFinancialLedger.isPresent()) {
-            mediator.onDeleteFinancialLedger(optionalFinancialLedger.get(), this);
+            getMediator().onDeleteFinancialLedger(optionalFinancialLedger.get(), this);
             onDeleteFinancialLedger(optionalFinancialLedger.get());
             return true;
         }
