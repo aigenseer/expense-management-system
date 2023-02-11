@@ -1,11 +1,8 @@
 package de.dhbw.ems.adapter.application.financialledger;
 
 import de.dhbw.ems.application.financialledger.FinancialLedgerAttributeData;
-import de.dhbw.ems.application.user.UserAttributeData;
 import de.dhbw.ems.domain.financialledger.FinancialLedger;
-import de.dhbw.ems.domain.user.User;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
