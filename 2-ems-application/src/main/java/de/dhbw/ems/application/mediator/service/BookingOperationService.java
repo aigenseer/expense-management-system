@@ -4,7 +4,7 @@ import de.dhbw.ems.application.booking.BookingApplicationService;
 import de.dhbw.ems.application.booking.BookingAttributeData;
 import de.dhbw.ems.application.mediator.ConcreteApplicationMediator;
 import de.dhbw.ems.application.mediator.colleage.BookingColleague;
-import de.dhbw.ems.application.mediator.service.impl.BookingService;
+import de.dhbw.ems.application.mediator.service.impl.BookingServicePort;
 import de.dhbw.ems.application.user.UserApplicationService;
 import de.dhbw.ems.domain.booking.Booking;
 import de.dhbw.ems.domain.financialledger.FinancialLedger;
@@ -15,7 +15,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class BookingOperationService extends BookingColleague implements BookingService {
+public class BookingOperationService extends BookingColleague implements BookingServicePort {
 
     private final ConcreteApplicationMediator mediator;
     private final UserApplicationService userApplicationService;

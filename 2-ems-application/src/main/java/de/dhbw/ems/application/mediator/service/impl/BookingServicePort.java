@@ -6,7 +6,7 @@ import de.dhbw.ems.domain.booking.Booking;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface BookingService {
+public interface BookingServicePort {
 
     Optional<Booking> find(UUID userId, UUID financialLedgerId, UUID bookingId);
 
