@@ -1,12 +1,11 @@
 package de.dhbw.plugins.rest.bookingcategories;
 
+import de.dhbw.ems.adapter.application.bookingcategory.BookingCategoryApplicationAdapter;
 import de.dhbw.ems.adapter.application.financialledger.FinancialLedgerApplicationAdapter;
 import de.dhbw.ems.adapter.model.bookingcategory.data.BookingCategoryData;
 import de.dhbw.ems.adapter.model.bookingcategory.data.BookingCategoryDataToBookingCategoryAttributeDataAdapterMapper;
 import de.dhbw.ems.adapter.model.bookingcategory.preview.BookingCategoryPreviewCollectionModel;
 import de.dhbw.ems.application.bookingcategory.BookingCategoryAttributeData;
-import de.dhbw.ems.application.mediator.service.impl.BookingCategoryService;
-import de.dhbw.ems.application.mediator.service.impl.FinancialLedgerServicePort;
 import de.dhbw.ems.domain.bookingcategory.BookingCategory;
 import de.dhbw.ems.domain.financialledger.FinancialLedger;
 import de.dhbw.plugins.mapper.bookingcategory.BookingCategoryPreviewCollectionModelFactory;
@@ -30,7 +29,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class BookingCategoriesController {
 
     private final FinancialLedgerApplicationAdapter financialLedgerApplicationAdapter;
-    private final BookingCategoryService bookingCategoryService;
+    private final BookingCategoryApplicationAdapter bookingCategoryApplicationAdapter;
     private final BookingCategoryDataToBookingCategoryAttributeDataAdapterMapper bookingCategoryDataToBookingCategoryAttributeDataAdapterMapper;
     private final BookingCategoryPreviewCollectionModelFactory bookingCategoryPreviewCollectionModelFactory;
 
@@ -44,7 +43,7 @@ public class BookingCategoriesController {
     @PostMapping
     public ResponseEntity<Void> create(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId, @Valid @RequestBody BookingCategoryData data) {
         BookingCategoryAttributeData attributeData = bookingCategoryDataToBookingCategoryAttributeDataAdapterMapper.apply(data);
-        Optional<BookingCategory> optionalBookingCategory = bookingCategoryService.create(userId, financialLedgerId, attributeData);
+        Optional<BookingCategory> optionalBookingCategory = bookingCategoryApplicationAdapter.create(userId, financialLedgerId, attributeData);
         if (!optionalBookingCategory.isPresent()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         WebMvcLinkBuilder uriComponents = WebMvcLinkBuilder.linkTo(methodOn(BookingCategoryController.class).findOne(userId, financialLedgerId, optionalBookingCategory.get().getId()));
         return new ResponseEntity<>(WebMvcLinkBuilderUtils.createLocationHeader(uriComponents), HttpStatus.CREATED);

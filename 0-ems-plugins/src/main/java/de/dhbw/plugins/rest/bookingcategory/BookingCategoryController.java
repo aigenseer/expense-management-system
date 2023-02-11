@@ -1,11 +1,11 @@
 package de.dhbw.plugins.rest.bookingcategory;
 
+import de.dhbw.ems.adapter.application.bookingcategory.BookingCategoryApplicationAdapter;
 import de.dhbw.ems.adapter.model.bookingcategory.data.BookingCategoryData;
 import de.dhbw.ems.adapter.model.bookingcategory.data.BookingCategoryDataToBookingCategoryAttributeDataAdapterMapper;
 import de.dhbw.ems.adapter.model.bookingcategory.data.BookingCategoryModel;
 import de.dhbw.ems.application.bookingcategory.BookingCategoryAttributeData;
 import de.dhbw.ems.application.bookingcategory.BookingCategoryDomainService;
-import de.dhbw.ems.application.mediator.service.impl.BookingCategoryService;
 import de.dhbw.ems.domain.bookingcategory.BookingCategory;
 import de.dhbw.plugins.mapper.bookingcategory.BookingCategoryModelFactory;
 import de.dhbw.plugins.rest.utils.WebMvcLinkBuilderUtils;
@@ -27,7 +27,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RequiredArgsConstructor
 public class BookingCategoryController {
 
-    private final BookingCategoryService bookingCategoryService;
+    private final BookingCategoryApplicationAdapter bookingCategoryApplicationAdapter;
     private final BookingCategoryDomainService bookingCategoryDomainService;
     private final BookingCategoryModelFactory bookingCategoryModelFactory;
 
@@ -35,14 +35,14 @@ public class BookingCategoryController {
 
     @GetMapping
     public ResponseEntity<BookingCategoryModel> findOne(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId, @PathVariable("bookingCategoryId") UUID bookingCategoryId) {
-        Optional<BookingCategory> optionalBookingCategory = bookingCategoryService.find(userId, financialLedgerId, bookingCategoryId);
+        Optional<BookingCategory> optionalBookingCategory = bookingCategoryApplicationAdapter.find(userId, financialLedgerId, bookingCategoryId);
         if (!optionalBookingCategory.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         return ResponseEntity.ok(bookingCategoryModelFactory.create(userId, financialLedgerId, optionalBookingCategory.get()));
     }
 
     @PutMapping
     public ResponseEntity<Void> update(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId, @PathVariable("bookingCategoryId") UUID bookingCategoryId, @Valid @RequestBody BookingCategoryData data) {
-        Optional<BookingCategory> optionalBookingCategory = bookingCategoryService.find(userId, financialLedgerId, bookingCategoryId);
+        Optional<BookingCategory> optionalBookingCategory = bookingCategoryApplicationAdapter.find(userId, financialLedgerId, bookingCategoryId);
         if (!optionalBookingCategory.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         BookingCategory bookingCategory = optionalBookingCategory.get();
 
@@ -57,8 +57,8 @@ public class BookingCategoryController {
 
     @DeleteMapping("/")
     public ResponseEntity<Void> delete(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId, @PathVariable("bookingCategoryId") UUID bookingCategoryId) {
-        if (!bookingCategoryService.exists(userId, financialLedgerId, bookingCategoryId)) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        bookingCategoryService.delete(userId, financialLedgerId, bookingCategoryId);
+        if (!bookingCategoryApplicationAdapter.exists(userId, financialLedgerId, bookingCategoryId)) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        bookingCategoryApplicationAdapter.delete(userId, financialLedgerId, bookingCategoryId);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
