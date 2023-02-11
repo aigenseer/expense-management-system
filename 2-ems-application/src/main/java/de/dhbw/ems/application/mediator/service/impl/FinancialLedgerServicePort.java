@@ -6,7 +6,7 @@ import de.dhbw.ems.domain.financialledger.FinancialLedger;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface FinancialLedgerService {
+public interface FinancialLedgerServicePort {
 
     Optional<FinancialLedger> create(UUID userId, FinancialLedgerAttributeData attributeData);
 

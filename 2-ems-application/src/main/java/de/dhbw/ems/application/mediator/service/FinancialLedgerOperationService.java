@@ -4,7 +4,7 @@ import de.dhbw.ems.application.financialledger.FinancialLedgerApplicationService
 import de.dhbw.ems.application.financialledger.FinancialLedgerAttributeData;
 import de.dhbw.ems.application.mediator.ConcreteApplicationMediator;
 import de.dhbw.ems.application.mediator.colleage.FinancialLedgerColleague;
-import de.dhbw.ems.application.mediator.service.impl.FinancialLedgerService;
+import de.dhbw.ems.application.mediator.service.impl.FinancialLedgerServicePort;
 import de.dhbw.ems.application.user.UserApplicationService;
 import de.dhbw.ems.domain.financialledger.FinancialLedger;
 import de.dhbw.ems.domain.user.User;
@@ -14,7 +14,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class FinancialLedgerOperationService extends FinancialLedgerColleague implements FinancialLedgerService {
+public class FinancialLedgerOperationService extends FinancialLedgerColleague implements FinancialLedgerServicePort {
 
     private final ConcreteApplicationMediator mediator;
     private final UserApplicationService userApplicationService;
