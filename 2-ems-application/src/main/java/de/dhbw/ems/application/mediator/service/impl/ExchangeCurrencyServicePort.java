@@ -4,7 +4,7 @@ import de.dhbw.ems.abstractioncode.valueobject.money.CurrencyType;
 
 import java.util.UUID;
 
-public interface ExchangeCurrencyService {
+public interface ExchangeCurrencyServicePort {
 
     boolean exchangeCurrencyOfBooking(UUID id, UUID financialLedgerId, UUID bookingId, CurrencyType targetCurrencyType);
 
