@@ -2,8 +2,8 @@ package de.dhbw.plugins.rest.booking.currency.exchange;
 
 import de.dhbw.ems.adapter.api.currency.exchange.CurrencyExchangeContract;
 import de.dhbw.ems.adapter.api.currency.exchange.CurrencyExchangeContractToCurrencyExchangeRequestAdapterMapper;
+import de.dhbw.ems.adapter.application.booking.BookingApplicationAdapter;
 import de.dhbw.ems.application.currency.exchange.CurrencyExchangeRequest;
-import de.dhbw.ems.application.mediator.service.impl.BookingService;
 import de.dhbw.ems.application.mediator.service.impl.ExchangeCurrencyService;
 import de.dhbw.ems.domain.booking.Booking;
 import de.dhbw.plugins.rest.booking.BookingController;
@@ -26,13 +26,13 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RequiredArgsConstructor
 public class CurrencyExchangeController {
 
-    private final BookingService bookingService;
+    private final BookingApplicationAdapter bookingApplicationAdapter;
     private final ExchangeCurrencyService exchangeCurrencyService;
     private final CurrencyExchangeContractToCurrencyExchangeRequestAdapterMapper adapterMapper;
 
     @PutMapping
     public ResponseEntity<Void> update(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId, @PathVariable("bookingId") UUID bookingId, @Valid @RequestBody CurrencyExchangeContract contract) {
-        Optional<Booking> optionalBooking = bookingService.find(userId, financialLedgerId, bookingId);
+        Optional<Booking> optionalBooking = bookingApplicationAdapter.find(userId, financialLedgerId, bookingId);
         if (!optionalBooking.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         CurrencyExchangeRequest currencyExchangeRequest = adapterMapper.apply(contract);
         if (!exchangeCurrencyService.exchangeCurrencyOfBooking(userId, financialLedgerId, bookingId, currencyExchangeRequest.getTargetCurrencyType())) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

@@ -1,12 +1,11 @@
 package de.dhbw.plugins.rest.bookings;
 
+import de.dhbw.ems.adapter.application.booking.BookingApplicationAdapter;
 import de.dhbw.ems.adapter.application.financialledger.FinancialLedgerApplicationAdapter;
 import de.dhbw.ems.adapter.model.booking.data.BookingData;
 import de.dhbw.ems.adapter.model.booking.data.BookingUnsafeDataToBookingAttributeDataAdapterMapper;
 import de.dhbw.ems.adapter.model.booking.preview.BookingPreviewCollectionModel;
 import de.dhbw.ems.application.booking.BookingAttributeData;
-import de.dhbw.ems.application.mediator.service.impl.BookingService;
-import de.dhbw.ems.application.mediator.service.impl.FinancialLedgerServicePort;
 import de.dhbw.ems.domain.booking.Booking;
 import de.dhbw.ems.domain.financialledger.FinancialLedger;
 import de.dhbw.plugins.mapper.booking.BookingPreviewCollectionModelFactory;
@@ -30,7 +29,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class BookingsController {
 
     private final FinancialLedgerApplicationAdapter financialLedgerApplicationAdapter;
-    private final BookingService bookingService;
+    private final BookingApplicationAdapter bookingApplicationAdapter;
     private final BookingUnsafeDataToBookingAttributeDataAdapterMapper dataAdapterMapper;
     private final BookingPreviewCollectionModelFactory bookingPreviewCollectionModelFactory;
 
@@ -44,7 +43,7 @@ public class BookingsController {
     @PostMapping
     public ResponseEntity<Void> create(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId, @Valid @RequestBody BookingData data) {
         BookingAttributeData attributeData = dataAdapterMapper.apply(data);
-        Optional<Booking> optionalBooking = bookingService.create(userId, financialLedgerId, attributeData);
+        Optional<Booking> optionalBooking = bookingApplicationAdapter.create(userId, financialLedgerId, attributeData);
         if (!optionalBooking.isPresent()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         WebMvcLinkBuilder uriComponents = WebMvcLinkBuilder.linkTo(methodOn(BookingController.class).findOne(userId, financialLedgerId,  optionalBooking.get().getId()));
