@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface UserDomainService {
+public interface UserDomainServicePort {
 
     List<User> findAll();
 
