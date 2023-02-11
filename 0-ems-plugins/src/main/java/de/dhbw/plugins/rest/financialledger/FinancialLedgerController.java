@@ -5,7 +5,6 @@ import de.dhbw.ems.adapter.model.financialledger.data.FinancialLedgerData;
 import de.dhbw.ems.adapter.model.financialledger.data.FinancialLedgerDataToFinancialLedgerAttributeDataAdapterMapper;
 import de.dhbw.ems.adapter.model.financialledger.model.FinancialLedgerModel;
 import de.dhbw.ems.application.financialledger.FinancialLedgerAttributeData;
-import de.dhbw.ems.application.financialledger.FinancialLedgerDomainService;
 import de.dhbw.ems.domain.financialledger.FinancialLedger;
 import de.dhbw.plugins.mapper.financialledger.FinancialLedgerModelFactory;
 import de.dhbw.plugins.rest.utils.WebMvcLinkBuilderUtils;
@@ -29,7 +28,6 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class FinancialLedgerController {
 
     private final FinancialLedgerApplicationAdapter financialLedgerApplicationAdapter;
-    private final FinancialLedgerDomainService financialLedgerDomainService;
     private final FinancialLedgerDataToFinancialLedgerAttributeDataAdapterMapper adapterMapper;
     private final FinancialLedgerModelFactory financialLedgerModelFactory;
 
@@ -46,7 +44,7 @@ public class FinancialLedgerController {
         Optional<FinancialLedger> optionalFinancialLedger = financialLedgerApplicationAdapter.find(userId, financialLedgerId);
         if (!optionalFinancialLedger.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         FinancialLedgerAttributeData financialLedgerAttributeData = adapterMapper.apply(data);
-        optionalFinancialLedger = financialLedgerDomainService.updateByAttributeData(optionalFinancialLedger.get(), financialLedgerAttributeData);
+        optionalFinancialLedger = financialLedgerApplicationAdapter.updateByAttributeData(optionalFinancialLedger.get(), financialLedgerAttributeData);
         if (!optionalFinancialLedger.isPresent()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         WebMvcLinkBuilder uriComponents = linkTo(methodOn(this.getClass()).findOne(userId, financialLedgerId));
         return new ResponseEntity<>(WebMvcLinkBuilderUtils.createLocationHeader(uriComponents), HttpStatus.ACCEPTED);
