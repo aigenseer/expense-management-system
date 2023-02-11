@@ -6,7 +6,7 @@ import de.dhbw.ems.domain.bookingcategory.BookingCategory;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface BookingCategoryService {
+public interface BookingCategoryServicePort {
 
     Optional<BookingCategory> find(UUID id, UUID financialLedgerId, UUID bookingCategoryId);
 

@@ -5,7 +5,7 @@ import de.dhbw.ems.application.bookingcategory.BookingCategoryAttributeData;
 import de.dhbw.ems.application.financialledger.FinancialLedgerApplicationService;
 import de.dhbw.ems.application.mediator.ConcreteApplicationMediator;
 import de.dhbw.ems.application.mediator.colleage.BookingCategoryColleague;
-import de.dhbw.ems.application.mediator.service.impl.BookingCategoryService;
+import de.dhbw.ems.application.mediator.service.impl.BookingCategoryServicePort;
 import de.dhbw.ems.domain.bookingcategory.BookingCategory;
 import de.dhbw.ems.domain.financialledger.FinancialLedger;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class BookingCategoryOperationService extends BookingCategoryColleague implements BookingCategoryService {
+public class BookingCategoryOperationService extends BookingCategoryColleague implements BookingCategoryServicePort {
 
     private final ConcreteApplicationMediator mediator;
     private final FinancialLedgerOperationService financialLedgerOperationService;
