@@ -1,4 +1,4 @@
-package de.dhbw.ems.adapter.api.currency.exchange;
+package de.dhbw.plugins.api.curreny.exchange;
 
 import de.dhbw.ems.abstractioncode.service.RequestService;
 import de.dhbw.ems.abstractioncode.valueobject.money.CurrencyType;

@@ -1,9 +1,10 @@
-package de.dhbw.ems.adapter.api.currency.exchange;
+package de.dhbw.api.currency.exchange;
 
 import de.dhbw.ems.abstractioncode.service.RequestService;
 import de.dhbw.ems.abstractioncode.valueobject.money.CurrencyType;
 import de.dhbw.ems.application.currency.exchange.CurrencyExchangeRequest;
 import de.dhbw.ems.application.currency.exchange.CurrencyExchangeResponse;
+import de.dhbw.plugins.api.curreny.exchange.CurrencyExchangeOfficeFreeForexAPI;
 import org.apache.http.client.utils.URIBuilder;
 import org.json.JSONObject;
 import org.junit.Test;
@@ -27,13 +28,13 @@ import static org.mockito.Mockito.when;
 
 
 @RunWith(MockitoJUnitRunner.class)
-public class CurrencyExchangeOfficeErAPITest {
+public class CurrencyExchangeOfficeFreeForexAPITest {
 
     @Mock
     private RequestService requestUtils;
 
     @InjectMocks
-    private CurrencyExchangeOfficeErAPI currencyExchangeOffice;
+    private CurrencyExchangeOfficeFreeForexAPI currencyExchangeOffice;
 
     @Test
     public void testSave() throws URISyntaxException, IOException {
@@ -41,19 +42,19 @@ public class CurrencyExchangeOfficeErAPITest {
         Instant instant = response.getLocalDate().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant();
 
         JSONObject jo = new JSONObject(){{
-            put("code", 200);
+            put("result", "success");
+            put("base_code", "USD");
+            put("time_last_update_unix", instant.getEpochSecond());
             put("rates", new JSONObject(){{
-                put("EURUSD", new JSONObject(){{
-                    put("rate", response.getRate());
-                    put("timestamp", instant.getEpochSecond());
-                }});
+                put("EUR", response.getRate());
             }});
         }};
 
-        URL url = new URIBuilder("https://www.freeforexapi.com/api/live?pairs=EURUSD").build().toURL();
+        URL url = new URIBuilder("https://open.er-api.com/v6/latest/USD").build().toURL();
         when(requestUtils.stream(url)).thenReturn(jo.toString());
+        String x = jo.toString();
 
-        CurrencyExchangeRequest request = CurrencyExchangeRequest.builder().sourceCurrencyType(CurrencyType.EURO).targetCurrencyType(CurrencyType.DOLLAR).build();
+        CurrencyExchangeRequest request = CurrencyExchangeRequest.builder().sourceCurrencyType(CurrencyType.DOLLAR).targetCurrencyType(CurrencyType.EURO).build();
         Optional<CurrencyExchangeResponse> optionResponse = currencyExchangeOffice.getExchangeRate(request);
         assertTrue(optionResponse.isPresent());
         assertEquals(response.getLocalDate(), optionResponse.get().getLocalDate());
