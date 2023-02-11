@@ -21,6 +21,8 @@ public interface BookingApplicationAdapter {
 
     boolean deleteUserReference(UUID id, UUID financialLedgerId, UUID bookingId);
 
+    Optional<Booking> updateByAttributeData(Booking booking, BookingAttributeData attributeData);
+
     boolean exchangeCurrencyOfBooking(UUID id, UUID financialLedgerId, UUID bookingId, CurrencyType targetCurrencyType);
 
 }
