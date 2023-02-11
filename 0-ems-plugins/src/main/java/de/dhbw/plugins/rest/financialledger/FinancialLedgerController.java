@@ -1,11 +1,11 @@
 package de.dhbw.plugins.rest.financialledger;
 
+import de.dhbw.ems.adapter.application.financialledger.FinancialLedgerApplicationAdapter;
 import de.dhbw.ems.adapter.model.financialledger.data.FinancialLedgerData;
 import de.dhbw.ems.adapter.model.financialledger.data.FinancialLedgerDataToFinancialLedgerAttributeDataAdapterMapper;
 import de.dhbw.ems.adapter.model.financialledger.model.FinancialLedgerModel;
 import de.dhbw.ems.application.financialledger.FinancialLedgerAttributeData;
 import de.dhbw.ems.application.financialledger.FinancialLedgerDomainService;
-import de.dhbw.ems.application.mediator.service.impl.FinancialLedgerService;
 import de.dhbw.ems.domain.financialledger.FinancialLedger;
 import de.dhbw.plugins.mapper.financialledger.FinancialLedgerModelFactory;
 import de.dhbw.plugins.rest.utils.WebMvcLinkBuilderUtils;
@@ -28,14 +28,14 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 public class FinancialLedgerController {
 
-    private final FinancialLedgerService financialLedgerService;
+    private final FinancialLedgerApplicationAdapter financialLedgerApplicationAdapter;
     private final FinancialLedgerDomainService financialLedgerDomainService;
     private final FinancialLedgerDataToFinancialLedgerAttributeDataAdapterMapper adapterMapper;
     private final FinancialLedgerModelFactory financialLedgerModelFactory;
 
     @GetMapping
     public ResponseEntity<FinancialLedgerModel> findOne(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId) {
-        Optional<FinancialLedger> optionalFinancialLedger = financialLedgerService.find(userId, financialLedgerId);
+        Optional<FinancialLedger> optionalFinancialLedger = financialLedgerApplicationAdapter.find(userId, financialLedgerId);
         if (!optionalFinancialLedger.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         FinancialLedgerModel financialLedgerModel = financialLedgerModelFactory.create(userId, optionalFinancialLedger.get());
         return ResponseEntity.ok(financialLedgerModel);
@@ -43,7 +43,7 @@ public class FinancialLedgerController {
 
     @PutMapping
     public ResponseEntity<Void> update(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId, @Valid @RequestBody FinancialLedgerData data) {
-        Optional<FinancialLedger> optionalFinancialLedger = financialLedgerService.find(userId, financialLedgerId);
+        Optional<FinancialLedger> optionalFinancialLedger = financialLedgerApplicationAdapter.find(userId, financialLedgerId);
         if (!optionalFinancialLedger.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         FinancialLedgerAttributeData financialLedgerAttributeData = adapterMapper.apply(data);
         optionalFinancialLedger = financialLedgerDomainService.updateByAttributeData(optionalFinancialLedger.get(), financialLedgerAttributeData);
@@ -54,7 +54,7 @@ public class FinancialLedgerController {
 
     @DeleteMapping
     public ResponseEntity<Void> delete(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId) {
-        if (!financialLedgerService.delete(userId, financialLedgerId)) new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        if (!financialLedgerApplicationAdapter.delete(userId, financialLedgerId)) new ResponseEntity<>(HttpStatus.FORBIDDEN);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 

@@ -1,11 +1,12 @@
 package de.dhbw.plugins.rest.bookings;
 
+import de.dhbw.ems.adapter.application.financialledger.FinancialLedgerApplicationAdapter;
 import de.dhbw.ems.adapter.model.booking.data.BookingData;
 import de.dhbw.ems.adapter.model.booking.data.BookingUnsafeDataToBookingAttributeDataAdapterMapper;
 import de.dhbw.ems.adapter.model.booking.preview.BookingPreviewCollectionModel;
 import de.dhbw.ems.application.booking.BookingAttributeData;
 import de.dhbw.ems.application.mediator.service.impl.BookingService;
-import de.dhbw.ems.application.mediator.service.impl.FinancialLedgerService;
+import de.dhbw.ems.application.mediator.service.impl.FinancialLedgerServicePort;
 import de.dhbw.ems.domain.booking.Booking;
 import de.dhbw.ems.domain.financialledger.FinancialLedger;
 import de.dhbw.plugins.mapper.booking.BookingPreviewCollectionModelFactory;
@@ -28,14 +29,14 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RequiredArgsConstructor
 public class BookingsController {
 
-    private final FinancialLedgerService financialLedgerService;
+    private final FinancialLedgerApplicationAdapter financialLedgerApplicationAdapter;
     private final BookingService bookingService;
     private final BookingUnsafeDataToBookingAttributeDataAdapterMapper dataAdapterMapper;
     private final BookingPreviewCollectionModelFactory bookingPreviewCollectionModelFactory;
 
     @GetMapping
     public ResponseEntity<BookingPreviewCollectionModel> listAll(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId) {
-        Optional<FinancialLedger> optionalFinancialLedger = financialLedgerService.find(userId, financialLedgerId);
+        Optional<FinancialLedger> optionalFinancialLedger = financialLedgerApplicationAdapter.find(userId, financialLedgerId);
         if (!optionalFinancialLedger.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         return ResponseEntity.ok(bookingPreviewCollectionModelFactory.create(userId, financialLedgerId, optionalFinancialLedger.get().getBookings()));
     }

@@ -1,11 +1,12 @@
 package de.dhbw.plugins.rest.financialledgers;
 
+import de.dhbw.ems.adapter.application.financialledger.FinancialLedgerApplicationAdapter;
 import de.dhbw.ems.adapter.application.user.UserApplicationAdapter;
 import de.dhbw.ems.adapter.model.financialledger.data.FinancialLedgerData;
 import de.dhbw.ems.adapter.model.financialledger.data.FinancialLedgerDataToFinancialLedgerAttributeDataAdapterMapper;
 import de.dhbw.ems.adapter.model.financialledger.preview.FinancialLedgerPreviewCollectionModel;
 import de.dhbw.ems.application.financialledger.FinancialLedgerAttributeData;
-import de.dhbw.ems.application.mediator.service.impl.FinancialLedgerService;
+import de.dhbw.ems.application.mediator.service.impl.FinancialLedgerServicePort;
 import de.dhbw.ems.domain.financialledger.FinancialLedger;
 import de.dhbw.ems.domain.user.User;
 import de.dhbw.plugins.mapper.financialledger.FinancialLedgerPreviewCollectionModelFactory;
@@ -29,7 +30,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class FinancialLedgersController {
 
     private final UserApplicationAdapter userApplicationAdapter;
-    private final FinancialLedgerService financialLedgerService;
+    private final FinancialLedgerApplicationAdapter financialLedgerApplicationAdapter;
     private final FinancialLedgerDataToFinancialLedgerAttributeDataAdapterMapper dataAdapterMapper;
     private final FinancialLedgerPreviewCollectionModelFactory financialLedgerPreviewCollectionModelFactory;
 
@@ -47,7 +48,7 @@ public class FinancialLedgersController {
     @PostMapping
     public ResponseEntity<Void> create(@PathVariable("userId") UUID userId, @Valid @RequestBody FinancialLedgerData data) {
         FinancialLedgerAttributeData financialLedgerAttributeData = dataAdapterMapper.apply(data);
-        Optional<FinancialLedger> optionalFinancialLedger = financialLedgerService.create(userId, financialLedgerAttributeData);
+        Optional<FinancialLedger> optionalFinancialLedger = financialLedgerApplicationAdapter.create(userId, financialLedgerAttributeData);
         if (!optionalFinancialLedger.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         FinancialLedger financialLedger = optionalFinancialLedger.get();
         WebMvcLinkBuilder uriComponents = WebMvcLinkBuilder.linkTo(methodOn(FinancialLedgerController.class).findOne(userId, financialLedger.getId()));
