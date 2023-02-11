@@ -22,7 +22,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(MockitoJUnitRunner.Silent.class)
 @ComponentScan("de.dhbw.plugins.persistence.hibernate")
 public class BookingRepositoryBridgeTest {
 
