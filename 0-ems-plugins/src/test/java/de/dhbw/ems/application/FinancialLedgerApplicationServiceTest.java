@@ -57,7 +57,7 @@ public class FinancialLedgerApplicationServiceTest {
     @Test
     public void testFindAll() {
         List<FinancialLedger> resultList = applicationService.findAll();
-        assertEquals(1, resultList.size());
+        assertEquals(2, resultList.size());
         Optional<FinancialLedger> result = resultList.stream().filter(user -> user.getId().equals(entity1.getId())).findFirst();
         assertTrue(result.isPresent());
         checkEntity(entity1, result.get());
