@@ -41,7 +41,6 @@ public class Booking {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "financial_ledger_id", nullable = false, updatable = false, insertable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private FinancialLedger financialLedger;
 
     @Column(name="financial_ledger_id", nullable=false)
@@ -53,12 +52,12 @@ public class Booking {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name="ems_user_to_booking",
-            joinColumns=@JoinColumn(name="booking_id"),
-            inverseJoinColumns=@JoinColumn(name="ems_user_id")
+            joinColumns=@JoinColumn(name="booking_id", referencedColumnName = "id"),
+            inverseJoinColumns=@JoinColumn(name="ems_user_id", referencedColumnName = "id")
     )
     private Set<User> referencedUsers;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "referenced_category_id", nullable = true)
     private BookingCategory category;
 

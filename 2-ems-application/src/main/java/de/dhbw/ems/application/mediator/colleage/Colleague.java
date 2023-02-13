@@ -26,10 +26,6 @@ public abstract class Colleague {
 
     }
 
-    public void onCreateBooking(User user, FinancialLedger financialLedger, Booking booking) {
-
-    }
-
     public void onReferenceUserToBooking(User user, Booking booking) {
 
     }

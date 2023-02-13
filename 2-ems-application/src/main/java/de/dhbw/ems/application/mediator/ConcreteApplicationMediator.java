@@ -22,7 +22,7 @@ public class ConcreteApplicationMediator implements Mediator {
     @Override
     public void onCreateBooking(User user, FinancialLedger financialLedger, Booking booking, Colleague colleague) {
         for (Colleague item : colleagues) {
-            if (!item.equals(colleague)) item.onCreateBooking(user, financialLedger, booking);
+//            if (!item.equals(colleague)) item.onCreateBooking(user, financialLedger, booking);
         }
     }
 

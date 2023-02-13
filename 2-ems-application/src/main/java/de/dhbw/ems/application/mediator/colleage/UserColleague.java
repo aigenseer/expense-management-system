@@ -28,26 +28,6 @@ public class UserColleague extends Colleague {
     }
 
     @Override
-    public void onCreateBooking(User user, FinancialLedger financialLedger, Booking booking) {
-        user.getCreatedBookings().add(booking);
-        userApplicationService.save(user);
-    }
-
-    @Override
-    public void onReferenceUserToBooking(User user, Booking booking) {
-        user.getReferencedBookings().add(booking);
-        userApplicationService.save(user);
-    }
-
-    @Override
-    public void onDeleteReferenceUserToBooking(User user, Booking booking) {
-        if (user.getReferencedBookings().contains(booking)){
-            user.getReferencedBookings().remove(booking);
-            userApplicationService.save(user);
-        }
-    }
-
-    @Override
     public void onDeleteUser(User user) {
         userApplicationService.deleteById(user.getId());
     }
@@ -63,8 +43,5 @@ public class UserColleague extends Colleague {
             getMediator().onDeleteReferenceUserToBooking(user, booking, this);
             onDeleteReferenceUserToBooking(user, booking);
         });
-        User user = booking.getCreator();
-        user.getCreatedBookings().remove(booking);
-        userApplicationService.save(user);
     }
 }

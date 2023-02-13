@@ -33,16 +33,8 @@ public class BookingColleague extends Colleague {
     @Override
     public void onDeleteUser(User user) {
         user.getReferencedBookings().forEach(booking -> {
-            getMediator().onDeleteBooking(booking, this);
-            onDeleteBooking(booking);
-        });
-    }
-
-    @Override
-    public void onDeleteFinancialLedger(FinancialLedger financialLedger) {
-        financialLedger.getBookings().forEach(booking -> {
-            getMediator().onDeleteBooking(booking, this);
-            onDeleteBooking(booking);
+            getMediator().onDeleteReferenceUserToBooking(user, booking, this);
+            onDeleteReferenceUserToBooking(user, booking);
         });
     }
 

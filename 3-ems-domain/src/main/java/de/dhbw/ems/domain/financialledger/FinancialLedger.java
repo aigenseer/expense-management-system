@@ -4,6 +4,8 @@ import de.dhbw.ems.domain.booking.Booking;
 import de.dhbw.ems.domain.bookingcategory.BookingCategory;
 import de.dhbw.ems.domain.user.User;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -34,10 +36,12 @@ public class FinancialLedger {
     )
     private Set<User> authorizedUser;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy="financialLedger", targetEntity = Booking.class)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Booking> bookings;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy="financialLedger", targetEntity = BookingCategory.class)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<BookingCategory> bookingCategories;
 
 

@@ -2,8 +2,6 @@ package de.dhbw.ems.application.mediator.colleage;
 
 import de.dhbw.ems.application.financialledger.FinancialLedgerApplicationService;
 import de.dhbw.ems.application.mediator.ConcreteApplicationMediator;
-import de.dhbw.ems.domain.booking.Booking;
-import de.dhbw.ems.domain.bookingcategory.BookingCategory;
 import de.dhbw.ems.domain.financialledger.FinancialLedger;
 import de.dhbw.ems.domain.user.User;
 
@@ -27,12 +25,6 @@ public class FinancialLedgerColleague extends Colleague {
     }
 
     @Override
-    public void onCreateBooking(User user, FinancialLedger financialLedger, Booking booking) {
-        financialLedger.getBookings().add(booking);
-        financialLedgerApplicationService.save(financialLedger);
-    }
-
-    @Override
     public void onDeleteUser(User user) {
         user.getFinancialLedgers().forEach(financialLedger -> onUnlinkUserToFinancialLedger(user, financialLedger));
     }
@@ -42,17 +34,4 @@ public class FinancialLedgerColleague extends Colleague {
         financialLedgerApplicationService.deleteById(financialLedger.getId());
     }
 
-    @Override
-    public void onDeleteBookingCategory(BookingCategory bookingCategory) {
-        FinancialLedger financialLedger = bookingCategory.getFinancialLedger();
-        financialLedger.getBookingCategories().remove(bookingCategory);
-        financialLedgerApplicationService.save(financialLedger);
-    }
-
-    @Override
-    public void onDeleteBooking(Booking booking) {
-        FinancialLedger financialLedger = booking.getFinancialLedger();
-        financialLedger.getBookings().remove(booking);
-        financialLedgerApplicationService.save(financialLedger);
-    }
 }

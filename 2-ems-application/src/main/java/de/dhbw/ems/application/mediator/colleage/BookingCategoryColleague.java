@@ -16,22 +16,8 @@ public class BookingCategoryColleague extends Colleague {
         this.bookingCategoryApplicationService = bookingCategoryApplicationService;
     }
 
-    @Override
-    public void onDeleteFinancialLedger(FinancialLedger financialLedger) {
-        financialLedger.getBookingCategories().forEach(this::onDeleteBookingCategory);
-    }
-
-    @Override
     public void onDeleteBookingCategory(BookingCategory bookingCategory) {
         bookingCategoryApplicationService.deleteById(bookingCategory.getId());
     }
 
-    @Override
-    public void onDeleteBooking(Booking booking) {
-        BookingCategory bookingCategory = booking.getCategory();
-        if (bookingCategory != null){
-            bookingCategory.getBookings().remove(booking);
-            bookingCategoryApplicationService.save(bookingCategory);
-        }
-    }
 }
