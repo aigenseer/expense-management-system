@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class BookingCategoryApplicationService implements BookingCategoryDomainServicePort {
+public class BookingCategoryApplicationService implements BookingCategoryDomainService {
 
     private final BookingCategoryRepository repository;
 

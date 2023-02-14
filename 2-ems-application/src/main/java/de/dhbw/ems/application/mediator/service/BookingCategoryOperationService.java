@@ -1,7 +1,7 @@
 package de.dhbw.ems.application.mediator.service;
 
-import de.dhbw.ems.application.bookingcategory.BookingCategoryApplicationService;
 import de.dhbw.ems.application.bookingcategory.BookingCategoryAttributeData;
+import de.dhbw.ems.application.bookingcategory.BookingCategoryDomainService;
 import de.dhbw.ems.application.financialledger.FinancialLedgerApplicationService;
 import de.dhbw.ems.application.mediator.ConcreteApplicationMediator;
 import de.dhbw.ems.application.mediator.colleage.BookingCategoryColleague;
@@ -18,18 +18,18 @@ public class BookingCategoryOperationService extends BookingCategoryColleague im
 
     private final FinancialLedgerOperationService financialLedgerOperationService;
     private final FinancialLedgerApplicationService financialLedgerApplicationService;
-    private final BookingCategoryApplicationService bookingCategoryApplicationService;
+    private final BookingCategoryDomainService bookingCategoryDomainService;
 
     public BookingCategoryOperationService(
             final ConcreteApplicationMediator mediator,
             final FinancialLedgerOperationService financialLedgerOperationService,
             final FinancialLedgerApplicationService financialLedgerApplicationService,
-            final BookingCategoryApplicationService bookingCategoryApplicationService
+            final BookingCategoryDomainService bookingCategoryDomainService
             ) {
-        super(mediator, bookingCategoryApplicationService);
+        super(mediator, bookingCategoryDomainService);
         this.financialLedgerOperationService = financialLedgerOperationService;
         this.financialLedgerApplicationService = financialLedgerApplicationService;
-        this.bookingCategoryApplicationService = bookingCategoryApplicationService;
+        this.bookingCategoryDomainService = bookingCategoryDomainService;
     }
 
     public Optional<BookingCategory> find(UUID id, UUID financialLedgerId, UUID bookingCategoryId){
@@ -55,7 +55,7 @@ public class BookingCategoryOperationService extends BookingCategoryColleague im
     public Optional<BookingCategory> create(UUID id, UUID financialLedgerId, BookingCategoryAttributeData attributeData){
         Optional<FinancialLedger> optionalFinancialLedger = financialLedgerOperationService.find(id, financialLedgerId);
         if (!optionalFinancialLedger.isPresent()) return Optional.empty();
-        Optional<BookingCategory> optionalBookingCategory = bookingCategoryApplicationService.createByAttributeData(optionalFinancialLedger.get(), attributeData);
+        Optional<BookingCategory> optionalBookingCategory = bookingCategoryDomainService.createByAttributeData(optionalFinancialLedger.get(), attributeData);
         if (optionalBookingCategory.isPresent()){
             FinancialLedger financialLedger = optionalFinancialLedger.get();
             financialLedger.getBookingCategories().add(optionalBookingCategory.get());
