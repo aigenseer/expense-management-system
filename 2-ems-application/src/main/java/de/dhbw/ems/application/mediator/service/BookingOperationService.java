@@ -4,7 +4,8 @@ import de.dhbw.ems.application.booking.BookingAttributeData;
 import de.dhbw.ems.application.booking.BookingDomainService;
 import de.dhbw.ems.application.mediator.ConcreteApplicationMediator;
 import de.dhbw.ems.application.mediator.colleage.BookingColleague;
-import de.dhbw.ems.application.mediator.service.impl.BookingServicePort;
+import de.dhbw.ems.application.mediator.service.impl.BookingService;
+import de.dhbw.ems.application.mediator.service.impl.FinancialLedgerService;
 import de.dhbw.ems.application.user.UserDomainService;
 import de.dhbw.ems.domain.booking.Booking;
 import de.dhbw.ems.domain.financialledger.FinancialLedger;
@@ -15,26 +16,26 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class BookingOperationService extends BookingColleague implements BookingServicePort {
+public class BookingOperationService extends BookingColleague implements BookingService {
 
     private final UserDomainService userDomainService;
-    private final FinancialLedgerOperationService financialLedgerOperationService;
+    private final FinancialLedgerService financialLedgerService;
     private final BookingDomainService bookingDomainService;
 
     public BookingOperationService(
             final ConcreteApplicationMediator mediator,
             final UserDomainService userDomainService,
-            final FinancialLedgerOperationService financialLedgerOperationService,
+            final FinancialLedgerService financialLedgerService,
             final BookingDomainService bookingDomainService
             ) {
         super(mediator, bookingDomainService);
         this.userDomainService = userDomainService;
-        this.financialLedgerOperationService = financialLedgerOperationService;
+        this.financialLedgerService = financialLedgerService;
         this.bookingDomainService = bookingDomainService;
     }
 
     public Optional<Booking> find(UUID userId, UUID financialLedgerId, UUID bookingId){
-        Optional<FinancialLedger> optionalFinancialLedger = financialLedgerOperationService.find(userId, financialLedgerId);
+        Optional<FinancialLedger> optionalFinancialLedger = financialLedgerService.find(userId, financialLedgerId);
         if (!optionalFinancialLedger.isPresent()) return Optional.empty();
         return optionalFinancialLedger.get().getBookings().stream().filter(b -> b.getId().equals(bookingId)).findFirst();
     }
@@ -42,7 +43,7 @@ public class BookingOperationService extends BookingColleague implements Booking
     public Optional<Booking> create(UUID userId, UUID financialLedgerId, BookingAttributeData attributeData){
         Optional<User> optionalUser = userDomainService.findById(userId);
         if (!optionalUser.isPresent()) return Optional.empty();
-        Optional<FinancialLedger> optionalFinancialLedger = financialLedgerOperationService.find(userId, financialLedgerId);
+        Optional<FinancialLedger> optionalFinancialLedger = financialLedgerService.find(userId, financialLedgerId);
         if (!optionalFinancialLedger.isPresent()) return Optional.empty();
         Optional<Booking> optionalBooking = bookingDomainService.createByAttributeData(optionalUser.get(), optionalFinancialLedger.get(), attributeData);
         if (!optionalBooking.isPresent()) return Optional.empty();

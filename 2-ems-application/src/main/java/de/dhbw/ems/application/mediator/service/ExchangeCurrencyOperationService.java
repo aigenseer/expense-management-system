@@ -5,7 +5,7 @@ import de.dhbw.ems.abstractioncode.valueobject.money.Money;
 import de.dhbw.ems.application.booking.BookingDomainService;
 import de.dhbw.ems.application.currency.exchange.CurrencyExchangeOfficeService;
 import de.dhbw.ems.application.currency.exchange.CurrencyExchangeRequest;
-import de.dhbw.ems.application.mediator.service.impl.ExchangeCurrencyServicePort;
+import de.dhbw.ems.application.mediator.service.impl.ExchangeCurrencyService;
 import de.dhbw.ems.domain.booking.Booking;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class ExchangeCurrencyOperationService implements ExchangeCurrencyServicePort {
+public class ExchangeCurrencyOperationService implements ExchangeCurrencyService {
 
     private final BookingDomainService bookingDomainService;
     private final BookingOperationService bookingOperationService;

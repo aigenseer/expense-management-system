@@ -18,6 +18,4 @@ public interface BookingServicePort {
 
     boolean referenceUser(UUID id, UUID financialLedgerId, UUID bookingId, UUID referenceUserId);
 
-    boolean deleteUserReference(UUID id, UUID financialLedgerId, UUID bookingId);
-
 }
