@@ -35,9 +35,4 @@ public class UserRepositoryBridge implements UserRepository {
         springDataRepository.deleteById(id);
     }
 
-    @Override
-    public List<User> findAllById(Iterable<UUID> ids) {
-        return springDataRepository.findAllById(ids);
-    }
-
 }
