@@ -2,7 +2,7 @@ package de.dhbw.ems.application.mediator.service;
 
 import de.dhbw.ems.abstractioncode.valueobject.money.CurrencyType;
 import de.dhbw.ems.abstractioncode.valueobject.money.Money;
-import de.dhbw.ems.application.booking.BookingApplicationService;
+import de.dhbw.ems.application.booking.BookingDomainService;
 import de.dhbw.ems.application.currency.exchange.CurrencyExchangeOfficeService;
 import de.dhbw.ems.application.currency.exchange.CurrencyExchangeRequest;
 import de.dhbw.ems.application.mediator.service.impl.ExchangeCurrencyServicePort;
@@ -17,7 +17,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ExchangeCurrencyOperationService implements ExchangeCurrencyServicePort {
 
-    private final BookingApplicationService bookingApplicationService;
+    private final BookingDomainService bookingDomainService;
     private final BookingOperationService bookingOperationService;
     private final CurrencyExchangeOfficeService currencyExchangeOfficeService;
 
@@ -34,7 +34,7 @@ public class ExchangeCurrencyOperationService implements ExchangeCurrencyService
         double amount = money.getAmount() * rate.get();
         amount = Math.round(amount*100.0)/100.0;
         booking.setMoney(new Money(amount, targetCurrencyType));
-        bookingApplicationService.save(booking);
+        bookingDomainService.save(booking);
         return true;
     }
 }

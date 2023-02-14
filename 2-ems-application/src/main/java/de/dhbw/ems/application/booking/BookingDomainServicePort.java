@@ -9,13 +9,5 @@ import java.util.UUID;
 
 public interface BookingDomainServicePort {
 
-    Optional<Booking> findById(UUID id);
-
-    Booking save(Booking booking);
-
-    void deleteById(UUID id);
-
-    Optional<Booking> createByAttributeData(User user, FinancialLedger financialLedger, BookingAttributeData attributeData);
-
     Optional<Booking> updateByAttributeData(Booking booking, BookingAttributeData attributeData);
 }
