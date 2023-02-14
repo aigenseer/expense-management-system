@@ -4,7 +4,6 @@ import de.dhbw.ems.application.booking.BookingApplicationService;
 import de.dhbw.ems.application.mediator.ConcreteApplicationMediator;
 import de.dhbw.ems.domain.booking.Booking;
 import de.dhbw.ems.domain.bookingcategory.BookingCategory;
-import de.dhbw.ems.domain.financialledger.FinancialLedger;
 import de.dhbw.ems.domain.user.User;
 
 public class BookingColleague extends Colleague {
