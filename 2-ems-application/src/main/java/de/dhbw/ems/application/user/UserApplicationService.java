@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class UserApplicationService implements UserDomainServicePort {
+public class UserApplicationService implements UserDomainService {
 
     private final UserRepository repository;
 
@@ -29,10 +29,6 @@ public class UserApplicationService implements UserDomainServicePort {
 
     public void deleteById(UUID id) {
         repository.deleteById(id);
-    }
-
-    public List<User> findAllById(Iterable<UUID> ids){
-        return repository.findAllById(ids);
     }
 
     public Optional<User> createByAttributeData(UserAttributeData userData){
