@@ -6,8 +6,6 @@ import java.util.UUID;
 
 public interface BookingRepository {
 
-    List<Booking> findAllWithFinancialLedgerId(UUID financialLedgerId);
-
     Optional<Booking> findById(UUID id);
 
     Booking save(Booking booking);

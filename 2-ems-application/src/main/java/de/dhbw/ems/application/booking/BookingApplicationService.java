@@ -18,10 +18,6 @@ public class BookingApplicationService implements BookingDomainServicePort {
 
     private final BookingRepository repository;
 
-    public List<Booking> findAllWithFinancialLedgerId(UUID financialLedgerId) {
-        return repository.findAllWithFinancialLedgerId(financialLedgerId);
-    }
-
     public Optional<Booking> findById(UUID id) {
         return repository.findById(id);
     }

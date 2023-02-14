@@ -5,7 +5,6 @@ import de.dhbw.ems.domain.booking.BookingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -14,11 +13,6 @@ import java.util.UUID;
 public class BookingRepositoryBridge implements BookingRepository {
 
     private final SpringDataBookingRepository repository;
-
-    @Override
-    public List<Booking> findAllWithFinancialLedgerId(UUID financialLedgerId) {
-        return repository.findAllWithFinancialLedgerId(financialLedgerId);
-    }
 
     @Override
     public Optional<Booking> findById(UUID id) {
