@@ -2,7 +2,7 @@ package de.dhbw.ems.application.mediator.service;
 
 import de.dhbw.ems.application.bookingcategory.BookingCategoryAttributeData;
 import de.dhbw.ems.application.bookingcategory.BookingCategoryDomainService;
-import de.dhbw.ems.application.financialledger.FinancialLedgerApplicationService;
+import de.dhbw.ems.application.financialledger.FinancialLedgerDomainService;
 import de.dhbw.ems.application.mediator.ConcreteApplicationMediator;
 import de.dhbw.ems.application.mediator.colleage.BookingCategoryColleague;
 import de.dhbw.ems.application.mediator.service.impl.BookingCategoryServicePort;
@@ -17,18 +17,18 @@ import java.util.UUID;
 public class BookingCategoryOperationService extends BookingCategoryColleague implements BookingCategoryServicePort {
 
     private final FinancialLedgerOperationService financialLedgerOperationService;
-    private final FinancialLedgerApplicationService financialLedgerApplicationService;
+    private final FinancialLedgerDomainService financialLedgerDomainService;
     private final BookingCategoryDomainService bookingCategoryDomainService;
 
     public BookingCategoryOperationService(
             final ConcreteApplicationMediator mediator,
             final FinancialLedgerOperationService financialLedgerOperationService,
-            final FinancialLedgerApplicationService financialLedgerApplicationService,
+            final FinancialLedgerDomainService financialLedgerDomainService,
             final BookingCategoryDomainService bookingCategoryDomainService
             ) {
         super(mediator, bookingCategoryDomainService);
         this.financialLedgerOperationService = financialLedgerOperationService;
-        this.financialLedgerApplicationService = financialLedgerApplicationService;
+        this.financialLedgerDomainService = financialLedgerDomainService;
         this.bookingCategoryDomainService = bookingCategoryDomainService;
     }
 
@@ -59,7 +59,7 @@ public class BookingCategoryOperationService extends BookingCategoryColleague im
         if (optionalBookingCategory.isPresent()){
             FinancialLedger financialLedger = optionalFinancialLedger.get();
             financialLedger.getBookingCategories().add(optionalBookingCategory.get());
-            financialLedgerApplicationService.save(financialLedger);
+            financialLedgerDomainService.save(financialLedger);
             return find(id, financialLedgerId, optionalBookingCategory.get().getId());
         }
         return Optional.empty();

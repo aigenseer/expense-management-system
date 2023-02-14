@@ -8,16 +8,6 @@ import java.util.UUID;
 
 public interface FinancialLedgerDomainServicePort {
 
-    List<FinancialLedger> findAll();
-
-    Optional<FinancialLedger> findById(UUID id);
-
-    FinancialLedger save(FinancialLedger financialLedger);
-
-    void deleteById(UUID id);
-
-    Optional<FinancialLedger> createByAttributeData(FinancialLedgerAttributeData data);
-
     Optional<FinancialLedger> updateByAttributeData(FinancialLedger financialLedger, FinancialLedgerAttributeData data);
 
 }

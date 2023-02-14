@@ -1,7 +1,7 @@
 package de.dhbw.ems.application.mediator.service;
 
-import de.dhbw.ems.application.financialledger.FinancialLedgerApplicationService;
 import de.dhbw.ems.application.financialledger.FinancialLedgerAttributeData;
+import de.dhbw.ems.application.financialledger.FinancialLedgerDomainService;
 import de.dhbw.ems.application.mediator.ConcreteApplicationMediator;
 import de.dhbw.ems.application.mediator.colleage.FinancialLedgerColleague;
 import de.dhbw.ems.application.mediator.service.impl.FinancialLedgerServicePort;
@@ -17,22 +17,22 @@ import java.util.UUID;
 public class FinancialLedgerOperationService extends FinancialLedgerColleague implements FinancialLedgerServicePort {
 
     private final UserApplicationService userApplicationService;
-    private final FinancialLedgerApplicationService financialLedgerApplicationService;
+    private final FinancialLedgerDomainService financialLedgerDomainService;
 
     public FinancialLedgerOperationService(
             final ConcreteApplicationMediator mediator,
             final UserApplicationService userApplicationService,
-            final FinancialLedgerApplicationService financialLedgerApplicationService
+            final FinancialLedgerDomainService financialLedgerDomainService
     ) {
-        super(mediator, financialLedgerApplicationService);
+        super(mediator, financialLedgerDomainService);
         this.userApplicationService = userApplicationService;
-        this.financialLedgerApplicationService = financialLedgerApplicationService;
+        this.financialLedgerDomainService = financialLedgerDomainService;
     }
 
     public Optional<FinancialLedger> create(UUID userId, FinancialLedgerAttributeData attributeData) {
         Optional<User> userOptional = userApplicationService.findById(userId);
         if (userOptional.isPresent()) {
-            Optional<FinancialLedger> optionalFinancialLedger = financialLedgerApplicationService.createByAttributeData(attributeData);
+            Optional<FinancialLedger> optionalFinancialLedger = financialLedgerDomainService.createByAttributeData(attributeData);
             if (optionalFinancialLedger.isPresent()) {
                 getMediator().onLinkUserToFinancialLedger(userOptional.get(), optionalFinancialLedger.get(), this);
                 return find(userId, optionalFinancialLedger.get().getId());
@@ -52,7 +52,7 @@ public class FinancialLedgerOperationService extends FinancialLedgerColleague im
     public boolean unlinkUser(UUID id, UUID financialLedgerId) {
         Optional<User> optionalUser = userApplicationService.findById(id);
         if (optionalUser.isPresent()) {
-            Optional<FinancialLedger> optionalFinancialLedger = financialLedgerApplicationService.findById(financialLedgerId);
+            Optional<FinancialLedger> optionalFinancialLedger = financialLedgerDomainService.findById(financialLedgerId);
             if (optionalFinancialLedger.isPresent()) {
                 User user = optionalUser.get();
                 FinancialLedger financialLedger = optionalFinancialLedger.get();
@@ -75,7 +75,7 @@ public class FinancialLedgerOperationService extends FinancialLedgerColleague im
     public boolean appendUser(UUID id, UUID financialLedgerId) {
         Optional<User> userOptional = userApplicationService.findById(id);
         if (userOptional.isPresent()) {
-            Optional<FinancialLedger> financialLedgerOptional = financialLedgerApplicationService.findById(financialLedgerId);
+            Optional<FinancialLedger> financialLedgerOptional = financialLedgerDomainService.findById(financialLedgerId);
             if (financialLedgerOptional.isPresent()) {
                 getMediator().onLinkUserToFinancialLedger(userOptional.get(), financialLedgerOptional.get(), this);
                 return true;
