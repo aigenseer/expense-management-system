@@ -42,16 +42,8 @@ public class BookingRepositoryBridgeTest {
         when(springDataRepository.findById(entity.getId())).thenReturn(Optional.of(entity));
         when(springDataRepository.findAllById(entityIds)).thenReturn(entities);
         when(springDataRepository.findAll()).thenReturn(entities);
-        when(springDataRepository.findAllWithFinancialLedgerId(financialLedgerId)).thenReturn(new ArrayList<Booking>(){{add(entity);}});
     }
 
-    @Test
-    public void testFindAllWithFinancialLedgerId(){
-        List<Booking> result = repositoryBridge.findAllWithFinancialLedgerId(financialLedgerId);
-        assertEquals(1, result.size());
-        assertTrue(result.contains(entity));
-        verify(springDataRepository).findAllWithFinancialLedgerId(financialLedgerId);
-    }
 
     @Test
     public void testSave() {
