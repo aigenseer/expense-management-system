@@ -1,6 +1,6 @@
 package de.dhbw.plugins.api.curreny.exchange;
 
-import de.dhbw.ems.abstractioncode.service.RequestService;
+import de.dhbw.plugins.utils.service.RequestService;
 import de.dhbw.ems.abstractioncode.valueobject.money.CurrencyType;
 import de.dhbw.ems.application.currency.exchange.CurrencyExchangeOfficeAPI;
 import de.dhbw.ems.application.currency.exchange.CurrencyExchangeRequest;

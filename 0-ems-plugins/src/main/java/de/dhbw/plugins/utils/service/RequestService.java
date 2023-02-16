@@ -1,4 +1,4 @@
-package de.dhbw.ems.abstractioncode.service;
+package de.dhbw.plugins.utils.service;
 
 import org.springframework.stereotype.Service;
 
