@@ -33,6 +33,7 @@ public class CurrencyExchangeOfficeErAPI extends CurrencyExchangeOffice implemen
     }
 
     @PostConstruct
+    @Override
     protected void init(){
         super.init();
     }

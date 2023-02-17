@@ -32,6 +32,7 @@ public class CurrencyExchangeOfficeFreeForexAPI extends CurrencyExchangeOffice i
     }
 
     @PostConstruct
+    @Override
     protected void init(){
         super.init();
     }
