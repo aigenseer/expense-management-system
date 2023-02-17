@@ -14,6 +14,7 @@ public class BookingCategoryColleague extends Colleague {
         this.bookingCategoryDomainService = bookingCategoryDomainService;
     }
 
+    @Override
     public void onDeleteBookingCategory(BookingCategory bookingCategory) {
         bookingCategoryDomainService.deleteById(bookingCategory.getId());
     }
