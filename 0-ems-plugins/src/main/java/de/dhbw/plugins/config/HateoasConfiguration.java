@@ -7,6 +7,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class HateoasConfiguration {
 
+    private HateoasConfiguration(){}
+
     @Bean
     public SirenConfiguration sirenConfiguration() {
         return new SirenConfiguration().withEntityAndCollectionModelSubclassingEnabled(true);
