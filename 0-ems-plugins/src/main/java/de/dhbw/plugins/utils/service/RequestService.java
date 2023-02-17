@@ -9,7 +9,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 
 @Service
-public class RequestService {
+public class RequestService implements RequestServiceHelper {
 
     public String stream(URL url) throws IOException {
         InputStream input = url.openStream();
