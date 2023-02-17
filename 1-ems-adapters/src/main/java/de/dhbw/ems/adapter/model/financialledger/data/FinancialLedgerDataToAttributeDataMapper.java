@@ -4,8 +4,6 @@ import de.dhbw.ems.application.financialledger.FinancialLedgerAttributeData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.function.Function;
-
 @Component
 @RequiredArgsConstructor
 public class FinancialLedgerDataToAttributeDataMapper implements FinancialLedgerDataToFinancialLedgerAttributeDataAdapterMapper {

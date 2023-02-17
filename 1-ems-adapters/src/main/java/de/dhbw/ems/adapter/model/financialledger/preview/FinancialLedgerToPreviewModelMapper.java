@@ -3,8 +3,6 @@ package de.dhbw.ems.adapter.model.financialledger.preview;
 import de.dhbw.ems.domain.financialledger.FinancialLedger;
 import org.springframework.stereotype.Component;
 
-import java.util.function.Function;
-
 @Component
 public class FinancialLedgerToPreviewModelMapper implements FinancialLedgerToFinancialLedgerPreviewModelAdapterMapper {
 

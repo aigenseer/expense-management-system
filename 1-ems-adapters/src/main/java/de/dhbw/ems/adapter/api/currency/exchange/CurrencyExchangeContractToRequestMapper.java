@@ -5,8 +5,6 @@ import de.dhbw.ems.application.currency.exchange.CurrencyExchangeRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.function.Function;
-
 @Component
 @RequiredArgsConstructor
 public class CurrencyExchangeContractToRequestMapper implements CurrencyExchangeContractToCurrencyExchangeRequestAdapterMapper {

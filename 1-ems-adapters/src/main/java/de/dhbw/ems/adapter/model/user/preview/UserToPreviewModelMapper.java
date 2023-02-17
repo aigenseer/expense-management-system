@@ -3,8 +3,6 @@ package de.dhbw.ems.adapter.model.user.preview;
 import de.dhbw.ems.domain.user.User;
 import org.springframework.stereotype.Component;
 
-import java.util.function.Function;
-
 @Component
 public class UserToPreviewModelMapper implements UserToUserPreviewModelAdapterMapper{
 

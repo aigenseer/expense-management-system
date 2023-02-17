@@ -1,12 +1,11 @@
 package de.dhbw.plugins.api.currency.exchange;
 
-import de.dhbw.plugins.api.curreny.exchange.CurrencyExchangeOfficeFreeForexAPI;
-import de.dhbw.plugins.utils.service.EnvironmentServiceHelper;
-import de.dhbw.plugins.utils.service.RequestService;
 import de.dhbw.ems.abstractioncode.valueobject.money.CurrencyType;
 import de.dhbw.ems.application.currency.exchange.CurrencyExchangeRequest;
 import de.dhbw.ems.application.currency.exchange.CurrencyExchangeResponse;
 import de.dhbw.plugins.api.curreny.exchange.CurrencyExchangeOfficeErAPI;
+import de.dhbw.plugins.utils.service.EnvironmentServiceHelper;
+import de.dhbw.plugins.utils.service.RequestService;
 import org.apache.http.client.utils.URIBuilder;
 import org.json.JSONObject;
 import org.junit.Before;

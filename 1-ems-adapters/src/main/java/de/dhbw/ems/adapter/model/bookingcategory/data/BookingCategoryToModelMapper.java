@@ -4,8 +4,6 @@ import de.dhbw.ems.domain.bookingcategory.BookingCategory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.function.Function;
-
 @Component
 @RequiredArgsConstructor
 public class BookingCategoryToModelMapper implements BookingCategoryToBookingCategoryModelAdapterMapper {
