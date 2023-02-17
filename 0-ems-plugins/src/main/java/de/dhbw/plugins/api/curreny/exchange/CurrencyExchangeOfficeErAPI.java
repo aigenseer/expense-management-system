@@ -39,15 +39,13 @@ public class CurrencyExchangeOfficeErAPI extends CurrencyExchangeOffice implemen
     }
 
     private Optional<URL> getUrl(CurrencyExchangeRequest request){
-        if (getOptionalURIBuilder().isPresent()){
-            if (getCurrencyTypeMapping().containsKey(request.getSourceCurrencyType())){
-                String mapping = getCurrencyTypeMapping().get(request.getSourceCurrencyType());
-                try {
-                    URIBuilder uriBuilder = new URIBuilder(getOptionalURIBuilder().get().build());
-                    URL url = uriBuilder.setPath(String.format("%s/%s", getOptionalURIBuilder().get().getPath(), mapping)).build().toURL();
-                    return Optional.of(url);
-                } catch (MalformedURLException|URISyntaxException ignore) {}
-            }
+        if (getOptionalURIBuilder().isPresent() && getCurrencyTypeMapping().containsKey(request.getSourceCurrencyType())){
+            String mapping = getCurrencyTypeMapping().get(request.getSourceCurrencyType());
+            try {
+                URIBuilder uriBuilder = new URIBuilder(getOptionalURIBuilder().get().build());
+                URL url = uriBuilder.setPath(String.format("%s/%s", getOptionalURIBuilder().get().getPath(), mapping)).build().toURL();
+                return Optional.of(url);
+            } catch (MalformedURLException|URISyntaxException ignore) {}
         }
         return Optional.empty();
     }
