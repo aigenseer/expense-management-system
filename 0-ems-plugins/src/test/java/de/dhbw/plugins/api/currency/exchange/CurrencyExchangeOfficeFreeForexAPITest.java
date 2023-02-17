@@ -1,12 +1,14 @@
 package de.dhbw.plugins.api.currency.exchange;
 
-import de.dhbw.ems.abstractioncode.service.RequestService;
 import de.dhbw.ems.abstractioncode.valueobject.money.CurrencyType;
 import de.dhbw.ems.application.currency.exchange.CurrencyExchangeRequest;
 import de.dhbw.ems.application.currency.exchange.CurrencyExchangeResponse;
 import de.dhbw.plugins.api.curreny.exchange.CurrencyExchangeOfficeFreeForexAPI;
+import de.dhbw.plugins.utils.service.EnvironmentServiceHelper;
+import de.dhbw.plugins.utils.service.RequestServiceHelper;
 import org.apache.http.client.utils.URIBuilder;
 import org.json.JSONObject;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -14,6 +16,8 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.time.Instant;
@@ -31,10 +35,28 @@ import static org.mockito.Mockito.when;
 public class CurrencyExchangeOfficeFreeForexAPITest {
 
     @Mock
-    private RequestService requestUtils;
+    private RequestServiceHelper requestUtilsServiceHelper;
+
+    @Mock
+    private EnvironmentServiceHelper environmentServiceHelper;
 
     @InjectMocks
     private CurrencyExchangeOfficeFreeForexAPI currencyExchangeOffice;
+
+
+    @Before
+    public void setup() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        when(environmentServiceHelper.getProperty("ems.currency-exchange-office.freeforexapi.url"))
+                .thenReturn(Optional.of("https://www.freeforexapi.com/api/live"));
+        when(environmentServiceHelper.getProperty("ems.currency-exchange-office.freeforexapi.currency-type-mapping.euro"))
+                .thenReturn(Optional.of("EUR"));
+        when(environmentServiceHelper.getProperty("ems.currency-exchange-office.freeforexapi.currency-type-mapping.dollar"))
+                .thenReturn(Optional.of("USD"));
+
+        Method privateMethod = CurrencyExchangeOfficeFreeForexAPI.class.getDeclaredMethod("init");
+        privateMethod.setAccessible(true);
+        privateMethod.invoke(currencyExchangeOffice);
+    }
 
     @Test
     public void testSave() throws URISyntaxException, IOException {
@@ -42,25 +64,25 @@ public class CurrencyExchangeOfficeFreeForexAPITest {
         Instant instant = response.getLocalDate().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant();
 
         JSONObject jo = new JSONObject(){{
-            put("result", "success");
-            put("base_code", "USD");
-            put("time_last_update_unix", instant.getEpochSecond());
+            put("code", 200);
             put("rates", new JSONObject(){{
-                put("EUR", response.getRate());
+                put("EURUSD", new JSONObject(){{
+                    put("rate", response.getRate());
+                    put("timestamp", instant.getEpochSecond());
+                }});
             }});
         }};
 
-        URL url = new URIBuilder("https://open.er-api.com/v6/latest/USD").build().toURL();
-        when(requestUtils.stream(url)).thenReturn(jo.toString());
-        String x = jo.toString();
+        URL url = new URIBuilder("https://www.freeforexapi.com/api/live?pairs=EURUSD").build().toURL();
+        when(requestUtilsServiceHelper.stream(url)).thenReturn(jo.toString());
 
-        CurrencyExchangeRequest request = CurrencyExchangeRequest.builder().sourceCurrencyType(CurrencyType.DOLLAR).targetCurrencyType(CurrencyType.EURO).build();
+        CurrencyExchangeRequest request = CurrencyExchangeRequest.builder().sourceCurrencyType(CurrencyType.EURO).targetCurrencyType(CurrencyType.DOLLAR).build();
         Optional<CurrencyExchangeResponse> optionResponse = currencyExchangeOffice.getExchangeRate(request);
         assertTrue(optionResponse.isPresent());
         assertEquals(response.getLocalDate(), optionResponse.get().getLocalDate());
         assertEquals(response.getRate(), optionResponse.get().getRate());
 
-        verify(requestUtils).stream(url);
+        verify(requestUtilsServiceHelper).stream(url);
     }
 
 }

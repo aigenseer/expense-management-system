@@ -12,17 +12,8 @@ public interface UserDomainServicePort {
 
     Optional<User> findById(UUID id);
 
-    User save(User user);
-
-    void deleteById(UUID id);
-
-    List<User> findAllById(Iterable<UUID> ids);
-
     Optional<User> createByAttributeData(UserAttributeData userData);
 
     Optional<User> updateByAttributeDataWithId(UUID id, UserAttributeData userData);
-
-    Optional<User> updateByAttributeData(User user, UserAttributeData userData);
-
 
 }

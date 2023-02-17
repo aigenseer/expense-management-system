@@ -71,12 +71,4 @@ public class UserRepositoryBridgeTest {
         verify(springDataRepository).findById(entity.getId());
     }
 
-    @Test
-    public void testFindAllById() {
-        List<User> result = repositoryBridge.findAllById(entityIds);
-        assertEquals(1, result.size());
-        assertTrue(result.contains(entity));
-        verify(springDataRepository).findAllById(entityIds);
-    }
-
 }

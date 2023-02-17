@@ -1,35 +1,35 @@
 package de.dhbw.ems.application.mediator.colleage;
 
 import de.dhbw.ems.application.mediator.ConcreteApplicationMediator;
-import de.dhbw.ems.application.user.UserApplicationService;
+import de.dhbw.ems.application.user.UserDomainService;
 import de.dhbw.ems.domain.booking.Booking;
 import de.dhbw.ems.domain.financialledger.FinancialLedger;
 import de.dhbw.ems.domain.user.User;
 
 public class UserColleague extends Colleague {
 
-    private final UserApplicationService userApplicationService;
+    private final UserDomainService userDomainService;
 
-    public UserColleague(final ConcreteApplicationMediator mediator, final UserApplicationService userApplicationService) {
+    public UserColleague(final ConcreteApplicationMediator mediator, final UserDomainService userDomainService) {
         super(mediator);
-        this.userApplicationService = userApplicationService;
+        this.userDomainService = userDomainService;
     }
 
     @Override
     public void onLinkUserToFinancialLedger(User user, FinancialLedger financialLedger) {
         user.getFinancialLedgers().add(financialLedger);
-        userApplicationService.save(user);
+        userDomainService.save(user);
     }
 
     @Override
     public void onUnlinkUserToFinancialLedger(User user, FinancialLedger financialLedger) {
         user.getFinancialLedgers().remove(financialLedger);
-        userApplicationService.save(user);
+        userDomainService.save(user);
     }
 
     @Override
     public void onDeleteUser(User user) {
-        userApplicationService.deleteById(user.getId());
+        userDomainService.deleteById(user.getId());
     }
 
     @Override

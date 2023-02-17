@@ -80,15 +80,6 @@ public class UserApplicationServiceTest {
     }
 
     @Test
-    public void testFindAllById() {
-        List<User> resultList = applicationService.findAllById(new ArrayList<UUID>(){{ add(entity1.getId()); }});
-        assertEquals(1, resultList.size());
-        Optional<User> result = resultList.stream().filter(user -> user.getId().equals( entity1.getId())).findFirst();
-        assertTrue(result.isPresent());
-        checkEntity(entity1, result.get());
-    }
-
-    @Test
     public void testCreate(){
         Optional<User> optionalUser = applicationService.createByAttributeData(userAttributeData);
         assertTrue(optionalUser.isPresent());

@@ -1,11 +1,12 @@
 package de.dhbw.ems.application.mediator.service;
 
-import de.dhbw.ems.application.bookingcategory.BookingCategoryApplicationService;
 import de.dhbw.ems.application.bookingcategory.BookingCategoryAttributeData;
-import de.dhbw.ems.application.financialledger.FinancialLedgerApplicationService;
+import de.dhbw.ems.application.bookingcategory.BookingCategoryDomainService;
+import de.dhbw.ems.application.financialledger.FinancialLedgerDomainService;
 import de.dhbw.ems.application.mediator.ConcreteApplicationMediator;
 import de.dhbw.ems.application.mediator.colleage.BookingCategoryColleague;
-import de.dhbw.ems.application.mediator.service.impl.BookingCategoryServicePort;
+import de.dhbw.ems.application.mediator.service.impl.BookingCategoryService;
+import de.dhbw.ems.application.mediator.service.impl.FinancialLedgerService;
 import de.dhbw.ems.domain.bookingcategory.BookingCategory;
 import de.dhbw.ems.domain.financialledger.FinancialLedger;
 import org.springframework.stereotype.Service;
@@ -14,26 +15,26 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class BookingCategoryOperationService extends BookingCategoryColleague implements BookingCategoryServicePort {
+public class BookingCategoryOperationService extends BookingCategoryColleague implements BookingCategoryService {
 
-    private final FinancialLedgerOperationService financialLedgerOperationService;
-    private final FinancialLedgerApplicationService financialLedgerApplicationService;
-    private final BookingCategoryApplicationService bookingCategoryApplicationService;
+    private final FinancialLedgerService financialLedgerService;
+    private final FinancialLedgerDomainService financialLedgerDomainService;
+    private final BookingCategoryDomainService bookingCategoryDomainService;
 
     public BookingCategoryOperationService(
             final ConcreteApplicationMediator mediator,
-            final FinancialLedgerOperationService financialLedgerOperationService,
-            final FinancialLedgerApplicationService financialLedgerApplicationService,
-            final BookingCategoryApplicationService bookingCategoryApplicationService
+            final FinancialLedgerService financialLedgerService,
+            final FinancialLedgerDomainService financialLedgerDomainService,
+            final BookingCategoryDomainService bookingCategoryDomainService
             ) {
-        super(mediator, bookingCategoryApplicationService);
-        this.financialLedgerOperationService = financialLedgerOperationService;
-        this.financialLedgerApplicationService = financialLedgerApplicationService;
-        this.bookingCategoryApplicationService = bookingCategoryApplicationService;
+        super(mediator, bookingCategoryDomainService);
+        this.financialLedgerService = financialLedgerService;
+        this.financialLedgerDomainService = financialLedgerDomainService;
+        this.bookingCategoryDomainService = bookingCategoryDomainService;
     }
 
     public Optional<BookingCategory> find(UUID id, UUID financialLedgerId, UUID bookingCategoryId){
-        Optional<FinancialLedger> optionalFinancialLedger = financialLedgerOperationService.find(id, financialLedgerId);
+        Optional<FinancialLedger> optionalFinancialLedger = financialLedgerService.find(id, financialLedgerId);
         if (!optionalFinancialLedger.isPresent()) return Optional.empty();
         return optionalFinancialLedger.get().getBookingCategories().stream().filter(b -> b.getId().equals(bookingCategoryId)).findFirst();
     }
@@ -53,13 +54,13 @@ public class BookingCategoryOperationService extends BookingCategoryColleague im
     }
 
     public Optional<BookingCategory> create(UUID id, UUID financialLedgerId, BookingCategoryAttributeData attributeData){
-        Optional<FinancialLedger> optionalFinancialLedger = financialLedgerOperationService.find(id, financialLedgerId);
+        Optional<FinancialLedger> optionalFinancialLedger = financialLedgerService.find(id, financialLedgerId);
         if (!optionalFinancialLedger.isPresent()) return Optional.empty();
-        Optional<BookingCategory> optionalBookingCategory = bookingCategoryApplicationService.createByAttributeData(optionalFinancialLedger.get(), attributeData);
+        Optional<BookingCategory> optionalBookingCategory = bookingCategoryDomainService.createByAttributeData(optionalFinancialLedger.get(), attributeData);
         if (optionalBookingCategory.isPresent()){
             FinancialLedger financialLedger = optionalFinancialLedger.get();
             financialLedger.getBookingCategories().add(optionalBookingCategory.get());
-            financialLedgerApplicationService.save(financialLedger);
+            financialLedgerDomainService.save(financialLedger);
             return find(id, financialLedgerId, optionalBookingCategory.get().getId());
         }
         return Optional.empty();

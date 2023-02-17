@@ -2,10 +2,10 @@ package de.dhbw.ems.application.mediator.service;
 
 import de.dhbw.ems.abstractioncode.valueobject.money.CurrencyType;
 import de.dhbw.ems.abstractioncode.valueobject.money.Money;
-import de.dhbw.ems.application.booking.BookingApplicationService;
+import de.dhbw.ems.application.booking.BookingDomainService;
 import de.dhbw.ems.application.currency.exchange.CurrencyExchangeOfficeService;
 import de.dhbw.ems.application.currency.exchange.CurrencyExchangeRequest;
-import de.dhbw.ems.application.mediator.service.impl.ExchangeCurrencyServicePort;
+import de.dhbw.ems.application.mediator.service.impl.ExchangeCurrencyService;
 import de.dhbw.ems.domain.booking.Booking;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,9 +15,9 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class ExchangeCurrencyOperationService implements ExchangeCurrencyServicePort {
+public class ExchangeCurrencyOperationService implements ExchangeCurrencyService {
 
-    private final BookingApplicationService bookingApplicationService;
+    private final BookingDomainService bookingDomainService;
     private final BookingOperationService bookingOperationService;
     private final CurrencyExchangeOfficeService currencyExchangeOfficeService;
 
@@ -34,7 +34,7 @@ public class ExchangeCurrencyOperationService implements ExchangeCurrencyService
         double amount = money.getAmount() * rate.get();
         amount = Math.round(amount*100.0)/100.0;
         booking.setMoney(new Money(amount, targetCurrencyType));
-        bookingApplicationService.save(booking);
+        bookingDomainService.save(booking);
         return true;
     }
 }

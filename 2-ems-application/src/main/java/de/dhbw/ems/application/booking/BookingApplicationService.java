@@ -8,13 +8,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class BookingApplicationService implements BookingDomainServicePort {
+public class BookingApplicationService implements BookingDomainService {
 
     private final BookingRepository repository;
 

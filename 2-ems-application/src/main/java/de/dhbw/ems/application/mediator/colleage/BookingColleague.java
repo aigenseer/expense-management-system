@@ -1,32 +1,31 @@
 package de.dhbw.ems.application.mediator.colleage;
 
-import de.dhbw.ems.application.booking.BookingApplicationService;
+import de.dhbw.ems.application.booking.BookingDomainService;
 import de.dhbw.ems.application.mediator.ConcreteApplicationMediator;
 import de.dhbw.ems.domain.booking.Booking;
 import de.dhbw.ems.domain.bookingcategory.BookingCategory;
-import de.dhbw.ems.domain.financialledger.FinancialLedger;
 import de.dhbw.ems.domain.user.User;
 
 public class BookingColleague extends Colleague {
 
-    private final BookingApplicationService bookingApplicationService;
+    private final BookingDomainService bookingDomainService;
 
-    public BookingColleague(final ConcreteApplicationMediator mediator, final BookingApplicationService bookingApplicationService) {
+    public BookingColleague(final ConcreteApplicationMediator mediator, final BookingDomainService bookingDomainService) {
         super(mediator);
-        this.bookingApplicationService = bookingApplicationService;
+        this.bookingDomainService = bookingDomainService;
     }
 
     @Override
     public void onReferenceUserToBooking(User user, Booking booking) {
         booking.getReferencedUsers().add(user);
-        bookingApplicationService.save(booking);
+        bookingDomainService.save(booking);
     }
 
     @Override
     public void onDeleteReferenceUserToBooking(User user, Booking booking) {
         if (booking.getReferencedUsers().contains(user)){
             booking.getReferencedUsers().remove(user);
-            bookingApplicationService.save(booking);
+            bookingDomainService.save(booking);
         }
     }
 
@@ -42,13 +41,13 @@ public class BookingColleague extends Colleague {
     public void onDeleteBookingCategory(BookingCategory bookingCategory) {
         bookingCategory.getBookings().forEach(booking -> {
             booking.setCategory(null);
-            bookingApplicationService.save(booking);
+            bookingDomainService.save(booking);
         });
     }
 
     @Override
     public void onDeleteBooking(Booking booking) {
-        bookingApplicationService.deleteById(booking.getId());
+        bookingDomainService.deleteById(booking.getId());
     }
 
 }

@@ -1,73 +1,60 @@
 package de.dhbw.plugins.api.curreny.exchange;
 
-import de.dhbw.ems.abstractioncode.service.RequestService;
-import de.dhbw.ems.abstractioncode.valueobject.money.CurrencyType;
 import de.dhbw.ems.application.currency.exchange.CurrencyExchangeOfficeAPI;
 import de.dhbw.ems.application.currency.exchange.CurrencyExchangeRequest;
 import de.dhbw.ems.application.currency.exchange.CurrencyExchangeResponse;
-import lombok.RequiredArgsConstructor;
+import de.dhbw.plugins.utils.service.EnvironmentServiceHelper;
+import de.dhbw.plugins.utils.service.RequestServiceHelper;
 import org.apache.http.client.utils.URIBuilder;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
-public class CurrencyExchangeOfficeFreeForexAPI implements CurrencyExchangeOfficeAPI {
+public class CurrencyExchangeOfficeFreeForexAPI extends CurrencyExchangeOffice implements CurrencyExchangeOfficeAPI {
 
-    private URIBuilder uriBuilder;
-    {
-        try {
-            uriBuilder = new URIBuilder("https://open.er-api.com/v6/latest");
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
+    private final RequestServiceHelper requestServiceHelper;
+
+    public CurrencyExchangeOfficeFreeForexAPI(
+            final EnvironmentServiceHelper environmentServiceHelper,
+            final RequestServiceHelper requestServiceHelper
+    ) {
+        super("freeforexapi", environmentServiceHelper);
+        this.requestServiceHelper = requestServiceHelper;
     }
-    private final RequestService requestService;
 
-    private final Map<CurrencyType, String> currencyTypeMapping = new HashMap<CurrencyType, String>(){{
-        put(CurrencyType.EURO, "EUR");
-        put(CurrencyType.DOLLAR, "USD");
-    }};
+    @PostConstruct
+    protected void init(){
+        super.init();
+    }
 
-    private Optional<URL> getUrl(CurrencyExchangeRequest request){
-        if (currencyTypeMapping.containsKey(request.getSourceCurrencyType())){
-            String mapping = currencyTypeMapping.get(request.getSourceCurrencyType());
-            try {
-                URL url = uriBuilder.setPath(String.format("%s/%s", uriBuilder.getPath(), mapping)).build().toURL();
-                return Optional.of(url);
-            } catch (MalformedURLException|URISyntaxException ignore) {}
+    private Optional<String> getPairsByRequest(CurrencyExchangeRequest request){
+        if (getCurrencyTypeMapping().containsKey(request.getSourceCurrencyType()) && getCurrencyTypeMapping().containsKey(request.getTargetCurrencyType()) ){
+            String pairs = String.format("%s%s", getCurrencyTypeMapping().get(request.getSourceCurrencyType()), getCurrencyTypeMapping().get(request.getTargetCurrencyType()));
+            return Optional.of(pairs);
         }
         return Optional.empty();
     }
 
-    private Optional<CurrencyExchangeResponse> convertJSONtoResponse(CurrencyExchangeRequest request, JSONObject jsonObject){
-        String sourceCurrencyTypeMapping = currencyTypeMapping.get(request.getSourceCurrencyType());
-        String targetCurrencyTypeMapping = currencyTypeMapping.get(request.getTargetCurrencyType());
-
-        if (jsonObject.has("result")
-                && jsonObject.getString("result").equals("success")
-                && jsonObject.has("rates")
-                && jsonObject.getString("base_code").equals(sourceCurrencyTypeMapping)
-                && jsonObject.has("time_last_update_unix")){
-
-            Instant instant = Instant.ofEpochSecond(jsonObject.getInt("time_last_update_unix"));
-            LocalDate date = instant.atZone(ZoneId.systemDefault()).toLocalDate();
-
+    private Optional<CurrencyExchangeResponse> convertJSONtoResponse(String pairs, JSONObject jsonObject){
+        if (jsonObject.has("code") && jsonObject.get("code").equals(200) && jsonObject.has("rates")){
             jsonObject = jsonObject.getJSONObject("rates");
-            if (jsonObject.has(targetCurrencyTypeMapping)){
-                Double rate = jsonObject.getDouble(targetCurrencyTypeMapping);
-                return Optional.of(CurrencyExchangeResponse.builder().rate(rate).localDate(date).build());
+            if (jsonObject.has(pairs)){
+                jsonObject = jsonObject.getJSONObject(pairs);
+                if (jsonObject.has("rate") && jsonObject.has("timestamp")){
+                    Double rate = jsonObject.getDouble("rate");
+                    Instant instant = Instant.ofEpochSecond(jsonObject.getInt("timestamp"));
+                    LocalDate date = instant.atZone(ZoneId.systemDefault()).toLocalDate();
+                    return Optional.of(CurrencyExchangeResponse.builder().rate(rate).localDate(date).build());
+                }
             }
         }
         return Optional.empty();
@@ -75,14 +62,19 @@ public class CurrencyExchangeOfficeFreeForexAPI implements CurrencyExchangeOffic
 
     @Override
     public Optional<CurrencyExchangeResponse> getExchangeRate(CurrencyExchangeRequest request) {
-        Optional<URL> optionalURL = getUrl(request);
-        if(!optionalURL.isPresent()) return Optional.empty();
-        try {
-            String json = requestService.stream(optionalURL.get());
-            JSONObject jsonObject = new JSONObject(json);
-            return convertJSONtoResponse(request, jsonObject);
-        } catch (IOException e) {
-            return Optional.empty();
+        if (getOptionalURIBuilder().isPresent()){
+            URIBuilder uriBuilder = getOptionalURIBuilder().get();
+            uriBuilder.clearParameters();
+            Optional<String> optionalPairs = getPairsByRequest(request);
+            if(!optionalPairs.isPresent()) return Optional.empty();
+            uriBuilder.addParameter("pairs", optionalPairs.get());
+            try {
+                URL url = uriBuilder.build().toURL();
+                String json = requestServiceHelper.stream(url);
+                JSONObject jsonObject = new JSONObject(json);
+                return convertJSONtoResponse(optionalPairs.get(), jsonObject);
+            } catch (URISyntaxException | IOException ignored) {}
         }
+        return Optional.empty();
     }
 }
