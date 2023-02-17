@@ -21,7 +21,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RequiredArgsConstructor
 public class UserToUserModelMapper implements Function<User, UserModel> {
 
-    private final UserToUserModelAdapterMapper userToUserModelMapper;
+    private final UserToUserModelAdapterMapper userToUserModelAdapterMapper;
     private final FinancialLedgersToFinancialLedgerPreviewCollectionMapper financialLedgersToFinancialLedgerPreviewCollectionMapper;
 
     @Override
@@ -30,7 +30,7 @@ public class UserToUserModelMapper implements Function<User, UserModel> {
     }
 
     private UserModel map(final User user) {
-        UserModel userModel = userToUserModelMapper.apply(user);
+        UserModel userModel = userToUserModelAdapterMapper.apply(user);
 
         FinancialLedgerPreviewCollectionModel financialLedgerPreviewCollectionModel = financialLedgersToFinancialLedgerPreviewCollectionMapper.apply(FinancialLedgersToFinancialLedgerPreviewCollectionMapper.Context
                 .builder()
