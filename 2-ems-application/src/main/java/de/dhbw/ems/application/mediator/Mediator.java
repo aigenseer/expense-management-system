@@ -13,8 +13,6 @@ public interface Mediator {
 
     void onUnlinkUserToFinancialLedger(User user, FinancialLedger financialLedger, Colleague colleague);
 
-    void onCreateBooking(User user, FinancialLedger financialLedger, Booking booking, Colleague colleague);
-
     void onReferenceUserToBooking(User user, Booking booking, Colleague colleague);
 
     void onDeleteReferenceUserToBooking(User user, Booking booking, Colleague colleague);
