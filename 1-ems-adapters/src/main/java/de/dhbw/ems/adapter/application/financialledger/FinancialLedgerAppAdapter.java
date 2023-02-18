@@ -1,5 +1,7 @@
 package de.dhbw.ems.adapter.application.financialledger;
 
+import de.dhbw.ems.application.archive.core.TmpFile;
+import de.dhbw.ems.application.archive.service.FinancialLedgerArchiveFactoryDomainServicePort;
 import de.dhbw.ems.application.financialledger.FinancialLedgerAttributeData;
 import de.dhbw.ems.application.financialledger.FinancialLedgerDomainServicePort;
 import de.dhbw.ems.application.mediator.service.impl.FinancialLedgerServicePort;
@@ -16,6 +18,7 @@ public class FinancialLedgerAppAdapter implements FinancialLedgerApplicationAdap
 
     private final FinancialLedgerServicePort financialLedgerServicePort;
     private final FinancialLedgerDomainServicePort financialLedgerDomainServicePort;
+    private final FinancialLedgerArchiveFactoryDomainServicePort financialLedgerArchiveFactoryDomainServicePort;
 
 
     @Override
@@ -51,5 +54,10 @@ public class FinancialLedgerAppAdapter implements FinancialLedgerApplicationAdap
     @Override
     public Optional<FinancialLedger> updateByAttributeData(FinancialLedger financialLedger, FinancialLedgerAttributeData data) {
         return financialLedgerDomainServicePort.updateByAttributeData(financialLedger, data);
+    }
+
+    @Override
+    public TmpFile createTmpZipArchive(FinancialLedger financialLedger) {
+        return financialLedgerArchiveFactoryDomainServicePort.createTmpZipArchive(financialLedger);
     }
 }

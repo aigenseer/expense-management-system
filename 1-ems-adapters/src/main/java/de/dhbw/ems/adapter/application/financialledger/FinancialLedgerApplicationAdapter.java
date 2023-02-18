@@ -1,5 +1,6 @@
 package de.dhbw.ems.adapter.application.financialledger;
 
+import de.dhbw.ems.application.archive.core.TmpFile;
 import de.dhbw.ems.application.financialledger.FinancialLedgerAttributeData;
 import de.dhbw.ems.domain.financialledger.FinancialLedger;
 
@@ -21,5 +22,7 @@ public interface FinancialLedgerApplicationAdapter {
     boolean delete(UUID id, UUID financialLedgerId);
 
     Optional<FinancialLedger> updateByAttributeData(FinancialLedger financialLedger, FinancialLedgerAttributeData data);
+
+    TmpFile createTmpZipArchive(FinancialLedger financialLedger);
 
 }
