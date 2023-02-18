@@ -47,7 +47,6 @@ public class BookingOperationService extends BookingColleague implements Booking
         if (!optionalFinancialLedger.isPresent()) return Optional.empty();
         Optional<Booking> optionalBooking = bookingDomainService.createByAttributeData(optionalUser.get(), optionalFinancialLedger.get(), attributeData);
         if (!optionalBooking.isPresent()) return Optional.empty();
-        getMediator().onCreateBooking(optionalUser.get(), optionalFinancialLedger.get(), optionalBooking.get(), this);
         return find(userId, financialLedgerId, optionalBooking.get().getId());
     }
 
