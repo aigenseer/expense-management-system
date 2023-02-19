@@ -38,12 +38,12 @@ public class FinancialLedgerAppAdapter implements FinancialLedgerApplicationAdap
 
     @Override
     public boolean hasUserPermission(UUID id, UUID financialLedgerId) {
-        return financialLedgerServicePort.unlinkUser(id, financialLedgerId);
+        return financialLedgerServicePort.hasUserPermission(id, financialLedgerId);
     }
 
     @Override
     public boolean appendUser(UUID id, UUID financialLedgerId) {
-        return financialLedgerServicePort.unlinkUser(id, financialLedgerId);
+        return financialLedgerServicePort.appendUser(id, financialLedgerId);
     }
 
     @Override

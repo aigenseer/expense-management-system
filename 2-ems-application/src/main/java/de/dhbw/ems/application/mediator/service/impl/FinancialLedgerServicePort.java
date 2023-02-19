@@ -16,4 +16,8 @@ public interface FinancialLedgerServicePort {
 
     boolean delete(UUID id, UUID financialLedgerId);
 
+    boolean appendUser(UUID id, UUID financialLedgerId);
+
+    boolean hasUserPermission(UUID id, UUID financialLedgerId);
+
 }

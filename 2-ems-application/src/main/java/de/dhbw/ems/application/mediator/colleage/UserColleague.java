@@ -28,6 +28,18 @@ public class UserColleague extends Colleague {
     }
 
     @Override
+    public void onReferenceUserToBooking(User user, Booking booking) {
+        user.getReferencedBookings().add(booking);
+        userDomainService.save(user);
+    }
+
+    @Override
+    public void onDeleteReferenceUserToBooking(User user, Booking booking) {
+        user.getReferencedBookings().remove(booking);
+        userDomainService.save(user);
+    }
+
+    @Override
     public void onDeleteUser(User user) {
         userDomainService.deleteById(user.getId());
     }

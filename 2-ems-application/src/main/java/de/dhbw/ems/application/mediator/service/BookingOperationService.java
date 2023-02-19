@@ -66,7 +66,7 @@ public class BookingOperationService extends BookingColleague implements Booking
 
     public boolean referenceUser(UUID id, UUID financialLedgerId, UUID bookingId, UUID referenceUserId){
         Optional<User> optionalReferenceUser = userDomainService.findById(referenceUserId);
-        if (optionalReferenceUser.isPresent()){
+        if (optionalReferenceUser.isPresent() && financialLedgerService.hasUserPermission(referenceUserId, financialLedgerId)){
             Optional<Booking> optionalBooking = find(id, financialLedgerId, bookingId);
             if (optionalBooking.isPresent()){
                 getMediator().onReferenceUserToBooking(optionalReferenceUser.get(), optionalBooking.get(), this);
