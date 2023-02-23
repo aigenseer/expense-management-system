@@ -1,8 +1,8 @@
-package de.dhbw.plugins.persistence.hibernate;
+package de.dhbw.plugins.persistence.hibernate.booking;
 
-import de.dhbw.ems.domain.booking.Booking;
-import de.dhbw.plugins.persistence.hibernate.booking.BookingRepositoryBridge;
-import de.dhbw.plugins.persistence.hibernate.booking.SpringDataBookingRepository;
+import de.dhbw.ems.domain.booking.entity.Booking;
+import de.dhbw.plugins.persistence.hibernate.booking.entity.BookingRepositoryBridge;
+import de.dhbw.plugins.persistence.hibernate.booking.entity.SpringDataBookingRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,8 +32,7 @@ public class BookingRepositoryBridgeTest {
     @InjectMocks
     private BookingRepositoryBridge repositoryBridge;
 
-    private final UUID financialLedgerId = UUID.randomUUID();
-    private final Booking entity = Booking.builder().id(UUID.randomUUID()).financialLedgerId(financialLedgerId).build();
+    private final Booking entity = Booking.builder().id(UUID.randomUUID()).build();
     private final List<UUID> entityIds = new ArrayList<UUID>(){{ add(entity.getId()); }};
     private final List<Booking> entities = new ArrayList<Booking>(){{ add(entity); }};
 
@@ -43,7 +42,6 @@ public class BookingRepositoryBridgeTest {
         when(springDataRepository.findAllById(entityIds)).thenReturn(entities);
         when(springDataRepository.findAll()).thenReturn(entities);
     }
-
 
     @Test
     public void testSave() {
