@@ -2,7 +2,7 @@ package de.dhbw.ems.application.mediator.colleage;
 
 import de.dhbw.ems.application.bookingcategory.BookingCategoryDomainService;
 import de.dhbw.ems.application.mediator.ConcreteApplicationMediator;
-import de.dhbw.ems.domain.bookingcategory.BookingCategory;
+import de.dhbw.ems.domain.bookingcategory.entity.BookingCategory;
 
 
 public class BookingCategoryColleague extends Colleague {

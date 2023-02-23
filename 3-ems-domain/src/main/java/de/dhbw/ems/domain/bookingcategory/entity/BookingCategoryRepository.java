@@ -1,4 +1,4 @@
-package de.dhbw.ems.domain.bookingcategory;
+package de.dhbw.ems.domain.bookingcategory.entity;
 
 import java.util.Optional;
 import java.util.UUID;

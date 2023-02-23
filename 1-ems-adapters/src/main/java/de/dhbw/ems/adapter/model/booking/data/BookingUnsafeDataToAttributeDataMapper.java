@@ -4,7 +4,7 @@ import de.dhbw.ems.abstractioncode.valueobject.money.CurrencyType;
 import de.dhbw.ems.abstractioncode.valueobject.money.Money;
 import de.dhbw.ems.application.booking.data.BookingAggregateAttributeData;
 import de.dhbw.ems.application.bookingcategory.BookingCategoryDomainServicePort;
-import de.dhbw.ems.domain.bookingcategory.BookingCategory;
+import de.dhbw.ems.domain.bookingcategory.entity.BookingCategory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

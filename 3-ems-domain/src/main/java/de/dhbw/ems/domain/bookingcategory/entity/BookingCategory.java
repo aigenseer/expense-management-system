@@ -1,4 +1,4 @@
-package de.dhbw.ems.domain.bookingcategory;
+package de.dhbw.ems.domain.bookingcategory.entity;
 
 import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
 import de.dhbw.ems.domain.financialledger.FinancialLedger;

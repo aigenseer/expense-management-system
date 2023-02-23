@@ -1,7 +1,7 @@
 package de.dhbw.ems.application.mediator.service.impl;
 
 import de.dhbw.ems.application.bookingcategory.BookingCategoryAttributeData;
-import de.dhbw.ems.domain.bookingcategory.BookingCategory;
+import de.dhbw.ems.domain.bookingcategory.entity.BookingCategory;
 
 import java.util.Optional;
 import java.util.UUID;

@@ -6,7 +6,7 @@ import de.dhbw.ems.application.bookingcategory.BookingCategoryAttributeData;
 import de.dhbw.ems.application.financialledger.FinancialLedgerApplicationService;
 import de.dhbw.ems.application.mediator.service.BookingCategoryOperationService;
 import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
-import de.dhbw.ems.domain.bookingcategory.BookingCategory;
+import de.dhbw.ems.domain.bookingcategory.entity.BookingCategory;
 import de.dhbw.ems.domain.financialledger.FinancialLedger;
 import org.junit.Before;
 import org.junit.Test;

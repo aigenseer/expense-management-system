@@ -1,6 +1,6 @@
 package de.dhbw.ems.application.bookingcategory;
 
-import de.dhbw.ems.domain.bookingcategory.BookingCategory;
+import de.dhbw.ems.domain.bookingcategory.entity.BookingCategory;
 import de.dhbw.ems.domain.financialledger.FinancialLedger;
 
 import java.util.Optional;

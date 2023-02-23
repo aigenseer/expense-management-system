@@ -2,7 +2,7 @@ package de.dhbw.ems.domain.booking.aggregate;
 
 import de.dhbw.ems.domain.booking.entity.Booking;
 import de.dhbw.ems.domain.booking.reference.BookingReference;
-import de.dhbw.ems.domain.bookingcategory.BookingCategory;
+import de.dhbw.ems.domain.bookingcategory.entity.BookingCategory;
 import de.dhbw.ems.domain.financialledger.FinancialLedger;
 import de.dhbw.ems.domain.user.User;
 import lombok.*;

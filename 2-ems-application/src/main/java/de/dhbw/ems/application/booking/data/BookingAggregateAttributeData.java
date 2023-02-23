@@ -1,7 +1,7 @@
 package de.dhbw.ems.application.booking.data;
 
 import de.dhbw.ems.abstractioncode.valueobject.money.Money;
-import de.dhbw.ems.domain.bookingcategory.BookingCategory;
+import de.dhbw.ems.domain.bookingcategory.entity.BookingCategory;
 import lombok.Builder;
 import lombok.Data;
 

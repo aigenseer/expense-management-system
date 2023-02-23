@@ -2,7 +2,7 @@ package de.dhbw.ems.application;
 
 import de.dhbw.ems.application.bookingcategory.BookingCategoryApplicationService;
 import de.dhbw.ems.application.bookingcategory.BookingCategoryAttributeData;
-import de.dhbw.ems.domain.bookingcategory.BookingCategory;
+import de.dhbw.ems.domain.bookingcategory.entity.BookingCategory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

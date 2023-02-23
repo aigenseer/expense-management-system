@@ -1,7 +1,7 @@
 package de.dhbw.ems.domain.financialledger;
 
 import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
-import de.dhbw.ems.domain.bookingcategory.BookingCategory;
+import de.dhbw.ems.domain.bookingcategory.entity.BookingCategory;
 import de.dhbw.ems.domain.user.User;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;

@@ -5,7 +5,7 @@ import de.dhbw.ems.adapter.model.bookingcategory.data.BookingCategoryData;
 import de.dhbw.ems.adapter.model.bookingcategory.data.BookingCategoryDataToBookingCategoryAttributeDataAdapterMapper;
 import de.dhbw.ems.adapter.model.bookingcategory.data.BookingCategoryModel;
 import de.dhbw.ems.application.bookingcategory.BookingCategoryAttributeData;
-import de.dhbw.ems.domain.bookingcategory.BookingCategory;
+import de.dhbw.ems.domain.bookingcategory.entity.BookingCategory;
 import de.dhbw.plugins.mapper.bookingcategory.BookingCategoryModelFactory;
 import de.dhbw.plugins.rest.utils.WebMvcLinkBuilderUtils;
 import lombok.RequiredArgsConstructor;

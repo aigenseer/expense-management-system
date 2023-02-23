@@ -1,7 +1,7 @@
 package de.dhbw.ems.application.bookingcategory;
 
-import de.dhbw.ems.domain.bookingcategory.BookingCategory;
-import de.dhbw.ems.domain.bookingcategory.BookingCategoryRepository;
+import de.dhbw.ems.domain.bookingcategory.entity.BookingCategory;
+import de.dhbw.ems.domain.bookingcategory.entity.BookingCategoryRepository;
 import de.dhbw.ems.domain.financialledger.FinancialLedger;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
