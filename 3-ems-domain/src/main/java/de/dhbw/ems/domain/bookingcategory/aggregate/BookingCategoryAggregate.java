@@ -10,7 +10,7 @@ import java.util.Set;
 
 
 @Entity
-@Table(name = "booking_category")
+@Table(name = "booking_category_aggregate")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
