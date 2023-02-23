@@ -1,13 +1,11 @@
-package de.dhbw.ems.application.booking;
+package de.dhbw.ems.application.booking.entity;
 
-import de.dhbw.ems.domain.booking.Booking;
-import de.dhbw.ems.domain.booking.BookingRepository;
-import de.dhbw.ems.domain.financialledger.FinancialLedger;
-import de.dhbw.ems.domain.user.User;
+import de.dhbw.ems.application.booking.data.BookingAttributeData;
+import de.dhbw.ems.domain.booking.entity.Booking;
+import de.dhbw.ems.domain.booking.entity.BookingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -29,12 +27,9 @@ public class BookingApplicationService implements BookingDomainService {
         repository.deleteById(id);
     }
 
-    public Optional<Booking> createByAttributeData(User user, FinancialLedger financialLedger, BookingAttributeData attributeData){
+    public Optional<Booking> createByAttributeData(BookingAttributeData attributeData){
         Booking booking = Booking.builder()
                 .id(UUID.randomUUID())
-                .creator(user)
-                .creationDate(LocalDate.now())
-                .financialLedgerId(financialLedger.getId())
                 .build();
         return updateByAttributeData(booking, attributeData);
     }
@@ -45,9 +40,6 @@ public class BookingApplicationService implements BookingDomainService {
         }
         if (attributeData.getMoney() != null){
             booking.setMoney(attributeData.getMoney());
-        }
-        if (attributeData.getBookingCategory() != null){
-            booking.setCategory(attributeData.getBookingCategory());
         }
         return Optional.of(save(booking));
     }
