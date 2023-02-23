@@ -1,53 +1,69 @@
 package de.dhbw.ems.application.mediator.colleage;
 
-import de.dhbw.ems.application.booking.BookingDomainService;
+import de.dhbw.ems.application.booking.aggregate.BookingAggregateDomainService;
+import de.dhbw.ems.application.booking.reference.BookingReferenceDomainService;
 import de.dhbw.ems.application.mediator.ConcreteApplicationMediator;
-import de.dhbw.ems.domain.booking.Booking;
+import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
+import de.dhbw.ems.domain.booking.reference.BookingReference;
 import de.dhbw.ems.domain.bookingcategory.BookingCategory;
 import de.dhbw.ems.domain.user.User;
 
+import java.util.Optional;
+
 public class BookingColleague extends Colleague {
 
-    private final BookingDomainService bookingDomainService;
+    private final BookingAggregateDomainService bookingAggregateDomainService;
+    private final BookingReferenceDomainService bookingReferenceDomainService;
 
-    public BookingColleague(final ConcreteApplicationMediator mediator, final BookingDomainService bookingDomainService) {
+    public BookingColleague(
+            final ConcreteApplicationMediator mediator,
+            final BookingAggregateDomainService bookingAggregateDomainService,
+            final BookingReferenceDomainService bookingReferenceDomainService) {
         super(mediator);
-        this.bookingDomainService = bookingDomainService;
+        this.bookingAggregateDomainService = bookingAggregateDomainService;
+        this.bookingReferenceDomainService = bookingReferenceDomainService;
     }
 
     @Override
-    public void onReferenceUserToBooking(User user, Booking booking) {
-        booking.getReferencedUsers().add(user);
-        bookingDomainService.save(booking);
+    public void onReferenceUserToBooking(User user, BookingAggregate bookingAggregate) {
+        Optional<BookingReference> optionalBookingReference = bookingReferenceDomainService.create(user.getId(), bookingAggregate.getId());
+        bookingAggregate.getBookingReferences().add(optionalBookingReference.get());
+        bookingAggregateDomainService.save(bookingAggregate);
     }
 
     @Override
-    public void onDeleteReferenceUserToBooking(User user, Booking booking) {
-        if (booking.getReferencedUsers().contains(user)){
-            booking.getReferencedUsers().remove(user);
-            bookingDomainService.save(booking);
+    public void onDeleteReferenceUserToBooking(User user, BookingAggregate bookingAggregate) {
+        if (bookingReferenceDomainService.exists(user.getId(), bookingAggregate.getId())){
+            bookingAggregate.getBookingReferences().removeIf(r -> r.getId().getUserId().equals(user.getId()));
+            bookingAggregateDomainService.save(bookingAggregate);
+            bookingReferenceDomainService.deleteById(user.getId(), bookingAggregate.getId());
+
         }
     }
 
     @Override
     public void onDeleteUser(User user) {
-        user.getReferencedBookings().forEach(booking -> {
-            getMediator().onDeleteReferenceUserToBooking(user, booking, this);
-            onDeleteReferenceUserToBooking(user, booking);
+        bookingReferenceDomainService.findByUserId(user.getId()).forEach(bookingReference -> {
+            getMediator().onDeleteReferenceUserToBooking(user, bookingReference.getBookingAggregate(), this);
+            onDeleteReferenceUserToBooking(user, bookingReference.getBookingAggregate());
         });
     }
 
     @Override
     public void onDeleteBookingCategory(BookingCategory bookingCategory) {
-        bookingCategory.getBookings().forEach(booking -> {
+        bookingCategory.getBookingAggregates().forEach(booking -> {
             booking.setCategory(null);
-            bookingDomainService.save(booking);
+            bookingAggregateDomainService.save(booking);
         });
     }
 
     @Override
-    public void onDeleteBooking(Booking booking) {
-        bookingDomainService.deleteById(booking.getId());
+    public void onDeleteBooking(BookingAggregate bookingAggregate) {
+        bookingReferenceDomainService.findByBookingAggregateId(bookingAggregate.getId()).forEach(bookingReference -> {
+            getMediator().onDeleteReferenceUserToBooking(bookingReference.getUser(), bookingReference.getBookingAggregate(), this);
+            onDeleteReferenceUserToBooking(bookingReference.getUser(), bookingReference.getBookingAggregate());
+        });
+        bookingAggregateDomainService.deleteById(bookingAggregate.getId());
     }
 
 }
