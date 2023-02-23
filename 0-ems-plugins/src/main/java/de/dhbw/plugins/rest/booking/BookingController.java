@@ -4,8 +4,8 @@ import de.dhbw.ems.adapter.application.booking.BookingApplicationAdapter;
 import de.dhbw.ems.adapter.model.booking.data.BookingUnsafeDataToBookingAttributeDataAdapterMapper;
 import de.dhbw.ems.adapter.model.booking.data.BookingUpdateData;
 import de.dhbw.ems.adapter.model.booking.model.BookingModel;
-import de.dhbw.ems.application.booking.BookingAttributeData;
-import de.dhbw.ems.domain.booking.Booking;
+import de.dhbw.ems.application.booking.data.BookingAggregateAttributeData;
+import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
 import de.dhbw.plugins.mapper.booking.BookingModelFactory;
 import de.dhbw.plugins.rest.utils.WebMvcLinkBuilderUtils;
 import lombok.RequiredArgsConstructor;
@@ -32,18 +32,18 @@ public class BookingController {
 
     @GetMapping
     public ResponseEntity<BookingModel> findOne(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId, @PathVariable("bookingId") UUID bookingId) {
-        Optional<Booking> optionalBooking = bookingApplicationAdapter.find(userId, financialLedgerId, bookingId);
+        Optional<BookingAggregate> optionalBooking = bookingApplicationAdapter.find(userId, financialLedgerId, bookingId);
         if (!optionalBooking.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         return ResponseEntity.ok(bookingModelFactory.create(userId, financialLedgerId, optionalBooking.get()));
     }
 
     @PutMapping
     public ResponseEntity<Void> update(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId, @PathVariable("bookingId") UUID bookingId, @Valid @RequestBody BookingUpdateData data) {
-        Optional<Booking> optionalBooking = bookingApplicationAdapter.find(userId, financialLedgerId, bookingId);
+        Optional<BookingAggregate> optionalBooking = bookingApplicationAdapter.find(userId, financialLedgerId, bookingId);
         if (!optionalBooking.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        Booking booking = optionalBooking.get();
-        BookingAttributeData attributeData = dataAdapterMapper.apply(data);
-        optionalBooking = bookingApplicationAdapter.updateByAttributeData(booking, attributeData);
+        BookingAggregate bookingAggregate = optionalBooking.get();
+        BookingAggregateAttributeData attributeData = dataAdapterMapper.apply(data);
+        optionalBooking = bookingApplicationAdapter.updateByAttributeData(bookingAggregate, attributeData);
         if (!optionalBooking.isPresent()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         WebMvcLinkBuilder uriComponents = linkTo(methodOn(this.getClass()).findOne(userId, financialLedgerId, bookingId));
         return new ResponseEntity<>(WebMvcLinkBuilderUtils.createLocationHeader(uriComponents), HttpStatus.ACCEPTED);
