@@ -1,7 +1,7 @@
 package de.dhbw.ems.application.mediator;
 
 import de.dhbw.ems.application.mediator.colleage.Colleague;
-import de.dhbw.ems.domain.booking.Booking;
+import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
 import de.dhbw.ems.domain.bookingcategory.BookingCategory;
 import de.dhbw.ems.domain.financialledger.FinancialLedger;
 import de.dhbw.ems.domain.user.User;
@@ -34,16 +34,16 @@ public class ConcreteApplicationMediator implements Mediator {
     }
 
     @Override
-    public void onReferenceUserToBooking(User user, Booking booking, Colleague colleague) {
+    public void onReferenceUserToBooking(User user, BookingAggregate bookingAggregate, Colleague colleague) {
         for (Colleague item : colleagues) {
-            if (!item.equals(colleague)) item.onReferenceUserToBooking(user, booking);
+            if (!item.equals(colleague)) item.onReferenceUserToBooking(user, bookingAggregate);
         }
     }
 
     @Override
-    public void onDeleteReferenceUserToBooking(User user, Booking booking, Colleague colleague) {
+    public void onDeleteReferenceUserToBooking(User user, BookingAggregate bookingAggregate, Colleague colleague) {
         for (Colleague item : colleagues) {
-            if (!item.equals(colleague)) item.onDeleteReferenceUserToBooking(user, booking);
+            if (!item.equals(colleague)) item.onDeleteReferenceUserToBooking(user, bookingAggregate);
         }
     }
 
@@ -69,9 +69,9 @@ public class ConcreteApplicationMediator implements Mediator {
     }
 
     @Override
-    public void onDeleteBooking(Booking booking, Colleague colleague) {
+    public void onDeleteBooking(BookingAggregate bookingAggregate, Colleague colleague) {
         for (Colleague item : colleagues) {
-            if (!item.equals(colleague)) item.onDeleteBooking(booking);
+            if (!item.equals(colleague)) item.onDeleteBooking(bookingAggregate);
         }
     }
 }

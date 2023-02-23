@@ -1,21 +1,21 @@
 package de.dhbw.ems.application.mediator.service.impl;
 
-import de.dhbw.ems.application.booking.BookingAttributeData;
-import de.dhbw.ems.domain.booking.Booking;
+import de.dhbw.ems.application.booking.data.BookingAggregateAttributeData;
+import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
 
 import java.util.Optional;
 import java.util.UUID;
 
 public interface BookingServicePort {
 
-    Optional<Booking> find(UUID userId, UUID financialLedgerId, UUID bookingId);
+    Optional<BookingAggregate> find(UUID userId, UUID financialLedgerId, UUID bookingAggregateId);
 
-    Optional<Booking> create(UUID userId, UUID financialLedgerId, BookingAttributeData attributeData);
+    Optional<BookingAggregate> create(UUID userId, UUID financialLedgerId, BookingAggregateAttributeData attributeData);
 
-    boolean exists(UUID userId, UUID financialLedgerId, UUID bookingId);
+    boolean exists(UUID userId, UUID financialLedgerId, UUID bookingAggregateId);
 
-    boolean delete(UUID userId, UUID financialLedgerId, UUID bookingId);
+    boolean delete(UUID userId, UUID financialLedgerId, UUID bookingAggregateId);
 
-    boolean referenceUser(UUID id, UUID financialLedgerId, UUID bookingId, UUID referenceUserId);
+    boolean referenceUser(UUID id, UUID financialLedgerId, UUID bookingAggregateId, UUID referenceUserId);
 
 }

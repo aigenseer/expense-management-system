@@ -48,7 +48,7 @@ public class FinancialLedgerModelFactory {
         BookingPreviewCollectionModel bookingPreviewCollectionModel = bookingsToBookingPreviewCollectionMapper.apply(BookingsToBookingPreviewCollectionMapper
                 .Context.builder()
                 .userId(userId)
-                .bookings(financialLedger.getBookings())
+                .bookings(financialLedger.getBookingAggregates())
                 .build());
         selfLink = linkTo(methodOn(BookingsController.class).listAll(userId, financialLedger.getId())).withSelfRel();
         bookingPreviewCollectionModel.add(selfLink);

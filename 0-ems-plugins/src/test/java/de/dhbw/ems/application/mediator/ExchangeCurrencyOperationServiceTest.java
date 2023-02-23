@@ -1,12 +1,12 @@
 package de.dhbw.ems.application.mediator;
 
 import de.dhbw.ems.abstractioncode.valueobject.money.CurrencyType;
-import de.dhbw.ems.application.booking.BookingApplicationService;
+import de.dhbw.ems.application.booking.aggregate.BookingAggregateApplicationService;
 import de.dhbw.ems.application.currency.exchange.CurrencyExchangeOfficeService;
 import de.dhbw.ems.application.currency.exchange.CurrencyExchangeRequest;
 import de.dhbw.ems.application.mediator.service.BookingOperationService;
 import de.dhbw.ems.application.mediator.service.ExchangeCurrencyOperationService;
-import de.dhbw.ems.domain.booking.Booking;
+import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,18 +33,18 @@ public class ExchangeCurrencyOperationServiceTest {
     @Autowired
     private BookingOperationService bookingOperationService;
     @Autowired
-    private BookingApplicationService bookingApplicationService;
+    private BookingAggregateApplicationService bookingAggregateApplicationService;
 
     private final UUID userId = UUID.fromString("12345678-1234-1234-a123-123456789001");
     private final UUID financialLedgerId = UUID.fromString("12345678-1234-1234-a123-123456789011");
     private final UUID bookingId = UUID.fromString("12345678-1234-1234-a123-123456789031");
-    private Booking booking;
+    private BookingAggregate bookingAggregate;
 
     @Before
     public void setup(){
-        Optional<Booking> optionalBooking =  bookingApplicationService.findById(bookingId);
+        Optional<BookingAggregate> optionalBooking =  bookingAggregateApplicationService.findById(bookingId);
         assertTrue(optionalBooking.isPresent());
-        booking = optionalBooking.get();
+        bookingAggregate = optionalBooking.get();
     }
 
     @Test
@@ -54,18 +54,18 @@ public class ExchangeCurrencyOperationServiceTest {
         Double factor = 1.5;
         when(currencyExchangeOfficeService.getExchangeRate(currencyExchangeRequest)).thenReturn(Optional.of(factor));
 
-        Double expectedAmount = booking.getMoney().getAmount() * factor;
+        Double expectedAmount = bookingAggregate.getBooking().getMoney().getAmount() * factor;
         expectedAmount = Math.round(expectedAmount*100.0)/100.0;
 
-        ExchangeCurrencyOperationService service = Mockito.spy(new ExchangeCurrencyOperationService(bookingApplicationService, bookingOperationService, currencyExchangeOfficeService));
+        ExchangeCurrencyOperationService service = Mockito.spy(new ExchangeCurrencyOperationService(bookingAggregateApplicationService, bookingOperationService, currencyExchangeOfficeService));
 
         boolean result = service.exchangeCurrencyOfBooking(userId, financialLedgerId, bookingId, CurrencyType.DOLLAR);
         assertTrue(result);
 
-        Optional<Booking> optionalBooking = bookingApplicationService.findById(bookingId);
+        Optional<BookingAggregate> optionalBooking = bookingAggregateApplicationService.findById(bookingId);
         assertTrue(optionalBooking.isPresent());
-        assertEquals(CurrencyType.DOLLAR, optionalBooking.get().getMoney().getCurrencyType());
-        assertEquals(expectedAmount, optionalBooking.get().getMoney().getAmount());
+        assertEquals(CurrencyType.DOLLAR, optionalBooking.get().getBooking().getMoney().getCurrencyType());
+        assertEquals(expectedAmount, optionalBooking.get().getBooking().getMoney().getAmount());
     }
 
 

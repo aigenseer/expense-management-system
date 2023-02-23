@@ -8,7 +8,7 @@ import de.dhbw.ems.application.archive.mapper.bookings.BookingUserReferencesToCS
 import de.dhbw.ems.application.archive.mapper.bookings.BookingsToCSVFileMapperFunction;
 import de.dhbw.ems.application.archive.mapper.financialledger.FinancialLedgerToCSVFileMapperFunction;
 import de.dhbw.ems.application.archive.mapper.user.UsersToCSVFileMapperFunction;
-import de.dhbw.ems.domain.booking.Booking;
+import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
 import de.dhbw.ems.domain.financialledger.FinancialLedger;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -34,11 +34,11 @@ public class FinancialLedgerArchiveFactory extends TmpFileFactory implements Fin
         TmpFile tmpFile = createTempCSVFile(".zip");
         try(ZipOutputStream out = new ZipOutputStream(new FileOutputStream(tmpFile.getFile()))){
             appendFileToZip(out, "booking-categories.csv", bookingCategoriesToCSVFileMapperFunction.apply(financialLedger.getBookingCategories()));
-            appendFileToZip(out, "bookings.csv", bookingsToCSVFileMapperFunction.apply(financialLedger.getBookings()));
+            appendFileToZip(out, "bookings.csv", bookingsToCSVFileMapperFunction.apply(financialLedger.getBookingAggregates()));
             appendFileToZip(out, "authorized-users.csv", usersToCSVFileMapperFunction.apply(financialLedger.getAuthorizedUser()));
             appendFileToZip(out, "financial-ledger.csv", financialLedgerToCSVFileMapperFunction.apply(financialLedger));
-            for (Booking booking :financialLedger.getBookings()) {
-                appendFileToZip(out, "BookingReferencesFolderName", String.format("%s.csv", booking.getTitle()), bookingUserReferencesToCSVFileMapperFunction.apply(booking));
+            for (BookingAggregate bookingAggregate :financialLedger.getBookingAggregates()) {
+                appendFileToZip(out, "BookingReferencesFolderName", String.format("%s.csv", bookingAggregate.getBooking().getTitle()), bookingUserReferencesToCSVFileMapperFunction.apply(bookingAggregate));
             }
         } catch (IOException e) {
             throw new RuntimeException(e);

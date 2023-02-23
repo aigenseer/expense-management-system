@@ -1,6 +1,6 @@
 package de.dhbw.ems.domain.bookingcategory;
 
-import de.dhbw.ems.domain.booking.Booking;
+import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
 import de.dhbw.ems.domain.financialledger.FinancialLedger;
 import lombok.*;
 import org.hibernate.annotations.Type;
@@ -28,7 +28,7 @@ public class BookingCategory {
     private String title;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy="category")
-    private Set<Booking> bookings;
+    private Set<BookingAggregate> bookingAggregates;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "financial_ledger_id")

@@ -2,7 +2,7 @@ package de.dhbw.ems.application.mediator.colleage;
 
 import de.dhbw.ems.application.financialledger.FinancialLedgerDomainService;
 import de.dhbw.ems.application.mediator.ConcreteApplicationMediator;
-import de.dhbw.ems.domain.booking.Booking;
+import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
 import de.dhbw.ems.domain.bookingcategory.BookingCategory;
 import de.dhbw.ems.domain.financialledger.FinancialLedger;
 import de.dhbw.ems.domain.user.User;
@@ -44,9 +44,9 @@ public class FinancialLedgerColleague extends Colleague {
     }
 
     @Override
-    public void onDeleteBooking(Booking booking) {
-        FinancialLedger financialLedger = booking.getFinancialLedger();
-        financialLedger.getBookings().remove(booking);
+    public void onDeleteBooking(BookingAggregate bookingAggregate) {
+        FinancialLedger financialLedger = bookingAggregate.getFinancialLedger();
+        financialLedger.getBookingAggregates().remove(bookingAggregate);
         financialLedgerDomainService.save(financialLedger);
     }
 

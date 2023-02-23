@@ -5,7 +5,7 @@ import de.dhbw.ems.adapter.model.booking.model.BookingToBookingModelAdapterMappe
 import de.dhbw.ems.adapter.model.bookingcategory.preview.BookingCategoryPreviewModel;
 import de.dhbw.ems.adapter.model.user.preview.UserPreview;
 import de.dhbw.ems.adapter.model.user.preview.UserPreviewCollectionModel;
-import de.dhbw.ems.domain.booking.Booking;
+import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
 import de.dhbw.plugins.mapper.bookingcategory.BookingCategoryToBookingCategoryPreviewMapper;
 import de.dhbw.plugins.mapper.user.UserToUserPreviewMapper;
 import de.dhbw.plugins.mapper.user.UsersToUserPreviewCollectionMapper;
@@ -33,7 +33,7 @@ public class BookingToBookingModelMapper implements Function<BookingToBookingMod
     @Builder
     public static class Context{
         private final UUID userId;
-        private final Booking booking;
+        private final BookingAggregate bookingAggregate;
     }
 
     private final BookingToBookingModelAdapterMapper bookingToBookingModelAdapterMapper;
@@ -48,31 +48,31 @@ public class BookingToBookingModelMapper implements Function<BookingToBookingMod
 
     private BookingModel map(final BookingToBookingModelMapper.Context context) {
         UUID userId = context.getUserId();
-        Booking booking = context.getBooking();
-        BookingModel model = bookingToBookingModelAdapterMapper.apply(context.getBooking());
+        BookingAggregate bookingAggregate = context.getBookingAggregate();
+        BookingModel model = bookingToBookingModelAdapterMapper.apply(context.getBookingAggregate());
 
-        UserPreview creatorPreview = userToUserPreviewMapper.apply(booking.getCreator());
+        UserPreview creatorPreview = userToUserPreviewMapper.apply(bookingAggregate.getCreator());
         model.setCreator(creatorPreview);
 
-        UserPreviewCollectionModel referencedUserPreviewCollectionModel = usersToUserPreviewCollectionMapper.apply(booking.getReferencedUsers());
-        Link selfLink = WebMvcLinkBuilder.linkTo(methodOn(BookingReferencedUsersController.class).listAll(userId, booking.getFinancialLedgerId(), booking.getId())).withSelfRel();
+        UserPreviewCollectionModel referencedUserPreviewCollectionModel = usersToUserPreviewCollectionMapper.apply(bookingAggregate.getReferencedUsers());
+        Link selfLink = WebMvcLinkBuilder.linkTo(methodOn(BookingReferencedUsersController.class).listAll(userId, bookingAggregate.getFinancialLedgerId(), bookingAggregate.getBooking().getId())).withSelfRel();
         referencedUserPreviewCollectionModel.add(selfLink);
         model.setReferencedUsers(referencedUserPreviewCollectionModel);
 
         BookingCategoryPreviewModel bookingCategoryPreviewModel = null;
-        if(booking.getCategory() != null){
+        if(bookingAggregate.getCategory() != null){
             bookingCategoryPreviewModel = bookingCategoryToBookingCategoryPreviewMapper
                     .apply(BookingCategoryToBookingCategoryPreviewMapper.Context.builder()
                             .userId(userId)
-                            .bookingCategory(booking.getCategory())
+                            .bookingCategory(bookingAggregate.getCategory())
                             .build());
         }
         model.setCategory(bookingCategoryPreviewModel);
 
         selfLink = WebMvcLinkBuilder.linkTo(methodOn(BookingController.class)
                 .findOne(context.getUserId(),
-                        context.getBooking().getFinancialLedgerId(),
-                        context.getBooking().getId())).withSelfRel();
+                        context.getBookingAggregate().getFinancialLedgerId(),
+                        context.getBookingAggregate().getBooking().getId())).withSelfRel();
         model.add(selfLink);
         return model;
     }

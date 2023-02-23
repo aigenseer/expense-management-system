@@ -4,7 +4,7 @@ import de.dhbw.ems.adapter.api.currency.exchange.CurrencyExchangeContract;
 import de.dhbw.ems.adapter.api.currency.exchange.CurrencyExchangeContractToCurrencyExchangeRequestAdapterMapper;
 import de.dhbw.ems.adapter.application.booking.BookingApplicationAdapter;
 import de.dhbw.ems.application.currency.exchange.CurrencyExchangeRequest;
-import de.dhbw.ems.domain.booking.Booking;
+import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
 import de.dhbw.plugins.rest.booking.BookingController;
 import de.dhbw.plugins.rest.utils.WebMvcLinkBuilderUtils;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +30,7 @@ public class CurrencyExchangeController {
 
     @PutMapping
     public ResponseEntity<Void> update(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId, @PathVariable("bookingId") UUID bookingId, @Valid @RequestBody CurrencyExchangeContract contract) {
-        Optional<Booking> optionalBooking = bookingApplicationAdapter.find(userId, financialLedgerId, bookingId);
+        Optional<BookingAggregate> optionalBooking = bookingApplicationAdapter.find(userId, financialLedgerId, bookingId);
         if (!optionalBooking.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         CurrencyExchangeRequest currencyExchangeRequest = adapterMapper.apply(contract);
         if (!bookingApplicationAdapter.exchangeCurrencyOfBooking(userId, financialLedgerId, bookingId, currencyExchangeRequest.getTargetCurrencyType())) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

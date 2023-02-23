@@ -2,7 +2,7 @@ package de.dhbw.ems.application.mediator.colleage;
 
 import de.dhbw.ems.application.mediator.ConcreteApplicationMediator;
 import de.dhbw.ems.application.user.UserDomainService;
-import de.dhbw.ems.domain.booking.Booking;
+import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
 import de.dhbw.ems.domain.financialledger.FinancialLedger;
 import de.dhbw.ems.domain.user.User;
 
@@ -28,18 +28,6 @@ public class UserColleague extends Colleague {
     }
 
     @Override
-    public void onReferenceUserToBooking(User user, Booking booking) {
-        user.getReferencedBookings().add(booking);
-        userDomainService.save(user);
-    }
-
-    @Override
-    public void onDeleteReferenceUserToBooking(User user, Booking booking) {
-        user.getReferencedBookings().remove(booking);
-        userDomainService.save(user);
-    }
-
-    @Override
     public void onDeleteUser(User user) {
         userDomainService.deleteById(user.getId());
     }
@@ -50,10 +38,10 @@ public class UserColleague extends Colleague {
     }
 
     @Override
-    public void onDeleteBooking(Booking booking) {
-        booking.getReferencedUsers().forEach(user -> {
-            getMediator().onDeleteReferenceUserToBooking(user, booking, this);
-            onDeleteReferenceUserToBooking(user, booking);
+    public void onDeleteBooking(BookingAggregate bookingAggregate) {
+        bookingAggregate.getReferencedUsers().forEach(user -> {
+            getMediator().onDeleteReferenceUserToBooking(user, bookingAggregate, this);
+            onDeleteReferenceUserToBooking(user, bookingAggregate);
         });
     }
 }

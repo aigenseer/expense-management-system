@@ -1,6 +1,6 @@
 package de.dhbw.ems.adapter.model.booking.model;
 
-import de.dhbw.ems.domain.booking.Booking;
+import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -9,15 +9,15 @@ import org.springframework.stereotype.Component;
 public class BookingToModelMapper implements BookingToBookingModelAdapterMapper {
 
     @Override
-    public BookingModel apply(final Booking booking) {
-        return map(booking);
+    public BookingModel apply(final BookingAggregate bookingAggregate) {
+        return map(bookingAggregate);
     }
 
-    private BookingModel map(final Booking booking) {
+    private BookingModel map(final BookingAggregate bookingAggregate) {
         BookingModel.BookingModelBuilder builder = BookingModel.builder()
-                .title(booking.getTitle())
-                .amount(booking.getMoney().getAmount())
-                .currencyType(booking.getMoney().getCurrencyType());
+                .title(bookingAggregate.getBooking().getTitle())
+                .amount(bookingAggregate.getBooking().getMoney().getAmount())
+                .currencyType(bookingAggregate.getBooking().getMoney().getCurrencyType());
         return builder.build();
     }
 }

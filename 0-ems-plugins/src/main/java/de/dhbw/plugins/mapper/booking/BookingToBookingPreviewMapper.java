@@ -2,7 +2,7 @@ package de.dhbw.plugins.mapper.booking;
 
 import de.dhbw.ems.adapter.model.booking.preview.BookingPreviewModel;
 import de.dhbw.ems.adapter.model.booking.preview.BookingToBookingPreviewModelAdapterMapper;
-import de.dhbw.ems.domain.booking.Booking;
+import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
 import de.dhbw.plugins.rest.booking.BookingController;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,7 +26,7 @@ public class BookingToBookingPreviewMapper implements Function<BookingToBookingP
     @Builder
     static class Context{
         private final UUID userId;
-        private final Booking booking;
+        private final BookingAggregate bookingAggregate;
     }
 
     private final BookingToBookingPreviewModelAdapterMapper previewModelMapper;
@@ -37,11 +37,11 @@ public class BookingToBookingPreviewMapper implements Function<BookingToBookingP
     }
 
     private BookingPreviewModel map(final BookingToBookingPreviewMapper.Context context) {
-        BookingPreviewModel preview = previewModelMapper.apply(context.getBooking());
+        BookingPreviewModel preview = previewModelMapper.apply(context.getBookingAggregate());
         Link selfLink = WebMvcLinkBuilder.linkTo(methodOn(BookingController.class)
                 .findOne(context.getUserId(),
-                        context.getBooking().getFinancialLedger().getId(),
-                        context.getBooking().getId())).withSelfRel();
+                        context.getBookingAggregate().getFinancialLedger().getId(),
+                        context.getBookingAggregate().getBooking().getId())).withSelfRel();
         preview.add(selfLink);
         return preview;
     }

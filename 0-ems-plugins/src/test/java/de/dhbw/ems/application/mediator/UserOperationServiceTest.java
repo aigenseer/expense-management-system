@@ -1,10 +1,10 @@
 package de.dhbw.ems.application.mediator;
 
-import de.dhbw.ems.application.booking.BookingApplicationService;
+import de.dhbw.ems.application.booking.aggregate.BookingAggregateApplicationService;
 import de.dhbw.ems.application.financialledger.FinancialLedgerApplicationService;
 import de.dhbw.ems.application.mediator.service.UserOperationService;
 import de.dhbw.ems.application.user.UserApplicationService;
-import de.dhbw.ems.domain.booking.Booking;
+import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
 import de.dhbw.ems.domain.financialledger.FinancialLedger;
 import de.dhbw.ems.domain.user.User;
 import org.junit.Test;
@@ -33,7 +33,7 @@ public class UserOperationServiceTest {
     @Autowired
     private FinancialLedgerApplicationService financialLedgerApplicationService;
     @Autowired
-    private BookingApplicationService bookingApplicationService;
+    private BookingAggregateApplicationService bookingAggregateApplicationService;
 
     private final UUID userId = UUID.fromString("12345678-1234-1234-a123-123456789001");
     private final UUID financialLedgerId = UUID.fromString("12345678-1234-1234-a123-123456789011");
@@ -52,7 +52,7 @@ public class UserOperationServiceTest {
         optionalUser = optionalFinancialLedger.get().getAuthorizedUser().stream().filter(f -> f.getId().equals(userId)).findFirst();
         assertFalse(optionalUser.isPresent());
 
-        Optional<Booking> optionalBooking = bookingApplicationService.findById(bookingId);
+        Optional<BookingAggregate> optionalBooking = bookingAggregateApplicationService.findById(bookingId);
         assertFalse(optionalBooking.isPresent());
     }
 

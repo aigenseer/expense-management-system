@@ -3,7 +3,7 @@ package de.dhbw.plugins.rest.booking.users;
 import de.dhbw.ems.adapter.application.booking.BookingApplicationAdapter;
 import de.dhbw.ems.adapter.model.user.preview.UserPreviewCollectionModel;
 import de.dhbw.ems.adapter.model.user.userdata.AppendUserData;
-import de.dhbw.ems.domain.booking.Booking;
+import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
 import de.dhbw.plugins.mapper.booking.ReferencedUserPreviewCollectionModelFactory;
 import de.dhbw.plugins.rest.booking.user.BookingReferencedUserController;
 import de.dhbw.plugins.rest.utils.WebMvcLinkBuilderUtils;
@@ -29,7 +29,7 @@ public class BookingReferencedUsersController {
 
     @GetMapping
     public ResponseEntity<UserPreviewCollectionModel> listAll(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId, @PathVariable("bookingId") UUID bookingId) {
-        Optional<Booking> optionalBooking = bookingApplicationAdapter.find(userId, financialLedgerId, bookingId);
+        Optional<BookingAggregate> optionalBooking = bookingApplicationAdapter.find(userId, financialLedgerId, bookingId);
         if (!optionalBooking.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         return ResponseEntity.ok(referencedUserPreviewCollectionModelFactory.create(userId, financialLedgerId, bookingId, optionalBooking.get().getReferencedUsers()));
     }

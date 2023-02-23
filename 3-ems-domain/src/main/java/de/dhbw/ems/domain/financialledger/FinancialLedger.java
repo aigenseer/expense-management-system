@@ -1,6 +1,6 @@
 package de.dhbw.ems.domain.financialledger;
 
-import de.dhbw.ems.domain.booking.Booking;
+import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
 import de.dhbw.ems.domain.bookingcategory.BookingCategory;
 import de.dhbw.ems.domain.user.User;
 import lombok.*;
@@ -36,9 +36,9 @@ public class FinancialLedger {
     )
     private Set<User> authorizedUser;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy="financialLedger", targetEntity = Booking.class)
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy="financialLedger", targetEntity = BookingAggregate.class)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private Set<Booking> bookings;
+    private Set<BookingAggregate> bookingAggregates;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy="financialLedger", targetEntity = BookingCategory.class)
     @OnDelete(action = OnDeleteAction.CASCADE)

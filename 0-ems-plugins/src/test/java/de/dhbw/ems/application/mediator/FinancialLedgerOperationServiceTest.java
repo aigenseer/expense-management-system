@@ -1,12 +1,12 @@
 package de.dhbw.ems.application.mediator;
 
-import de.dhbw.ems.application.booking.BookingApplicationService;
+import de.dhbw.ems.application.booking.aggregate.BookingAggregateApplicationService;
 import de.dhbw.ems.application.bookingcategory.BookingCategoryApplicationService;
 import de.dhbw.ems.application.financialledger.FinancialLedgerApplicationService;
 import de.dhbw.ems.application.financialledger.FinancialLedgerAttributeData;
 import de.dhbw.ems.application.mediator.service.FinancialLedgerOperationService;
 import de.dhbw.ems.application.user.UserApplicationService;
-import de.dhbw.ems.domain.booking.Booking;
+import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
 import de.dhbw.ems.domain.bookingcategory.BookingCategory;
 import de.dhbw.ems.domain.financialledger.FinancialLedger;
 import de.dhbw.ems.domain.user.User;
@@ -38,7 +38,7 @@ public class FinancialLedgerOperationServiceTest {
     @Autowired
     private BookingCategoryApplicationService bookingCategoryApplicationService;
     @Autowired
-    private BookingApplicationService bookingApplicationService;
+    private BookingAggregateApplicationService bookingAggregateApplicationService;
 
     private final UUID userId = UUID.fromString("12345678-1234-1234-a123-123456789001");
     private final UUID financialLedgerId = UUID.fromString("12345678-1234-1234-a123-123456789011");
@@ -120,7 +120,7 @@ public class FinancialLedgerOperationServiceTest {
         optionalFinancialLedger = optionalUser.get().getFinancialLedgers().stream().filter(f -> f.getId().equals(financialLedgerId)).findFirst();
         assertFalse(optionalFinancialLedger.isPresent());
 
-        Optional<Booking> optionalBooking = bookingApplicationService.findById(bookingId);
+        Optional<BookingAggregate> optionalBooking = bookingAggregateApplicationService.findById(bookingId);
         assertFalse(optionalBooking.isPresent());
 
         Optional<BookingCategory> optionalBookingCategory = bookingCategoryApplicationService.findById(bookingCategoryId);

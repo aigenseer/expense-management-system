@@ -22,7 +22,7 @@ public class BookingCategoryModelFactory {
     private final BookingPreviewCollectionModelFactory bookingPreviewCollectionModelFactory;
 
     public BookingCategoryModel create(UUID userId, UUID financialLedgerId, BookingCategory bookingCategory){
-        BookingPreviewCollectionModel previewCollectionModel = bookingPreviewCollectionModelFactory.create(userId, financialLedgerId, bookingCategory.getBookings());
+        BookingPreviewCollectionModel previewCollectionModel = bookingPreviewCollectionModelFactory.create(userId, financialLedgerId, bookingCategory.getBookingAggregates());
 
         BookingCategoryModel model = bookingCategoryToBookingCategoryModelAdapterMapper.apply(bookingCategory);
         model.setBookingPreviewCollectionModel(previewCollectionModel);

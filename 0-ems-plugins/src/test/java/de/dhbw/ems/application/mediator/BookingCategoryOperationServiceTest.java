@@ -1,11 +1,11 @@
 package de.dhbw.ems.application.mediator;
 
-import de.dhbw.ems.application.booking.BookingApplicationService;
+import de.dhbw.ems.application.booking.aggregate.BookingAggregateApplicationService;
 import de.dhbw.ems.application.bookingcategory.BookingCategoryApplicationService;
 import de.dhbw.ems.application.bookingcategory.BookingCategoryAttributeData;
 import de.dhbw.ems.application.financialledger.FinancialLedgerApplicationService;
 import de.dhbw.ems.application.mediator.service.BookingCategoryOperationService;
-import de.dhbw.ems.domain.booking.Booking;
+import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
 import de.dhbw.ems.domain.bookingcategory.BookingCategory;
 import de.dhbw.ems.domain.financialledger.FinancialLedger;
 import org.junit.Before;
@@ -34,14 +34,14 @@ public class BookingCategoryOperationServiceTest {
     @Autowired
     private BookingCategoryApplicationService bookingCategoryApplicationService;
     @Autowired
-    private BookingApplicationService bookingApplicationService;
+    private BookingAggregateApplicationService bookingAggregateApplicationService;
 
     private final UUID userId = UUID.fromString("12345678-1234-1234-a123-123456789001");
     private final UUID financialLedgerId = UUID.fromString("12345678-1234-1234-a123-123456789011");
     private final UUID bookingCategoryId = UUID.fromString("12345678-1234-1234-a123-123456789021");
     private BookingCategory bookingCategory;
     private final UUID bookingId = UUID.fromString("12345678-1234-1234-a123-123456789031");
-    private Booking booking;
+    private BookingAggregate bookingAggregate;
 
     @Before
     public void setup(){
@@ -49,9 +49,9 @@ public class BookingCategoryOperationServiceTest {
         assertTrue(optionalBookingCategory.isPresent());
         bookingCategory = optionalBookingCategory.get();
 
-        Optional<Booking> optionalBooking =  bookingApplicationService.findById(bookingId);
+        Optional<BookingAggregate> optionalBooking =  bookingAggregateApplicationService.findById(bookingId);
         assertTrue(optionalBooking.isPresent());
-        booking = optionalBooking.get();
+        bookingAggregate = optionalBooking.get();
     }
 
     @Test
@@ -69,9 +69,9 @@ public class BookingCategoryOperationServiceTest {
 
     @Test
     public void testDelete() {
-        Optional<Booking> optionalBooking = bookingApplicationService.findById(bookingId);
+        Optional<BookingAggregate> optionalBooking = bookingAggregateApplicationService.findById(bookingId);
         assertTrue(optionalBooking.isPresent());
-        assertEquals(booking, optionalBooking.get());
+        assertEquals(bookingAggregate, optionalBooking.get());
         assertEquals(bookingCategory, optionalBooking.get().getCategory());
 
         Optional<FinancialLedger> optionalFinancialLedger = financialLedgerApplicationService.findById(financialLedgerId);
@@ -83,7 +83,7 @@ public class BookingCategoryOperationServiceTest {
         boolean result = bookingCategoryOperationService.delete(userId, financialLedgerId, bookingCategoryId);
         assertTrue(result);
 
-        optionalBooking = bookingApplicationService.findById(bookingId);
+        optionalBooking = bookingAggregateApplicationService.findById(bookingId);
         assertTrue(optionalBooking.isPresent());
         assertEquals(null, optionalBooking.get().getCategory());
 

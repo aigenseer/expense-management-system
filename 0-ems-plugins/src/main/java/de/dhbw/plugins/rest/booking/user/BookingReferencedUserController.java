@@ -2,7 +2,7 @@ package de.dhbw.plugins.rest.booking.user;
 
 import de.dhbw.ems.adapter.application.booking.BookingApplicationAdapter;
 import de.dhbw.ems.adapter.model.user.preview.UserPreview;
-import de.dhbw.ems.domain.booking.Booking;
+import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
 import de.dhbw.ems.domain.user.User;
 import de.dhbw.plugins.mapper.booking.ReferencedUserPreviewModelFactory;
 import lombok.RequiredArgsConstructor;
@@ -23,10 +23,10 @@ public class BookingReferencedUserController {
 
     @GetMapping
     public ResponseEntity<UserPreview> findOne(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId, @PathVariable("bookingId") UUID bookingId, @PathVariable("referencedUserId") UUID referencedUserId) {
-        Optional<Booking> optionalBooking = bookingApplicationAdapter.find(userId, financialLedgerId, bookingId);
+        Optional<BookingAggregate> optionalBooking = bookingApplicationAdapter.find(userId, financialLedgerId, bookingId);
         if (!optionalBooking.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        Booking booking = optionalBooking.get();
-        Optional<User> optionalReferencedUser = booking.getReferencedUsers().stream().filter(user -> user.getId().equals(referencedUserId)).findFirst();
+        BookingAggregate bookingAggregate = optionalBooking.get();
+        Optional<User> optionalReferencedUser = bookingAggregate.getReferencedUsers().stream().filter(user -> user.getId().equals(referencedUserId)).findFirst();
         if (!optionalReferencedUser.isPresent()) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         return ResponseEntity.ok(referencedUserPreviewModelFactory.create(userId, financialLedgerId, bookingId, optionalReferencedUser.get()));
     }
