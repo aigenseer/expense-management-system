@@ -1,17 +1,17 @@
 package de.dhbw.ems.adapter.application.booking;
 
 import de.dhbw.ems.abstractioncode.valueobject.money.CurrencyType;
-import de.dhbw.ems.application.booking.BookingAttributeData;
-import de.dhbw.ems.domain.booking.Booking;
+import de.dhbw.ems.application.booking.data.BookingAggregateAttributeData;
+import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
 
 import java.util.Optional;
 import java.util.UUID;
 
 public interface BookingApplicationAdapter {
 
-    Optional<Booking> find(UUID userId, UUID financialLedgerId, UUID bookingId);
+    Optional<BookingAggregate> find(UUID userId, UUID financialLedgerId, UUID bookingId);
 
-    Optional<Booking> create(UUID userId, UUID financialLedgerId, BookingAttributeData attributeData);
+    Optional<BookingAggregate> create(UUID userId, UUID financialLedgerId, BookingAggregateAttributeData attributeData);
 
     boolean exists(UUID userId, UUID financialLedgerId, UUID bookingId);
 
@@ -21,7 +21,7 @@ public interface BookingApplicationAdapter {
 
     boolean deleteUserReference(UUID id, UUID financialLedgerId, UUID bookingId);
 
-    Optional<Booking> updateByAttributeData(Booking booking, BookingAttributeData attributeData);
+    Optional<BookingAggregate> updateByAttributeData(BookingAggregate bookingAggregate, BookingAggregateAttributeData attributeData);
 
     boolean exchangeCurrencyOfBooking(UUID id, UUID financialLedgerId, UUID bookingId, CurrencyType targetCurrencyType);
 
