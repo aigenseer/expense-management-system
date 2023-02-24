@@ -1,12 +1,12 @@
 package de.dhbw.ems.domain.bookingcategory.entity;
 
-import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
-import de.dhbw.ems.domain.financialledger.FinancialLedger;
 import lombok.*;
 import org.hibernate.annotations.Type;
 
-import javax.persistence.*;
-import java.util.Set;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.UUID;
 
 
@@ -26,12 +26,5 @@ public class BookingCategory {
 
     @Column(name = "title", nullable = false)
     private String title;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy="category")
-    private Set<BookingAggregate> bookingAggregates;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "financial_ledger_id")
-    private FinancialLedger financialLedger;
 
 }
