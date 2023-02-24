@@ -1,4 +1,4 @@
-package de.dhbw.ems.application.bookingcategory;
+package de.dhbw.ems.application.bookingcategory.entity;
 
 import lombok.Builder;
 import lombok.Data;

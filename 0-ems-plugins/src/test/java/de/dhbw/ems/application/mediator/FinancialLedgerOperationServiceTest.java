@@ -1,7 +1,7 @@
 package de.dhbw.ems.application.mediator;
 
 import de.dhbw.ems.application.booking.aggregate.BookingAggregateApplicationService;
-import de.dhbw.ems.application.bookingcategory.BookingCategoryApplicationService;
+import de.dhbw.ems.application.bookingcategory.entity.BookingCategoryApplicationService;
 import de.dhbw.ems.application.financialledger.FinancialLedgerApplicationService;
 import de.dhbw.ems.application.financialledger.FinancialLedgerAttributeData;
 import de.dhbw.ems.application.mediator.service.FinancialLedgerOperationService;

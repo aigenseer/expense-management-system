@@ -1,4 +1,4 @@
-package de.dhbw.plugins.persistence.hibernate.bookingcategory;
+package de.dhbw.plugins.persistence.hibernate.bookingcategory.entity;
 
 import de.dhbw.ems.domain.bookingcategory.entity.BookingCategory;
 import org.springframework.data.jpa.repository.JpaRepository;
