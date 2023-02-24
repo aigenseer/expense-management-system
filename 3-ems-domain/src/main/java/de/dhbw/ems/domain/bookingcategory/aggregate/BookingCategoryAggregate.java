@@ -4,9 +4,11 @@ import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
 import de.dhbw.ems.domain.bookingcategory.entity.BookingCategory;
 import de.dhbw.ems.domain.financialledger.FinancialLedger;
 import lombok.*;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.Set;
+import java.util.UUID;
 
 
 @Entity
@@ -18,8 +20,18 @@ import java.util.Set;
 @Setter
 public class BookingCategoryAggregate {
 
-    @EmbeddedId
-    private BookingCategoryId id;
+    @Id
+    @Column(name = "id", nullable = false)
+    @Type(type="uuid-char")
+    private UUID id;
+
+    @Column(name="booking_category_id", nullable=false)
+    @Type(type="uuid-char")
+    private UUID bookingCategoryId;
+
+    @Column(name="financial_ledger_id", nullable=false)
+    @Type(type="uuid-char")
+    private UUID financialLedgerId;
 
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "Booking_category_id", nullable = false, updatable = false, insertable = false)
@@ -29,7 +41,7 @@ public class BookingCategoryAggregate {
     @JoinColumn(name = "financial_ledger_id", nullable = false, updatable = false, insertable = false)
     private FinancialLedger financialLedger;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy="category", targetEntity = BookingAggregate.class)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="categoryAggregate", targetEntity = BookingAggregate.class)
     private Set<BookingAggregate> bookingAggregates;
 
 }

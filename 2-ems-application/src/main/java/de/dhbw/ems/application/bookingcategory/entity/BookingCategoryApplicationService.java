@@ -1,8 +1,7 @@
-package de.dhbw.ems.application.bookingcategory;
+package de.dhbw.ems.application.bookingcategory.entity;
 
 import de.dhbw.ems.domain.bookingcategory.entity.BookingCategory;
 import de.dhbw.ems.domain.bookingcategory.entity.BookingCategoryRepository;
-import de.dhbw.ems.domain.financialledger.FinancialLedger;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,8 +26,8 @@ public class BookingCategoryApplicationService implements BookingCategoryDomainS
         repository.deleteById(id);
     }
 
-    public Optional<BookingCategory> createByAttributeData(FinancialLedger financialLedger, BookingCategoryAttributeData data){
-        BookingCategory bookingCategory = BookingCategory.builder().id(UUID.randomUUID()).financialLedger(financialLedger).build();
+    public Optional<BookingCategory> createByAttributeData(BookingCategoryAttributeData data){
+        BookingCategory bookingCategory = BookingCategory.builder().id(UUID.randomUUID()).build();
         return updateByAttributeData(bookingCategory, data);
     }
 
