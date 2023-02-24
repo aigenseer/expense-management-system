@@ -4,13 +4,13 @@ import de.dhbw.ems.abstractioncode.valueobject.money.CurrencyType;
 import de.dhbw.ems.abstractioncode.valueobject.money.Money;
 import de.dhbw.ems.application.booking.aggregate.BookingAggregateApplicationService;
 import de.dhbw.ems.application.booking.data.BookingAggregateAttributeData;
-import de.dhbw.ems.application.bookingcategory.BookingCategoryApplicationService;
+import de.dhbw.ems.application.bookingcategory.aggregate.BookingCategoryAggregateApplicationService;
 import de.dhbw.ems.application.financialledger.FinancialLedgerApplicationService;
 import de.dhbw.ems.application.mediator.service.BookingOperationService;
 import de.dhbw.ems.application.user.UserApplicationService;
 import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
 import de.dhbw.ems.domain.booking.reference.BookingReference;
-import de.dhbw.ems.domain.bookingcategory.entity.BookingCategory;
+import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
 import de.dhbw.ems.domain.financialledger.FinancialLedger;
 import de.dhbw.ems.domain.user.User;
 import org.junit.Before;
@@ -30,7 +30,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @RunWith(SpringRunner.class)
 @DataJpaTest()
 @ComponentScan("de.dhbw")
-public class BookingAggregateOperationServiceTest {
+public class BookingOperationServiceTest {
 
     @Autowired
     private BookingOperationService bookingOperationService;
@@ -39,23 +39,23 @@ public class BookingAggregateOperationServiceTest {
     @Autowired
     private FinancialLedgerApplicationService financialLedgerApplicationService;
     @Autowired
-    private BookingCategoryApplicationService bookingCategoryApplicationService;
+    private BookingCategoryAggregateApplicationService bookingCategoryAggregateApplicationService;
     @Autowired
     private BookingAggregateApplicationService bookingAggregateApplicationService;
 
     private final UUID userId = UUID.fromString("12345678-1234-1234-a123-123456789001");
     private final UUID userId2 = UUID.fromString("12345678-1234-1234-a123-123456789002");
     private final UUID financialLedgerId = UUID.fromString("12345678-1234-1234-a123-123456789011");
-    private final UUID bookingCategoryId = UUID.fromString("12345678-1234-1234-a123-123456789021");
-    private BookingCategory bookingCategory;
+    private final UUID bookingCategoryAggregateId = UUID.fromString("12345678-1234-1234-a123-123456789221");
+    private BookingCategoryAggregate bookingCategoryAggregate;
     private final UUID bookingAggregateId = UUID.fromString("12345678-1234-1234-a123-123456789331");
     private BookingAggregate bookingAggregate;
 
     @Before
     public void setup(){
-        Optional<BookingCategory> optionalBookingCategory = bookingCategoryApplicationService.findById(bookingCategoryId);
-        assertTrue(optionalBookingCategory.isPresent());
-        bookingCategory = optionalBookingCategory.get();
+        Optional<BookingCategoryAggregate> optionalBookingCategoryAggregate = bookingCategoryAggregateApplicationService.findById(bookingCategoryAggregateId);
+        assertTrue(optionalBookingCategoryAggregate.isPresent());
+        bookingCategoryAggregate = optionalBookingCategoryAggregate.get();
 
         Optional<BookingAggregate> optionalBooking =  bookingAggregateApplicationService.findById(bookingAggregateId);
         assertTrue(optionalBooking.isPresent());
@@ -73,7 +73,7 @@ public class BookingAggregateOperationServiceTest {
     public void testAdd() {
         BookingAggregateAttributeData attributeData = BookingAggregateAttributeData.builder()
                 .title("Example-Booking-3")
-                .bookingCategory(bookingCategory)
+                .bookingCategoryAggregate(bookingCategoryAggregate)
                 .money(new Money(19.00, CurrencyType.EURO))
                 .build();
 
@@ -102,9 +102,9 @@ public class BookingAggregateOperationServiceTest {
         optionalBooking = optionalFinancialLedger.get().getBookingAggregates().stream().filter(f -> f.getBooking().getId().equals(bookingAggregateId)).findFirst();
         assertFalse(optionalBooking.isPresent());
 
-        Optional<BookingCategory> optionalBookingCategory = bookingCategoryApplicationService.findById(bookingCategoryId);
-        assertTrue(optionalBookingCategory.isPresent());
-        optionalBooking = optionalBookingCategory.get().getBookingAggregates().stream().filter(f -> f.getBooking().getId().equals(bookingAggregateId)).findFirst();
+        Optional<BookingCategoryAggregate> optionalBookingCategoryAggregate = bookingCategoryAggregateApplicationService.findById(bookingCategoryAggregateId);
+        assertTrue(optionalBookingCategoryAggregate.isPresent());
+        optionalBooking = optionalBookingCategoryAggregate.get().getBookingAggregates().stream().filter(f -> f.getBooking().getId().equals(bookingAggregateId)).findFirst();
         assertFalse(optionalBooking.isPresent());
     }
 

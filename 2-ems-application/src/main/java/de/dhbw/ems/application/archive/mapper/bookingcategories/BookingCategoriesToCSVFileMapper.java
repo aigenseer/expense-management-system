@@ -2,22 +2,22 @@ package de.dhbw.ems.application.archive.mapper.bookingcategories;
 
 import de.dhbw.ems.application.archive.core.TmpFile;
 import de.dhbw.ems.application.archive.mapper.CSVFileMapper;
-import de.dhbw.ems.domain.bookingcategory.entity.BookingCategory;
+import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
 import org.springframework.stereotype.Component;
 
 @Component
 public class BookingCategoriesToCSVFileMapper extends CSVFileMapper implements BookingCategoriesToCSVFileMapperFunction {
 
     @Override
-    public TmpFile apply(final Iterable<BookingCategory> bookingCategories) {
-        return map(bookingCategories);
+    public TmpFile apply(final Iterable<BookingCategoryAggregate> bookingCategoriesAggregates) {
+        return map(bookingCategoriesAggregates);
     }
 
-    private TmpFile map(final Iterable<BookingCategory> bookingCategories) {
+    private TmpFile map(final Iterable<BookingCategoryAggregate> bookingCategoriesAggregates) {
         String[] headers = {"Name"};
         return createCSVFile(headers, printer -> {
-            for (BookingCategory bookingCategory: bookingCategories) {
-                printer.printRecord(bookingCategory.getTitle());
+            for (BookingCategoryAggregate bookingCategoryAggregate: bookingCategoriesAggregates) {
+                printer.printRecord(bookingCategoryAggregate.getBookingCategory().getTitle());
             }
         });
     }

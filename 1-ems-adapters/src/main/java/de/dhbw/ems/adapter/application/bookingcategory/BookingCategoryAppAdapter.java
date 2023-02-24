@@ -1,9 +1,9 @@
 package de.dhbw.ems.adapter.application.bookingcategory;
 
-import de.dhbw.ems.application.bookingcategory.BookingCategoryAttributeData;
-import de.dhbw.ems.application.bookingcategory.BookingCategoryDomainServicePort;
+import de.dhbw.ems.application.bookingcategory.aggregate.BookingCategoryDomainServicePort;
+import de.dhbw.ems.application.bookingcategory.entity.BookingCategoryAttributeData;
 import de.dhbw.ems.application.mediator.service.impl.BookingCategoryServicePort;
-import de.dhbw.ems.domain.bookingcategory.entity.BookingCategory;
+import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,28 +18,28 @@ public class BookingCategoryAppAdapter implements BookingCategoryApplicationAdap
     private final BookingCategoryDomainServicePort bookingCategoryDomainServicePort;
 
     @Override
-    public Optional<BookingCategory> find(UUID id, UUID financialLedgerId, UUID bookingCategoryId) {
-        return bookingCategoryServicePort.find(id, financialLedgerId, bookingCategoryId);
+    public Optional<BookingCategoryAggregate> find(UUID id, UUID financialLedgerId, UUID bookingCategoryAggregateId) {
+        return bookingCategoryServicePort.find(id, financialLedgerId, bookingCategoryAggregateId);
     }
 
     @Override
-    public boolean exists(UUID id, UUID financialLedgerId, UUID bookingCategoryId) {
-        return bookingCategoryServicePort.exists(id, financialLedgerId, bookingCategoryId);
+    public boolean exists(UUID id, UUID financialLedgerId, UUID bookingCategoryAggregateId) {
+        return bookingCategoryServicePort.exists(id, financialLedgerId, bookingCategoryAggregateId);
     }
 
     @Override
-    public boolean delete(UUID id, UUID financialLedgerId, UUID bookingCategoryId) {
-        return bookingCategoryServicePort.delete(id, financialLedgerId, bookingCategoryId);
+    public boolean delete(UUID id, UUID financialLedgerId, UUID bookingCategoryAggregateId) {
+        return bookingCategoryServicePort.delete(id, financialLedgerId, bookingCategoryAggregateId);
     }
 
     @Override
-    public Optional<BookingCategory> create(UUID id, UUID financialLedgerId, BookingCategoryAttributeData attributeData) {
+    public Optional<BookingCategoryAggregate> create(UUID id, UUID financialLedgerId, BookingCategoryAttributeData attributeData) {
         return bookingCategoryServicePort.create(id, financialLedgerId, attributeData);
     }
 
     @Override
-    public Optional<BookingCategory> updateByAttributeData(BookingCategory bookingCategory, BookingCategoryAttributeData data) {
-        return bookingCategoryDomainServicePort.updateByAttributeData(bookingCategory, data);
+    public Optional<BookingCategoryAggregate> updateByAttributeData(BookingCategoryAggregate bookingCategoryAggregate, BookingCategoryAttributeData data) {
+        return bookingCategoryDomainServicePort.updateByAttributeData(bookingCategoryAggregate, data);
     }
 
 }

@@ -1,7 +1,7 @@
 package de.dhbw.ems.application.booking.data;
 
 import de.dhbw.ems.abstractioncode.valueobject.money.Money;
-import de.dhbw.ems.domain.bookingcategory.entity.BookingCategory;
+import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
 import lombok.Builder;
 import lombok.Data;
 
@@ -10,5 +10,5 @@ import lombok.Data;
 public class BookingAggregateAttributeData extends BookingAttributeData {
     private String title;
     private Money money;
-    private BookingCategory bookingCategory;
+    private BookingCategoryAggregate bookingCategoryAggregate;
 }

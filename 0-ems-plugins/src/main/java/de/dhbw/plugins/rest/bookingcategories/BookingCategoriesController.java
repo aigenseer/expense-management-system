@@ -5,8 +5,8 @@ import de.dhbw.ems.adapter.application.financialledger.FinancialLedgerApplicatio
 import de.dhbw.ems.adapter.model.bookingcategory.data.BookingCategoryData;
 import de.dhbw.ems.adapter.model.bookingcategory.data.BookingCategoryDataToBookingCategoryAttributeDataAdapterMapper;
 import de.dhbw.ems.adapter.model.bookingcategory.preview.BookingCategoryPreviewCollectionModel;
-import de.dhbw.ems.application.bookingcategory.BookingCategoryAttributeData;
-import de.dhbw.ems.domain.bookingcategory.entity.BookingCategory;
+import de.dhbw.ems.application.bookingcategory.entity.BookingCategoryAttributeData;
+import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
 import de.dhbw.ems.domain.financialledger.FinancialLedger;
 import de.dhbw.plugins.mapper.bookingcategory.BookingCategoryPreviewCollectionModelFactory;
 import de.dhbw.plugins.rest.bookingcategory.BookingCategoryController;
@@ -37,15 +37,15 @@ public class BookingCategoriesController {
     public ResponseEntity<BookingCategoryPreviewCollectionModel> listAll(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId) {
         Optional<FinancialLedger> optionalFinancialLedger = financialLedgerApplicationAdapter.find(userId, financialLedgerId);
         if (!optionalFinancialLedger.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        return ResponseEntity.ok(bookingCategoryPreviewCollectionModelFactory.create(userId, financialLedgerId, optionalFinancialLedger.get().getBookingCategories()));
+        return ResponseEntity.ok(bookingCategoryPreviewCollectionModelFactory.create(userId, financialLedgerId, optionalFinancialLedger.get().getBookingCategoriesAggregates()));
     }
 
     @PostMapping
     public ResponseEntity<Void> create(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId, @Valid @RequestBody BookingCategoryData data) {
         BookingCategoryAttributeData attributeData = bookingCategoryDataToBookingCategoryAttributeDataAdapterMapper.apply(data);
-        Optional<BookingCategory> optionalBookingCategory = bookingCategoryApplicationAdapter.create(userId, financialLedgerId, attributeData);
-        if (!optionalBookingCategory.isPresent()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        WebMvcLinkBuilder uriComponents = WebMvcLinkBuilder.linkTo(methodOn(BookingCategoryController.class).findOne(userId, financialLedgerId, optionalBookingCategory.get().getId()));
+        Optional<BookingCategoryAggregate> optionalBookingCategoryAggregate = bookingCategoryApplicationAdapter.create(userId, financialLedgerId, attributeData);
+        if (!optionalBookingCategoryAggregate.isPresent()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        WebMvcLinkBuilder uriComponents = WebMvcLinkBuilder.linkTo(methodOn(BookingCategoryController.class).findOne(userId, financialLedgerId, optionalBookingCategoryAggregate.get().getId()));
         return new ResponseEntity<>(WebMvcLinkBuilderUtils.createLocationHeader(uriComponents), HttpStatus.CREATED);
     }
 

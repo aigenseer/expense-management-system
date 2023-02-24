@@ -2,7 +2,7 @@ package de.dhbw.ems.domain.booking.aggregate;
 
 import de.dhbw.ems.domain.booking.entity.Booking;
 import de.dhbw.ems.domain.booking.reference.BookingReference;
-import de.dhbw.ems.domain.bookingcategory.entity.BookingCategory;
+import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
 import de.dhbw.ems.domain.financialledger.FinancialLedger;
 import de.dhbw.ems.domain.user.User;
 import lombok.*;
@@ -59,8 +59,8 @@ public class BookingAggregate implements Serializable {
     private LocalDate creationDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "referenced_category_id", nullable = true)
-    private BookingCategory category;
+    @JoinColumn(name = "aggregate_category_id", nullable = true)
+    private BookingCategoryAggregate categoryAggregate;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "bookingAggregate", targetEntity = BookingReference.class)
     @OnDelete(action = OnDeleteAction.CASCADE)

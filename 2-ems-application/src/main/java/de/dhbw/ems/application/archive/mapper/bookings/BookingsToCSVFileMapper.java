@@ -22,7 +22,7 @@ public class BookingsToCSVFileMapper extends CSVFileMapper implements BookingsTo
                         bookingAggregate.getBooking().getMoney().getAmount(),
                         bookingAggregate.getBooking().getMoney().getCurrencyType(),
                         bookingAggregate.getCreator().getName(),
-                        bookingAggregate.getCategory().getTitle(),
+                        bookingAggregate.getCategoryAggregate().getBookingCategory().getTitle(),
                         bookingAggregate.getCreationDate().toString()
                 );
             }

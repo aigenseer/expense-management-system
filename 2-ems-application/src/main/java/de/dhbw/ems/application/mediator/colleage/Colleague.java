@@ -2,7 +2,7 @@ package de.dhbw.ems.application.mediator.colleage;
 
 import de.dhbw.ems.application.mediator.ConcreteApplicationMediator;
 import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
-import de.dhbw.ems.domain.bookingcategory.entity.BookingCategory;
+import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
 import de.dhbw.ems.domain.financialledger.FinancialLedger;
 import de.dhbw.ems.domain.user.User;
 import lombok.AccessLevel;
@@ -42,7 +42,7 @@ public abstract class Colleague {
 
     }
 
-    public void onDeleteBookingCategory(BookingCategory bookingCategory) {
+    public void onDeleteBookingCategory(BookingCategoryAggregate bookingCategoryAggregate) {
 
     }
 

@@ -4,8 +4,8 @@ import de.dhbw.ems.adapter.application.bookingcategory.BookingCategoryApplicatio
 import de.dhbw.ems.adapter.model.bookingcategory.data.BookingCategoryData;
 import de.dhbw.ems.adapter.model.bookingcategory.data.BookingCategoryDataToBookingCategoryAttributeDataAdapterMapper;
 import de.dhbw.ems.adapter.model.bookingcategory.data.BookingCategoryModel;
-import de.dhbw.ems.application.bookingcategory.BookingCategoryAttributeData;
-import de.dhbw.ems.domain.bookingcategory.entity.BookingCategory;
+import de.dhbw.ems.application.bookingcategory.entity.BookingCategoryAttributeData;
+import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
 import de.dhbw.plugins.mapper.bookingcategory.BookingCategoryModelFactory;
 import de.dhbw.plugins.rest.utils.WebMvcLinkBuilderUtils;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
-@RequestMapping(value = "/api/{userId}/financialledger/{financialLedgerId}/category/{bookingCategoryId}", produces = "application/vnd.siren+json")
+@RequestMapping(value = "/api/{userId}/financialledger/{financialLedgerId}/category/{bookingCategoryAggregateId}", produces = "application/vnd.siren+json")
 @RequiredArgsConstructor
 public class BookingCategoryController {
 
@@ -32,31 +32,31 @@ public class BookingCategoryController {
     private final BookingCategoryDataToBookingCategoryAttributeDataAdapterMapper bookingCategoryDataToBookingCategoryAttributeDataAdapterMapper;
 
     @GetMapping
-    public ResponseEntity<BookingCategoryModel> findOne(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId, @PathVariable("bookingCategoryId") UUID bookingCategoryId) {
-        Optional<BookingCategory> optionalBookingCategory = bookingCategoryApplicationAdapter.find(userId, financialLedgerId, bookingCategoryId);
-        if (!optionalBookingCategory.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        return ResponseEntity.ok(bookingCategoryModelFactory.create(userId, financialLedgerId, optionalBookingCategory.get()));
+    public ResponseEntity<BookingCategoryModel> findOne(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId, @PathVariable("bookingCategoryAggregateId") UUID bookingCategoryAggregateId) {
+        Optional<BookingCategoryAggregate> optionalBookingCategoryAggregate = bookingCategoryApplicationAdapter.find(userId, financialLedgerId, bookingCategoryAggregateId);
+        if (!optionalBookingCategoryAggregate.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        return ResponseEntity.ok(bookingCategoryModelFactory.create(userId, financialLedgerId, optionalBookingCategoryAggregate.get()));
     }
 
     @PutMapping
-    public ResponseEntity<Void> update(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId, @PathVariable("bookingCategoryId") UUID bookingCategoryId, @Valid @RequestBody BookingCategoryData data) {
-        Optional<BookingCategory> optionalBookingCategory = bookingCategoryApplicationAdapter.find(userId, financialLedgerId, bookingCategoryId);
-        if (!optionalBookingCategory.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        BookingCategory bookingCategory = optionalBookingCategory.get();
+    public ResponseEntity<Void> update(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId, @PathVariable("bookingCategoryAggregateId") UUID bookingCategoryAggregateId, @Valid @RequestBody BookingCategoryData data) {
+        Optional<BookingCategoryAggregate> optionalBookingCategoryAggregate = bookingCategoryApplicationAdapter.find(userId, financialLedgerId, bookingCategoryAggregateId);
+        if (!optionalBookingCategoryAggregate.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        BookingCategoryAggregate bookingCategoryAggregate = optionalBookingCategoryAggregate.get();
 
         BookingCategoryAttributeData attributeData = bookingCategoryDataToBookingCategoryAttributeDataAdapterMapper.apply(data);
-        optionalBookingCategory = bookingCategoryApplicationAdapter.updateByAttributeData(bookingCategory, attributeData);
-        if (!optionalBookingCategory.isPresent()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        optionalBookingCategoryAggregate = bookingCategoryApplicationAdapter.updateByAttributeData(bookingCategoryAggregate, attributeData);
+        if (!optionalBookingCategoryAggregate.isPresent()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-        WebMvcLinkBuilder uriComponents = linkTo(methodOn(this.getClass()).findOne(userId, financialLedgerId, bookingCategoryId));
+        WebMvcLinkBuilder uriComponents = linkTo(methodOn(this.getClass()).findOne(userId, financialLedgerId, bookingCategoryAggregateId));
         return new ResponseEntity<>(WebMvcLinkBuilderUtils.createLocationHeader(uriComponents), HttpStatus.ACCEPTED);
     }
 
 
     @DeleteMapping("/")
-    public ResponseEntity<Void> delete(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId, @PathVariable("bookingCategoryId") UUID bookingCategoryId) {
-        if (!bookingCategoryApplicationAdapter.exists(userId, financialLedgerId, bookingCategoryId)) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        bookingCategoryApplicationAdapter.delete(userId, financialLedgerId, bookingCategoryId);
+    public ResponseEntity<Void> delete(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId, @PathVariable("bookingCategoryAggregateId") UUID bookingCategoryAggregateId) {
+        if (!bookingCategoryApplicationAdapter.exists(userId, financialLedgerId, bookingCategoryAggregateId)) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        bookingCategoryApplicationAdapter.delete(userId, financialLedgerId, bookingCategoryAggregateId);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 

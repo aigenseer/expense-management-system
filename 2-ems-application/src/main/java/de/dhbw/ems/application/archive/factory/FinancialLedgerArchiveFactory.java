@@ -33,7 +33,7 @@ public class FinancialLedgerArchiveFactory extends TmpFileFactory implements Fin
     public TmpFile createTmpZipArchive(FinancialLedger financialLedger) {
         TmpFile tmpFile = createTempCSVFile(".zip");
         try(ZipOutputStream out = new ZipOutputStream(new FileOutputStream(tmpFile.getFile()))){
-            appendFileToZip(out, "booking-categories.csv", bookingCategoriesToCSVFileMapperFunction.apply(financialLedger.getBookingCategories()));
+            appendFileToZip(out, "booking-categories.csv", bookingCategoriesToCSVFileMapperFunction.apply(financialLedger.getBookingCategoriesAggregates()));
             appendFileToZip(out, "bookings.csv", bookingsToCSVFileMapperFunction.apply(financialLedger.getBookingAggregates()));
             appendFileToZip(out, "authorized-users.csv", usersToCSVFileMapperFunction.apply(financialLedger.getAuthorizedUser()));
             appendFileToZip(out, "financial-ledger.csv", financialLedgerToCSVFileMapperFunction.apply(financialLedger));

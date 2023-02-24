@@ -6,7 +6,7 @@ import de.dhbw.ems.adapter.model.bookingcategory.preview.BookingCategoryPreviewM
 import de.dhbw.ems.adapter.model.user.preview.UserPreview;
 import de.dhbw.ems.adapter.model.user.preview.UserPreviewCollectionModel;
 import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
-import de.dhbw.plugins.mapper.bookingcategory.BookingCategoryToBookingCategoryPreviewMapper;
+import de.dhbw.plugins.mapper.bookingcategory.BookingCategoryAggregateToBookingCategoryPreviewMapper;
 import de.dhbw.plugins.mapper.user.UserToUserPreviewMapper;
 import de.dhbw.plugins.mapper.user.UsersToUserPreviewCollectionMapper;
 import de.dhbw.plugins.rest.booking.BookingController;
@@ -38,7 +38,7 @@ public class BookingToBookingModelMapper implements Function<BookingToBookingMod
 
     private final BookingToBookingModelAdapterMapper bookingToBookingModelAdapterMapper;
     private final UsersToUserPreviewCollectionMapper usersToUserPreviewCollectionMapper;
-    private final BookingCategoryToBookingCategoryPreviewMapper bookingCategoryToBookingCategoryPreviewMapper;
+    private final BookingCategoryAggregateToBookingCategoryPreviewMapper bookingCategoryToBookingCategoryPreviewMapper;
     private final UserToUserPreviewMapper userToUserPreviewMapper;
 
     @Override
@@ -60,11 +60,11 @@ public class BookingToBookingModelMapper implements Function<BookingToBookingMod
         model.setReferencedUsers(referencedUserPreviewCollectionModel);
 
         BookingCategoryPreviewModel bookingCategoryPreviewModel = null;
-        if(bookingAggregate.getCategory() != null){
+        if(bookingAggregate.getCategoryAggregate() != null){
             bookingCategoryPreviewModel = bookingCategoryToBookingCategoryPreviewMapper
-                    .apply(BookingCategoryToBookingCategoryPreviewMapper.Context.builder()
+                    .apply(BookingCategoryAggregateToBookingCategoryPreviewMapper.Context.builder()
                             .userId(userId)
-                            .bookingCategory(bookingAggregate.getCategory())
+                            .bookingCategoryAggregate(bookingAggregate.getCategoryAggregate())
                             .build());
         }
         model.setCategory(bookingCategoryPreviewModel);

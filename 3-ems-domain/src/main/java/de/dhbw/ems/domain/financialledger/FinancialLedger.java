@@ -1,7 +1,7 @@
 package de.dhbw.ems.domain.financialledger;
 
 import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
-import de.dhbw.ems.domain.bookingcategory.entity.BookingCategory;
+import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
 import de.dhbw.ems.domain.user.User;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
@@ -40,9 +40,9 @@ public class FinancialLedger {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<BookingAggregate> bookingAggregates;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy="financialLedger", targetEntity = BookingCategory.class)
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy="financialLedger", targetEntity = BookingCategoryAggregate.class)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private Set<BookingCategory> bookingCategories;
+    private Set<BookingCategoryAggregate> bookingCategoriesAggregates;
 
 
 }

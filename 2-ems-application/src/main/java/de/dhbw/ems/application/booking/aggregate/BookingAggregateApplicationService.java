@@ -54,8 +54,8 @@ public class BookingAggregateApplicationService implements BookingAggregateDomai
         Optional<Booking> optionalBooking = bookingDomainService.updateByAttributeData(bookingAggregate.getBooking(), attributeData);
         if (!optionalBooking.isPresent()) return Optional.empty();
 
-        if (attributeData.getBookingCategory() != null){
-            bookingAggregate.setCategory(attributeData.getBookingCategory());
+        if (attributeData.getBookingCategoryAggregate() != null){
+            bookingAggregate.setCategoryAggregate(attributeData.getBookingCategoryAggregate());
         }
         bookingAggregate = save(bookingAggregate);
         return Optional.of(bookingAggregate);

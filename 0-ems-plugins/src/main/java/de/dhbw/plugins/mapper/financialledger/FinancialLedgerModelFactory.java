@@ -7,7 +7,7 @@ import de.dhbw.ems.adapter.model.financialledger.model.FinancialLedgerToFinancia
 import de.dhbw.ems.adapter.model.user.preview.UserPreviewCollectionModel;
 import de.dhbw.ems.domain.financialledger.FinancialLedger;
 import de.dhbw.plugins.mapper.booking.BookingsToBookingPreviewCollectionMapper;
-import de.dhbw.plugins.mapper.bookingcategory.BookingCategoriesToBookingCategoryPreviewCollectionMapper;
+import de.dhbw.plugins.mapper.bookingcategory.BookingCategoryAggregateToBookingCategoryPreviewCollectionMapper;
 import de.dhbw.plugins.mapper.user.UsersToUserPreviewCollectionMapper;
 import de.dhbw.plugins.rest.bookingcategories.BookingCategoriesController;
 import de.dhbw.plugins.rest.bookings.BookingsController;
@@ -27,7 +27,7 @@ public class FinancialLedgerModelFactory {
 
     private final FinancialLedgerToFinancialLedgerModelAdapterMapper modelMapper;
     private final UsersToUserPreviewCollectionMapper usersToUserPreviewCollectionMapper;
-    private final BookingCategoriesToBookingCategoryPreviewCollectionMapper bookingCategoriesToBookingCategoryPreviewCollectionMapper;
+    private final BookingCategoryAggregateToBookingCategoryPreviewCollectionMapper bookingCategoriesToBookingCategoryPreviewCollectionMapper;
     private final BookingsToBookingPreviewCollectionMapper bookingsToBookingPreviewCollectionMapper;
 
     public FinancialLedgerModel create(final UUID userId, final FinancialLedger financialLedger) {
@@ -38,9 +38,9 @@ public class FinancialLedgerModelFactory {
         userPreviewCollectionModel.add(selfLink);
 
         BookingCategoryPreviewCollectionModel bookingCategoryPreviewCollectionModel = bookingCategoriesToBookingCategoryPreviewCollectionMapper
-                .apply(BookingCategoriesToBookingCategoryPreviewCollectionMapper.Context.builder()
+                .apply(BookingCategoryAggregateToBookingCategoryPreviewCollectionMapper.Context.builder()
                         .userId(userId)
-                        .bookingCategories(financialLedger.getBookingCategories())
+                        .bookingCategoryAggregates(financialLedger.getBookingCategoriesAggregates())
                         .build());
         selfLink = linkTo(methodOn(BookingCategoriesController.class).listAll(userId, financialLedger.getId())).withSelfRel();
         bookingCategoryPreviewCollectionModel.add(selfLink);

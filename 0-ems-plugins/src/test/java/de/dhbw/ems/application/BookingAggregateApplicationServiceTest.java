@@ -42,7 +42,7 @@ public class BookingAggregateApplicationServiceTest {
     private final BookingAggregateAttributeData attributeAggregateData = BookingAggregateAttributeData.builder()
             .title("NewTitle")
             .money(new Money(19.99, CurrencyType.EURO))
-            .bookingCategory(null)
+            .bookingCategoryAggregate(null)
             .build();
 
     @Before
@@ -105,7 +105,7 @@ public class BookingAggregateApplicationServiceTest {
 
     @Test
     public void testUpdateByAttributeData() {
-        attributeAggregateData.setBookingCategory(bookingAggregate.getCategory());
+        attributeAggregateData.setBookingCategoryAggregate(bookingAggregate.getCategoryAggregate());
         Optional<BookingAggregate> optionalBookingAggregate = bookingAggregateApplicationService.updateByAttributeData(bookingAggregate, attributeAggregateData);
         assertTrue(optionalBookingAggregate.isPresent());
 
@@ -118,7 +118,7 @@ public class BookingAggregateApplicationServiceTest {
     private void checkAttributeData(BookingAggregateAttributeData attributeData, BookingAggregate actualEntity) {
         assertEquals(attributeData.getTitle(), actualEntity.getBooking().getTitle());
         assertEquals(attributeData.getMoney(), actualEntity.getBooking().getMoney());
-        assertEquals(attributeData.getBookingCategory(), actualEntity.getCategory());
+        assertEquals(attributeData.getBookingCategoryAggregate(), actualEntity.getCategoryAggregate());
     }
 
 }

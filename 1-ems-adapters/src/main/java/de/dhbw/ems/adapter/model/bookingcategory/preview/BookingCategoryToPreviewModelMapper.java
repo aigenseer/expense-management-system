@@ -1,19 +1,19 @@
 package de.dhbw.ems.adapter.model.bookingcategory.preview;
 
-import de.dhbw.ems.domain.bookingcategory.entity.BookingCategory;
+import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
 import org.springframework.stereotype.Component;
 
 @Component
-public class BookingCategoryToPreviewModelMapper implements BookingCategoryToBookingCategoryPreviewModelAdapterMapper {
+public class BookingCategoryToPreviewModelMapper implements BookingCategoryAggregateToBookingCategoryPreviewModelAdapterMapper {
 
     @Override
-    public BookingCategoryPreviewModel apply(final BookingCategory category) {
-        return map(category);
+    public BookingCategoryPreviewModel apply(final BookingCategoryAggregate categoryAggregate) {
+        return map(categoryAggregate);
     }
 
-    private BookingCategoryPreviewModel map(final BookingCategory category) {
+    private BookingCategoryPreviewModel map(final BookingCategoryAggregate categoryAggregate) {
         return BookingCategoryPreviewModel.builder()
-                .title(category.getTitle())
+                .title(categoryAggregate.getBookingCategory().getTitle())
                 .build();
     }
 }

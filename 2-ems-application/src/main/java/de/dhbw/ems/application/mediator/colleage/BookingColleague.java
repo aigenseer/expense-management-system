@@ -5,7 +5,7 @@ import de.dhbw.ems.application.booking.reference.BookingReferenceDomainService;
 import de.dhbw.ems.application.mediator.ConcreteApplicationMediator;
 import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
 import de.dhbw.ems.domain.booking.reference.BookingReference;
-import de.dhbw.ems.domain.bookingcategory.entity.BookingCategory;
+import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
 import de.dhbw.ems.domain.user.User;
 
 import java.util.Optional;
@@ -50,10 +50,10 @@ public class BookingColleague extends Colleague {
     }
 
     @Override
-    public void onDeleteBookingCategory(BookingCategory bookingCategory) {
-        bookingCategory.getBookingAggregates().forEach(booking -> {
-            booking.setCategory(null);
-            bookingAggregateDomainService.save(booking);
+    public void onDeleteBookingCategory(BookingCategoryAggregate bookingCategoryAggregate) {
+        bookingCategoryAggregate.getBookingAggregates().forEach(bookingAggregate -> {
+            bookingAggregate.setCategoryAggregate(null);
+            bookingAggregateDomainService.save(bookingAggregate);
         });
     }
 

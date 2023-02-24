@@ -3,8 +3,8 @@ package de.dhbw.ems.adapter.model.booking.data;
 import de.dhbw.ems.abstractioncode.valueobject.money.CurrencyType;
 import de.dhbw.ems.abstractioncode.valueobject.money.Money;
 import de.dhbw.ems.application.booking.data.BookingAggregateAttributeData;
-import de.dhbw.ems.application.bookingcategory.BookingCategoryDomainServicePort;
-import de.dhbw.ems.domain.bookingcategory.entity.BookingCategory;
+import de.dhbw.ems.application.bookingcategory.aggregate.BookingCategoryDomainServicePort;
+import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -35,8 +35,8 @@ public class BookingUnsafeDataToAttributeDataMapper implements BookingUnsafeData
         }catch (IllegalArgumentException|NullPointerException ignored){}
         if(data.getBookingCategoryId() != null){
             UUID bookingCategoryId = UUID.fromString(data.getBookingCategoryId());
-            Optional<BookingCategory> optionalBooking = bookingCategoryDomainServicePort.findById(bookingCategoryId);
-            optionalBooking.ifPresent(builder::bookingCategory);
+            Optional<BookingCategoryAggregate> optionalBookingCategoryAggregate = bookingCategoryDomainServicePort.findById(bookingCategoryId);
+            optionalBookingCategoryAggregate.ifPresent(builder::bookingCategoryAggregate);
         }
         return builder.build();
     }

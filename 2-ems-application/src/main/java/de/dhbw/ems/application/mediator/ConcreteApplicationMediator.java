@@ -2,7 +2,7 @@ package de.dhbw.ems.application.mediator;
 
 import de.dhbw.ems.application.mediator.colleage.Colleague;
 import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
-import de.dhbw.ems.domain.bookingcategory.entity.BookingCategory;
+import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
 import de.dhbw.ems.domain.financialledger.FinancialLedger;
 import de.dhbw.ems.domain.user.User;
 import org.springframework.stereotype.Service;
@@ -62,9 +62,9 @@ public class ConcreteApplicationMediator implements Mediator {
     }
 
     @Override
-    public void onDeleteBookingCategory(BookingCategory bookingCategory, Colleague colleague) {
+    public void onDeleteBookingCategory(BookingCategoryAggregate bookingCategoryAggregate, Colleague colleague) {
         for (Colleague item : colleagues) {
-            if (!item.equals(colleague)) item.onDeleteBookingCategory(bookingCategory);
+            if (!item.equals(colleague)) item.onDeleteBookingCategory(bookingCategoryAggregate);
         }
     }
 
