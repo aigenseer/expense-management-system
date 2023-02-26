@@ -1,0 +1,56 @@
+package de.dhbw.ems.domain.financialledger.aggregate;
+
+import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
+import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedger;
+import de.dhbw.ems.domain.financialledger.link.UserFinancialLedgerLink;
+import de.dhbw.ems.domain.user.User;
+import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.annotations.Type;
+
+import javax.persistence.*;
+import java.util.Set;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+@Entity
+@Table(name = "financial_ledger_aggregate")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+public class FinancialLedgerAggregate {
+
+    @Id
+    @Column(name = "id", nullable = false)
+    @Type(type="uuid-char")
+    private UUID id;
+
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "financial_ledger_id", nullable = false, updatable = false, insertable = false)
+    private FinancialLedger financialLedger;
+
+    @Column(name="financial_ledger_id", nullable=false)
+    @Type(type="uuid-char")
+    private UUID financialLedgerId;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy="financialLedgerAggregate", targetEntity = BookingAggregate.class)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Set<BookingAggregate> bookingAggregates;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy="financialLedgerAggregate", targetEntity = BookingCategoryAggregate.class)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Set<BookingCategoryAggregate> bookingCategoriesAggregates;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "financialLedgerAggregate", targetEntity = UserFinancialLedgerLink.class)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Set<UserFinancialLedgerLink> userFinancialLedgerLinks;
+
+    public Set<User> getAuthorizedUser(){
+        return userFinancialLedgerLinks.stream().map(UserFinancialLedgerLink::getUser).collect(Collectors.toSet());
+    }
+
+}
