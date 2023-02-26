@@ -1,4 +1,4 @@
-package de.dhbw.ems.domain.financialledger;
+package de.dhbw.ems.domain.financialledger.entity;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,6 +13,5 @@ public interface FinancialLedgerRepository {
     FinancialLedger save(FinancialLedger user);
 
     void deleteById(UUID id);
-
 
 }

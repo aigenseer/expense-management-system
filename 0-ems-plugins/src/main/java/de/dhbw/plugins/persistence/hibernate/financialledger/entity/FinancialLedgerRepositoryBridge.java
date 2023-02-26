@@ -1,7 +1,7 @@
-package de.dhbw.plugins.persistence.hibernate.financialledger;
+package de.dhbw.plugins.persistence.hibernate.financialledger.entity;
 
-import de.dhbw.ems.domain.financialledger.FinancialLedger;
-import de.dhbw.ems.domain.financialledger.FinancialLedgerRepository;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedger;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
