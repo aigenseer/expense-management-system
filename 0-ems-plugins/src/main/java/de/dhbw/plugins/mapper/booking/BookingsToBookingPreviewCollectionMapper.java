@@ -24,7 +24,7 @@ public class BookingsToBookingPreviewCollectionMapper implements Function<Bookin
     @Builder
     public static class Context{
         private final UUID userId;
-        private final Iterable<BookingAggregate> bookings;
+        private final Iterable<BookingAggregate> bookingAggregates;
     }
 
     private final BookingToBookingPreviewMapper bookingCategoryToBookingCategoryPreviewMapper;
@@ -35,11 +35,11 @@ public class BookingsToBookingPreviewCollectionMapper implements Function<Bookin
     }
 
     private BookingPreviewCollectionModel map(final BookingsToBookingPreviewCollectionMapper.Context context) {
-        List<BookingPreviewModel> previewModels = StreamSupport.stream(context.getBookings().spliterator(), false)
-                .map(booking -> bookingCategoryToBookingCategoryPreviewMapper
+        List<BookingPreviewModel> previewModels = StreamSupport.stream(context.getBookingAggregates().spliterator(), false)
+                .map(bookingAggregate -> bookingCategoryToBookingCategoryPreviewMapper
                             .apply(BookingToBookingPreviewMapper.Context.builder()
                                     .userId(context.getUserId())
-                                    .bookingAggregate(booking)
+                                    .bookingAggregate(bookingAggregate)
                         .build())
                 )
                 .collect(Collectors.toList());

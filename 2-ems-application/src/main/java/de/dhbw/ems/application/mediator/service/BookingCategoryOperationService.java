@@ -35,18 +35,18 @@ public class BookingCategoryOperationService extends BookingCategoryColleague im
         this.bookingCategoryAggregateDomainService = bookingCategoryAggregateDomainService;
     }
 
-    public Optional<BookingCategoryAggregate> find(UUID id, UUID financialLedgerId, UUID bookingCategoryAggregateId){
-        Optional<FinancialLedgerAggregate> optionalFinancialLedger = financialLedgerService.find(id, financialLedgerId);
+    public Optional<BookingCategoryAggregate> find(UUID userId, UUID financialLedgerAggregateId, UUID bookingCategoryAggregateId){
+        Optional<FinancialLedgerAggregate> optionalFinancialLedger = financialLedgerService.find(userId, financialLedgerAggregateId);
         if (!optionalFinancialLedger.isPresent()) return Optional.empty();
         return optionalFinancialLedger.get().getBookingCategoriesAggregates().stream().filter(b -> b.getId().equals(bookingCategoryAggregateId)).findFirst();
     }
 
-    public boolean exists(UUID id, UUID financialLedgerId, UUID bookingCategoryAggregateId){
-        return find(id, financialLedgerId, bookingCategoryAggregateId).isPresent();
+    public boolean exists(UUID userId, UUID financialLedgerAggregateId, UUID bookingCategoryAggregateId){
+        return find(userId, financialLedgerAggregateId, bookingCategoryAggregateId).isPresent();
     }
 
-    public boolean delete(UUID id, UUID financialLedgerId, UUID bookingCategoryAggregateId){
-        Optional<BookingCategoryAggregate> optionalBookingCategoryAggregate = find(id, financialLedgerId, bookingCategoryAggregateId);
+    public boolean delete(UUID userId, UUID financialLedgerAggregateId, UUID bookingCategoryAggregateId){
+        Optional<BookingCategoryAggregate> optionalBookingCategoryAggregate = find(userId, financialLedgerAggregateId, bookingCategoryAggregateId);
         if (optionalBookingCategoryAggregate.isPresent()) {
             getMediator().onDeleteBookingCategory(optionalBookingCategoryAggregate.get(), this);
             onDeleteBookingCategory(optionalBookingCategoryAggregate.get());
@@ -55,15 +55,15 @@ public class BookingCategoryOperationService extends BookingCategoryColleague im
         return false;
     }
 
-    public Optional<BookingCategoryAggregate> create(UUID id, UUID financialLedgerId, BookingCategoryAttributeData attributeData){
-        Optional<FinancialLedgerAggregate> optionalFinancialLedger = financialLedgerService.find(id, financialLedgerId);
+    public Optional<BookingCategoryAggregate> create(UUID userId, UUID financialLedgerAggregateId, BookingCategoryAttributeData attributeData){
+        Optional<FinancialLedgerAggregate> optionalFinancialLedger = financialLedgerService.find(userId, financialLedgerAggregateId);
         if (!optionalFinancialLedger.isPresent()) return Optional.empty();
         Optional<BookingCategoryAggregate> optionalBookingCategoryAggregate = bookingCategoryAggregateDomainService.createByAttributeData(optionalFinancialLedger.get(), attributeData);
         if (optionalBookingCategoryAggregate.isPresent()){
             FinancialLedgerAggregate financialLedgerAggregate = optionalFinancialLedger.get();
             financialLedgerAggregate.getBookingCategoriesAggregates().add(optionalBookingCategoryAggregate.get());
             financialLedgerAggregateDomainService.save(financialLedgerAggregate);
-            return find(id, financialLedgerId, optionalBookingCategoryAggregate.get().getId());
+            return find(userId, financialLedgerAggregateId, optionalBookingCategoryAggregate.get().getId());
         }
         return Optional.empty();
 

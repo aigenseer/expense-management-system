@@ -21,8 +21,8 @@ public class ExchangeCurrencyOperationService implements ExchangeCurrencyService
     private final BookingOperationService bookingOperationService;
     private final CurrencyExchangeOfficeService currencyExchangeOfficeService;
 
-    public boolean exchangeCurrencyOfBooking(UUID id, UUID financialLedgerId, UUID bookingId, CurrencyType targetCurrencyType){
-        Optional<BookingAggregate> optionalBooking = bookingOperationService.find(id, financialLedgerId, bookingId);
+    public boolean exchangeCurrencyOfBooking(UUID userId, UUID financialLedgerAggregateId, UUID bookingAggregateId, CurrencyType targetCurrencyType){
+        Optional<BookingAggregate> optionalBooking = bookingOperationService.find(userId, financialLedgerAggregateId, bookingAggregateId);
         if (!optionalBooking.isPresent() || optionalBooking.get().getBooking().getMoney().getCurrencyType().equals(targetCurrencyType)) return false;
         CurrencyExchangeRequest currencyExchangeRequest = CurrencyExchangeRequest.builder().sourceCurrencyType(optionalBooking.get().getBooking().getMoney().getCurrencyType()).targetCurrencyType(targetCurrencyType).build();
 

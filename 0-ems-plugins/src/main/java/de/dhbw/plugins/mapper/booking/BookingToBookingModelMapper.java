@@ -1,7 +1,7 @@
 package de.dhbw.plugins.mapper.booking;
 
 import de.dhbw.ems.adapter.model.booking.model.BookingModel;
-import de.dhbw.ems.adapter.model.booking.model.BookingToBookingModelAdapterMapper;
+import de.dhbw.ems.adapter.model.booking.model.BookingAggregateToBookingModelAdapterMapper;
 import de.dhbw.ems.adapter.model.bookingcategory.preview.BookingCategoryPreviewModel;
 import de.dhbw.ems.adapter.model.user.preview.UserPreview;
 import de.dhbw.ems.adapter.model.user.preview.UserPreviewCollectionModel;
@@ -36,7 +36,7 @@ public class BookingToBookingModelMapper implements Function<BookingToBookingMod
         private final BookingAggregate bookingAggregate;
     }
 
-    private final BookingToBookingModelAdapterMapper bookingToBookingModelAdapterMapper;
+    private final BookingAggregateToBookingModelAdapterMapper bookingAggregateToBookingModelAdapterMapper;
     private final UsersToUserPreviewCollectionMapper usersToUserPreviewCollectionMapper;
     private final BookingCategoryAggregateToBookingCategoryPreviewMapper bookingCategoryToBookingCategoryPreviewMapper;
     private final UserToUserPreviewMapper userToUserPreviewMapper;
@@ -49,7 +49,7 @@ public class BookingToBookingModelMapper implements Function<BookingToBookingMod
     private BookingModel map(final BookingToBookingModelMapper.Context context) {
         UUID userId = context.getUserId();
         BookingAggregate bookingAggregate = context.getBookingAggregate();
-        BookingModel model = bookingToBookingModelAdapterMapper.apply(context.getBookingAggregate());
+        BookingModel model = bookingAggregateToBookingModelAdapterMapper.apply(context.getBookingAggregate());
 
         UserPreview creatorPreview = userToUserPreviewMapper.apply(bookingAggregate.getCreator());
         model.setCreator(creatorPreview);

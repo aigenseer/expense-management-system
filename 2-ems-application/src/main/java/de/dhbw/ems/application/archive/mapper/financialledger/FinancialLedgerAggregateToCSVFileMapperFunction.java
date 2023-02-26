@@ -5,6 +5,6 @@ import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
 
 import java.util.function.Function;
 
-public interface FinancialLedgerToCSVFileMapperFunction extends Function<FinancialLedgerAggregate, TmpFile> {
+public interface FinancialLedgerAggregateToCSVFileMapperFunction extends Function<FinancialLedgerAggregate, TmpFile> {
 
 }

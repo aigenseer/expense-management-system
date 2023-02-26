@@ -18,12 +18,12 @@ public class FinancialLedgerUserPreviewModelFactory {
 
     private final UserToUserPreviewMapper userToUserPreviewMapper;
 
-    public UserPreview create(UUID financialLedgerId, User user){
+    public UserPreview create(UUID financialLedgerAggregateId, User user){
         UserPreview userPreview = userToUserPreviewMapper.apply(user);
         userPreview.removeLinks();
 
-        Link selfLink = linkTo(methodOn(FinancialLedgerUserController.class).findOne(financialLedgerId, user.getId())).withSelfRel()
-                .andAffordance(afford(methodOn(FinancialLedgerUserController.class).delete(financialLedgerId, user.getId())));
+        Link selfLink = linkTo(methodOn(FinancialLedgerUserController.class).findOne(financialLedgerAggregateId, user.getId())).withSelfRel()
+                .andAffordance(afford(methodOn(FinancialLedgerUserController.class).delete(financialLedgerAggregateId, user.getId())));
         userPreview.add(selfLink);
         return userPreview;
     }

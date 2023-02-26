@@ -21,7 +21,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(value = "/api/user/{userId}/financialledger/{financialLedgerId}/archive/", produces = "application/octet-stream")
+@RequestMapping(value = "/api/user/{userId}/financialledger/{financialLedgerAggregateId}/archive/", produces = "application/octet-stream")
 @AllArgsConstructor
 
 public class FinancialLedgerCSVController {
@@ -29,13 +29,13 @@ public class FinancialLedgerCSVController {
     private final FinancialLedgerApplicationAdapter financialLedgerApplicationAdapter;
 
     @GetMapping
-    public ResponseEntity<Resource> findOne(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId) throws IOException {
-        Optional<FinancialLedgerAggregate> optionalFinancialLedgerAggregate = financialLedgerApplicationAdapter.find(userId, financialLedgerId);
+    public ResponseEntity<Resource> findOne(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerAggregateId") UUID financialLedgerAggregateId) throws IOException {
+        Optional<FinancialLedgerAggregate> optionalFinancialLedgerAggregate = financialLedgerApplicationAdapter.find(userId, financialLedgerAggregateId);
         if (!optionalFinancialLedgerAggregate.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         try (TmpFile tmpFile = financialLedgerApplicationAdapter.createTmpZipArchive(optionalFinancialLedgerAggregate.get())){
 
             HttpHeaders header = new HttpHeaders();
-            header.add(HttpHeaders.CONTENT_DISPOSITION, String.format("attachment; filename=financialLedger-%s.zip", financialLedgerId));
+            header.add(HttpHeaders.CONTENT_DISPOSITION, String.format("attachment; filename=financialLedger-%s.zip", financialLedgerAggregateId));
             header.add("Cache-Control", "no-cache, no-store, must-revalidate");
             header.add("Pragma", "no-cache");
             header.add("Expires", "0");

@@ -5,6 +5,6 @@ import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
 
 import java.util.function.Function;
 
-public interface BookingsToCSVFileMapperFunction extends Function<Iterable<BookingAggregate>, TmpFile> {
+public interface BookingAggregatesToCSVFileMapperFunction extends Function<Iterable<BookingAggregate>, TmpFile> {
 
 }

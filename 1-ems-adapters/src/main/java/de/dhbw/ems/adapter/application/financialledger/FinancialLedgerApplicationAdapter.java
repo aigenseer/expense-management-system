@@ -13,15 +13,15 @@ public interface FinancialLedgerApplicationAdapter {
 
     Optional<FinancialLedgerAggregate> create(UUID userId, FinancialLedgerAttributeData attributeData);
 
-    Optional<FinancialLedgerAggregate> find(UUID id, UUID financialLedgerId);
+    Optional<FinancialLedgerAggregate> find(UUID id, UUID financialLedgerAggregateId);
 
-    boolean unlinkUser(UUID id, UUID financialLedgerId);
+    boolean unlinkUser(UUID id, UUID financialLedgerAggregateId);
 
-    boolean hasUserPermission(UUID id, UUID financialLedgerId);
+    boolean hasUserPermission(UUID id, UUID financialLedgerAggregateId);
 
-    boolean appendUser(UUID id, UUID financialLedgerId);
+    boolean appendUser(UUID id, UUID financialLedgerAggregateId);
 
-    boolean delete(UUID id, UUID financialLedgerId);
+    boolean delete(UUID id, UUID financialLedgerAggregateId);
 
     Optional<FinancialLedgerAggregate> updateByAttributeData(FinancialLedgerAggregate financialLedgerAggregate, FinancialLedgerAttributeData data);
 

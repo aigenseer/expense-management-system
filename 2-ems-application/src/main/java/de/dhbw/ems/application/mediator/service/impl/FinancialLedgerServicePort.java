@@ -10,14 +10,14 @@ public interface FinancialLedgerServicePort {
 
     Optional<FinancialLedgerAggregate> create(UUID userId, FinancialLedgerAttributeData attributeData);
 
-    Optional<FinancialLedgerAggregate> find(UUID id, UUID financialLedgerId);
+    Optional<FinancialLedgerAggregate> find(UUID userId, UUID financialLedgerAggregateId);
 
-    boolean unlinkUser(UUID id, UUID financialLedgerId);
+    boolean unlinkUser(UUID userId, UUID financialLedgerAggregateId);
 
-    boolean delete(UUID id, UUID financialLedgerId);
+    boolean delete(UUID userId, UUID financialLedgerAggregateId);
 
-    boolean appendUser(UUID id, UUID financialLedgerId);
+    boolean appendUser(UUID userId, UUID financialLedgerAggregateId);
 
-    boolean hasUserPermission(UUID id, UUID financialLedgerId);
+    boolean hasUserPermission(UUID userId, UUID financialLedgerAggregateId);
 
 }

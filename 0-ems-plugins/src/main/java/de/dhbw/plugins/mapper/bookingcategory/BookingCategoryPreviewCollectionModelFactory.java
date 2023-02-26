@@ -17,14 +17,14 @@ public class BookingCategoryPreviewCollectionModelFactory {
 
     private final BookingCategoryAggregateToBookingCategoryPreviewCollectionMapper bookingCategoriesToBookingCategoryPreviewCollectionMapper;
 
-    public BookingCategoryPreviewCollectionModel create(UUID userId, UUID financialLedgerId, Iterable<BookingCategoryAggregate> bookingCategoryAggregates){
+    public BookingCategoryPreviewCollectionModel create(UUID userId, UUID financialLedgerAggregateId, Iterable<BookingCategoryAggregate> bookingCategoryAggregates){
         BookingCategoryPreviewCollectionModel previewCollectionModel = bookingCategoriesToBookingCategoryPreviewCollectionMapper
                 .apply(BookingCategoryAggregateToBookingCategoryPreviewCollectionMapper.Context.builder()
                         .userId(userId)
                         .bookingCategoryAggregates(bookingCategoryAggregates)
                         .build());
-        Link selfLink = linkTo(methodOn(BookingCategoriesController.class).listAll(userId, financialLedgerId)).withSelfRel()
-                .andAffordance(afford(methodOn(BookingCategoriesController.class).create(userId, financialLedgerId, null)));
+        Link selfLink = linkTo(methodOn(BookingCategoriesController.class).listAll(userId, financialLedgerAggregateId)).withSelfRel()
+                .andAffordance(afford(methodOn(BookingCategoriesController.class).create(userId, financialLedgerAggregateId, null)));
         previewCollectionModel.add(selfLink);
         return previewCollectionModel;
     }

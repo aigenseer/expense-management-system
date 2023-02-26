@@ -40,28 +40,28 @@ public class BookingOperationService extends BookingColleague implements Booking
         this.bookingReferenceDomainService = bookingReferenceDomainService;
     }
 
-    public Optional<BookingAggregate> find(UUID userId, UUID financialLedgerId, UUID bookingAggregateId){
-        Optional<FinancialLedgerAggregate> optionalFinancialLedgerAggregate = financialLedgerService.find(userId, financialLedgerId);
+    public Optional<BookingAggregate> find(UUID userId, UUID financialLedgerAggregateId, UUID bookingAggregateId){
+        Optional<FinancialLedgerAggregate> optionalFinancialLedgerAggregate = financialLedgerService.find(userId, financialLedgerAggregateId);
         if (!optionalFinancialLedgerAggregate.isPresent()) return Optional.empty();
-        return optionalFinancialLedgerAggregate.get().getBookingAggregates().stream().filter(b -> b.getFinancialLedgerId().equals(financialLedgerId) && b.getId().equals(bookingAggregateId)).findFirst();
+        return optionalFinancialLedgerAggregate.get().getBookingAggregates().stream().filter(b -> b.getFinancialLedgerId().equals(financialLedgerAggregateId) && b.getId().equals(bookingAggregateId)).findFirst();
     }
 
-    public Optional<BookingAggregate> create(UUID userId, UUID financialLedgerId, BookingAggregateAttributeData attributeData){
+    public Optional<BookingAggregate> create(UUID userId, UUID financialLedgerAggregateId, BookingAggregateAttributeData attributeData){
         Optional<User> optionalUser = userDomainService.findById(userId);
         if (!optionalUser.isPresent()) return Optional.empty();
-        Optional<FinancialLedgerAggregate> optionalFinancialLedgerAggregate = financialLedgerService.find(userId, financialLedgerId);
+        Optional<FinancialLedgerAggregate> optionalFinancialLedgerAggregate = financialLedgerService.find(userId, financialLedgerAggregateId);
         if (!optionalFinancialLedgerAggregate.isPresent()) return Optional.empty();
         Optional<BookingAggregate> optionalBookingAggregate = bookingAggregateDomainService.createByAttributeData(optionalUser.get(), optionalFinancialLedgerAggregate.get(), attributeData);
         if (!optionalBookingAggregate.isPresent()) return Optional.empty();
         return optionalBookingAggregate;
     }
 
-    public boolean exists(UUID userId, UUID financialLedgerId, UUID bookingAggregateId){
-        return find(userId, financialLedgerId, bookingAggregateId).isPresent();
+    public boolean exists(UUID userId, UUID financialLedgerAggregateId, UUID bookingAggregateId){
+        return find(userId, financialLedgerAggregateId, bookingAggregateId).isPresent();
     }
 
-    public boolean delete(UUID userId, UUID financialLedgerId, UUID bookingAggregateId){
-        Optional<BookingAggregate> optionalBooking = find(userId, financialLedgerId, bookingAggregateId);
+    public boolean delete(UUID userId, UUID financialLedgerAggregateId, UUID bookingAggregateId){
+        Optional<BookingAggregate> optionalBooking = find(userId, financialLedgerAggregateId, bookingAggregateId);
         if (optionalBooking.isPresent()) {
             getMediator().onDeleteBooking(optionalBooking.get(), this);
             onDeleteBooking(optionalBooking.get());
@@ -70,10 +70,10 @@ public class BookingOperationService extends BookingColleague implements Booking
         return false;
     }
 
-    public boolean referenceUser(UUID id, UUID financialLedgerId, UUID bookingAggregateId, UUID referenceUserId){
+    public boolean referenceUser(UUID id, UUID financialLedgerAggregateId, UUID bookingAggregateId, UUID referenceUserId){
         Optional<User> optionalReferenceUser = userDomainService.findById(referenceUserId);
-        if (optionalReferenceUser.isPresent() && financialLedgerService.hasUserPermission(referenceUserId, financialLedgerId)){
-            Optional<BookingAggregate> optionalBooking = find(id, financialLedgerId, bookingAggregateId);
+        if (optionalReferenceUser.isPresent() && financialLedgerService.hasUserPermission(referenceUserId, financialLedgerAggregateId)){
+            Optional<BookingAggregate> optionalBooking = find(id, financialLedgerAggregateId, bookingAggregateId);
             if (optionalBooking.isPresent()){
                 getMediator().onReferenceUserToBooking(optionalReferenceUser.get(), optionalBooking.get(), this);
                 onReferenceUserToBooking(optionalReferenceUser.get(), optionalBooking.get());
@@ -83,10 +83,10 @@ public class BookingOperationService extends BookingColleague implements Booking
         return false;
     }
 
-    public boolean deleteUserReference(UUID id, UUID financialLedgerId, UUID bookingAggregateId){
-        Optional<User> optionalReferenceUser = userDomainService.findById(id);
+    public boolean deleteUserReference(UUID userId, UUID financialLedgerAggregateId, UUID bookingAggregateId){
+        Optional<User> optionalReferenceUser = userDomainService.findById(userId);
         if (optionalReferenceUser.isPresent()){
-            Optional<BookingAggregate> optionalBooking = find(id, financialLedgerId, bookingAggregateId);
+            Optional<BookingAggregate> optionalBooking = find(userId, financialLedgerAggregateId, bookingAggregateId);
             if (optionalBooking.isPresent()) {
                 User user = optionalReferenceUser.get();
                 BookingAggregate bookingAggregate = optionalBooking.get();

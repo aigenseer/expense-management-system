@@ -4,6 +4,6 @@ import java.util.UUID;
 
 public interface BookingService extends BookingServicePort {
 
-    boolean deleteUserReference(UUID id, UUID financialLedgerId, UUID bookingAggregateId);
+    boolean deleteUserReference(UUID userId, UUID financialLedgerAggregateId, UUID bookingAggregateId);
 
 }

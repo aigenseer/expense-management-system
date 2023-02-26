@@ -30,28 +30,28 @@ public class FinancialLedgerAppAdapter implements FinancialLedgerApplicationAdap
     }
 
     @Override
-    public Optional<FinancialLedgerAggregate> find(UUID id, UUID financialLedgerId) {
-        return financialLedgerServicePort.find(id, financialLedgerId);
+    public Optional<FinancialLedgerAggregate> find(UUID id, UUID financialLedgerAggregateId) {
+        return financialLedgerServicePort.find(id, financialLedgerAggregateId);
     }
 
     @Override
-    public boolean unlinkUser(UUID id, UUID financialLedgerId) {
-        return financialLedgerServicePort.unlinkUser(id, financialLedgerId);
+    public boolean unlinkUser(UUID id, UUID financialLedgerAggregateId) {
+        return financialLedgerServicePort.unlinkUser(id, financialLedgerAggregateId);
     }
 
     @Override
-    public boolean hasUserPermission(UUID id, UUID financialLedgerId) {
-        return financialLedgerServicePort.hasUserPermission(id, financialLedgerId);
+    public boolean hasUserPermission(UUID id, UUID financialLedgerAggregateId) {
+        return financialLedgerServicePort.hasUserPermission(id, financialLedgerAggregateId);
     }
 
     @Override
-    public boolean appendUser(UUID id, UUID financialLedgerId) {
-        return financialLedgerServicePort.appendUser(id, financialLedgerId);
+    public boolean appendUser(UUID id, UUID financialLedgerAggregateId) {
+        return financialLedgerServicePort.appendUser(id, financialLedgerAggregateId);
     }
 
     @Override
-    public boolean delete(UUID id, UUID financialLedgerId) {
-        return financialLedgerServicePort.delete(id, financialLedgerId);
+    public boolean delete(UUID id, UUID financialLedgerAggregateId) {
+        return financialLedgerServicePort.delete(id, financialLedgerAggregateId);
     }
 
     @Override

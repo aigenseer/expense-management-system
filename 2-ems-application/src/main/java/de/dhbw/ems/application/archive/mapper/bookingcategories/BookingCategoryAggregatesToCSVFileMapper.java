@@ -6,7 +6,7 @@ import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
 import org.springframework.stereotype.Component;
 
 @Component
-public class BookingCategoriesToCSVFileMapper extends CSVFileMapper implements BookingCategoriesToCSVFileMapperFunction {
+public class BookingCategoryAggregatesToCSVFileMapper extends CSVFileMapper implements BookingCategoryAggregatesToCSVFileMapperFunction {
 
     @Override
     public TmpFile apply(final Iterable<BookingCategoryAggregate> bookingCategoriesAggregates) {

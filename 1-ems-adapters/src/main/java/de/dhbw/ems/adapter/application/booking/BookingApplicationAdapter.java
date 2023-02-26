@@ -9,20 +9,20 @@ import java.util.UUID;
 
 public interface BookingApplicationAdapter {
 
-    Optional<BookingAggregate> find(UUID userId, UUID financialLedgerId, UUID bookingId);
+    Optional<BookingAggregate> find(UUID userId, UUID financialLedgerAggregateId, UUID bookingAggregateId);
 
-    Optional<BookingAggregate> create(UUID userId, UUID financialLedgerId, BookingAggregateAttributeData attributeData);
+    Optional<BookingAggregate> create(UUID userId, UUID financialLedgerAggregateId, BookingAggregateAttributeData attributeData);
 
-    boolean exists(UUID userId, UUID financialLedgerId, UUID bookingId);
+    boolean exists(UUID userId, UUID financialLedgerAggregateId, UUID bookingAggregateId);
 
-    boolean delete(UUID userId, UUID financialLedgerId, UUID bookingId);
+    boolean delete(UUID userId, UUID financialLedgerAggregateId, UUID bookingAggregateId);
 
-    boolean referenceUser(UUID id, UUID financialLedgerId, UUID bookingId, UUID referenceUserId);
+    boolean referenceUser(UUID id, UUID financialLedgerAggregateId, UUID bookingAggregateId, UUID referenceUserId);
 
-    boolean deleteUserReference(UUID id, UUID financialLedgerId, UUID bookingId);
+    boolean deleteUserReference(UUID id, UUID financialLedgerAggregateId, UUID bookingId);
 
     Optional<BookingAggregate> updateByAttributeData(BookingAggregate bookingAggregate, BookingAggregateAttributeData attributeData);
 
-    boolean exchangeCurrencyOfBooking(UUID id, UUID financialLedgerId, UUID bookingId, CurrencyType targetCurrencyType);
+    boolean exchangeCurrencyOfBooking(UUID id, UUID financialLedgerAggregateId, UUID bookingAggregateId, CurrencyType targetCurrencyType);
 
 }
