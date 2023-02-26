@@ -40,7 +40,7 @@ public class BookingCategoryAggregateToBookingCategoryPreviewMapper implements F
         BookingCategoryPreviewModel preview = previewModelMapper.apply(context.getBookingCategoryAggregate());
         Link selfLink = WebMvcLinkBuilder.linkTo(methodOn(BookingCategoryController.class)
                 .findOne(context.getUserId(),
-                        context.getBookingCategoryAggregate().getBookingCategoryId(),
+                        context.getBookingCategoryAggregate().getFinancialLedgerId(),
                         context.getBookingCategoryAggregate().getId())).withSelfRel();
         preview.add(selfLink);
         return preview;

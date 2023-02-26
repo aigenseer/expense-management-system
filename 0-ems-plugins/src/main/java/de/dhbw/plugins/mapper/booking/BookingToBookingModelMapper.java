@@ -72,7 +72,7 @@ public class BookingToBookingModelMapper implements Function<BookingToBookingMod
         selfLink = WebMvcLinkBuilder.linkTo(methodOn(BookingController.class)
                 .findOne(context.getUserId(),
                         context.getBookingAggregate().getFinancialLedgerId(),
-                        context.getBookingAggregate().getBooking().getId())).withSelfRel();
+                        context.getBookingAggregate().getId())).withSelfRel();
         model.add(selfLink);
         return model;
     }
