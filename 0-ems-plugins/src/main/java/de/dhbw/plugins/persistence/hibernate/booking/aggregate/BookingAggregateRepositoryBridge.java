@@ -5,6 +5,7 @@ import de.dhbw.ems.domain.booking.aggregate.BookingAggregateRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -17,6 +18,11 @@ public class BookingAggregateRepositoryBridge implements BookingAggregateReposit
     @Override
     public Optional<BookingAggregate> findById(UUID id) {
         return repository.findById(id);
+    }
+
+    @Override
+    public List<BookingAggregate> findByCreatorId(UUID creatorId) {
+        return repository.findByCreatorId(creatorId);
     }
 
     @Override
