@@ -1,53 +1,84 @@
 package de.dhbw.ems.application.mediator.colleage;
 
-import de.dhbw.ems.application.financialledger.FinancialLedgerDomainService;
+import de.dhbw.ems.application.financialledger.aggregate.FinancialLedgerAggregateDomainService;
+import de.dhbw.ems.application.financialledger.entity.FinancialLedgerDomainService;
+import de.dhbw.ems.application.financialledger.link.UserFinancialLedgerLinkDomainService;
 import de.dhbw.ems.application.mediator.ConcreteApplicationMediator;
 import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
 import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
-import de.dhbw.ems.domain.financialledger.FinancialLedger;
+import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
+import de.dhbw.ems.domain.financialledger.link.UserFinancialLedgerLink;
 import de.dhbw.ems.domain.user.User;
+
+import java.util.Optional;
 
 public class FinancialLedgerColleague extends Colleague {
 
+    private final FinancialLedgerAggregateDomainService financialLedgerAggregateDomainService;
     private final FinancialLedgerDomainService financialLedgerDomainService;
+    private final UserFinancialLedgerLinkDomainService userFinancialLedgerLinkDomainService;
 
-    public FinancialLedgerColleague(final ConcreteApplicationMediator mediator, final FinancialLedgerDomainService financialLedgerDomainService) {
+    public FinancialLedgerColleague(
+            final ConcreteApplicationMediator mediator,
+            final FinancialLedgerAggregateDomainService financialLedgerAggregateDomainService,
+            final FinancialLedgerDomainService financialLedgerDomainService,
+            final UserFinancialLedgerLinkDomainService userFinancialLedgerLinkDomainService
+    ) {
         super(mediator);
+        this.financialLedgerAggregateDomainService = financialLedgerAggregateDomainService;
         this.financialLedgerDomainService = financialLedgerDomainService;
+        this.userFinancialLedgerLinkDomainService = userFinancialLedgerLinkDomainService;
     }
 
     @Override
-    public void onUnlinkUserToFinancialLedger(User user, FinancialLedger financialLedger) {
-        financialLedger.getAuthorizedUser().remove(user);
-        financialLedgerDomainService.save(financialLedger);
-        if (financialLedger.getAuthorizedUser().size() == 0){
-            getMediator().onDeleteFinancialLedger(financialLedger, this);
-            onDeleteFinancialLedger(financialLedger);
+    public void onLinkUserToFinancialLedger(User user, FinancialLedgerAggregate financialLedgerAggregate) {
+        Optional<UserFinancialLedgerLink> optionalUserFinancialLedgerLink = userFinancialLedgerLinkDomainService.create(user.getId(), financialLedgerAggregate.getId());
+        if (optionalUserFinancialLedgerLink.isPresent()){
+            financialLedgerAggregate.getUserFinancialLedgerLinks().add(optionalUserFinancialLedgerLink.get());
+            financialLedgerAggregateDomainService.save(financialLedgerAggregate);
+        }
+    }
+
+    @Override
+    public void onUnlinkUserToFinancialLedger(User user, FinancialLedgerAggregate financialLedgerAggregate) {
+        Optional<UserFinancialLedgerLink> optionalUserFinancialLedgerLink = userFinancialLedgerLinkDomainService.findById(user.getId(), financialLedgerAggregate.getId());
+        if (optionalUserFinancialLedgerLink.isPresent()){
+            financialLedgerAggregate.getUserFinancialLedgerLinks().remove(optionalUserFinancialLedgerLink.get());
+            financialLedgerAggregateDomainService.save(financialLedgerAggregate);
+            userFinancialLedgerLinkDomainService.deleteById(user.getId(), financialLedgerAggregate.getId());
+        }
+        if (financialLedgerAggregate.getUserFinancialLedgerLinks().size() == 0){
+            getMediator().onDeleteFinancialLedger(financialLedgerAggregate, this);
+            onDeleteFinancialLedger(financialLedgerAggregate);
         }
     }
 
     @Override
     public void onDeleteUser(User user) {
-        user.getFinancialLedgers().forEach(financialLedger -> onUnlinkUserToFinancialLedger(user, financialLedger));
+        userFinancialLedgerLinkDomainService.findByUserId(user.getId()).forEach(r -> onUnlinkUserToFinancialLedger(r.getUser(), r.getFinancialLedgerAggregate()));
     }
 
     @Override
-    public void onDeleteFinancialLedger(FinancialLedger financialLedger) {
-        financialLedgerDomainService.deleteById(financialLedger.getId());
+    public void onDeleteFinancialLedger(FinancialLedgerAggregate financialLedgerAggregate) {
+        financialLedgerAggregate.getUserFinancialLedgerLinks().forEach(link ->  {
+            userFinancialLedgerLinkDomainService.deleteById(link.getUser().getId(), link.getFinancialLedgerAggregate().getId());
+        });
+        financialLedgerAggregateDomainService.deleteById(financialLedgerAggregate.getId());
+        financialLedgerDomainService.deleteById(financialLedgerAggregate.getFinancialLedgerId());
     }
 
     @Override
     public void onDeleteBookingCategory(BookingCategoryAggregate bookingCategoryAggregate) {
-        FinancialLedger financialLedger = bookingCategoryAggregate.getFinancialLedger();
-        financialLedger.getBookingCategoriesAggregates().remove(bookingCategoryAggregate);
-        financialLedgerDomainService.save(financialLedger);
+        FinancialLedgerAggregate financialLedgerAggregate = bookingCategoryAggregate.getFinancialLedgerAggregate();
+        financialLedgerAggregate.getBookingCategoriesAggregates().remove(bookingCategoryAggregate);
+        financialLedgerAggregateDomainService.save(financialLedgerAggregate);
     }
 
     @Override
     public void onDeleteBooking(BookingAggregate bookingAggregate) {
-        FinancialLedger financialLedger = bookingAggregate.getFinancialLedger();
-        financialLedger.getBookingAggregates().remove(bookingAggregate);
-        financialLedgerDomainService.save(financialLedger);
+        FinancialLedgerAggregate financialLedgerAggregate = bookingAggregate.getFinancialLedgerAggregate();
+        financialLedgerAggregate.getBookingAggregates().remove(bookingAggregate);
+        financialLedgerAggregateDomainService.save(financialLedgerAggregate);
     }
 
 }
