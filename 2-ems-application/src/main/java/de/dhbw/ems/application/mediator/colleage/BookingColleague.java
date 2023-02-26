@@ -32,8 +32,10 @@ public class BookingColleague extends Colleague {
     @Override
     public void onReferenceUserToBooking(User user, BookingAggregate bookingAggregate) {
         Optional<BookingReference> optionalBookingReference = bookingReferenceDomainService.create(user.getId(), bookingAggregate.getId());
-        bookingAggregate.getBookingReferences().add(optionalBookingReference.get());
-        bookingAggregateDomainService.save(bookingAggregate);
+        if (optionalBookingReference.isPresent()){
+            bookingAggregate.getBookingReferences().add(optionalBookingReference.get());
+            bookingAggregateDomainService.save(bookingAggregate);
+        }
     }
 
     @Override
