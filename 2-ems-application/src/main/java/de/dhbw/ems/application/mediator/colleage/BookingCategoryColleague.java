@@ -4,6 +4,7 @@ import de.dhbw.ems.application.bookingcategory.aggregate.BookingCategoryAggregat
 import de.dhbw.ems.application.bookingcategory.entity.BookingCategoryDomainService;
 import de.dhbw.ems.application.mediator.ConcreteApplicationMediator;
 import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
+import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
 
 
 public class BookingCategoryColleague extends Colleague {
@@ -21,6 +22,14 @@ public class BookingCategoryColleague extends Colleague {
     public void onDeleteBookingCategory(BookingCategoryAggregate bookingCategoryAggregate) {
         bookingCategoryAggregateDomainService.deleteById(bookingCategoryAggregate.getId());
         bookingCategoryDomainService.deleteById(bookingCategoryAggregate.getBookingCategoryId());
+    }
+
+    @Override
+    public void onDeleteFinancialLedger(FinancialLedgerAggregate financialLedgerAggregate) {
+        financialLedgerAggregate.getBookingCategoriesAggregates().forEach(bookingCategoryAggregate -> {
+            getMediator().onDeleteBookingCategory(bookingCategoryAggregate, this);
+            onDeleteBookingCategory(bookingCategoryAggregate);
+        });
     }
 
 }
