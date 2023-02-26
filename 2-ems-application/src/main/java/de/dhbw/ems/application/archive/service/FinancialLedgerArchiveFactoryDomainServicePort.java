@@ -1,10 +1,10 @@
 package de.dhbw.ems.application.archive.service;
 
 import de.dhbw.ems.application.archive.core.TmpFile;
-import de.dhbw.ems.domain.financialledger.FinancialLedger;
+import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
 
 public interface FinancialLedgerArchiveFactoryDomainServicePort {
 
-    TmpFile createTmpZipArchive(FinancialLedger financialLedger);
+    TmpFile createTmpZipArchive(FinancialLedgerAggregate financialLedgerAggregate);
 
 }

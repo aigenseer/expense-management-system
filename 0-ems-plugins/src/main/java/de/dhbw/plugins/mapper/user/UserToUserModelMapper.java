@@ -32,11 +32,7 @@ public class UserToUserModelMapper implements Function<User, UserModel> {
     private UserModel map(final User user) {
         UserModel userModel = userToUserModelAdapterMapper.apply(user);
 
-        FinancialLedgerPreviewCollectionModel financialLedgerPreviewCollectionModel = financialLedgersToFinancialLedgerPreviewCollectionMapper.apply(FinancialLedgersToFinancialLedgerPreviewCollectionMapper.Context
-                .builder()
-                .userId(user.getId())
-                .financialLedgers(user.getFinancialLedgers())
-                .build());
+        FinancialLedgerPreviewCollectionModel financialLedgerPreviewCollectionModel = financialLedgersToFinancialLedgerPreviewCollectionMapper.apply(user.getId());
         Link selfLink = linkTo(methodOn(FinancialLedgersController.class).listAll(user.getId())).withSelfRel();
         financialLedgerPreviewCollectionModel.add(selfLink);
 

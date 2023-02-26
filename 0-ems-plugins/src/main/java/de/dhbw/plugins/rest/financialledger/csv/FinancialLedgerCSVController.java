@@ -2,7 +2,7 @@ package de.dhbw.plugins.rest.financialledger.csv;
 
 import de.dhbw.ems.adapter.application.financialledger.FinancialLedgerApplicationAdapter;
 import de.dhbw.ems.application.archive.core.TmpFile;
-import de.dhbw.ems.domain.financialledger.FinancialLedger;
+import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
 import lombok.AllArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
@@ -30,9 +30,9 @@ public class FinancialLedgerCSVController {
 
     @GetMapping
     public ResponseEntity<Resource> findOne(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId) throws IOException {
-        Optional<FinancialLedger> optionalFinancialLedger = financialLedgerApplicationAdapter.find(userId, financialLedgerId);
-        if (!optionalFinancialLedger.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        try (TmpFile tmpFile = financialLedgerApplicationAdapter.createTmpZipArchive(optionalFinancialLedger.get())){
+        Optional<FinancialLedgerAggregate> optionalFinancialLedgerAggregate = financialLedgerApplicationAdapter.find(userId, financialLedgerId);
+        if (!optionalFinancialLedgerAggregate.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        try (TmpFile tmpFile = financialLedgerApplicationAdapter.createTmpZipArchive(optionalFinancialLedgerAggregate.get())){
 
             HttpHeaders header = new HttpHeaders();
             header.add(HttpHeaders.CONTENT_DISPOSITION, String.format("attachment; filename=financialLedger-%s.zip", financialLedgerId));

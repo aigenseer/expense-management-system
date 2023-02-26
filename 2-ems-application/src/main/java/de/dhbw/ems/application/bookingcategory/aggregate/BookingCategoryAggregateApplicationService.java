@@ -5,7 +5,7 @@ import de.dhbw.ems.application.bookingcategory.entity.BookingCategoryDomainServi
 import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
 import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregateRepository;
 import de.dhbw.ems.domain.bookingcategory.entity.BookingCategory;
-import de.dhbw.ems.domain.financialledger.FinancialLedger;
+import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -30,15 +30,15 @@ public class BookingCategoryAggregateApplicationService implements BookingCatego
     }
 
     @Override
-    public Optional<BookingCategoryAggregate> createByAttributeData(FinancialLedger financialLedger, BookingCategoryAttributeData data) {
+    public Optional<BookingCategoryAggregate> createByAttributeData(FinancialLedgerAggregate financialLedgerAggregate, BookingCategoryAttributeData data) {
         Optional<BookingCategory> optionalBookingCategory = bookingCategoryDomainService.createByAttributeData(data);
         if (!optionalBookingCategory.isPresent()) return Optional.empty();
         BookingCategoryAggregate bookingCategoryAggregate = BookingCategoryAggregate.builder()
                 .id(UUID.randomUUID())
                 .bookingCategoryId(optionalBookingCategory.get().getId())
                 .bookingCategory(optionalBookingCategory.get())
-                .financialLedger(financialLedger)
-                .financialLedgerId(financialLedger.getId())
+                .financialLedgerAggregate(financialLedgerAggregate)
+                .financialLedgerId(financialLedgerAggregate.getId())
                 .build();
         return Optional.of(save(bookingCategoryAggregate));
     }

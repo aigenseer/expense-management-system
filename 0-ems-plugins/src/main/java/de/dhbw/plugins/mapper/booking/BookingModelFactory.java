@@ -24,9 +24,9 @@ public class BookingModelFactory {
                 .bookingAggregate(bookingAggregate)
                 .build());
         model.removeLinks();
-        Link selfLink = linkTo(methodOn(BookingController.class).findOne(userId, financialLedgerId, bookingAggregate.getBooking().getId())).withSelfRel()
-                .andAffordance(afford(methodOn(BookingController.class).update(userId, financialLedgerId, bookingAggregate.getBooking().getId(), null)))
-                .andAffordance(afford(methodOn(BookingController.class).delete(userId, financialLedgerId, bookingAggregate.getBooking().getId())));
+        Link selfLink = linkTo(methodOn(BookingController.class).findOne(userId, financialLedgerId, bookingAggregate.getId())).withSelfRel()
+                .andAffordance(afford(methodOn(BookingController.class).update(userId, financialLedgerId, bookingAggregate.getId(), null)))
+                .andAffordance(afford(methodOn(BookingController.class).delete(userId, financialLedgerId, bookingAggregate.getId())));
         model.add(selfLink);
         return model;
     }

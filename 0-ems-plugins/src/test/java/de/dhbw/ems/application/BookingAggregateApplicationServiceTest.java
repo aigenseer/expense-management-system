@@ -5,10 +5,10 @@ import de.dhbw.ems.abstractioncode.valueobject.money.Money;
 import de.dhbw.ems.application.booking.aggregate.BookingAggregateApplicationService;
 import de.dhbw.ems.application.booking.data.BookingAggregateAttributeData;
 import de.dhbw.ems.application.booking.entity.BookingApplicationService;
-import de.dhbw.ems.application.financialledger.FinancialLedgerApplicationService;
+import de.dhbw.ems.application.financialledger.aggregate.FinancialLedgerAggregateApplicationService;
 import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
 import de.dhbw.ems.domain.booking.entity.Booking;
-import de.dhbw.ems.domain.financialledger.FinancialLedger;
+import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,9 +33,9 @@ public class BookingAggregateApplicationServiceTest {
     @Autowired
     private BookingApplicationService bookingApplicationService;
     @Autowired
-    private FinancialLedgerApplicationService financialLedgerApplicationService;
+    private FinancialLedgerAggregateApplicationService financialLedgerAggregateApplicationService;
 
-    private FinancialLedger financialLedger;
+    private FinancialLedgerAggregate financialLedgerAggregate;
     private Booking booking;
     private BookingAggregate bookingAggregate;
 
@@ -47,9 +47,9 @@ public class BookingAggregateApplicationServiceTest {
 
     @Before
     public void setup(){
-        Optional<FinancialLedger> optionalFinancialLedger = financialLedgerApplicationService.findById(UUID.fromString("12345678-1234-1234-a123-123456789011"));
+        Optional<FinancialLedgerAggregate> optionalFinancialLedger = financialLedgerAggregateApplicationService.findById(UUID.fromString("12345678-1234-1234-a123-123456789111"));
         assertTrue(optionalFinancialLedger.isPresent());
-        financialLedger = optionalFinancialLedger.get();
+        financialLedgerAggregate = optionalFinancialLedger.get();
 
         Optional<Booking> optionalBooking = bookingApplicationService.findById(UUID.fromString("12345678-1234-1234-a123-123456789031"));
         assertTrue(optionalBooking.isPresent());
@@ -66,8 +66,8 @@ public class BookingAggregateApplicationServiceTest {
                 .id(UUID.fromString("12345678-1234-1234-a123-123456789332"))
                 .booking(booking)
                 .bookingId(booking.getId())
-                .financialLedger(financialLedger)
-                .financialLedgerId(financialLedger.getId())
+                .financialLedgerAggregate(financialLedgerAggregate)
+                .financialLedgerId(financialLedgerAggregate.getId())
                 .build();
 
         bookingAggregateApplicationService.save(aggregate2);
@@ -97,10 +97,10 @@ public class BookingAggregateApplicationServiceTest {
 
     @Test
     public void testCreateByAttributeData() {
-        Optional<BookingAggregate> optionalBookingAggregate = bookingAggregateApplicationService.createByAttributeData(bookingAggregate.getCreator(), bookingAggregate.getFinancialLedger(), attributeAggregateData);
+        Optional<BookingAggregate> optionalBookingAggregate = bookingAggregateApplicationService.createByAttributeData(bookingAggregate.getCreator(), bookingAggregate.getFinancialLedgerAggregate(), attributeAggregateData);
         assertTrue(optionalBookingAggregate.isPresent());
         assertEquals(bookingAggregate.getCreator(), optionalBookingAggregate.get().getCreator());
-        assertEquals(bookingAggregate.getFinancialLedger().getId(), optionalBookingAggregate.get().getFinancialLedgerId());
+        assertEquals(bookingAggregate.getFinancialLedgerAggregate().getId(), optionalBookingAggregate.get().getFinancialLedgerId());
     }
 
     @Test

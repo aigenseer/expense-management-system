@@ -5,12 +5,13 @@ import de.dhbw.ems.application.booking.entity.BookingDomainService;
 import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
 import de.dhbw.ems.domain.booking.aggregate.BookingAggregateRepository;
 import de.dhbw.ems.domain.booking.entity.Booking;
-import de.dhbw.ems.domain.financialledger.FinancialLedger;
+import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
 import de.dhbw.ems.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -29,11 +30,15 @@ public class BookingAggregateApplicationService implements BookingAggregateDomai
         return repository.save(bookingAggregate);
     }
 
+    public List<BookingAggregate> findByCreatorId(UUID creatorId) {
+        return repository.findByCreatorId(creatorId);
+    }
+
     public void deleteById(UUID id) {
         repository.deleteById(id);
     }
 
-    public Optional<BookingAggregate> createByAttributeData(User user, FinancialLedger financialLedger, BookingAggregateAttributeData attributeData){
+    public Optional<BookingAggregate> createByAttributeData(User user, FinancialLedgerAggregate financialLedgerAggregate, BookingAggregateAttributeData attributeData){
         Optional<Booking> optionalBooking = bookingDomainService.createByAttributeData(attributeData);
         if (!optionalBooking.isPresent()) return Optional.empty();
 
@@ -44,8 +49,8 @@ public class BookingAggregateApplicationService implements BookingAggregateDomai
                 .creatorId(user.getId())
                 .creator(user)
                 .creationDate(LocalDate.now())
-                .financialLedgerId(financialLedger.getId())
-                .financialLedger(financialLedger)
+                .financialLedgerId(financialLedgerAggregate.getId())
+                .financialLedgerAggregate(financialLedgerAggregate)
                 .build();
         return updateByAttributeData(bookingAggregate, attributeData);
     }

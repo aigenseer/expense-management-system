@@ -2,7 +2,7 @@ package de.dhbw.ems.application.bookingcategory.aggregate;
 
 import de.dhbw.ems.application.bookingcategory.entity.BookingCategoryAttributeData;
 import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
-import de.dhbw.ems.domain.financialledger.FinancialLedger;
+import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -13,6 +13,6 @@ public interface BookingCategoryAggregateDomainService extends BookingCategoryDo
 
     void deleteById(UUID id);
 
-    Optional<BookingCategoryAggregate> createByAttributeData(FinancialLedger financialLedger, BookingCategoryAttributeData data);
+    Optional<BookingCategoryAggregate> createByAttributeData(FinancialLedgerAggregate financialLedgerAggregate, BookingCategoryAttributeData data);
 
 }

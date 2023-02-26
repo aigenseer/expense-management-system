@@ -5,13 +5,13 @@ import de.dhbw.ems.abstractioncode.valueobject.money.Money;
 import de.dhbw.ems.application.booking.aggregate.BookingAggregateApplicationService;
 import de.dhbw.ems.application.booking.data.BookingAggregateAttributeData;
 import de.dhbw.ems.application.bookingcategory.aggregate.BookingCategoryAggregateApplicationService;
-import de.dhbw.ems.application.financialledger.FinancialLedgerApplicationService;
+import de.dhbw.ems.application.financialledger.aggregate.FinancialLedgerAggregateApplicationService;
 import de.dhbw.ems.application.mediator.service.BookingOperationService;
 import de.dhbw.ems.application.user.UserApplicationService;
 import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
 import de.dhbw.ems.domain.booking.reference.BookingReference;
 import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
-import de.dhbw.ems.domain.financialledger.FinancialLedger;
+import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
 import de.dhbw.ems.domain.user.User;
 import org.junit.Before;
 import org.junit.Test;
@@ -37,7 +37,7 @@ public class BookingOperationServiceTest {
     @Autowired
     private UserApplicationService userApplicationService;
     @Autowired
-    private FinancialLedgerApplicationService financialLedgerApplicationService;
+    private FinancialLedgerAggregateApplicationService financialLedgerAggregateApplicationService;
     @Autowired
     private BookingCategoryAggregateApplicationService bookingCategoryAggregateApplicationService;
     @Autowired
@@ -45,7 +45,7 @@ public class BookingOperationServiceTest {
 
     private final UUID userId = UUID.fromString("12345678-1234-1234-a123-123456789001");
     private final UUID userId2 = UUID.fromString("12345678-1234-1234-a123-123456789002");
-    private final UUID financialLedgerId = UUID.fromString("12345678-1234-1234-a123-123456789011");
+    private final UUID financialLedgerAggregateId = UUID.fromString("12345678-1234-1234-a123-123456789111");
     private final UUID bookingCategoryAggregateId = UUID.fromString("12345678-1234-1234-a123-123456789221");
     private BookingCategoryAggregate bookingCategoryAggregate;
     private final UUID bookingAggregateId = UUID.fromString("12345678-1234-1234-a123-123456789331");
@@ -64,7 +64,7 @@ public class BookingOperationServiceTest {
 
     @Test
     public void testFind() {
-        Optional<BookingAggregate> optionalBooking = bookingOperationService.find(userId, financialLedgerId, bookingAggregateId);
+        Optional<BookingAggregate> optionalBooking = bookingOperationService.find(userId, financialLedgerAggregateId, bookingAggregateId);
         assertTrue(optionalBooking.isPresent());
         assertEquals(bookingAggregate, optionalBooking.get());
     }
@@ -77,29 +77,29 @@ public class BookingOperationServiceTest {
                 .money(new Money(19.00, CurrencyType.EURO))
                 .build();
 
-        Optional<BookingAggregate> optionalBookingAggregate = bookingOperationService.create(userId, financialLedgerId, attributeData);
+        Optional<BookingAggregate> optionalBookingAggregate = bookingOperationService.create(userId, financialLedgerAggregateId, attributeData);
         assertTrue(optionalBookingAggregate.isPresent());
         assertEquals(attributeData.getTitle(), optionalBookingAggregate.get().getBooking().getTitle());
-        assertEquals(financialLedgerId, optionalBookingAggregate.get().getFinancialLedgerId());
+        assertEquals(financialLedgerAggregateId, optionalBookingAggregate.get().getFinancialLedgerId());
         assertEquals(userId, optionalBookingAggregate.get().getCreatorId());
     }
 
     @Test
     public void testExist() {
-        boolean result = bookingOperationService.exists(userId, financialLedgerId, bookingAggregateId);
+        boolean result = bookingOperationService.exists(userId, financialLedgerAggregateId, bookingAggregateId);
         assertTrue(result);
     }
 
     @Test
     public void testDelete() {
-        boolean result = bookingOperationService.delete(userId, financialLedgerId, bookingAggregateId);
+        boolean result = bookingOperationService.delete(userId, financialLedgerAggregateId, bookingAggregateId);
         assertTrue(result);
         Optional<BookingAggregate> optionalBooking = bookingAggregateApplicationService.findById(bookingAggregateId);
         assertFalse(optionalBooking.isPresent());
 
-        Optional<FinancialLedger> optionalFinancialLedger = financialLedgerApplicationService.findById(financialLedgerId);
-        assertTrue(optionalFinancialLedger.isPresent());
-        optionalBooking = optionalFinancialLedger.get().getBookingAggregates().stream().filter(f -> f.getBooking().getId().equals(bookingAggregateId)).findFirst();
+        Optional<FinancialLedgerAggregate> optionalFinancialLedgerAggregate = financialLedgerAggregateApplicationService.findById(financialLedgerAggregateId);
+        assertTrue(optionalFinancialLedgerAggregate.isPresent());
+        optionalBooking = optionalFinancialLedgerAggregate.get().getBookingAggregates().stream().filter(f -> f.getBooking().getId().equals(bookingAggregateId)).findFirst();
         assertFalse(optionalBooking.isPresent());
 
         Optional<BookingCategoryAggregate> optionalBookingCategoryAggregate = bookingCategoryAggregateApplicationService.findById(bookingCategoryAggregateId);
@@ -111,7 +111,7 @@ public class BookingOperationServiceTest {
 
     @Test
     public void testReferenceUser() {
-        boolean result = bookingOperationService.referenceUser(userId, financialLedgerId, bookingAggregateId, userId2);
+        boolean result = bookingOperationService.referenceUser(userId, financialLedgerAggregateId, bookingAggregateId, userId2);
         assertTrue(result);
 
         Optional<User> optionalUser = userApplicationService.findById(userId2);
@@ -127,7 +127,7 @@ public class BookingOperationServiceTest {
 
     @Test
     public void testDeleteUserReference() {
-        boolean result = bookingOperationService.deleteUserReference(userId2, financialLedgerId, bookingAggregateId);
+        boolean result = bookingOperationService.deleteUserReference(userId2, financialLedgerAggregateId, bookingAggregateId);
         assertTrue(result);
         Optional<BookingAggregate> optionalBookingAggregate = bookingAggregateApplicationService.findById(bookingAggregateId);
         assertTrue(optionalBookingAggregate.isPresent());

@@ -1,14 +1,12 @@
 package de.dhbw.ems.application;
 
-import de.dhbw.ems.application.booking.aggregate.BookingAggregateApplicationService;
 import de.dhbw.ems.application.bookingcategory.aggregate.BookingCategoryAggregateApplicationService;
 import de.dhbw.ems.application.bookingcategory.entity.BookingCategoryApplicationService;
 import de.dhbw.ems.application.bookingcategory.entity.BookingCategoryAttributeData;
-import de.dhbw.ems.application.financialledger.FinancialLedgerApplicationService;
-import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
+import de.dhbw.ems.application.financialledger.aggregate.FinancialLedgerAggregateApplicationService;
 import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
 import de.dhbw.ems.domain.bookingcategory.entity.BookingCategory;
-import de.dhbw.ems.domain.financialledger.FinancialLedger;
+import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,13 +31,9 @@ public class BookingCategoryAggregateApplicationServiceTest {
     @Autowired
     private BookingCategoryApplicationService bookingCategoryApplicationService;
     @Autowired
-    private FinancialLedgerApplicationService financialLedgerApplicationService;
-    @Autowired
-    private BookingAggregateApplicationService bookingAggregateApplicationService;
+    private FinancialLedgerAggregateApplicationService financialLedgerAggregateApplicationService;
 
-    private FinancialLedger financialLedger;
-    private BookingCategory bookingCategory;
-    private BookingAggregate bookingAggregate;
+    private FinancialLedgerAggregate financialLedgerAggregate;
 
     private BookingCategoryAggregate bookingCategoryAggregate1;
     private BookingCategoryAggregate bookingCategoryAggregate2;
@@ -50,13 +44,13 @@ public class BookingCategoryAggregateApplicationServiceTest {
 
     @Before
     public void setup(){
-        Optional<FinancialLedger> optionalFinancialLedger = financialLedgerApplicationService.findById(UUID.fromString("12345678-1234-1234-a123-123456789011"));
+        Optional<FinancialLedgerAggregate> optionalFinancialLedger = financialLedgerAggregateApplicationService.findById(UUID.fromString("12345678-1234-1234-a123-123456789111"));
         assertTrue(optionalFinancialLedger.isPresent());
-        financialLedger = optionalFinancialLedger.get();
+        financialLedgerAggregate = optionalFinancialLedger.get();
 
         Optional<BookingCategory> optionalBookingCategory = bookingCategoryApplicationService.findById(UUID.fromString("12345678-1234-1234-a123-123456789021"));
         assertTrue(optionalBookingCategory.isPresent());
-        bookingCategory = optionalBookingCategory.get();
+        BookingCategory bookingCategory = optionalBookingCategory.get();
 
         Optional<BookingCategoryAggregate> optionalBookingCategoryAggregate = bookingCategoryAggregateApplicationService.findById(UUID.fromString("12345678-1234-1234-a123-123456789221"));
         assertTrue(optionalBookingCategoryAggregate.isPresent());
@@ -66,8 +60,8 @@ public class BookingCategoryAggregateApplicationServiceTest {
                 .id(UUID.randomUUID())
                 .bookingCategoryId(bookingCategory.getId())
                 .bookingCategory(bookingCategory)
-                .financialLedgerId(financialLedger.getId())
-                .financialLedger(financialLedger)
+                .financialLedgerId(financialLedgerAggregate.getId())
+                .financialLedgerAggregate(financialLedgerAggregate)
                 .build();
 
     }
@@ -96,17 +90,17 @@ public class BookingCategoryAggregateApplicationServiceTest {
     }
 
     private void checkAggregate(BookingCategoryAggregate expectedAggregate, BookingCategoryAggregate actualAggregate) {
-        assertEquals(expectedAggregate.getId(), expectedAggregate.getId());
-        assertEquals(expectedAggregate.getBookingCategoryId(), expectedAggregate.getBookingCategoryId());
-        assertEquals(expectedAggregate.getFinancialLedgerId(), expectedAggregate.getFinancialLedgerId());
+        assertEquals(expectedAggregate.getId(), actualAggregate.getId());
+        assertEquals(expectedAggregate.getBookingCategoryId(), actualAggregate.getBookingCategoryId());
+        assertEquals(expectedAggregate.getFinancialLedgerId(), actualAggregate.getFinancialLedgerId());
     }
 
     @Test
     public void testCreateByAttributeData() {
-        Optional<BookingCategoryAggregate> optionalBookingCategoryAggregate = bookingCategoryAggregateApplicationService.createByAttributeData(financialLedger, attributeData);
+        Optional<BookingCategoryAggregate> optionalBookingCategoryAggregate = bookingCategoryAggregateApplicationService.createByAttributeData(financialLedgerAggregate, attributeData);
         assertTrue(optionalBookingCategoryAggregate.isPresent());
         checkAttributeData(attributeData, optionalBookingCategoryAggregate.get());
-        assertEquals(financialLedger, optionalBookingCategoryAggregate.get().getFinancialLedger());
+        assertEquals(financialLedgerAggregate, optionalBookingCategoryAggregate.get().getFinancialLedgerAggregate());
     }
 
     @Test

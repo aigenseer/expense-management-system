@@ -2,6 +2,7 @@ package de.dhbw.ems.application.mediator.service;
 
 import de.dhbw.ems.application.booking.aggregate.BookingAggregateDomainService;
 import de.dhbw.ems.application.booking.data.BookingAggregateAttributeData;
+import de.dhbw.ems.application.booking.entity.BookingDomainService;
 import de.dhbw.ems.application.booking.reference.BookingReferenceDomainService;
 import de.dhbw.ems.application.mediator.ConcreteApplicationMediator;
 import de.dhbw.ems.application.mediator.colleage.BookingColleague;
@@ -9,7 +10,7 @@ import de.dhbw.ems.application.mediator.service.impl.BookingService;
 import de.dhbw.ems.application.mediator.service.impl.FinancialLedgerService;
 import de.dhbw.ems.application.user.UserDomainService;
 import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
-import de.dhbw.ems.domain.financialledger.FinancialLedger;
+import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
 import de.dhbw.ems.domain.user.User;
 import org.springframework.stereotype.Service;
 
@@ -29,9 +30,10 @@ public class BookingOperationService extends BookingColleague implements Booking
             final UserDomainService userDomainService,
             final FinancialLedgerService financialLedgerService,
             final BookingAggregateDomainService bookingAggregateDomainService,
+            final BookingDomainService bookingDomainService,
             final BookingReferenceDomainService bookingReferenceDomainService
             ) {
-        super(mediator, bookingAggregateDomainService, bookingReferenceDomainService);
+        super(mediator, bookingAggregateDomainService, bookingDomainService, bookingReferenceDomainService);
         this.userDomainService = userDomainService;
         this.financialLedgerService = financialLedgerService;
         this.bookingAggregateDomainService = bookingAggregateDomainService;
@@ -39,17 +41,17 @@ public class BookingOperationService extends BookingColleague implements Booking
     }
 
     public Optional<BookingAggregate> find(UUID userId, UUID financialLedgerId, UUID bookingAggregateId){
-        Optional<FinancialLedger> optionalFinancialLedger = financialLedgerService.find(userId, financialLedgerId);
-        if (!optionalFinancialLedger.isPresent()) return Optional.empty();
-        return optionalFinancialLedger.get().getBookingAggregates().stream().filter(b -> b.getFinancialLedgerId().equals(financialLedgerId) && b.getId().equals(bookingAggregateId)).findFirst();
+        Optional<FinancialLedgerAggregate> optionalFinancialLedgerAggregate = financialLedgerService.find(userId, financialLedgerId);
+        if (!optionalFinancialLedgerAggregate.isPresent()) return Optional.empty();
+        return optionalFinancialLedgerAggregate.get().getBookingAggregates().stream().filter(b -> b.getFinancialLedgerId().equals(financialLedgerId) && b.getId().equals(bookingAggregateId)).findFirst();
     }
 
     public Optional<BookingAggregate> create(UUID userId, UUID financialLedgerId, BookingAggregateAttributeData attributeData){
         Optional<User> optionalUser = userDomainService.findById(userId);
         if (!optionalUser.isPresent()) return Optional.empty();
-        Optional<FinancialLedger> optionalFinancialLedger = financialLedgerService.find(userId, financialLedgerId);
-        if (!optionalFinancialLedger.isPresent()) return Optional.empty();
-        Optional<BookingAggregate> optionalBookingAggregate = bookingAggregateDomainService.createByAttributeData(optionalUser.get(), optionalFinancialLedger.get(), attributeData);
+        Optional<FinancialLedgerAggregate> optionalFinancialLedgerAggregate = financialLedgerService.find(userId, financialLedgerId);
+        if (!optionalFinancialLedgerAggregate.isPresent()) return Optional.empty();
+        Optional<BookingAggregate> optionalBookingAggregate = bookingAggregateDomainService.createByAttributeData(optionalUser.get(), optionalFinancialLedgerAggregate.get(), attributeData);
         if (!optionalBookingAggregate.isPresent()) return Optional.empty();
         return optionalBookingAggregate;
     }

@@ -3,11 +3,9 @@ package de.dhbw.ems.domain.booking.aggregate;
 import de.dhbw.ems.domain.booking.entity.Booking;
 import de.dhbw.ems.domain.booking.reference.BookingReference;
 import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
-import de.dhbw.ems.domain.financialledger.FinancialLedger;
+import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
 import de.dhbw.ems.domain.user.User;
 import lombok.*;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -35,7 +33,7 @@ public class BookingAggregate implements Serializable {
     @Type(type="uuid-char")
     private UUID bookingId;
 
-    @Column(name="financial_ledger_id", nullable=false)
+    @Column(name="financial_ledger_aggregate_id", nullable=false)
     @Type(type="uuid-char")
     private UUID financialLedgerId;
 
@@ -52,8 +50,8 @@ public class BookingAggregate implements Serializable {
     private Booking booking;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "financial_ledger_id", nullable = false, updatable = false, insertable = false)
-    private FinancialLedger financialLedger;
+    @JoinColumn(name = "financial_ledger_aggregate_id", nullable = false, updatable = false, insertable = false)
+    private FinancialLedgerAggregate financialLedgerAggregate;
 
     @Column(name = "creation_date", nullable = false)
     private LocalDate creationDate;
@@ -63,7 +61,6 @@ public class BookingAggregate implements Serializable {
     private BookingCategoryAggregate categoryAggregate;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "bookingAggregate", targetEntity = BookingReference.class)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<BookingReference> bookingReferences;
 
     public Set<User> getReferencedUsers(){
