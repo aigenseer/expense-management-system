@@ -33,8 +33,8 @@ public class BookingUnsafeDataToAttributeDataMapper implements BookingUnsafeData
                 builder.money(money);
             }
         }catch (IllegalArgumentException|NullPointerException ignored){}
-        if(data.getBookingCategoryId() != null){
-            UUID bookingCategoryId = UUID.fromString(data.getBookingCategoryId());
+        if(data.getBookingCategoryAggregateId() != null){
+            UUID bookingCategoryId = UUID.fromString(data.getBookingCategoryAggregateId());
             Optional<BookingCategoryAggregate> optionalBookingCategoryAggregate = bookingCategoryDomainServicePort.findById(bookingCategoryId);
             optionalBookingCategoryAggregate.ifPresent(builder::bookingCategoryAggregate);
         }

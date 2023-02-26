@@ -21,6 +21,6 @@ public class BookingUpdateData implements IBookingUnsafeData {
     private String currencyType;
 
     @ValueOfUUID(message = "The bookingCategoryId is invalid UUID.")
-    private String bookingCategoryId;
+    private String bookingCategoryAggregateId;
 
 }
