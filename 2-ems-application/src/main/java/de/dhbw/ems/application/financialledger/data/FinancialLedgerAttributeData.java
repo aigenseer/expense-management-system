@@ -1,4 +1,4 @@
-package de.dhbw.ems.application.financialledger;
+package de.dhbw.ems.application.financialledger.data;
 
 import lombok.Builder;
 import lombok.Data;
