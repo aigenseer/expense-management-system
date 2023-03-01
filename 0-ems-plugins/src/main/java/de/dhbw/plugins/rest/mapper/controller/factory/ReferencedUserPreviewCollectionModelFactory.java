@@ -1,8 +1,8 @@
-package de.dhbw.plugins.mapper.booking.factory;
+package de.dhbw.plugins.rest.mapper.controller.factory;
 
 import de.dhbw.ems.adapter.model.user.preview.UserPreviewCollectionModel;
 import de.dhbw.ems.domain.user.User;
-import de.dhbw.plugins.mapper.user.model.UsersToUserPreviewCollectionMapper;
+import de.dhbw.plugins.rest.mapper.controller.model.UsersToUserPreviewCollectionMapper;
 import de.dhbw.plugins.rest.controller.booking.user.BookingReferencedUserController;
 import de.dhbw.plugins.rest.controller.booking.users.BookingReferencedUsersController;
 import lombok.RequiredArgsConstructor;

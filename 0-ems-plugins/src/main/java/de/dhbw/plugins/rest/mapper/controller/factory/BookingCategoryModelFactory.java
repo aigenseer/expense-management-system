@@ -1,10 +1,9 @@
-package de.dhbw.plugins.mapper.bookingcategory.factory;
+package de.dhbw.plugins.rest.mapper.controller.factory;
 
 import de.dhbw.ems.adapter.model.booking.preview.BookingPreviewCollectionModel;
 import de.dhbw.ems.adapter.model.bookingcategory.data.BookingCategoryAggregateToBookingCategoryModelAdapterMapper;
 import de.dhbw.ems.adapter.model.bookingcategory.data.BookingCategoryModel;
 import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
-import de.dhbw.plugins.mapper.booking.factory.BookingPreviewCollectionModelFactory;
 import de.dhbw.plugins.rest.controller.bookingcategory.BookingCategoryController;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.Link;

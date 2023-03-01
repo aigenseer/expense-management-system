@@ -1,4 +1,4 @@
-package de.dhbw.plugins.mapper.user.model;
+package de.dhbw.plugins.rest.mapper.controller.model;
 
 import de.dhbw.ems.adapter.model.user.preview.UserPreview;
 import de.dhbw.ems.adapter.model.user.preview.UserPreviewCollectionModel;

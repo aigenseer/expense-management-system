@@ -1,8 +1,8 @@
-package de.dhbw.plugins.mapper.booking.factory;
+package de.dhbw.plugins.rest.mapper.controller.factory;
 
 import de.dhbw.ems.adapter.model.user.preview.UserPreview;
 import de.dhbw.ems.domain.user.User;
-import de.dhbw.plugins.mapper.user.model.UserToUserPreviewMapper;
+import de.dhbw.plugins.rest.mapper.controller.model.UserToUserPreviewMapper;
 import de.dhbw.plugins.rest.controller.booking.user.BookingReferencedUserController;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.Link;

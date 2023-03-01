@@ -1,4 +1,4 @@
-package de.dhbw.plugins.mapper.financialledger.model;
+package de.dhbw.plugins.rest.mapper.controller.model;
 
 import de.dhbw.ems.adapter.model.financialledger.preview.FinancialLedgerAggregateToFinancialLedgerPreviewModelAdapterMapper;
 import de.dhbw.ems.adapter.model.financialledger.preview.FinancialLedgerPreviewModel;

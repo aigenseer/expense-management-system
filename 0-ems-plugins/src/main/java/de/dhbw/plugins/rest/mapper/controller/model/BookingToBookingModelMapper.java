@@ -1,4 +1,4 @@
-package de.dhbw.plugins.mapper.booking.model;
+package de.dhbw.plugins.rest.mapper.controller.model;
 
 import de.dhbw.ems.adapter.model.booking.model.BookingModel;
 import de.dhbw.ems.adapter.model.booking.model.BookingAggregateToBookingModelAdapterMapper;
@@ -6,9 +6,6 @@ import de.dhbw.ems.adapter.model.bookingcategory.preview.BookingCategoryPreviewM
 import de.dhbw.ems.adapter.model.user.preview.UserPreview;
 import de.dhbw.ems.adapter.model.user.preview.UserPreviewCollectionModel;
 import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
-import de.dhbw.plugins.mapper.bookingcategory.model.BookingCategoryAggregateToBookingCategoryPreviewMapper;
-import de.dhbw.plugins.mapper.user.model.UserToUserPreviewMapper;
-import de.dhbw.plugins.mapper.user.model.UsersToUserPreviewCollectionMapper;
 import de.dhbw.plugins.rest.controller.booking.BookingController;
 import de.dhbw.plugins.rest.controller.booking.users.BookingReferencedUsersController;
 import lombok.Builder;
