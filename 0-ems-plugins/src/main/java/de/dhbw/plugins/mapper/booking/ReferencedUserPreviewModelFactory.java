@@ -18,12 +18,12 @@ public class ReferencedUserPreviewModelFactory {
 
     private final UserToUserPreviewMapper userToUserPreviewMapper;
 
-    public UserPreview create(UUID userId, UUID financialLedgerId, UUID bookingId, User referencedUser){
+    public UserPreview create(UUID userId, UUID financialLedgerAggregateId, UUID bookingAggregateId, User referencedUser){
         UserPreview model = userToUserPreviewMapper.apply(referencedUser);
         model.removeLinks();
 
-        Link selfLink = linkTo(methodOn(BookingReferencedUserController.class).findOne(userId, financialLedgerId, bookingId, referencedUser.getId())).withSelfRel()
-                .andAffordance(afford(methodOn(BookingReferencedUserController.class).delete(userId, financialLedgerId, bookingId, referencedUser.getId())));
+        Link selfLink = linkTo(methodOn(BookingReferencedUserController.class).findOne(userId, financialLedgerAggregateId, bookingAggregateId, referencedUser.getId())).withSelfRel()
+                .andAffordance(afford(methodOn(BookingReferencedUserController.class).delete(userId, financialLedgerAggregateId, bookingAggregateId, referencedUser.getId())));
         model.add(selfLink);
         return model;
     }

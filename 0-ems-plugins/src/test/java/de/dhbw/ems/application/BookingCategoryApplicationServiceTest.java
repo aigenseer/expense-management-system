@@ -1,8 +1,8 @@
 package de.dhbw.ems.application;
 
-import de.dhbw.ems.application.bookingcategory.BookingCategoryApplicationService;
-import de.dhbw.ems.application.bookingcategory.BookingCategoryAttributeData;
-import de.dhbw.ems.domain.bookingcategory.BookingCategory;
+import de.dhbw.ems.application.bookingcategory.entity.BookingCategoryApplicationService;
+import de.dhbw.ems.application.bookingcategory.entity.BookingCategoryAttributeData;
+import de.dhbw.ems.domain.bookingcategory.entity.BookingCategory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +24,10 @@ public class BookingCategoryApplicationServiceTest {
     @Autowired
     private BookingCategoryApplicationService applicationService;
 
+
     private final BookingCategory entity1 = BookingCategory.builder()
             .id(UUID.fromString("12345678-1234-1234-a123-123456789021"))
-            .title("Example-Category-1")
+            .title("Example-Category")
             .build();
 
     private final BookingCategory entity2 = BookingCategory.builder()
@@ -67,10 +68,9 @@ public class BookingCategoryApplicationServiceTest {
 
     @Test
     public void testCreateByAttributeData() {
-        Optional<BookingCategory> optionalBookingCategory = applicationService.createByAttributeData(entity1.getFinancialLedger(), attributeData);
+        Optional<BookingCategory> optionalBookingCategory = applicationService.createByAttributeData(attributeData);
         assertTrue(optionalBookingCategory.isPresent());
         checkAttributeData(attributeData, optionalBookingCategory.get());
-        assertEquals(entity1.getFinancialLedger(), optionalBookingCategory.get().getFinancialLedger());
     }
 
     @Test

@@ -20,8 +20,8 @@ public class UserOperationService extends UserColleague implements UserService {
         this.userDomainService = userDomainService;
     }
 
-    public boolean delete(UUID id){
-        Optional<User> optionalUser = userDomainService.findById(id);
+    public boolean delete(UUID userId){
+        Optional<User> optionalUser = userDomainService.findById(userId);
         if (optionalUser.isPresent()){
             getMediator().onDeleteUser(optionalUser.get(), this);
             onDeleteUser(optionalUser.get());

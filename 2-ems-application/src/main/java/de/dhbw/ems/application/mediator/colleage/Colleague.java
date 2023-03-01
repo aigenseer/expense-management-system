@@ -1,9 +1,9 @@
 package de.dhbw.ems.application.mediator.colleage;
 
 import de.dhbw.ems.application.mediator.ConcreteApplicationMediator;
-import de.dhbw.ems.domain.booking.Booking;
-import de.dhbw.ems.domain.bookingcategory.BookingCategory;
-import de.dhbw.ems.domain.financialledger.FinancialLedger;
+import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
+import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
+import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
 import de.dhbw.ems.domain.user.User;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -18,19 +18,19 @@ public abstract class Colleague {
         this.mediator.addColleague(this);
     }
 
-    public void onLinkUserToFinancialLedger(User user, FinancialLedger financialLedger) {
+    public void onLinkUserToFinancialLedger(User user, FinancialLedgerAggregate financialLedgerAggregate) {
 
     }
 
-    public void onUnlinkUserToFinancialLedger(User user, FinancialLedger financialLedger) {
+    public void onUnlinkUserToFinancialLedger(User user, FinancialLedgerAggregate financialLedgerAggregate) {
 
     }
 
-    public void onReferenceUserToBooking(User user, Booking booking) {
+    public void onReferenceUserToBooking(User user, BookingAggregate bookingAggregate) {
 
     }
 
-    public void onDeleteReferenceUserToBooking(User user, Booking booking) {
+    public void onDeleteReferenceUserToBooking(User user, BookingAggregate bookingAggregate) {
 
     }
 
@@ -38,15 +38,15 @@ public abstract class Colleague {
 
     }
 
-    public void onDeleteFinancialLedger(FinancialLedger financialLedger) {
+    public void onDeleteFinancialLedger(FinancialLedgerAggregate financialLedgerAggregate) {
 
     }
 
-    public void onDeleteBookingCategory(BookingCategory bookingCategory) {
+    public void onDeleteBookingCategory(BookingCategoryAggregate bookingCategoryAggregate) {
 
     }
 
-    public void onDeleteBooking(Booking booking) {
+    public void onDeleteBooking(BookingAggregate bookingAggregate) {
 
     }
 }

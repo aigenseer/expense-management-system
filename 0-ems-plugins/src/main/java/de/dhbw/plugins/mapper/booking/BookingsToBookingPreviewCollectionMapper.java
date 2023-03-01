@@ -2,7 +2,7 @@ package de.dhbw.plugins.mapper.booking;
 
 import de.dhbw.ems.adapter.model.booking.preview.BookingPreviewCollectionModel;
 import de.dhbw.ems.adapter.model.booking.preview.BookingPreviewModel;
-import de.dhbw.ems.domain.booking.Booking;
+import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ public class BookingsToBookingPreviewCollectionMapper implements Function<Bookin
     @Builder
     public static class Context{
         private final UUID userId;
-        private final Iterable<Booking> bookings;
+        private final Iterable<BookingAggregate> bookingAggregates;
     }
 
     private final BookingToBookingPreviewMapper bookingCategoryToBookingCategoryPreviewMapper;
@@ -35,11 +35,11 @@ public class BookingsToBookingPreviewCollectionMapper implements Function<Bookin
     }
 
     private BookingPreviewCollectionModel map(final BookingsToBookingPreviewCollectionMapper.Context context) {
-        List<BookingPreviewModel> previewModels = StreamSupport.stream(context.getBookings().spliterator(), false)
-                .map(booking -> bookingCategoryToBookingCategoryPreviewMapper
+        List<BookingPreviewModel> previewModels = StreamSupport.stream(context.getBookingAggregates().spliterator(), false)
+                .map(bookingAggregate -> bookingCategoryToBookingCategoryPreviewMapper
                             .apply(BookingToBookingPreviewMapper.Context.builder()
                                     .userId(context.getUserId())
-                                    .booking(booking)
+                                    .bookingAggregate(bookingAggregate)
                         .build())
                 )
                 .collect(Collectors.toList());

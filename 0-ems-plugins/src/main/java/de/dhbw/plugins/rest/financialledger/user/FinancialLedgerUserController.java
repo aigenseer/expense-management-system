@@ -14,7 +14,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(value = "/api/financialledger/{financialLedgerId}/user/{financialLedgerUserId}", produces = "application/vnd.siren+json")
+@RequestMapping(value = "/api/financialledger/{financialLedgerAggregateId}/user/{financialLedgerAggregateUserId}", produces = "application/vnd.siren+json")
 @AllArgsConstructor
 
 public class FinancialLedgerUserController {
@@ -24,17 +24,17 @@ public class FinancialLedgerUserController {
     private final FinancialLedgerUserPreviewModelFactory financialLedgerUserPreviewModelFactory;
 
     @GetMapping
-    public ResponseEntity<UserPreview> findOne(@PathVariable("financialLedgerId") UUID financialLedgerId, @PathVariable("financialLedgerUserId") UUID financialLedgerUserId) {
-        Optional<User> optionalUser = userApplicationAdapter.findById(financialLedgerUserId);
-        if (!optionalUser.isPresent() || !financialLedgerApplicationAdapter.hasUserPermission(financialLedgerUserId, financialLedgerId))
+    public ResponseEntity<UserPreview> findOne(@PathVariable("financialLedgerAggregateId") UUID financialLedgerAggregateId, @PathVariable("financialLedgerAggregateUserId") UUID financialLedgerAggregateUserId) {
+        Optional<User> optionalUser = userApplicationAdapter.findById(financialLedgerAggregateUserId);
+        if (!optionalUser.isPresent() || !financialLedgerApplicationAdapter.hasUserPermission(financialLedgerAggregateUserId, financialLedgerAggregateId))
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
-        return ResponseEntity.ok(financialLedgerUserPreviewModelFactory.create(financialLedgerId, optionalUser.get()));
+        return ResponseEntity.ok(financialLedgerUserPreviewModelFactory.create(financialLedgerAggregateId, optionalUser.get()));
     }
 
     @DeleteMapping
-    public ResponseEntity<Void> delete(@PathVariable("financialLedgerId") UUID financialLedgerId, @PathVariable("financialLedgerUserId") UUID financialLedgerUserId) {
-        if (!financialLedgerApplicationAdapter.unlinkUser(financialLedgerUserId, financialLedgerId)) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public ResponseEntity<Void> delete(@PathVariable("financialLedgerAggregateId") UUID financialLedgerAggregateId, @PathVariable("financialLedgerAggregateUserId") UUID financialLedgerAggregateUserId) {
+        if (!financialLedgerApplicationAdapter.unlinkUser(financialLedgerAggregateUserId, financialLedgerAggregateId)) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 

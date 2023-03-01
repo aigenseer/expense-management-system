@@ -1,7 +1,7 @@
 package de.dhbw.plugins.mapper.bookingcategory;
 
 import de.dhbw.ems.adapter.model.bookingcategory.preview.BookingCategoryPreviewCollectionModel;
-import de.dhbw.ems.domain.bookingcategory.BookingCategory;
+import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
 import de.dhbw.plugins.rest.bookingcategories.BookingCategoriesController;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.Link;
@@ -15,16 +15,16 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 @RequiredArgsConstructor
 public class BookingCategoryPreviewCollectionModelFactory {
 
-    private final BookingCategoriesToBookingCategoryPreviewCollectionMapper bookingCategoriesToBookingCategoryPreviewCollectionMapper;
+    private final BookingCategoryAggregateToBookingCategoryPreviewCollectionMapper bookingCategoriesToBookingCategoryPreviewCollectionMapper;
 
-    public BookingCategoryPreviewCollectionModel create(UUID userId, UUID financialLedgerId, Iterable<BookingCategory> bookingCategories){
+    public BookingCategoryPreviewCollectionModel create(UUID userId, UUID financialLedgerAggregateId, Iterable<BookingCategoryAggregate> bookingCategoryAggregates){
         BookingCategoryPreviewCollectionModel previewCollectionModel = bookingCategoriesToBookingCategoryPreviewCollectionMapper
-                .apply(BookingCategoriesToBookingCategoryPreviewCollectionMapper.Context.builder()
+                .apply(BookingCategoryAggregateToBookingCategoryPreviewCollectionMapper.Context.builder()
                         .userId(userId)
-                        .bookingCategories(bookingCategories)
+                        .bookingCategoryAggregates(bookingCategoryAggregates)
                         .build());
-        Link selfLink = linkTo(methodOn(BookingCategoriesController.class).listAll(userId, financialLedgerId)).withSelfRel()
-                .andAffordance(afford(methodOn(BookingCategoriesController.class).create(userId, financialLedgerId, null)));
+        Link selfLink = linkTo(methodOn(BookingCategoriesController.class).listAll(userId, financialLedgerAggregateId)).withSelfRel()
+                .andAffordance(afford(methodOn(BookingCategoriesController.class).create(userId, financialLedgerAggregateId, null)));
         previewCollectionModel.add(selfLink);
         return previewCollectionModel;
     }

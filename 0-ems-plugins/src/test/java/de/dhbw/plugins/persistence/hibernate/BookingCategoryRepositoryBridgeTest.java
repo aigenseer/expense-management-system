@@ -1,8 +1,8 @@
 package de.dhbw.plugins.persistence.hibernate;
 
-import de.dhbw.ems.domain.bookingcategory.BookingCategory;
-import de.dhbw.plugins.persistence.hibernate.bookingcategory.BookingCategoryRepositoryBridge;
-import de.dhbw.plugins.persistence.hibernate.bookingcategory.SpringDataBookingCategoryRepository;
+import de.dhbw.ems.domain.bookingcategory.entity.BookingCategory;
+import de.dhbw.plugins.persistence.hibernate.bookingcategory.entity.BookingCategoryRepositoryBridge;
+import de.dhbw.plugins.persistence.hibernate.bookingcategory.entity.SpringDataBookingCategoryRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

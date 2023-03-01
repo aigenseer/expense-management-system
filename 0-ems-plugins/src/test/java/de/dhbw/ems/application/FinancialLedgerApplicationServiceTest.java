@@ -1,8 +1,8 @@
 package de.dhbw.ems.application;
 
-import de.dhbw.ems.application.financialledger.FinancialLedgerApplicationService;
-import de.dhbw.ems.application.financialledger.FinancialLedgerAttributeData;
-import de.dhbw.ems.domain.financialledger.FinancialLedger;
+import de.dhbw.ems.application.financialledger.data.FinancialLedgerAttributeData;
+import de.dhbw.ems.application.financialledger.entity.FinancialLedgerApplicationService;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +57,7 @@ public class FinancialLedgerApplicationServiceTest {
     @Test
     public void testFindAll() {
         List<FinancialLedger> resultList = applicationService.findAll();
-        assertEquals(2, resultList.size());
+        assertEquals(1, resultList.size());
         Optional<FinancialLedger> result = resultList.stream().filter(user -> user.getId().equals(entity1.getId())).findFirst();
         assertTrue(result.isPresent());
         checkEntity(entity1, result.get());

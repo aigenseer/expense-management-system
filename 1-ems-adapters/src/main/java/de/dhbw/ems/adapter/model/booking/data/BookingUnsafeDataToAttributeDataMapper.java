@@ -2,9 +2,9 @@ package de.dhbw.ems.adapter.model.booking.data;
 
 import de.dhbw.ems.abstractioncode.valueobject.money.CurrencyType;
 import de.dhbw.ems.abstractioncode.valueobject.money.Money;
-import de.dhbw.ems.application.booking.BookingAttributeData;
-import de.dhbw.ems.application.bookingcategory.BookingCategoryDomainServicePort;
-import de.dhbw.ems.domain.bookingcategory.BookingCategory;
+import de.dhbw.ems.application.booking.data.BookingAggregateAttributeData;
+import de.dhbw.ems.application.bookingcategory.aggregate.BookingCategoryDomainServicePort;
+import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -18,12 +18,12 @@ public class BookingUnsafeDataToAttributeDataMapper implements BookingUnsafeData
     private final BookingCategoryDomainServicePort bookingCategoryDomainServicePort;
 
     @Override
-    public BookingAttributeData apply(final IBookingUnsafeData data) {
+    public BookingAggregateAttributeData apply(final IBookingUnsafeData data) {
         return map(data);
     }
 
-    private BookingAttributeData map(final IBookingUnsafeData data) {
-        BookingAttributeData.BookingAttributeDataBuilder builder = BookingAttributeData.builder();
+    private BookingAggregateAttributeData map(final IBookingUnsafeData data) {
+        BookingAggregateAttributeData.BookingAggregateAttributeDataBuilder builder = BookingAggregateAttributeData.builder();
         if (data.getTitle() != null)
             builder.title(data.getTitle());
         try {
@@ -33,10 +33,10 @@ public class BookingUnsafeDataToAttributeDataMapper implements BookingUnsafeData
                 builder.money(money);
             }
         }catch (IllegalArgumentException|NullPointerException ignored){}
-        if(data.getBookingCategoryId() != null){
-            UUID bookingCategoryId = UUID.fromString(data.getBookingCategoryId());
-            Optional<BookingCategory> optionalBooking = bookingCategoryDomainServicePort.findById(bookingCategoryId);
-            optionalBooking.ifPresent(builder::bookingCategory);
+        if(data.getBookingCategoryAggregateId() != null){
+            UUID bookingCategoryId = UUID.fromString(data.getBookingCategoryAggregateId());
+            Optional<BookingCategoryAggregate> optionalBookingCategoryAggregate = bookingCategoryDomainServicePort.findById(bookingCategoryId);
+            optionalBookingCategoryAggregate.ifPresent(builder::bookingCategoryAggregate);
         }
         return builder.build();
     }

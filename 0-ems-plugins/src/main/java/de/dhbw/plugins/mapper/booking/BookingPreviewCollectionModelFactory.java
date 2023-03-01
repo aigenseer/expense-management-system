@@ -1,7 +1,7 @@
 package de.dhbw.plugins.mapper.booking;
 
 import de.dhbw.ems.adapter.model.booking.preview.BookingPreviewCollectionModel;
-import de.dhbw.ems.domain.booking.Booking;
+import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
 import de.dhbw.plugins.rest.bookings.BookingsController;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.Link;
@@ -17,15 +17,15 @@ public class BookingPreviewCollectionModelFactory {
 
     private final BookingsToBookingPreviewCollectionMapper bookingsToBookingPreviewCollectionMapper;
 
-    public BookingPreviewCollectionModel create(UUID userId, UUID financialLedgerId, Iterable<Booking> bookings){
+    public BookingPreviewCollectionModel create(UUID userId, UUID financialLedgerAggregateId, Iterable<BookingAggregate> bookingAggregates){
         BookingPreviewCollectionModel previewCollectionModel = bookingsToBookingPreviewCollectionMapper.apply(BookingsToBookingPreviewCollectionMapper
                 .Context.builder()
                 .userId(userId)
-                .bookings(bookings)
+                .bookingAggregates(bookingAggregates)
                 .build());
 
-        Link selfLink = linkTo(methodOn(BookingsController.class).listAll(userId, financialLedgerId)).withSelfRel()
-                .andAffordance(afford(methodOn(BookingsController.class).create(userId, financialLedgerId, null)));
+        Link selfLink = linkTo(methodOn(BookingsController.class).listAll(userId, financialLedgerAggregateId)).withSelfRel()
+                .andAffordance(afford(methodOn(BookingsController.class).create(userId, financialLedgerAggregateId, null)));
         previewCollectionModel.add(selfLink);
         return previewCollectionModel;
     }

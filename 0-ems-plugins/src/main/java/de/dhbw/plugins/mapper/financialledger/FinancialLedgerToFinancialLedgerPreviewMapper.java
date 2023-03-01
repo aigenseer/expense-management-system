@@ -1,8 +1,8 @@
 package de.dhbw.plugins.mapper.financialledger;
 
+import de.dhbw.ems.adapter.model.financialledger.preview.FinancialLedgerAggregateToFinancialLedgerPreviewModelAdapterMapper;
 import de.dhbw.ems.adapter.model.financialledger.preview.FinancialLedgerPreviewModel;
-import de.dhbw.ems.adapter.model.financialledger.preview.FinancialLedgerToFinancialLedgerPreviewModelAdapterMapper;
-import de.dhbw.ems.domain.financialledger.FinancialLedger;
+import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
 import de.dhbw.plugins.rest.financialledger.FinancialLedgerController;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,10 +27,10 @@ public class FinancialLedgerToFinancialLedgerPreviewMapper implements Function<F
     @Builder
     static class Context{
         private final UUID userId;
-        private final FinancialLedger financialLedger;
+        private final FinancialLedgerAggregate financialLedgerAggregate;
     }
 
-    private final FinancialLedgerToFinancialLedgerPreviewModelAdapterMapper financialLedgerToFinancialLedgerPreviewModelMapper;
+    private final FinancialLedgerAggregateToFinancialLedgerPreviewModelAdapterMapper financialLedgerToFinancialLedgerPreviewModelMapper;
 
     @Override
     public FinancialLedgerPreviewModel apply(final FinancialLedgerToFinancialLedgerPreviewMapper.Context context) {
@@ -38,8 +38,8 @@ public class FinancialLedgerToFinancialLedgerPreviewMapper implements Function<F
     }
 
     private FinancialLedgerPreviewModel map(final FinancialLedgerToFinancialLedgerPreviewMapper.Context context) {
-        FinancialLedgerPreviewModel preview = financialLedgerToFinancialLedgerPreviewModelMapper.apply(context.getFinancialLedger());
-        Link selfLink = WebMvcLinkBuilder.linkTo(methodOn(FinancialLedgerController.class).findOne(context.getUserId(), context.getFinancialLedger().getId())).withSelfRel();
+        FinancialLedgerPreviewModel preview = financialLedgerToFinancialLedgerPreviewModelMapper.apply(context.getFinancialLedgerAggregate());
+        Link selfLink = WebMvcLinkBuilder.linkTo(methodOn(FinancialLedgerController.class).findOne(context.getUserId(), context.getFinancialLedgerAggregate().getId())).withSelfRel();
         preview.add(selfLink);
         return preview;
     }

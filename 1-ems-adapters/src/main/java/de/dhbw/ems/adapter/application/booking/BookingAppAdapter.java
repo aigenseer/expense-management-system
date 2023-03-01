@@ -1,11 +1,11 @@
 package de.dhbw.ems.adapter.application.booking;
 
 import de.dhbw.ems.abstractioncode.valueobject.money.CurrencyType;
-import de.dhbw.ems.application.booking.BookingAttributeData;
-import de.dhbw.ems.application.booking.BookingDomainServicePort;
+import de.dhbw.ems.application.booking.aggregate.BookingAggregateDomainServicePort;
+import de.dhbw.ems.application.booking.data.BookingAggregateAttributeData;
 import de.dhbw.ems.application.mediator.service.impl.BookingServicePort;
 import de.dhbw.ems.application.mediator.service.impl.ExchangeCurrencyServicePort;
-import de.dhbw.ems.domain.booking.Booking;
+import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,46 +18,46 @@ public class BookingAppAdapter implements BookingApplicationAdapter {
 
     private final BookingServicePort bookingServicePort;
     private final ExchangeCurrencyServicePort exchangeCurrencyServicePort;
-    private final BookingDomainServicePort bookingDomainServicePort;
+    private final BookingAggregateDomainServicePort bookingAggregateDomainServicePort;
 
     @Override
-    public Optional<Booking> find(UUID userId, UUID financialLedgerId, UUID bookingId) {
-        return bookingServicePort.find(userId, financialLedgerId, bookingId);
+    public Optional<BookingAggregate> find(UUID userId, UUID financialLedgerAggregateId, UUID bookingAggregateId) {
+        return bookingServicePort.find(userId, financialLedgerAggregateId, bookingAggregateId);
     }
 
     @Override
-    public Optional<Booking> create(UUID userId, UUID financialLedgerId, BookingAttributeData attributeData) {
-        return bookingServicePort.create(userId, financialLedgerId, attributeData);
+    public Optional<BookingAggregate> create(UUID userId, UUID financialLedgerAggregateId, BookingAggregateAttributeData attributeData) {
+        return bookingServicePort.create(userId, financialLedgerAggregateId, attributeData);
     }
 
     @Override
-    public boolean exists(UUID userId, UUID financialLedgerId, UUID bookingId) {
-        return bookingServicePort.exists(userId, financialLedgerId, bookingId);
+    public boolean exists(UUID userId, UUID financialLedgerAggregateId, UUID bookingAggregateId) {
+        return bookingServicePort.exists(userId, financialLedgerAggregateId, bookingAggregateId);
     }
 
     @Override
-    public boolean delete(UUID userId, UUID financialLedgerId, UUID bookingId) {
-        return bookingServicePort.delete(userId, financialLedgerId, bookingId);
+    public boolean delete(UUID userId, UUID financialLedgerAggregateId, UUID bookingAggregateId) {
+        return bookingServicePort.delete(userId, financialLedgerAggregateId, bookingAggregateId);
     }
 
     @Override
-    public boolean referenceUser(UUID id, UUID financialLedgerId, UUID bookingId, UUID referenceUserId) {
-        return bookingServicePort.referenceUser(id, financialLedgerId, bookingId, referenceUserId);
+    public boolean referenceUser(UUID id, UUID financialLedgerAggregateId, UUID bookingAggregateId, UUID referenceUserId) {
+        return bookingServicePort.referenceUser(id, financialLedgerAggregateId, bookingAggregateId, referenceUserId);
     }
 
     @Override
-    public boolean deleteUserReference(UUID id, UUID financialLedgerId, UUID bookingId) {
-        return bookingServicePort.delete(id, financialLedgerId, bookingId);
+    public boolean deleteUserReference(UUID id, UUID financialLedgerAggregateId, UUID bookingId) {
+        return bookingServicePort.delete(id, financialLedgerAggregateId, bookingId);
     }
 
     @Override
-    public Optional<Booking> updateByAttributeData(Booking booking, BookingAttributeData attributeData) {
-        return bookingDomainServicePort.updateByAttributeData(booking, attributeData);
+    public Optional<BookingAggregate> updateByAttributeData(BookingAggregate bookingAggregate, BookingAggregateAttributeData attributeData) {
+        return bookingAggregateDomainServicePort.updateByAttributeData(bookingAggregate, attributeData);
     }
 
     @Override
-    public boolean exchangeCurrencyOfBooking(UUID id, UUID financialLedgerId, UUID bookingId, CurrencyType targetCurrencyType) {
-        return exchangeCurrencyServicePort.exchangeCurrencyOfBooking(id, financialLedgerId, bookingId, targetCurrencyType);
+    public boolean exchangeCurrencyOfBooking(UUID id, UUID financialLedgerAggregateId, UUID bookingAggregateId, CurrencyType targetCurrencyType) {
+        return exchangeCurrencyServicePort.exchangeCurrencyOfBooking(id, financialLedgerAggregateId, bookingAggregateId, targetCurrencyType);
     }
 
 }

@@ -4,6 +4,6 @@ import java.util.UUID;
 
 public interface UserServicePort {
 
-     boolean delete(UUID id);
+     boolean delete(UUID userId);
 
 }
