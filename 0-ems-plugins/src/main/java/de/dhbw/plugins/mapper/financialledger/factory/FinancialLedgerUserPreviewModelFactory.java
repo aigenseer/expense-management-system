@@ -1,8 +1,8 @@
-package de.dhbw.plugins.mapper.financialledger;
+package de.dhbw.plugins.mapper.financialledger.factory;
 
 import de.dhbw.ems.adapter.model.user.preview.UserPreview;
 import de.dhbw.ems.domain.user.User;
-import de.dhbw.plugins.mapper.user.UserToUserPreviewMapper;
+import de.dhbw.plugins.mapper.user.model.UserToUserPreviewMapper;
 import de.dhbw.plugins.rest.controller.financialledger.user.FinancialLedgerUserController;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.Link;

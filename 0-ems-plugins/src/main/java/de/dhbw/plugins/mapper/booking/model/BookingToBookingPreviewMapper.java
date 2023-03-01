@@ -1,4 +1,4 @@
-package de.dhbw.plugins.mapper.booking;
+package de.dhbw.plugins.mapper.booking.model;
 
 import de.dhbw.ems.adapter.model.booking.preview.BookingPreviewModel;
 import de.dhbw.ems.adapter.model.booking.preview.BookingAggregateToBookingPreviewModelAdapterMapper;

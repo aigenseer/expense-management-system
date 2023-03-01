@@ -1,8 +1,8 @@
-package de.dhbw.plugins.mapper.financialledger;
+package de.dhbw.plugins.mapper.financialledger.factory;
 
 import de.dhbw.ems.adapter.model.user.preview.UserPreviewCollectionModel;
 import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
-import de.dhbw.plugins.mapper.user.UsersToUserPreviewCollectionMapper;
+import de.dhbw.plugins.mapper.user.model.UsersToUserPreviewCollectionMapper;
 import de.dhbw.plugins.rest.controller.financialledger.user.FinancialLedgerUserController;
 import de.dhbw.plugins.rest.controller.financialledger.users.FinancialLedgerUsersController;
 import lombok.RequiredArgsConstructor;
