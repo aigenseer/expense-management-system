@@ -4,7 +4,7 @@ import de.dhbw.ems.adapter.application.financialledger.FinancialLedgerApplicatio
 import de.dhbw.ems.adapter.application.user.UserApplicationAdapter;
 import de.dhbw.ems.adapter.model.user.preview.UserPreview;
 import de.dhbw.ems.domain.user.User;
-import de.dhbw.plugins.mapper.financialledger.FinancialLedgerUserPreviewModelFactory;
+import de.dhbw.plugins.mapper.financialledger.factory.FinancialLedgerUserPreviewModelFactory;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

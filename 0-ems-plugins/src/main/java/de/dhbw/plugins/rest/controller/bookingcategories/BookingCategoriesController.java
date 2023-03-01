@@ -8,7 +8,7 @@ import de.dhbw.ems.adapter.model.bookingcategory.preview.BookingCategoryPreviewC
 import de.dhbw.ems.application.bookingcategory.entity.BookingCategoryAttributeData;
 import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
 import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
-import de.dhbw.plugins.mapper.bookingcategory.BookingCategoryPreviewCollectionModelFactory;
+import de.dhbw.plugins.mapper.bookingcategory.factory.BookingCategoryPreviewCollectionModelFactory;
 import de.dhbw.plugins.rest.controller.bookingcategory.BookingCategoryController;
 import de.dhbw.plugins.rest.controller.utils.WebMvcLinkBuilderUtils;
 import lombok.RequiredArgsConstructor;

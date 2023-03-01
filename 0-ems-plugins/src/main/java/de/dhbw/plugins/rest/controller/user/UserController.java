@@ -6,7 +6,7 @@ import de.dhbw.ems.adapter.model.user.userdata.UserUnsafeDataToUserAttributeData
 import de.dhbw.ems.adapter.model.user.usermodel.UserModel;
 import de.dhbw.ems.application.user.UserAttributeData;
 import de.dhbw.ems.domain.user.User;
-import de.dhbw.plugins.mapper.user.UserModelFactory;
+import de.dhbw.plugins.mapper.user.factory.UserModelFactory;
 import de.dhbw.plugins.rest.controller.utils.WebMvcLinkBuilderUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
