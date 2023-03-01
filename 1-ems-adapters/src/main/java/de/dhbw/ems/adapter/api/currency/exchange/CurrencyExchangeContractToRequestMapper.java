@@ -10,11 +10,11 @@ import org.springframework.stereotype.Component;
 public class CurrencyExchangeContractToRequestMapper implements CurrencyExchangeContractToCurrencyExchangeRequestAdapterMapper {
 
     @Override
-    public CurrencyExchangeRequest apply(final CurrencyExchangeContract contract) {
+    public CurrencyExchangeRequest apply(final ICurrencyExchangeContract contract) {
         return map(contract);
     }
 
-    private CurrencyExchangeRequest map(final CurrencyExchangeContract contract) {
+    private CurrencyExchangeRequest map(final ICurrencyExchangeContract contract) {
         CurrencyType targetCurrencyType = CurrencyType.valueOf(contract.getTargetCurrencyType());
         return CurrencyExchangeRequest.builder().targetCurrencyType(targetCurrencyType).build();
     }

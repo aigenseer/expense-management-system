@@ -1,6 +1,6 @@
 package de.dhbw.plugins.rest.controller.booking.currency.exchange;
 
-import de.dhbw.ems.adapter.api.currency.exchange.CurrencyExchangeContract;
+import de.dhbw.plugins.rest.controller.booking.currency.exchange.data.CurrencyExchangeContract;
 import de.dhbw.ems.adapter.api.currency.exchange.CurrencyExchangeContractToCurrencyExchangeRequestAdapterMapper;
 import de.dhbw.ems.adapter.application.booking.BookingApplicationAdapter;
 import de.dhbw.ems.application.currency.exchange.CurrencyExchangeRequest;
