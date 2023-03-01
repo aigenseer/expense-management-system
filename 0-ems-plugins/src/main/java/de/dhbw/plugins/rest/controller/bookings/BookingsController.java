@@ -2,13 +2,13 @@ package de.dhbw.plugins.rest.controller.bookings;
 
 import de.dhbw.ems.adapter.application.booking.BookingApplicationAdapter;
 import de.dhbw.ems.adapter.application.financialledger.FinancialLedgerApplicationAdapter;
-import de.dhbw.ems.adapter.model.booking.data.BookingData;
-import de.dhbw.ems.adapter.model.booking.data.BookingUnsafeDataToBookingAttributeDataAdapterMapper;
-import de.dhbw.ems.adapter.model.booking.preview.BookingPreviewCollectionModel;
+import de.dhbw.plugins.rest.controller.booking.data.BookingData;
+import de.dhbw.ems.adapter.mapper.data.booking.BookingUnsafeDataToBookingAttributeDataAdapterMapper;
+import de.dhbw.plugins.rest.mapper.model.booking.preview.BookingPreviewCollectionModel;
 import de.dhbw.ems.application.booking.data.BookingAggregateAttributeData;
 import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
 import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
-import de.dhbw.plugins.rest.mapper.controller.factory.BookingPreviewCollectionModelFactory;
+import de.dhbw.plugins.rest.mapper.controller.factory.booking.BookingPreviewCollectionModelFactory;
 import de.dhbw.plugins.rest.controller.booking.BookingController;
 import de.dhbw.plugins.rest.controller.utils.WebMvcLinkBuilderUtils;
 import lombok.RequiredArgsConstructor;

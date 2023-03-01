@@ -1,10 +1,10 @@
 package de.dhbw.plugins.rest.controller.booking.users;
 
 import de.dhbw.ems.adapter.application.booking.BookingApplicationAdapter;
-import de.dhbw.ems.adapter.model.user.preview.UserPreviewCollectionModel;
-import de.dhbw.ems.adapter.model.user.userdata.AppendUserData;
+import de.dhbw.plugins.rest.mapper.model.user.preview.UserPreviewCollectionModel;
+import de.dhbw.plugins.rest.controller.booking.users.data.AppendUserData;
 import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
-import de.dhbw.plugins.rest.mapper.controller.factory.ReferencedUserPreviewCollectionModelFactory;
+import de.dhbw.plugins.rest.mapper.controller.factory.booking.ReferencedUserPreviewCollectionModelFactory;
 import de.dhbw.plugins.rest.controller.booking.user.BookingReferencedUserController;
 import de.dhbw.plugins.rest.controller.utils.WebMvcLinkBuilderUtils;
 import lombok.RequiredArgsConstructor;

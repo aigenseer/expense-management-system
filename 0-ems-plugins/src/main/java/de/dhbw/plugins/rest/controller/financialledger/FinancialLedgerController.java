@@ -1,12 +1,12 @@
 package de.dhbw.plugins.rest.controller.financialledger;
 
 import de.dhbw.ems.adapter.application.financialledger.FinancialLedgerApplicationAdapter;
-import de.dhbw.ems.adapter.model.financialledger.data.FinancialLedgerData;
-import de.dhbw.ems.adapter.model.financialledger.data.FinancialLedgerDataToFinancialLedgerAttributeDataAdapterMapper;
-import de.dhbw.ems.adapter.model.financialledger.model.FinancialLedgerModel;
+import de.dhbw.ems.adapter.mapper.data.financialledger.FinancialLedgerData;
+import de.dhbw.ems.adapter.mapper.data.financialledger.FinancialLedgerDataToFinancialLedgerAttributeDataAdapterMapper;
+import de.dhbw.plugins.rest.mapper.model.financialledger.model.FinancialLedgerModel;
 import de.dhbw.ems.application.financialledger.data.FinancialLedgerAttributeData;
 import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
-import de.dhbw.plugins.rest.mapper.controller.factory.FinancialLedgerModelFactory;
+import de.dhbw.plugins.rest.mapper.controller.factory.financialledger.FinancialLedgerModelFactory;
 import de.dhbw.plugins.rest.controller.utils.WebMvcLinkBuilderUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;

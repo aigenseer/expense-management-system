@@ -2,13 +2,13 @@ package de.dhbw.plugins.rest.controller.bookingcategories;
 
 import de.dhbw.ems.adapter.application.bookingcategory.BookingCategoryApplicationAdapter;
 import de.dhbw.ems.adapter.application.financialledger.FinancialLedgerApplicationAdapter;
-import de.dhbw.ems.adapter.model.bookingcategory.data.BookingCategoryData;
-import de.dhbw.ems.adapter.model.bookingcategory.data.BookingCategoryDataToBookingCategoryAttributeDataAdapterMapper;
-import de.dhbw.ems.adapter.model.bookingcategory.preview.BookingCategoryPreviewCollectionModel;
+import de.dhbw.plugins.rest.controller.bookingcategory.data.BookingCategoryData;
+import de.dhbw.ems.adapter.mapper.data.bookingcategory.BookingCategoryDataToBookingCategoryAttributeDataAdapterMapper;
+import de.dhbw.plugins.rest.mapper.model.bookingcategory.preview.BookingCategoryPreviewCollectionModel;
 import de.dhbw.ems.application.bookingcategory.entity.BookingCategoryAttributeData;
 import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
 import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
-import de.dhbw.plugins.rest.mapper.controller.factory.BookingCategoryPreviewCollectionModelFactory;
+import de.dhbw.plugins.rest.mapper.controller.factory.bookingcategory.BookingCategoryPreviewCollectionModelFactory;
 import de.dhbw.plugins.rest.controller.bookingcategory.BookingCategoryController;
 import de.dhbw.plugins.rest.controller.utils.WebMvcLinkBuilderUtils;
 import lombok.RequiredArgsConstructor;

@@ -2,9 +2,9 @@ package de.dhbw.plugins.rest.controller.financialledger.user;
 
 import de.dhbw.ems.adapter.application.financialledger.FinancialLedgerApplicationAdapter;
 import de.dhbw.ems.adapter.application.user.UserApplicationAdapter;
-import de.dhbw.ems.adapter.model.user.preview.UserPreview;
+import de.dhbw.plugins.rest.mapper.model.user.preview.UserPreview;
 import de.dhbw.ems.domain.user.User;
-import de.dhbw.plugins.rest.mapper.controller.factory.FinancialLedgerUserPreviewModelFactory;
+import de.dhbw.plugins.rest.mapper.controller.factory.financialledger.FinancialLedgerUserPreviewModelFactory;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

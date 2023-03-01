@@ -1,12 +1,12 @@
 package de.dhbw.plugins.rest.controller.users;
 
 import de.dhbw.ems.adapter.application.user.UserApplicationAdapter;
-import de.dhbw.ems.adapter.model.user.preview.UserPreviewCollectionModel;
-import de.dhbw.ems.adapter.model.user.userdata.UserData;
-import de.dhbw.ems.adapter.model.user.userdata.UserUnsafeDataToUserAttributeDataAdapterMapper;
+import de.dhbw.plugins.rest.mapper.model.user.preview.UserPreviewCollectionModel;
+import de.dhbw.plugins.rest.controller.user.data.UserData;
+import de.dhbw.ems.adapter.mapper.data.user.UserUnsafeDataToUserAttributeDataAdapterMapper;
 import de.dhbw.ems.application.user.UserAttributeData;
 import de.dhbw.ems.domain.user.User;
-import de.dhbw.plugins.rest.mapper.controller.factory.UserPreviewCollectionModelFactory;
+import de.dhbw.plugins.rest.mapper.controller.factory.user.UserPreviewCollectionModelFactory;
 import de.dhbw.plugins.rest.controller.utils.WebMvcLinkBuilderUtils;
 import de.dhbw.plugins.rest.controller.user.UserController;
 import lombok.RequiredArgsConstructor;

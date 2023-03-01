@@ -2,13 +2,13 @@ package de.dhbw.plugins.rest.controller.financialledgers;
 
 import de.dhbw.ems.adapter.application.financialledger.FinancialLedgerApplicationAdapter;
 import de.dhbw.ems.adapter.application.user.UserApplicationAdapter;
-import de.dhbw.ems.adapter.model.financialledger.data.FinancialLedgerData;
-import de.dhbw.ems.adapter.model.financialledger.data.FinancialLedgerDataToFinancialLedgerAttributeDataAdapterMapper;
-import de.dhbw.ems.adapter.model.financialledger.preview.FinancialLedgerPreviewCollectionModel;
+import de.dhbw.ems.adapter.mapper.data.financialledger.FinancialLedgerData;
+import de.dhbw.ems.adapter.mapper.data.financialledger.FinancialLedgerDataToFinancialLedgerAttributeDataAdapterMapper;
+import de.dhbw.plugins.rest.mapper.model.financialledger.preview.FinancialLedgerPreviewCollectionModel;
 import de.dhbw.ems.application.financialledger.data.FinancialLedgerAttributeData;
 import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
 import de.dhbw.ems.domain.user.User;
-import de.dhbw.plugins.rest.mapper.controller.factory.FinancialLedgerPreviewCollectionModelFactory;
+import de.dhbw.plugins.rest.mapper.controller.factory.financialledger.FinancialLedgerPreviewCollectionModelFactory;
 import de.dhbw.plugins.rest.controller.financialledger.FinancialLedgerController;
 import de.dhbw.plugins.rest.controller.utils.WebMvcLinkBuilderUtils;
 import lombok.RequiredArgsConstructor;

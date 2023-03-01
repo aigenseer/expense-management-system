@@ -1,10 +1,10 @@
 package de.dhbw.plugins.rest.controller.booking.user;
 
 import de.dhbw.ems.adapter.application.booking.BookingApplicationAdapter;
-import de.dhbw.ems.adapter.model.user.preview.UserPreview;
+import de.dhbw.plugins.rest.mapper.model.user.preview.UserPreview;
 import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
 import de.dhbw.ems.domain.user.User;
-import de.dhbw.plugins.rest.mapper.controller.factory.ReferencedUserPreviewModelFactory;
+import de.dhbw.plugins.rest.mapper.controller.factory.booking.ReferencedUserPreviewModelFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
