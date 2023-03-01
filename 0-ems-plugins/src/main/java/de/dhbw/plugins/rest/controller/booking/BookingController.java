@@ -6,7 +6,7 @@ import de.dhbw.ems.adapter.model.booking.data.BookingUpdateData;
 import de.dhbw.ems.adapter.model.booking.model.BookingModel;
 import de.dhbw.ems.application.booking.data.BookingAggregateAttributeData;
 import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
-import de.dhbw.plugins.mapper.booking.factory.BookingModelFactory;
+import de.dhbw.plugins.rest.mapper.controller.factory.BookingModelFactory;
 import de.dhbw.plugins.rest.controller.utils.WebMvcLinkBuilderUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;

@@ -6,7 +6,7 @@ import de.dhbw.ems.adapter.model.user.userdata.UserData;
 import de.dhbw.ems.adapter.model.user.userdata.UserUnsafeDataToUserAttributeDataAdapterMapper;
 import de.dhbw.ems.application.user.UserAttributeData;
 import de.dhbw.ems.domain.user.User;
-import de.dhbw.plugins.mapper.user.factory.UserPreviewCollectionModelFactory;
+import de.dhbw.plugins.rest.mapper.controller.factory.UserPreviewCollectionModelFactory;
 import de.dhbw.plugins.rest.controller.utils.WebMvcLinkBuilderUtils;
 import de.dhbw.plugins.rest.controller.user.UserController;
 import lombok.RequiredArgsConstructor;

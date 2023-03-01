@@ -6,7 +6,7 @@ import de.dhbw.ems.adapter.model.financialledger.data.FinancialLedgerDataToFinan
 import de.dhbw.ems.adapter.model.financialledger.model.FinancialLedgerModel;
 import de.dhbw.ems.application.financialledger.data.FinancialLedgerAttributeData;
 import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
-import de.dhbw.plugins.mapper.financialledger.factory.FinancialLedgerModelFactory;
+import de.dhbw.plugins.rest.mapper.controller.factory.FinancialLedgerModelFactory;
 import de.dhbw.plugins.rest.controller.utils.WebMvcLinkBuilderUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
