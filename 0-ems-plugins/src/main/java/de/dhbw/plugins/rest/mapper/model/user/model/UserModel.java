@@ -1,7 +1,7 @@
 package de.dhbw.plugins.rest.mapper.model.user.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import de.dhbw.ems.adapter.model.financialledger.preview.FinancialLedgerPreviewCollectionModel;
+import de.dhbw.plugins.rest.mapper.model.financialledger.preview.FinancialLedgerPreviewCollectionModel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
