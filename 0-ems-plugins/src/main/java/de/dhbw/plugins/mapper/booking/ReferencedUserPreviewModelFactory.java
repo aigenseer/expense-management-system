@@ -3,7 +3,7 @@ package de.dhbw.plugins.mapper.booking;
 import de.dhbw.ems.adapter.model.user.preview.UserPreview;
 import de.dhbw.ems.domain.user.User;
 import de.dhbw.plugins.mapper.user.UserToUserPreviewMapper;
-import de.dhbw.plugins.rest.booking.user.BookingReferencedUserController;
+import de.dhbw.plugins.rest.controller.booking.user.BookingReferencedUserController;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Service;

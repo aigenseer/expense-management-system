@@ -3,7 +3,7 @@ package de.dhbw.plugins.mapper.user;
 import de.dhbw.ems.adapter.model.user.preview.UserPreview;
 import de.dhbw.ems.adapter.model.user.preview.UserToUserPreviewModelAdapterMapper;
 import de.dhbw.ems.domain.user.User;
-import de.dhbw.plugins.rest.user.UserController;
+import de.dhbw.plugins.rest.controller.user.UserController;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;

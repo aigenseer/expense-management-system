@@ -2,7 +2,7 @@ package de.dhbw.plugins.mapper.booking;
 
 import de.dhbw.ems.adapter.model.booking.preview.BookingPreviewCollectionModel;
 import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
-import de.dhbw.plugins.rest.bookings.BookingsController;
+import de.dhbw.plugins.rest.controller.bookings.BookingsController;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Service;

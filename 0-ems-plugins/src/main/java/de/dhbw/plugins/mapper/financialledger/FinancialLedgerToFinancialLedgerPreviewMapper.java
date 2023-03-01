@@ -3,7 +3,7 @@ package de.dhbw.plugins.mapper.financialledger;
 import de.dhbw.ems.adapter.model.financialledger.preview.FinancialLedgerAggregateToFinancialLedgerPreviewModelAdapterMapper;
 import de.dhbw.ems.adapter.model.financialledger.preview.FinancialLedgerPreviewModel;
 import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
-import de.dhbw.plugins.rest.financialledger.FinancialLedgerController;
+import de.dhbw.plugins.rest.controller.financialledger.FinancialLedgerController;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

@@ -5,7 +5,7 @@ import de.dhbw.ems.adapter.model.bookingcategory.data.BookingCategoryAggregateTo
 import de.dhbw.ems.adapter.model.bookingcategory.data.BookingCategoryModel;
 import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
 import de.dhbw.plugins.mapper.booking.BookingPreviewCollectionModelFactory;
-import de.dhbw.plugins.rest.bookingcategory.BookingCategoryController;
+import de.dhbw.plugins.rest.controller.bookingcategory.BookingCategoryController;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Service;

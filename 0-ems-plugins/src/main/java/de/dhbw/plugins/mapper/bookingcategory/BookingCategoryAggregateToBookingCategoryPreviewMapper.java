@@ -3,7 +3,7 @@ package de.dhbw.plugins.mapper.bookingcategory;
 import de.dhbw.ems.adapter.model.bookingcategory.preview.BookingCategoryAggregateToBookingCategoryPreviewModelAdapterMapper;
 import de.dhbw.ems.adapter.model.bookingcategory.preview.BookingCategoryPreviewModel;
 import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
-import de.dhbw.plugins.rest.bookingcategory.BookingCategoryController;
+import de.dhbw.plugins.rest.controller.bookingcategory.BookingCategoryController;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

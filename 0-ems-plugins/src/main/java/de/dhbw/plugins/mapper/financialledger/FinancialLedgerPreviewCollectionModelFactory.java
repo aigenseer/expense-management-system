@@ -1,7 +1,7 @@
 package de.dhbw.plugins.mapper.financialledger;
 
 import de.dhbw.ems.adapter.model.financialledger.preview.FinancialLedgerPreviewCollectionModel;
-import de.dhbw.plugins.rest.financialledgers.FinancialLedgersController;
+import de.dhbw.plugins.rest.controller.financialledgers.FinancialLedgersController;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Service;
