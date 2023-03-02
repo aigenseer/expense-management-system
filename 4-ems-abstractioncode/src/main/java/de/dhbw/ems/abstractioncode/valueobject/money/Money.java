@@ -1,21 +1,38 @@
 package de.dhbw.ems.abstractioncode.valueobject.money;
 
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 import javax.persistence.Embeddable;
 import java.util.Objects;
 
 @Embeddable
-@RequiredArgsConstructor
-@AllArgsConstructor
 @Getter
 public class Money {
 
     private Double amount;
     private CurrencyType currencyType;
+
+    public Money(
+            final Double amount,
+            final CurrencyType currencyType
+    ){
+        validateAmount(amount);
+        this.amount = formatAmount(amount);
+        this.currencyType = currencyType;
+    }
+
+    public Money() {}
+
+    private void validateAmount(final Double amount){
+        if (amount < 0){
+            throw new RuntimeException("Quantity cannot be negative.");
+        }
+    }
+
+    private Double formatAmount(Double amount){
+        return Math.round(amount*100.0)/100.0;
+    }
 
     @Override
     public boolean equals(Object o) {
