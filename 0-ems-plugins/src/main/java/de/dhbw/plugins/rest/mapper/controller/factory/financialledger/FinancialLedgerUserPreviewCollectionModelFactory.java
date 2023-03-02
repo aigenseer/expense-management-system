@@ -1,10 +1,10 @@
 package de.dhbw.plugins.rest.mapper.controller.factory.financialledger;
 
-import de.dhbw.plugins.rest.mapper.model.user.preview.UserPreviewCollectionModel;
 import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
-import de.dhbw.plugins.rest.mapper.controller.model.user.UsersToUserPreviewCollectionMapper;
 import de.dhbw.plugins.rest.controller.financialledger.user.FinancialLedgerUserController;
 import de.dhbw.plugins.rest.controller.financialledger.users.FinancialLedgerUsersController;
+import de.dhbw.plugins.rest.mapper.controller.model.user.UsersToUserPreviewCollectionMapper;
+import de.dhbw.plugins.rest.mapper.model.user.preview.UserPreviewCollectionModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Service;

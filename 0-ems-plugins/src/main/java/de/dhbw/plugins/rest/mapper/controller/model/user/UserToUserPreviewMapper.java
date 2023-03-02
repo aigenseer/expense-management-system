@@ -1,9 +1,9 @@
 package de.dhbw.plugins.rest.mapper.controller.model.user;
 
-import de.dhbw.plugins.rest.mapper.model.user.preview.UserPreview;
-import de.dhbw.plugins.rest.mapper.model.user.preview.UserToUserPreviewModelAdapterMapper;
 import de.dhbw.ems.domain.user.User;
 import de.dhbw.plugins.rest.controller.user.UserController;
+import de.dhbw.plugins.rest.mapper.model.user.preview.UserPreview;
+import de.dhbw.plugins.rest.mapper.model.user.preview.UserToUserPreviewModelAdapterMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;

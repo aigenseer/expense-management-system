@@ -1,13 +1,13 @@
 package de.dhbw.plugins.rest.controller.user;
 
 import de.dhbw.ems.adapter.application.user.UserApplicationAdapter;
-import de.dhbw.plugins.rest.controller.user.data.UserUpdateData;
 import de.dhbw.ems.adapter.mapper.data.user.UserUnsafeDataToUserAttributeDataAdapterMapper;
-import de.dhbw.plugins.rest.mapper.model.user.model.UserModel;
 import de.dhbw.ems.application.user.UserAttributeData;
 import de.dhbw.ems.domain.user.User;
-import de.dhbw.plugins.rest.mapper.controller.factory.user.UserModelFactory;
+import de.dhbw.plugins.rest.controller.user.data.UserUpdateData;
 import de.dhbw.plugins.rest.controller.utils.WebMvcLinkBuilderUtils;
+import de.dhbw.plugins.rest.mapper.controller.factory.user.UserModelFactory;
+import de.dhbw.plugins.rest.mapper.model.user.model.UserModel;
 import lombok.AllArgsConstructor;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;

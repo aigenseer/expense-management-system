@@ -1,9 +1,9 @@
 package de.dhbw.plugins.rest.mapper.controller.factory.user;
 
-import de.dhbw.plugins.rest.mapper.model.user.preview.UserPreviewCollectionModel;
 import de.dhbw.ems.domain.user.User;
-import de.dhbw.plugins.rest.mapper.controller.model.user.UsersToUserPreviewCollectionMapper;
 import de.dhbw.plugins.rest.controller.users.UsersController;
+import de.dhbw.plugins.rest.mapper.controller.model.user.UsersToUserPreviewCollectionMapper;
+import de.dhbw.plugins.rest.mapper.model.user.preview.UserPreviewCollectionModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Service;

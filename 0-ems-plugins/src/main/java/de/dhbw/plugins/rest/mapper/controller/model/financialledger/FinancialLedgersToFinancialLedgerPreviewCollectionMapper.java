@@ -1,9 +1,9 @@
 package de.dhbw.plugins.rest.mapper.controller.model.financialledger;
 
 import de.dhbw.ems.adapter.application.financialledger.FinancialLedgerAppAdapter;
+import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
 import de.dhbw.plugins.rest.mapper.model.financialledger.preview.FinancialLedgerPreviewCollectionModel;
 import de.dhbw.plugins.rest.mapper.model.financialledger.preview.FinancialLedgerPreviewModel;
-import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

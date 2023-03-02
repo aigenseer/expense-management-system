@@ -1,8 +1,8 @@
 package de.dhbw.plugins.rest.mapper.model.financialledger.model;
 
-import de.dhbw.plugins.rest.mapper.model.user.preview.UserPreviewCollectionModel;
 import de.dhbw.plugins.rest.mapper.model.booking.preview.BookingPreviewCollectionModel;
 import de.dhbw.plugins.rest.mapper.model.bookingcategory.preview.BookingCategoryPreviewCollectionModel;
+import de.dhbw.plugins.rest.mapper.model.user.preview.UserPreviewCollectionModel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;

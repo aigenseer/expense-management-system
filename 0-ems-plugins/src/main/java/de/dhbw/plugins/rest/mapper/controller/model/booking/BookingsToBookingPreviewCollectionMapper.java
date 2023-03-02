@@ -1,8 +1,8 @@
 package de.dhbw.plugins.rest.mapper.controller.model.booking;
 
+import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
 import de.dhbw.plugins.rest.mapper.model.booking.preview.BookingPreviewCollectionModel;
 import de.dhbw.plugins.rest.mapper.model.booking.preview.BookingPreviewModel;
-import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

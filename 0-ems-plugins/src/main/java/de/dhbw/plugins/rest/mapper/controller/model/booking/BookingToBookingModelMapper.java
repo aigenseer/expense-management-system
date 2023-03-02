@@ -1,16 +1,16 @@
 package de.dhbw.plugins.rest.mapper.controller.model.booking;
 
-import de.dhbw.plugins.rest.mapper.controller.model.user.UserToUserPreviewMapper;
-import de.dhbw.plugins.rest.mapper.controller.model.user.UsersToUserPreviewCollectionMapper;
-import de.dhbw.plugins.rest.mapper.controller.model.bookingcategory.BookingCategoryAggregateToBookingCategoryPreviewMapper;
-import de.dhbw.plugins.rest.mapper.model.booking.model.BookingModel;
-import de.dhbw.plugins.rest.mapper.model.booking.model.BookingAggregateToBookingModelAdapterMapper;
-import de.dhbw.plugins.rest.mapper.model.bookingcategory.preview.BookingCategoryPreviewModel;
-import de.dhbw.plugins.rest.mapper.model.user.preview.UserPreview;
-import de.dhbw.plugins.rest.mapper.model.user.preview.UserPreviewCollectionModel;
 import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
 import de.dhbw.plugins.rest.controller.booking.BookingController;
 import de.dhbw.plugins.rest.controller.booking.users.BookingReferencedUsersController;
+import de.dhbw.plugins.rest.mapper.controller.model.bookingcategory.BookingCategoryAggregateToBookingCategoryPreviewMapper;
+import de.dhbw.plugins.rest.mapper.controller.model.user.UserToUserPreviewMapper;
+import de.dhbw.plugins.rest.mapper.controller.model.user.UsersToUserPreviewCollectionMapper;
+import de.dhbw.plugins.rest.mapper.model.booking.model.BookingAggregateToBookingModelAdapterMapper;
+import de.dhbw.plugins.rest.mapper.model.booking.model.BookingModel;
+import de.dhbw.plugins.rest.mapper.model.bookingcategory.preview.BookingCategoryPreviewModel;
+import de.dhbw.plugins.rest.mapper.model.user.preview.UserPreview;
+import de.dhbw.plugins.rest.mapper.model.user.preview.UserPreviewCollectionModel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

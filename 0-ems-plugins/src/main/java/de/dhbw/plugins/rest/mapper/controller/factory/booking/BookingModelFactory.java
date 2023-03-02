@@ -1,9 +1,9 @@
 package de.dhbw.plugins.rest.mapper.controller.factory.booking;
 
-import de.dhbw.plugins.rest.mapper.model.booking.model.BookingModel;
 import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
-import de.dhbw.plugins.rest.mapper.controller.model.booking.BookingToBookingModelMapper;
 import de.dhbw.plugins.rest.controller.booking.BookingController;
+import de.dhbw.plugins.rest.mapper.controller.model.booking.BookingToBookingModelMapper;
+import de.dhbw.plugins.rest.mapper.model.booking.model.BookingModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Service;
