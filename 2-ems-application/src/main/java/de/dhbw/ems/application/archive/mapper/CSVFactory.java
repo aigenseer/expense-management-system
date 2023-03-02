@@ -2,6 +2,7 @@ package de.dhbw.ems.application.archive.mapper;
 
 import com.sun.istack.NotNull;
 
+import java.io.File;
 import java.io.FileWriter;
 
 public interface CSVFactory {
