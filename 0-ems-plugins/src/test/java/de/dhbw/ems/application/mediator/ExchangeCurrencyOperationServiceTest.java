@@ -1,6 +1,7 @@
 package de.dhbw.ems.application.mediator;
 
 import de.dhbw.ems.abstractioncode.valueobject.money.CurrencyType;
+import de.dhbw.ems.abstractioncode.valueobject.money.Money;
 import de.dhbw.ems.application.booking.aggregate.BookingAggregateApplicationService;
 import de.dhbw.ems.application.currency.exchange.CurrencyExchangeOfficeService;
 import de.dhbw.ems.application.currency.exchange.CurrencyExchangeRequest;
@@ -55,7 +56,7 @@ public class ExchangeCurrencyOperationServiceTest {
         when(currencyExchangeOfficeService.getExchangeRate(currencyExchangeRequest)).thenReturn(Optional.of(factor));
 
         Double expectedAmount = bookingAggregate.getBooking().getMoney().getAmount() * factor;
-        expectedAmount = Math.round(expectedAmount*100.0)/100.0;
+        Money expectedMoney = new Money(expectedAmount, CurrencyType.DOLLAR);
 
         ExchangeCurrencyOperationService service = Mockito.spy(new ExchangeCurrencyOperationService(bookingAggregateApplicationService, bookingOperationService, currencyExchangeOfficeService));
 
@@ -64,8 +65,8 @@ public class ExchangeCurrencyOperationServiceTest {
 
         Optional<BookingAggregate> optionalBooking = bookingAggregateApplicationService.findById(bookingId);
         assertTrue(optionalBooking.isPresent());
-        assertEquals(CurrencyType.DOLLAR, optionalBooking.get().getBooking().getMoney().getCurrencyType());
-        assertEquals(expectedAmount, optionalBooking.get().getBooking().getMoney().getAmount());
+        assertEquals(expectedMoney.getCurrencyType(), optionalBooking.get().getBooking().getMoney().getCurrencyType());
+        assertEquals(expectedMoney.getAmount(), optionalBooking.get().getBooking().getMoney().getAmount());
     }
 
 
