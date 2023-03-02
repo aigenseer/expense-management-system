@@ -38,7 +38,7 @@ public class FinancialLedgerArchiveFactory extends TmpFileFactory implements Fin
             appendFileToZip(out, "authorized-users.csv", usersToCSVFileMapperFunction.apply(financialLedgerAggregate.getAuthorizedUser()));
             appendFileToZip(out, "financial-ledger.csv", financialLedgerAggregateToCSVFileMapperFunction.apply(financialLedgerAggregate));
             for (BookingAggregate bookingAggregate : financialLedgerAggregate.getBookingAggregates()) {
-                appendFileToZip(out, "BookingReferencesFolderName", String.format("%s.csv", bookingAggregate.getBooking().getTitle()), bookingUserReferencesToCSVFileMapperFunction.apply(bookingAggregate));
+                appendFileToZip(out, "BookingReferences", String.format("%s.csv", bookingAggregate.getBooking().getTitle()), bookingUserReferencesToCSVFileMapperFunction.apply(bookingAggregate));
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
