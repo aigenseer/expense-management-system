@@ -32,7 +32,6 @@ public class ExchangeCurrencyOperationService implements ExchangeCurrencyService
         BookingAggregate bookingAggregate = optionalBooking.get();
         Money money = bookingAggregate.getBooking().getMoney();
         double amount = money.getAmount() * rate.get();
-        amount = Math.round(amount*100.0)/100.0;
         bookingAggregate.getBooking().setMoney(new Money(amount, targetCurrencyType));
         bookingAggregateDomainService.save(bookingAggregate);
         return true;
