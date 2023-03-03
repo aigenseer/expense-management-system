@@ -56,8 +56,12 @@ public class BookingAggregate implements Serializable {
     @Column(name = "creation_date", nullable = false)
     private LocalDate creationDate;
 
+    @Column(name="aggregate_category_id", nullable=true)
+    @Type(type="uuid-char")
+    private UUID categoryAggregateId;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "aggregate_category_id", nullable = true)
+    @JoinColumn(name = "aggregate_category_id", nullable = true, updatable = false, insertable = false)
     private BookingCategoryAggregate categoryAggregate;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "bookingAggregate", targetEntity = BookingReference.class)
