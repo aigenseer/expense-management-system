@@ -1,13 +1,13 @@
 package de.dhbw.ems.application.mediator.service;
 
-import de.dhbw.ems.application.financialledger.aggregate.FinancialLedgerAggregateDomainService;
-import de.dhbw.ems.application.financialledger.data.FinancialLedgerAttributeData;
-import de.dhbw.ems.application.financialledger.entity.FinancialLedgerDomainService;
-import de.dhbw.ems.application.financialledger.link.UserFinancialLedgerLinkDomainService;
+import de.dhbw.ems.application.domain.service.financialledger.aggregate.FinancialLedgerAggregateDomainService;
+import de.dhbw.ems.application.domain.service.financialledger.data.FinancialLedgerAttributeData;
+import de.dhbw.ems.application.domain.service.financialledger.entity.FinancialLedgerDomainService;
+import de.dhbw.ems.application.domain.service.financialledger.link.UserFinancialLedgerLinkDomainService;
 import de.dhbw.ems.application.mediator.ConcreteApplicationMediator;
 import de.dhbw.ems.application.mediator.colleage.FinancialLedgerColleague;
 import de.dhbw.ems.application.mediator.service.impl.FinancialLedgerService;
-import de.dhbw.ems.application.user.UserDomainService;
+import de.dhbw.ems.application.domain.service.user.UserDomainService;
 import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
 import de.dhbw.ems.domain.financialledger.link.UserFinancialLedgerLink;
 import de.dhbw.ems.domain.user.User;

@@ -2,7 +2,7 @@ package de.dhbw.plugins.rest.controller.user;
 
 import de.dhbw.ems.adapter.application.user.UserApplicationAdapter;
 import de.dhbw.ems.adapter.mapper.data.user.UserUnsafeDataToUserAttributeDataAdapterMapper;
-import de.dhbw.ems.application.user.UserAttributeData;
+import de.dhbw.ems.application.domain.service.user.UserAttributeData;
 import de.dhbw.ems.domain.user.User;
 import de.dhbw.plugins.rest.controller.user.data.UserUpdateData;
 import de.dhbw.plugins.rest.controller.utils.WebMvcLinkBuilderUtils;

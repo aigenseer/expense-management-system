@@ -2,7 +2,7 @@ package de.dhbw.plugins.rest.controller.booking;
 
 import de.dhbw.ems.adapter.application.booking.BookingApplicationAdapter;
 import de.dhbw.ems.adapter.mapper.data.booking.BookingUnsafeDataToBookingAttributeDataAdapterMapper;
-import de.dhbw.ems.application.booking.data.BookingAggregateAttributeData;
+import de.dhbw.ems.application.domain.service.booking.data.BookingAggregateAttributeData;
 import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
 import de.dhbw.plugins.rest.controller.booking.data.BookingUpdateData;
 import de.dhbw.plugins.rest.controller.utils.WebMvcLinkBuilderUtils;

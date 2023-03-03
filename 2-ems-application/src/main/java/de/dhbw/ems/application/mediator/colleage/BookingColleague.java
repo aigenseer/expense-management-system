@@ -1,8 +1,8 @@
 package de.dhbw.ems.application.mediator.colleage;
 
-import de.dhbw.ems.application.booking.aggregate.BookingAggregateDomainService;
-import de.dhbw.ems.application.booking.entity.BookingDomainService;
-import de.dhbw.ems.application.booking.reference.BookingReferenceDomainService;
+import de.dhbw.ems.application.domain.service.booking.aggregate.BookingAggregateDomainService;
+import de.dhbw.ems.application.domain.service.booking.entity.BookingDomainService;
+import de.dhbw.ems.application.domain.service.booking.reference.BookingReferenceDomainService;
 import de.dhbw.ems.application.mediator.ConcreteApplicationMediator;
 import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
 import de.dhbw.ems.domain.booking.reference.BookingReference;

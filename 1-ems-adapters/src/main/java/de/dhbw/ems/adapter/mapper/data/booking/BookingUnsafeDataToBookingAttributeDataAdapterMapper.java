@@ -1,6 +1,6 @@
 package de.dhbw.ems.adapter.mapper.data.booking;
 
-import de.dhbw.ems.application.booking.data.BookingAggregateAttributeData;
+import de.dhbw.ems.application.domain.service.booking.data.BookingAggregateAttributeData;
 
 import java.util.function.Function;
 

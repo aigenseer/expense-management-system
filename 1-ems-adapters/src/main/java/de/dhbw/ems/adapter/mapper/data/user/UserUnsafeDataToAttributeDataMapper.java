@@ -3,7 +3,7 @@ package de.dhbw.ems.adapter.mapper.data.user;
 import de.dhbw.ems.abstractioncode.valueobject.email.Email;
 import de.dhbw.ems.abstractioncode.valueobject.phonennumber.InternationalPhoneCode;
 import de.dhbw.ems.abstractioncode.valueobject.phonennumber.PhoneNumber;
-import de.dhbw.ems.application.user.UserAttributeData;
+import de.dhbw.ems.application.domain.service.user.UserAttributeData;
 import org.springframework.stereotype.Component;
 
 @Component

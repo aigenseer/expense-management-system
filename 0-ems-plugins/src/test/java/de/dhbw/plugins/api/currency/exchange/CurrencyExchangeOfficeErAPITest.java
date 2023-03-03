@@ -74,7 +74,6 @@ public class CurrencyExchangeOfficeErAPITest {
 
         URL url = new URIBuilder("https://open.er-api.com/v6/latest/USD").build().toURL();
         when(requestUtils.stream(url)).thenReturn(jo.toString());
-        String x = jo.toString();
 
         CurrencyExchangeRequest request = CurrencyExchangeRequest.builder().sourceCurrencyType(CurrencyType.DOLLAR).targetCurrencyType(CurrencyType.EURO).build();
         Optional<CurrencyExchangeResponse> optionResponse = currencyExchangeOffice.getExchangeRate(request);

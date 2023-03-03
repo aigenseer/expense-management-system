@@ -1,7 +1,7 @@
 package de.dhbw.ems.application.mediator.colleage;
 
-import de.dhbw.ems.application.bookingcategory.aggregate.BookingCategoryAggregateDomainService;
-import de.dhbw.ems.application.bookingcategory.entity.BookingCategoryDomainService;
+import de.dhbw.ems.application.domain.service.bookingcategory.aggregate.BookingCategoryAggregateDomainService;
+import de.dhbw.ems.application.domain.service.bookingcategory.entity.BookingCategoryDomainService;
 import de.dhbw.ems.application.mediator.ConcreteApplicationMediator;
 import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
 import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;

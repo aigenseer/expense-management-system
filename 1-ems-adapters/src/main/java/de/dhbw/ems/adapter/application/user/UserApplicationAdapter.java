@@ -1,6 +1,6 @@
 package de.dhbw.ems.adapter.application.user;
 
-import de.dhbw.ems.application.user.UserAttributeData;
+import de.dhbw.ems.application.domain.service.user.UserAttributeData;
 import de.dhbw.ems.domain.user.User;
 
 import java.util.List;

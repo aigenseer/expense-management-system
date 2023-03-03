@@ -2,8 +2,8 @@ package de.dhbw.ems.adapter.mapper.data.booking;
 
 import de.dhbw.ems.abstractioncode.valueobject.money.CurrencyType;
 import de.dhbw.ems.abstractioncode.valueobject.money.Money;
-import de.dhbw.ems.application.booking.data.BookingAggregateAttributeData;
-import de.dhbw.ems.application.bookingcategory.aggregate.BookingCategoryDomainServicePort;
+import de.dhbw.ems.application.domain.service.booking.data.BookingAggregateAttributeData;
+import de.dhbw.ems.application.domain.service.bookingcategory.aggregate.BookingCategoryDomainServicePort;
 import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -34,10 +34,16 @@ public class BookingUnsafeDataToAttributeDataMapper implements BookingUnsafeData
             }
         }catch (IllegalArgumentException|NullPointerException ignored){}
         if(data.getBookingCategoryAggregateId() != null){
-            UUID bookingCategoryId = UUID.fromString(data.getBookingCategoryAggregateId());
-            Optional<BookingCategoryAggregate> optionalBookingCategoryAggregate = bookingCategoryDomainServicePort.findById(bookingCategoryId);
-            optionalBookingCategoryAggregate.ifPresent(builder::bookingCategoryAggregate);
-        }
+            if (data.getBookingCategoryAggregateId().length() == 0){
+                builder.bookingCategoryAggregateActive(true);
+            }else{
+                UUID bookingCategoryId = UUID.fromString(data.getBookingCategoryAggregateId());
+                Optional<BookingCategoryAggregate> optionalBookingCategoryAggregate = bookingCategoryDomainServicePort.findById(bookingCategoryId);
+                optionalBookingCategoryAggregate.ifPresent(builder::bookingCategoryAggregate);
+            }
+            builder.bookingCategoryAggregateActive(true);
+        }else
+            builder.bookingCategoryAggregateActive(false);
         return builder.build();
     }
 

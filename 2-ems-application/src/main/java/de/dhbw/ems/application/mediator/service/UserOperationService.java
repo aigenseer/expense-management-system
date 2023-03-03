@@ -3,7 +3,7 @@ package de.dhbw.ems.application.mediator.service;
 import de.dhbw.ems.application.mediator.ConcreteApplicationMediator;
 import de.dhbw.ems.application.mediator.colleage.UserColleague;
 import de.dhbw.ems.application.mediator.service.impl.UserService;
-import de.dhbw.ems.application.user.UserDomainService;
+import de.dhbw.ems.application.domain.service.user.UserDomainService;
 import de.dhbw.ems.domain.user.User;
 import org.springframework.stereotype.Service;
 
