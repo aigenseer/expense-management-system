@@ -1,4 +1,4 @@
-package de.dhbw.ems.application.booking.data;
+package de.dhbw.ems.application.domain.service.booking.data;
 
 import de.dhbw.ems.abstractioncode.valueobject.money.Money;
 import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
@@ -11,4 +11,5 @@ public class BookingAggregateAttributeData extends BookingAttributeData {
     private String title;
     private Money money;
     private BookingCategoryAggregate bookingCategoryAggregate;
+    private Boolean bookingCategoryAggregateActive;
 }
