@@ -1,7 +1,7 @@
 package de.dhbw.plugins.rest.controller.financialledger;
 
 import de.dhbw.ems.adapter.application.financialledger.FinancialLedgerApplicationAdapter;
-import de.dhbw.ems.adapter.mapper.data.financialledger.FinancialLedgerData;
+import de.dhbw.plugins.rest.controller.financialledgers.data.FinancialLedgerData;
 import de.dhbw.ems.adapter.mapper.data.financialledger.FinancialLedgerDataToFinancialLedgerAttributeDataAdapterMapper;
 import de.dhbw.plugins.rest.mapper.model.financialledger.model.FinancialLedgerModel;
 import de.dhbw.ems.application.domain.service.financialledger.data.FinancialLedgerAttributeData;
