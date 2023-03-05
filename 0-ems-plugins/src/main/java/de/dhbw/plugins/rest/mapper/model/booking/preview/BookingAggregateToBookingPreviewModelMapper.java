@@ -4,5 +4,5 @@ import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
 
 import java.util.function.Function;
 
-public interface BookingAggregateToBookingPreviewModelAdapterMapper extends Function<BookingAggregate, BookingPreviewModel> {
+public interface BookingAggregateToBookingPreviewModelMapper extends Function<BookingAggregate, BookingPreviewModel> {
 }

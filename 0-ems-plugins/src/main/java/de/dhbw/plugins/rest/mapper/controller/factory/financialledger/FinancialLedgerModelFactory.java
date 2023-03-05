@@ -10,7 +10,7 @@ import de.dhbw.plugins.rest.mapper.controller.model.bookingcategory.BookingCateg
 import de.dhbw.plugins.rest.mapper.controller.model.user.UsersToUserPreviewCollectionMapper;
 import de.dhbw.plugins.rest.mapper.model.booking.preview.BookingPreviewCollectionModel;
 import de.dhbw.plugins.rest.mapper.model.bookingcategory.preview.BookingCategoryPreviewCollectionModel;
-import de.dhbw.plugins.rest.mapper.model.financialledger.model.FinancialLedgerAggregateToFinancialLedgerModelAdapterMapper;
+import de.dhbw.plugins.rest.mapper.model.financialledger.model.FinancialLedgerAggregateToFinancialLedgerModelMapper;
 import de.dhbw.plugins.rest.mapper.model.financialledger.model.FinancialLedgerModel;
 import de.dhbw.plugins.rest.mapper.model.user.preview.UserPreviewCollectionModel;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 @RequiredArgsConstructor
 public class FinancialLedgerModelFactory {
 
-    private final FinancialLedgerAggregateToFinancialLedgerModelAdapterMapper modelMapper;
+    private final FinancialLedgerAggregateToFinancialLedgerModelMapper modelMapper;
     private final UsersToUserPreviewCollectionMapper usersToUserPreviewCollectionMapper;
     private final BookingCategoryAggregateToBookingCategoryPreviewCollectionMapper bookingCategoriesToBookingCategoryPreviewCollectionMapper;
     private final BookingsToBookingPreviewCollectionMapper bookingsToBookingPreviewCollectionMapper;

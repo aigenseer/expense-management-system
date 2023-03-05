@@ -4,7 +4,7 @@ import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
 import org.springframework.stereotype.Component;
 
 @Component
-public class BookingAggregateToPreviewModelMapper implements BookingAggregateToBookingPreviewModelAdapterMapper {
+public class BookingAggregateToPreviewModelMapper implements BookingAggregateToBookingPreviewModelMapper {
 
     @Override
     public BookingPreviewModel apply(final BookingAggregate bookingAggregate) {

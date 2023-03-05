@@ -6,7 +6,7 @@ import de.dhbw.plugins.rest.controller.booking.users.BookingReferencedUsersContr
 import de.dhbw.plugins.rest.mapper.controller.model.bookingcategory.BookingCategoryAggregateToBookingCategoryPreviewMapper;
 import de.dhbw.plugins.rest.mapper.controller.model.user.UserToUserPreviewMapper;
 import de.dhbw.plugins.rest.mapper.controller.model.user.UsersToUserPreviewCollectionMapper;
-import de.dhbw.plugins.rest.mapper.model.booking.model.BookingAggregateToBookingModelAdapterMapper;
+import de.dhbw.plugins.rest.mapper.model.booking.model.BookingAggregateToBookingModelMapper;
 import de.dhbw.plugins.rest.mapper.model.booking.model.BookingModel;
 import de.dhbw.plugins.rest.mapper.model.bookingcategory.preview.BookingCategoryPreviewModel;
 import de.dhbw.plugins.rest.mapper.model.user.preview.UserPreview;
@@ -36,7 +36,7 @@ public class BookingToBookingModelMapper implements Function<BookingToBookingMod
         private final BookingAggregate bookingAggregate;
     }
 
-    private final BookingAggregateToBookingModelAdapterMapper bookingAggregateToBookingModelAdapterMapper;
+    private final BookingAggregateToBookingModelMapper bookingAggregateToBookingModelMapper;
     private final UsersToUserPreviewCollectionMapper usersToUserPreviewCollectionMapper;
     private final BookingCategoryAggregateToBookingCategoryPreviewMapper bookingCategoryToBookingCategoryPreviewMapper;
     private final UserToUserPreviewMapper userToUserPreviewMapper;
@@ -49,7 +49,7 @@ public class BookingToBookingModelMapper implements Function<BookingToBookingMod
     private BookingModel map(final BookingToBookingModelMapper.Context context) {
         UUID userId = context.getUserId();
         BookingAggregate bookingAggregate = context.getBookingAggregate();
-        BookingModel model = bookingAggregateToBookingModelAdapterMapper.apply(context.getBookingAggregate());
+        BookingModel model = bookingAggregateToBookingModelMapper.apply(context.getBookingAggregate());
 
         UserPreview creatorPreview = userToUserPreviewMapper.apply(bookingAggregate.getCreator());
         model.setCreator(creatorPreview);

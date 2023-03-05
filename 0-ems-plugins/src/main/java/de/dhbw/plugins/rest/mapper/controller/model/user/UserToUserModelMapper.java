@@ -6,7 +6,6 @@ import de.dhbw.plugins.rest.controller.user.UserController;
 import de.dhbw.plugins.rest.mapper.controller.model.financialledger.FinancialLedgersToFinancialLedgerPreviewCollectionMapper;
 import de.dhbw.plugins.rest.mapper.model.financialledger.preview.FinancialLedgerPreviewCollectionModel;
 import de.dhbw.plugins.rest.mapper.model.user.model.UserModel;
-import de.dhbw.plugins.rest.mapper.model.user.model.UserToUserModelAdapterMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
@@ -21,7 +20,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RequiredArgsConstructor
 public class UserToUserModelMapper implements Function<User, UserModel> {
 
-    private final UserToUserModelAdapterMapper userToUserModelAdapterMapper;
+    private final de.dhbw.plugins.rest.mapper.model.user.model.UserToUserModelMapper userToUserModelMapper;
     private final FinancialLedgersToFinancialLedgerPreviewCollectionMapper financialLedgersToFinancialLedgerPreviewCollectionMapper;
 
     @Override
@@ -30,7 +29,7 @@ public class UserToUserModelMapper implements Function<User, UserModel> {
     }
 
     private UserModel map(final User user) {
-        UserModel userModel = userToUserModelAdapterMapper.apply(user);
+        UserModel userModel = userToUserModelMapper.apply(user);
 
         FinancialLedgerPreviewCollectionModel financialLedgerPreviewCollectionModel = financialLedgersToFinancialLedgerPreviewCollectionMapper.apply(user.getId());
         Link selfLink = linkTo(methodOn(FinancialLedgersController.class).listAll(user.getId())).withSelfRel();

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class UserToModelMapper implements UserToUserModelAdapterMapper {
+public class UserToModelMapper implements UserToUserModelMapper {
 
     @Override
     public UserModel apply(final User user) {

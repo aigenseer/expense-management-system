@@ -4,5 +4,5 @@ import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
 
 import java.util.function.Function;
 
-public interface FinancialLedgerAggregateToFinancialLedgerModelAdapterMapper extends Function<FinancialLedgerAggregate, FinancialLedgerModel> {
+public interface FinancialLedgerAggregateToFinancialLedgerModelMapper extends Function<FinancialLedgerAggregate, FinancialLedgerModel> {
 }

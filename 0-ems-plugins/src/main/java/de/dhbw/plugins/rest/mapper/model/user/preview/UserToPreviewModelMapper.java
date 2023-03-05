@@ -4,7 +4,7 @@ import de.dhbw.ems.domain.user.User;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UserToPreviewModelMapper implements UserToUserPreviewModelAdapterMapper{
+public class UserToPreviewModelMapper implements UserToUserPreviewModelMapper {
 
     @Override
     public UserPreview apply(final User user) {

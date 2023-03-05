@@ -4,7 +4,7 @@ import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
 import org.springframework.stereotype.Component;
 
 @Component
-public class FinancialLedgerAggregateToPreviewModelMapper implements FinancialLedgerAggregateToFinancialLedgerPreviewModelAdapterMapper {
+public class FinancialLedgerAggregateToPreviewModelMapper implements FinancialLedgerAggregateToFinancialLedgerPreviewModelMapper {
 
     @Override
     public FinancialLedgerPreviewModel apply(final FinancialLedgerAggregate financialLedgerAggregate) {

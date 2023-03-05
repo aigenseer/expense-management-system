@@ -2,7 +2,7 @@ package de.dhbw.plugins.rest.mapper.controller.model.bookingcategory;
 
 import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
 import de.dhbw.plugins.rest.controller.bookingcategory.BookingCategoryController;
-import de.dhbw.plugins.rest.mapper.model.bookingcategory.preview.BookingCategoryAggregateToBookingCategoryPreviewModelAdapterMapper;
+import de.dhbw.plugins.rest.mapper.model.bookingcategory.preview.BookingCategoryAggregateToBookingCategoryPreviewModelMapper;
 import de.dhbw.plugins.rest.mapper.model.bookingcategory.preview.BookingCategoryPreviewModel;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,7 +29,7 @@ public class BookingCategoryAggregateToBookingCategoryPreviewMapper implements F
         private final BookingCategoryAggregate bookingCategoryAggregate;
     }
 
-    private final BookingCategoryAggregateToBookingCategoryPreviewModelAdapterMapper previewModelMapper;
+    private final BookingCategoryAggregateToBookingCategoryPreviewModelMapper previewModelMapper;
 
     @Override
     public BookingCategoryPreviewModel apply(final BookingCategoryAggregateToBookingCategoryPreviewMapper.Context context) {

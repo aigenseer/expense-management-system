@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class BookingAggregateToModelMapper implements BookingAggregateToBookingModelAdapterMapper {
+public class BookingAggregateToModelMapper implements BookingAggregateToBookingModelMapper {
 
     @Override
     public BookingModel apply(final BookingAggregate bookingAggregate) {

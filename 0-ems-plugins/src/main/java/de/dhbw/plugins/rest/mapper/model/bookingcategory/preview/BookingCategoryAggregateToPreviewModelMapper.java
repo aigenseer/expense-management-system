@@ -4,7 +4,7 @@ import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
 import org.springframework.stereotype.Component;
 
 @Component
-public class BookingCategoryAggregateToPreviewModelMapper implements BookingCategoryAggregateToBookingCategoryPreviewModelAdapterMapper {
+public class BookingCategoryAggregateToPreviewModelMapper implements BookingCategoryAggregateToBookingCategoryPreviewModelMapper {
 
     @Override
     public BookingCategoryPreviewModel apply(final BookingCategoryAggregate categoryAggregate) {
