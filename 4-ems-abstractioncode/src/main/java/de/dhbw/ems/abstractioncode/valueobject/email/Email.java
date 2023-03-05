@@ -13,7 +13,7 @@ public class Email {
     @Getter
     private String mailAddress;
 
-    public Email(){}
+    protected Email(){}
 
     public Email(final String mailAddress){
         validateMailAddress(mailAddress);

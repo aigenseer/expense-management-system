@@ -13,7 +13,7 @@ public class PhoneNumber  {
     private Integer number;
     private InternationalPhoneCode internationalPhoneCode;
 
-    public PhoneNumber(){}
+    protected PhoneNumber(){}
 
     public PhoneNumber(
             final Integer number,

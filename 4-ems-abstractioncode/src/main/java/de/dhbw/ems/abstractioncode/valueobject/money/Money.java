@@ -22,7 +22,7 @@ public class Money {
         this.currencyType = currencyType;
     }
 
-    public Money() {}
+    protected Money() {}
 
     private void validateAmount(final Double amount){
         if (amount < 0){
