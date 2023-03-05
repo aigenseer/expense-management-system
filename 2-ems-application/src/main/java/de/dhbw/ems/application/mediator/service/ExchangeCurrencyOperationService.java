@@ -2,7 +2,7 @@ package de.dhbw.ems.application.mediator.service;
 
 import de.dhbw.ems.abstractioncode.valueobject.money.CurrencyType;
 import de.dhbw.ems.abstractioncode.valueobject.money.Money;
-import de.dhbw.ems.application.booking.aggregate.BookingAggregateDomainService;
+import de.dhbw.ems.application.domain.service.booking.aggregate.BookingAggregateDomainService;
 import de.dhbw.ems.application.currency.exchange.CurrencyExchangeOfficeService;
 import de.dhbw.ems.application.currency.exchange.CurrencyExchangeRequest;
 import de.dhbw.ems.application.mediator.service.impl.ExchangeCurrencyService;
@@ -32,7 +32,6 @@ public class ExchangeCurrencyOperationService implements ExchangeCurrencyService
         BookingAggregate bookingAggregate = optionalBooking.get();
         Money money = bookingAggregate.getBooking().getMoney();
         double amount = money.getAmount() * rate.get();
-        amount = Math.round(amount*100.0)/100.0;
         bookingAggregate.getBooking().setMoney(new Money(amount, targetCurrencyType));
         bookingAggregateDomainService.save(bookingAggregate);
         return true;

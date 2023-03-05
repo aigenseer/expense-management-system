@@ -1,14 +1,14 @@
 package de.dhbw.ems.application.mediator.service;
 
-import de.dhbw.ems.application.booking.aggregate.BookingAggregateDomainService;
-import de.dhbw.ems.application.booking.data.BookingAggregateAttributeData;
-import de.dhbw.ems.application.booking.entity.BookingDomainService;
-import de.dhbw.ems.application.booking.reference.BookingReferenceDomainService;
+import de.dhbw.ems.application.domain.service.booking.aggregate.BookingAggregateDomainService;
+import de.dhbw.ems.application.domain.service.booking.data.BookingAggregateAttributeData;
+import de.dhbw.ems.application.domain.service.booking.entity.BookingDomainService;
+import de.dhbw.ems.application.domain.service.booking.reference.BookingReferenceDomainService;
 import de.dhbw.ems.application.mediator.ConcreteApplicationMediator;
 import de.dhbw.ems.application.mediator.colleage.BookingColleague;
 import de.dhbw.ems.application.mediator.service.impl.BookingService;
 import de.dhbw.ems.application.mediator.service.impl.FinancialLedgerService;
-import de.dhbw.ems.application.user.UserDomainService;
+import de.dhbw.ems.application.domain.service.user.UserDomainService;
 import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
 import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
 import de.dhbw.ems.domain.user.User;

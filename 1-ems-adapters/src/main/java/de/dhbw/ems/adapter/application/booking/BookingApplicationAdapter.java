@@ -1,7 +1,7 @@
 package de.dhbw.ems.adapter.application.booking;
 
 import de.dhbw.ems.abstractioncode.valueobject.money.CurrencyType;
-import de.dhbw.ems.application.booking.data.BookingAggregateAttributeData;
+import de.dhbw.ems.application.domain.service.booking.data.BookingAggregateAttributeData;
 import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
 
 import java.util.Optional;

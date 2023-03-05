@@ -4,8 +4,8 @@ package de.dhbw.ems.application.archive.factory;
 import de.dhbw.ems.application.archive.core.TmpFile;
 import de.dhbw.ems.application.archive.core.TmpFileFactory;
 import de.dhbw.ems.application.archive.mapper.bookingcategories.BookingCategoryAggregatesToCSVFileMapperFunction;
-import de.dhbw.ems.application.archive.mapper.bookings.BookingUserReferencesToCSVFileMapperFunction;
 import de.dhbw.ems.application.archive.mapper.bookings.BookingAggregatesToCSVFileMapperFunction;
+import de.dhbw.ems.application.archive.mapper.bookings.BookingUserReferencesToCSVFileMapperFunction;
 import de.dhbw.ems.application.archive.mapper.financialledger.FinancialLedgerAggregateToCSVFileMapperFunction;
 import de.dhbw.ems.application.archive.mapper.user.UsersToCSVFileMapperFunction;
 import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
@@ -38,7 +38,7 @@ public class FinancialLedgerArchiveFactory extends TmpFileFactory implements Fin
             appendFileToZip(out, "authorized-users.csv", usersToCSVFileMapperFunction.apply(financialLedgerAggregate.getAuthorizedUser()));
             appendFileToZip(out, "financial-ledger.csv", financialLedgerAggregateToCSVFileMapperFunction.apply(financialLedgerAggregate));
             for (BookingAggregate bookingAggregate : financialLedgerAggregate.getBookingAggregates()) {
-                appendFileToZip(out, "BookingReferencesFolderName", String.format("%s.csv", bookingAggregate.getBooking().getTitle()), bookingUserReferencesToCSVFileMapperFunction.apply(bookingAggregate));
+                appendFileToZip(out, "BookingReferences", String.format("%s.csv", bookingAggregate.getBooking().getTitle()), bookingUserReferencesToCSVFileMapperFunction.apply(bookingAggregate));
             }
         } catch (IOException e) {
             throw new RuntimeException(e);

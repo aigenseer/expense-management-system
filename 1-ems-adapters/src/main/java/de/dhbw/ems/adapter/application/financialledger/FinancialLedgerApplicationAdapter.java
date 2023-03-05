@@ -1,7 +1,7 @@
 package de.dhbw.ems.adapter.application.financialledger;
 
 import de.dhbw.ems.application.archive.core.TmpFile;
-import de.dhbw.ems.application.financialledger.data.FinancialLedgerAttributeData;
+import de.dhbw.ems.application.domain.service.financialledger.data.FinancialLedgerAttributeData;
 import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
 
 import java.util.List;

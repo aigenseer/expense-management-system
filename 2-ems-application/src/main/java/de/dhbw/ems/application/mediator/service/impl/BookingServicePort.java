@@ -1,6 +1,6 @@
 package de.dhbw.ems.application.mediator.service.impl;
 
-import de.dhbw.ems.application.booking.data.BookingAggregateAttributeData;
+import de.dhbw.ems.application.domain.service.booking.data.BookingAggregateAttributeData;
 import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
 
 import java.util.Optional;
