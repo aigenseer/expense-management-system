@@ -9,12 +9,12 @@ import org.springframework.stereotype.Component;
 public class FinancialLedgerDataToAttributeDataMapper implements FinancialLedgerDataToFinancialLedgerAttributeDataAdapterMapper {
 
     @Override
-    public FinancialLedgerAttributeData apply(final FinancialLedgerData data) {
+    public FinancialLedgerAttributeData apply(final IFinancialLedgerData data) {
         return map(data);
     }
 
-    private FinancialLedgerAttributeData map(final FinancialLedgerData data) {
-        return FinancialLedgerAttributeData.builder().name(data.getName()).build();
+    private FinancialLedgerAttributeData map(final IFinancialLedgerData data) {
+        return FinancialLedgerAttributeData.builder().name(data.getTitle()).build();
     }
 
 }
