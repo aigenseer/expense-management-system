@@ -4,5 +4,5 @@ import de.dhbw.ems.application.domain.service.financialledger.data.FinancialLedg
 
 import java.util.function.Function;
 
-public interface FinancialLedgerDataToFinancialLedgerAttributeDataAdapterMapper extends Function<FinancialLedgerData, FinancialLedgerAttributeData> {
+public interface FinancialLedgerDataToFinancialLedgerAttributeDataAdapterMapper extends Function<IFinancialLedgerData, FinancialLedgerAttributeData> {
 }
