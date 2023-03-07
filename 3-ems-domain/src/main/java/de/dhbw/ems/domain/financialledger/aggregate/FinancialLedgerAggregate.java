@@ -2,7 +2,6 @@ package de.dhbw.ems.domain.financialledger.aggregate;
 
 import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
 import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
-import de.dhbw.ems.domain.financialledger.entity.FinancialLedger;
 import de.dhbw.ems.domain.financialledger.link.UserFinancialLedgerLink;
 import de.dhbw.ems.domain.user.User;
 import lombok.*;
@@ -29,19 +28,14 @@ public class FinancialLedgerAggregate {
     @Type(type="uuid-char")
     private UUID id;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "financial_ledger_id", nullable = false, updatable = false, insertable = false)
-    private FinancialLedger financialLedger;
+    @Column(name = "title", nullable = false)
+    private String title;
 
-    @Column(name="financial_ledger_id", nullable=false)
-    @Type(type="uuid-char")
-    private UUID financialLedgerId;
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy="financialLedgerAggregate", targetEntity = BookingAggregate.class)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="financialLedgerAggregate", targetEntity = BookingAggregate.class)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<BookingAggregate> bookingAggregates;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy="financialLedgerAggregate", targetEntity = BookingCategoryAggregate.class)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="financialLedgerAggregate", targetEntity = BookingCategoryAggregate.class)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<BookingCategoryAggregate> bookingCategoriesAggregates;
 

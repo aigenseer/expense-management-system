@@ -1,6 +1,6 @@
 package de.dhbw.ems.domain.booking.aggregate;
 
-import de.dhbw.ems.domain.booking.entity.Booking;
+import de.dhbw.ems.abstractioncode.valueobject.money.Money;
 import de.dhbw.ems.domain.booking.reference.BookingReference;
 import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
 import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
@@ -29,9 +29,12 @@ public class BookingAggregate implements Serializable {
     @Type(type="uuid-char")
     private UUID id;
 
-    @Column(name="booking_id", nullable=false)
-    @Type(type="uuid-char")
-    private UUID bookingId;
+    @Column(name = "title", nullable = false)
+    private String title;
+
+    @Embedded
+    @Column(name = "title", nullable = false)
+    private Money money;
 
     @Column(name="financial_ledger_aggregate_id", nullable=false)
     @Type(type="uuid-char")
@@ -44,10 +47,6 @@ public class BookingAggregate implements Serializable {
     @Column(name="creator_id", nullable=false)
     @Type(type="uuid-char")
     private UUID creatorId;
-
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "booking_id", nullable = false, updatable = false, insertable = false)
-    private Booking booking;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "financial_ledger_aggregate_id", nullable = false, updatable = false, insertable = false)
