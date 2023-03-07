@@ -7,6 +7,7 @@ import de.dhbw.ems.application.domain.service.user.UserDomainService;
 import de.dhbw.ems.domain.user.User;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -20,6 +21,7 @@ public class UserOperationService extends UserColleague implements UserService {
         this.userDomainService = userDomainService;
     }
 
+    @Transactional
     public boolean delete(UUID userId){
         Optional<User> optionalUser = userDomainService.findById(userId);
         if (optionalUser.isPresent()){

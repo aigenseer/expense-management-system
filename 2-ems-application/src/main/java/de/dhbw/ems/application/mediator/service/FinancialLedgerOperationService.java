@@ -12,6 +12,7 @@ import de.dhbw.ems.domain.financialledger.link.UserFinancialLedgerLink;
 import de.dhbw.ems.domain.user.User;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -34,6 +35,7 @@ public class FinancialLedgerOperationService extends FinancialLedgerColleague im
         this.userFinancialLedgerLinkDomainService = userFinancialLedgerLinkDomainService;
     }
 
+    @Transactional
     public Optional<FinancialLedgerAggregate> create(UUID userId, FinancialLedgerAttributeData attributeData) {
         Optional<User> userOptional = userDomainService.findById(userId);
         if (userOptional.isPresent()) {
@@ -55,6 +57,7 @@ public class FinancialLedgerOperationService extends FinancialLedgerColleague im
         return Optional.empty();
     }
 
+    @Transactional
     public boolean unlinkUser(UUID userId, UUID financialLedgerAggregateId) {
         Optional<User> optionalUser = userDomainService.findById(userId);
         if (optionalUser.isPresent()) {
@@ -76,6 +79,7 @@ public class FinancialLedgerOperationService extends FinancialLedgerColleague im
         return find(userId, financialLedgerAggregateId).isPresent();
     }
 
+    @Transactional
     public boolean appendUser(UUID userId, UUID financialLedgerAggregateId) {
         Optional<User> userOptional = userDomainService.findById(userId);
         if (userOptional.isPresent()) {
@@ -89,6 +93,7 @@ public class FinancialLedgerOperationService extends FinancialLedgerColleague im
         return false;
     }
 
+    @Transactional
     public boolean delete(UUID userId, UUID financialLedgerAggregateId) {
         Optional<FinancialLedgerAggregate> optionalFinancialLedgerAggregate = find(userId, financialLedgerAggregateId);
         if (optionalFinancialLedgerAggregate.isPresent()) {

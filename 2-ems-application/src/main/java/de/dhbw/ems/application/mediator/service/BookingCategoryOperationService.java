@@ -11,6 +11,7 @@ import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
 import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -43,6 +44,7 @@ public class BookingCategoryOperationService extends BookingCategoryColleague im
         return find(userId, financialLedgerAggregateId, bookingCategoryAggregateId).isPresent();
     }
 
+    @Transactional
     public boolean delete(UUID userId, UUID financialLedgerAggregateId, UUID bookingCategoryAggregateId){
         Optional<BookingCategoryAggregate> optionalBookingCategoryAggregate = find(userId, financialLedgerAggregateId, bookingCategoryAggregateId);
         if (optionalBookingCategoryAggregate.isPresent()) {
@@ -53,6 +55,7 @@ public class BookingCategoryOperationService extends BookingCategoryColleague im
         return false;
     }
 
+    @Transactional
     public Optional<BookingCategoryAggregate> create(UUID userId, UUID financialLedgerAggregateId, BookingCategoryAttributeData attributeData){
         Optional<FinancialLedgerAggregate> optionalFinancialLedger = financialLedgerService.find(userId, financialLedgerAggregateId);
         if (!optionalFinancialLedger.isPresent()) return Optional.empty();

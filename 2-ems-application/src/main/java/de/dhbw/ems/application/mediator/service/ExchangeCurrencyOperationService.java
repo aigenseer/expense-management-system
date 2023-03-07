@@ -10,6 +10,7 @@ import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -21,6 +22,7 @@ public class ExchangeCurrencyOperationService implements ExchangeCurrencyService
     private final BookingOperationService bookingOperationService;
     private final CurrencyExchangeOfficeService currencyExchangeOfficeService;
 
+    @Transactional
     public boolean exchangeCurrencyOfBooking(UUID userId, UUID financialLedgerAggregateId, UUID bookingAggregateId, CurrencyType targetCurrencyType){
         Optional<BookingAggregate> optionalBooking = bookingOperationService.find(userId, financialLedgerAggregateId, bookingAggregateId);
         if (!optionalBooking.isPresent() || optionalBooking.get().getMoney().getCurrencyType().equals(targetCurrencyType)) return false;

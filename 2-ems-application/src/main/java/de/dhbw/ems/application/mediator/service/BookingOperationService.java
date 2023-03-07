@@ -13,6 +13,7 @@ import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
 import de.dhbw.ems.domain.user.User;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -44,6 +45,7 @@ public class BookingOperationService extends BookingColleague implements Booking
         return optionalFinancialLedgerAggregate.get().getBookingAggregates().stream().filter(b -> b.getFinancialLedgerId().equals(financialLedgerAggregateId) && b.getId().equals(bookingAggregateId)).findFirst();
     }
 
+    @Transactional
     public Optional<BookingAggregate> create(UUID userId, UUID financialLedgerAggregateId, BookingAggregateAttributeData attributeData){
         Optional<User> optionalUser = userDomainService.findById(userId);
         if (!optionalUser.isPresent()) return Optional.empty();
@@ -58,6 +60,7 @@ public class BookingOperationService extends BookingColleague implements Booking
         return find(userId, financialLedgerAggregateId, bookingAggregateId).isPresent();
     }
 
+    @Transactional
     public boolean delete(UUID userId, UUID financialLedgerAggregateId, UUID bookingAggregateId){
         Optional<BookingAggregate> optionalBooking = find(userId, financialLedgerAggregateId, bookingAggregateId);
         if (optionalBooking.isPresent()) {
@@ -68,6 +71,7 @@ public class BookingOperationService extends BookingColleague implements Booking
         return false;
     }
 
+    @Transactional
     public boolean referenceUser(UUID id, UUID financialLedgerAggregateId, UUID bookingAggregateId, UUID referenceUserId){
         Optional<User> optionalReferenceUser = userDomainService.findById(referenceUserId);
         if (optionalReferenceUser.isPresent() && financialLedgerService.hasUserPermission(referenceUserId, financialLedgerAggregateId)){
@@ -81,6 +85,7 @@ public class BookingOperationService extends BookingColleague implements Booking
         return false;
     }
 
+    @Transactional
     public boolean deleteUserReference(UUID userId, UUID financialLedgerAggregateId, UUID bookingAggregateId){
         Optional<User> optionalReferenceUser = userDomainService.findById(userId);
         if (optionalReferenceUser.isPresent()){
