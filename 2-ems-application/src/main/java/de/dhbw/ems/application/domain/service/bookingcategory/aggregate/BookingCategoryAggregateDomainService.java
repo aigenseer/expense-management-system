@@ -1,6 +1,6 @@
 package de.dhbw.ems.application.domain.service.bookingcategory.aggregate;
 
-import de.dhbw.ems.application.domain.service.bookingcategory.entity.BookingCategoryAttributeData;
+import de.dhbw.ems.application.domain.service.bookingcategory.data.BookingCategoryAttributeData;
 import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
 import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
 

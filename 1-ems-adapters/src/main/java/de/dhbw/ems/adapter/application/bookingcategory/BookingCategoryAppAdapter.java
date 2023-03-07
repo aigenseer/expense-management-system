@@ -1,7 +1,7 @@
 package de.dhbw.ems.adapter.application.bookingcategory;
 
 import de.dhbw.ems.application.domain.service.bookingcategory.aggregate.BookingCategoryDomainServicePort;
-import de.dhbw.ems.application.domain.service.bookingcategory.entity.BookingCategoryAttributeData;
+import de.dhbw.ems.application.domain.service.bookingcategory.data.BookingCategoryAttributeData;
 import de.dhbw.ems.application.mediator.service.impl.BookingCategoryServicePort;
 import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
 import lombok.RequiredArgsConstructor;
