@@ -14,7 +14,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Getter
 @Setter
-public class UserFinancialLedgerLink implements Serializable {
+public class UserFinancialLedgerLink {
 
     @EmbeddedId
     private UserFinancialLedgerAggregateId id;

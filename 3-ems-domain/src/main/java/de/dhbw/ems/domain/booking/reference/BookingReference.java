@@ -14,7 +14,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Getter
 @Setter
-public class BookingReference implements Serializable {
+public class BookingReference {
 
     @EmbeddedId
     private BookingReferenceId id;

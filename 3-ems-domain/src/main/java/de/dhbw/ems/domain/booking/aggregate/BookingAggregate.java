@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @Getter
 @Setter
-public class BookingAggregate implements Serializable {
+public class BookingAggregate {
 
     @Id
     @Column(name = "id", nullable = false)
