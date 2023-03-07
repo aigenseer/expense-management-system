@@ -63,7 +63,7 @@ public class BookingAggregate implements Serializable {
     @JoinColumn(name = "aggregate_category_id", nullable = true, updatable = false, insertable = false)
     private BookingCategoryAggregate categoryAggregate;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "bookingAggregate", targetEntity = BookingReference.class)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "bookingAggregate", targetEntity = BookingReference.class, cascade = CascadeType.REMOVE)
     private Set<BookingReference> bookingReferences;
 
     public Set<User> getReferencedUsers(){

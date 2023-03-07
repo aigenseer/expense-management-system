@@ -2,10 +2,14 @@ package de.dhbw.ems.domain.user;
 
 import de.dhbw.ems.abstractioncode.valueobject.email.Email;
 import de.dhbw.ems.abstractioncode.valueobject.phonennumber.PhoneNumber;
+import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
+import de.dhbw.ems.domain.booking.reference.BookingReference;
+import de.dhbw.ems.domain.financialledger.link.UserFinancialLedgerLink;
 import lombok.*;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -32,6 +36,15 @@ public class User {
     @Embedded
     @Column(name = "phone_number", nullable = true)
     private PhoneNumber phoneNumber;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", targetEntity = BookingReference.class, cascade = CascadeType.REMOVE)
+    private Set<BookingReference> bookingReferences;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "creator", targetEntity = BookingAggregate.class, cascade = CascadeType.REMOVE)
+    private Set<BookingAggregate> createdBookings;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", targetEntity = UserFinancialLedgerLink.class, cascade = CascadeType.REMOVE)
+    private Set<UserFinancialLedgerLink> userFinancialLedgerLinks;
 
     
 }

@@ -31,16 +31,13 @@ public class FinancialLedgerAggregate {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy="financialLedgerAggregate", targetEntity = BookingAggregate.class)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="financialLedgerAggregate", targetEntity = BookingAggregate.class, cascade = CascadeType.REMOVE)
     private Set<BookingAggregate> bookingAggregates;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy="financialLedgerAggregate", targetEntity = BookingCategoryAggregate.class)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="financialLedgerAggregate", targetEntity = BookingCategoryAggregate.class, cascade = CascadeType.REMOVE)
     private Set<BookingCategoryAggregate> bookingCategoriesAggregates;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "financialLedgerAggregate", targetEntity = UserFinancialLedgerLink.class)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "financialLedgerAggregate", targetEntity = UserFinancialLedgerLink.class, cascade = CascadeType.REMOVE)
     private Set<UserFinancialLedgerLink> userFinancialLedgerLinks;
 
     public Set<User> getAuthorizedUser(){
