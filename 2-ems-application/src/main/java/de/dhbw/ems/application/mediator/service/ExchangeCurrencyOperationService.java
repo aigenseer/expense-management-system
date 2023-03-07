@@ -23,16 +23,16 @@ public class ExchangeCurrencyOperationService implements ExchangeCurrencyService
 
     public boolean exchangeCurrencyOfBooking(UUID userId, UUID financialLedgerAggregateId, UUID bookingAggregateId, CurrencyType targetCurrencyType){
         Optional<BookingAggregate> optionalBooking = bookingOperationService.find(userId, financialLedgerAggregateId, bookingAggregateId);
-        if (!optionalBooking.isPresent() || optionalBooking.get().getBooking().getMoney().getCurrencyType().equals(targetCurrencyType)) return false;
-        CurrencyExchangeRequest currencyExchangeRequest = CurrencyExchangeRequest.builder().sourceCurrencyType(optionalBooking.get().getBooking().getMoney().getCurrencyType()).targetCurrencyType(targetCurrencyType).build();
+        if (!optionalBooking.isPresent() || optionalBooking.get().getMoney().getCurrencyType().equals(targetCurrencyType)) return false;
+        CurrencyExchangeRequest currencyExchangeRequest = CurrencyExchangeRequest.builder().sourceCurrencyType(optionalBooking.get().getMoney().getCurrencyType()).targetCurrencyType(targetCurrencyType).build();
 
         Optional<Double> rate = currencyExchangeOfficeService.getExchangeRate(currencyExchangeRequest);
         if (!rate.isPresent()) return false;
 
         BookingAggregate bookingAggregate = optionalBooking.get();
-        Money money = bookingAggregate.getBooking().getMoney();
+        Money money = bookingAggregate.getMoney();
         double amount = money.getAmount() * rate.get();
-        bookingAggregate.getBooking().setMoney(new Money(amount, targetCurrencyType));
+        bookingAggregate.setMoney(new Money(amount, targetCurrencyType));
         bookingAggregateDomainService.save(bookingAggregate);
         return true;
     }

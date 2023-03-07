@@ -15,7 +15,7 @@ public class BookingCategoryAggregateToModelMapper implements BookingCategoryAgg
 
     private BookingCategoryModel map(final BookingCategoryAggregate bookingCategoryAggregate) {
         BookingCategoryModel.BookingCategoryModelBuilder builder = BookingCategoryModel.builder()
-                .title(bookingCategoryAggregate.getBookingCategory().getTitle());
+                .title(bookingCategoryAggregate.getTitle());
         return builder.build();
     }
 }

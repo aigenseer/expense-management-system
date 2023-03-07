@@ -24,7 +24,7 @@ public class BookingCategoryAggregatesToCSVFileMapper extends CSVFileMapper impl
         String[] headers = {"Name"};
         return createCSVFile(headers, writer -> {
             for (BookingCategoryAggregate bookingCategoryAggregate: bookingCategoriesAggregates) {
-                writer.addRecord(bookingCategoryAggregate.getBookingCategory().getTitle());
+                writer.addRecord(bookingCategoryAggregate.getTitle());
             }
         });
     }

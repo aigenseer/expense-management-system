@@ -55,7 +55,7 @@ public class BookingToBookingModelMapper implements Function<BookingToBookingMod
         model.setCreator(creatorPreview);
 
         UserPreviewCollectionModel referencedUserPreviewCollectionModel = usersToUserPreviewCollectionMapper.apply(bookingAggregate.getReferencedUsers());
-        Link selfLink = WebMvcLinkBuilder.linkTo(methodOn(BookingReferencedUsersController.class).listAll(userId, bookingAggregate.getFinancialLedgerId(), bookingAggregate.getBooking().getId())).withSelfRel();
+        Link selfLink = WebMvcLinkBuilder.linkTo(methodOn(BookingReferencedUsersController.class).listAll(userId, bookingAggregate.getFinancialLedgerId(), bookingAggregate.getId())).withSelfRel();
         referencedUserPreviewCollectionModel.add(selfLink);
         model.setReferencedUsers(referencedUserPreviewCollectionModel);
 

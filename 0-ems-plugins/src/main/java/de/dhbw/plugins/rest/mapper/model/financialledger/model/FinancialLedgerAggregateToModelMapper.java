@@ -15,7 +15,7 @@ public class FinancialLedgerAggregateToModelMapper implements FinancialLedgerAgg
 
     private FinancialLedgerModel map(final FinancialLedgerAggregate financialLedgerAggregate) {
         FinancialLedgerModel.FinancialLedgerModelBuilder builder = FinancialLedgerModel.builder()
-                .name(financialLedgerAggregate.getFinancialLedger().getTitle());
+                .name(financialLedgerAggregate.getTitle());
         return builder.build();
     }
 }

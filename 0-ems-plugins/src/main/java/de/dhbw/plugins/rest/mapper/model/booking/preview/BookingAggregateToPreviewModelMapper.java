@@ -13,7 +13,7 @@ public class BookingAggregateToPreviewModelMapper implements BookingAggregateToB
 
     private BookingPreviewModel map(final BookingAggregate bookingAggregate) {
         return BookingPreviewModel.builder()
-                .name(bookingAggregate.getBooking().getTitle())
+                .name(bookingAggregate.getTitle())
                 .build();
     }
 }

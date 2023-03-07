@@ -13,7 +13,7 @@ public class FinancialLedgerAggregateToPreviewModelMapper implements FinancialLe
 
     private FinancialLedgerPreviewModel map(final FinancialLedgerAggregate financialLedgerAggregate) {
         return FinancialLedgerPreviewModel.builder()
-                .name(financialLedgerAggregate.getFinancialLedger().getTitle())
+                .name(financialLedgerAggregate.getTitle())
                 .build();
     }
 }

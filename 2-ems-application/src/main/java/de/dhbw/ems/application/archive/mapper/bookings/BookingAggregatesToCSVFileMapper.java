@@ -25,11 +25,11 @@ public class BookingAggregatesToCSVFileMapper extends CSVFileMapper implements B
         return createCSVFile(headers, writer -> {
             for (BookingAggregate bookingAggregate : bookingAggregates) {
                 writer.addRecord(
-                        bookingAggregate.getBooking().getTitle(),
-                        bookingAggregate.getBooking().getMoney().getAmount(),
-                        bookingAggregate.getBooking().getMoney().getCurrencyType(),
+                        bookingAggregate.getTitle(),
+                        bookingAggregate.getMoney().getAmount(),
+                        bookingAggregate.getMoney().getCurrencyType(),
                         bookingAggregate.getCreator().getName(),
-                        bookingAggregate.getCategoryAggregate().getBookingCategory().getTitle(),
+                        bookingAggregate.getCategoryAggregate().getTitle(),
                         bookingAggregate.getCreationDate().toString()
                 );
             }

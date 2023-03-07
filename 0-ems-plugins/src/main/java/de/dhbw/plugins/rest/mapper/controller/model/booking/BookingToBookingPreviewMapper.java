@@ -41,7 +41,7 @@ public class BookingToBookingPreviewMapper implements Function<BookingToBookingP
         Link selfLink = WebMvcLinkBuilder.linkTo(methodOn(BookingController.class)
                 .findOne(context.getUserId(),
                         context.getBookingAggregate().getFinancialLedgerAggregate().getId(),
-                        context.getBookingAggregate().getBooking().getId())).withSelfRel();
+                        context.getBookingAggregate().getId())).withSelfRel();
         preview.add(selfLink);
         return preview;
     }

@@ -15,9 +15,9 @@ public class BookingAggregateToModelMapper implements BookingAggregateToBookingM
 
     private BookingModel map(final BookingAggregate bookingAggregate) {
         BookingModel.BookingModelBuilder builder = BookingModel.builder()
-                .title(bookingAggregate.getBooking().getTitle())
-                .amount(bookingAggregate.getBooking().getMoney().getAmount())
-                .currencyType(bookingAggregate.getBooking().getMoney().getCurrencyType());
+                .title(bookingAggregate.getTitle())
+                .amount(bookingAggregate.getMoney().getAmount())
+                .currencyType(bookingAggregate.getMoney().getCurrencyType());
         return builder.build();
     }
 }

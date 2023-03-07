@@ -23,7 +23,7 @@ public class FinancialLedgerAggregateToCSVFileMapper extends CSVFileMapper imple
     private TmpFile map(final FinancialLedgerAggregate financialLedgerAggregate) {
         String[] headers = {"Name"};
         return createCSVFile(headers, writer -> {
-            writer.addRecord(financialLedgerAggregate.getFinancialLedger().getTitle());
+            writer.addRecord(financialLedgerAggregate.getTitle());
         });
     }
 }
