@@ -64,7 +64,6 @@ public class BookingOperationService extends BookingColleague implements Booking
     public boolean delete(UUID userId, UUID financialLedgerAggregateId, UUID bookingAggregateId){
         Optional<BookingAggregate> optionalBooking = find(userId, financialLedgerAggregateId, bookingAggregateId);
         if (optionalBooking.isPresent()) {
-            getMediator().onDeleteBooking(optionalBooking.get(), this);
             onDeleteBooking(optionalBooking.get());
             return true;
         }
@@ -86,8 +85,8 @@ public class BookingOperationService extends BookingColleague implements Booking
     }
 
     @Transactional
-    public boolean deleteUserReference(UUID userId, UUID financialLedgerAggregateId, UUID bookingAggregateId){
-        Optional<User> optionalReferenceUser = userDomainService.findById(userId);
+    public boolean deleteUserReference(UUID userId, UUID financialLedgerAggregateId, UUID bookingAggregateId, UUID referenceUserId){
+        Optional<User> optionalReferenceUser = userDomainService.findById(referenceUserId);
         if (optionalReferenceUser.isPresent()){
             Optional<BookingAggregate> optionalBooking = find(userId, financialLedgerAggregateId, bookingAggregateId);
             if (optionalBooking.isPresent()) {

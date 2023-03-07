@@ -55,23 +55,10 @@ public class ConcreteApplicationMediator implements Mediator {
     }
 
     @Override
-    public void onDeleteFinancialLedger(FinancialLedgerAggregate financialLedgerAggregate, Colleague colleague) {
-        for (Colleague item : colleagues) {
-            if (!item.equals(colleague)) item.onDeleteFinancialLedger(financialLedgerAggregate);
-        }
-    }
-
-    @Override
     public void onDeleteBookingCategory(BookingCategoryAggregate bookingCategoryAggregate, Colleague colleague) {
         for (Colleague item : colleagues) {
             if (!item.equals(colleague)) item.onDeleteBookingCategory(bookingCategoryAggregate);
         }
     }
 
-    @Override
-    public void onDeleteBooking(BookingAggregate bookingAggregate, Colleague colleague) {
-        for (Colleague item : colleagues) {
-            if (!item.equals(colleague)) item.onDeleteBooking(bookingAggregate);
-        }
-    }
 }

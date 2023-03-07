@@ -97,7 +97,6 @@ public class FinancialLedgerOperationService extends FinancialLedgerColleague im
     public boolean delete(UUID userId, UUID financialLedgerAggregateId) {
         Optional<FinancialLedgerAggregate> optionalFinancialLedgerAggregate = find(userId, financialLedgerAggregateId);
         if (optionalFinancialLedgerAggregate.isPresent()) {
-            getMediator().onDeleteFinancialLedger(optionalFinancialLedgerAggregate.get(), this);
             onDeleteFinancialLedger(optionalFinancialLedgerAggregate.get());
             return true;
         }

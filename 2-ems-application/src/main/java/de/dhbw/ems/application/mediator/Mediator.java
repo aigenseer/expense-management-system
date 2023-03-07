@@ -19,10 +19,6 @@ public interface Mediator {
 
     void onDeleteUser(User user, Colleague colleague);
 
-    void onDeleteFinancialLedger(FinancialLedgerAggregate financialLedgerAggregate, Colleague colleague);
-
     void onDeleteBookingCategory(BookingCategoryAggregate bookingCategoryAggregate, Colleague colleague);
-
-    void onDeleteBooking(BookingAggregate bookingAggregate, Colleague colleague);
 
 }

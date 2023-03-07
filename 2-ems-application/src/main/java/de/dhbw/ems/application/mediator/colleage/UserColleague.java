@@ -1,9 +1,7 @@
 package de.dhbw.ems.application.mediator.colleage;
 
-import de.dhbw.ems.application.mediator.ConcreteApplicationMediator;
 import de.dhbw.ems.application.domain.service.user.UserDomainService;
-import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
-import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
+import de.dhbw.ems.application.mediator.ConcreteApplicationMediator;
 import de.dhbw.ems.domain.user.User;
 
 public class UserColleague extends Colleague {
@@ -20,16 +18,4 @@ public class UserColleague extends Colleague {
         userDomainService.deleteById(user.getId());
     }
 
-    @Override
-    public void onDeleteFinancialLedger(FinancialLedgerAggregate financialLedgerAggregate) {
-        financialLedgerAggregate.getAuthorizedUser().forEach(user -> onUnlinkUserToFinancialLedger(user, financialLedgerAggregate));
-    }
-
-    @Override
-    public void onDeleteBooking(BookingAggregate bookingAggregate) {
-        bookingAggregate.getReferencedUsers().forEach(user -> {
-            getMediator().onDeleteReferenceUserToBooking(user, bookingAggregate, this);
-            onDeleteReferenceUserToBooking(user, bookingAggregate);
-        });
-    }
 }

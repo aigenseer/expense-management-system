@@ -34,7 +34,7 @@ public class BookingReferencedUserController {
     @DeleteMapping("/")
     public ResponseEntity<Void> delete(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerAggregateId") UUID financialLedgerAggregateId, @PathVariable("bookingAggregateId") UUID bookingAggregateId, @PathVariable("referencedUserId") UUID referencedUserId) {
         if (!bookingApplicationAdapter.exists(userId, financialLedgerAggregateId, bookingAggregateId)) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        if (!bookingApplicationAdapter.deleteUserReference(referencedUserId, financialLedgerAggregateId, bookingAggregateId)) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if (!bookingApplicationAdapter.deleteUserReference(userId, financialLedgerAggregateId, bookingAggregateId, referencedUserId)) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 

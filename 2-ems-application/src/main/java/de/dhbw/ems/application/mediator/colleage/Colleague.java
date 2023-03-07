@@ -38,15 +38,8 @@ public abstract class Colleague {
 
     }
 
-    public void onDeleteFinancialLedger(FinancialLedgerAggregate financialLedgerAggregate) {
-
-    }
-
     public void onDeleteBookingCategory(BookingCategoryAggregate bookingCategoryAggregate) {
 
     }
 
-    public void onDeleteBooking(BookingAggregate bookingAggregate) {
-
-    }
 }
