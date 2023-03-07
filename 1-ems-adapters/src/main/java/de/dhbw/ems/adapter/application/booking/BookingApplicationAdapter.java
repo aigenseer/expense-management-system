@@ -19,7 +19,7 @@ public interface BookingApplicationAdapter {
 
     boolean referenceUser(UUID id, UUID financialLedgerAggregateId, UUID bookingAggregateId, UUID referenceUserId);
 
-    boolean deleteUserReference(UUID id, UUID financialLedgerAggregateId, UUID bookingId);
+    boolean deleteUserReference(UUID userId, UUID financialLedgerAggregateId, UUID bookingAggregateId, UUID referenceUserId);
 
     Optional<BookingAggregate> updateByAttributeData(BookingAggregate bookingAggregate, BookingAggregateAttributeData attributeData);
 

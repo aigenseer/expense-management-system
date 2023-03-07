@@ -41,13 +41,13 @@ public class BookingAppAdapter implements BookingApplicationAdapter {
     }
 
     @Override
-    public boolean referenceUser(UUID id, UUID financialLedgerAggregateId, UUID bookingAggregateId, UUID referenceUserId) {
-        return bookingServicePort.referenceUser(id, financialLedgerAggregateId, bookingAggregateId, referenceUserId);
+    public boolean referenceUser(UUID userId, UUID financialLedgerAggregateId, UUID bookingAggregateId, UUID referenceUserId) {
+        return bookingServicePort.referenceUser(userId, financialLedgerAggregateId, bookingAggregateId, referenceUserId);
     }
 
     @Override
-    public boolean deleteUserReference(UUID id, UUID financialLedgerAggregateId, UUID bookingId) {
-        return bookingServicePort.delete(id, financialLedgerAggregateId, bookingId);
+    public boolean deleteUserReference(UUID userId, UUID financialLedgerAggregateId, UUID bookingAggregateId, UUID referenceUserId) {
+        return bookingServicePort.deleteUserReference(userId, financialLedgerAggregateId, bookingAggregateId, referenceUserId);
     }
 
     @Override
