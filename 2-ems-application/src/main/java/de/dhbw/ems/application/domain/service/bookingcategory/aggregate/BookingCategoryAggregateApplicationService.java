@@ -1,10 +1,8 @@
 package de.dhbw.ems.application.domain.service.bookingcategory.aggregate;
 
-import de.dhbw.ems.application.domain.service.bookingcategory.entity.BookingCategoryAttributeData;
-import de.dhbw.ems.application.domain.service.bookingcategory.entity.BookingCategoryDomainService;
+import de.dhbw.ems.application.domain.service.bookingcategory.data.BookingCategoryAttributeData;
 import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
 import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregateRepository;
-import de.dhbw.ems.domain.bookingcategory.entity.BookingCategory;
 import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,7 +15,6 @@ import java.util.UUID;
 public class BookingCategoryAggregateApplicationService implements BookingCategoryAggregateDomainService {
 
     private final BookingCategoryAggregateRepository repository;
-    private final BookingCategoryDomainService bookingCategoryDomainService;
 
     @Override
     public BookingCategoryAggregate save(BookingCategoryAggregate bookingCategoryAggregate) {
@@ -31,16 +28,12 @@ public class BookingCategoryAggregateApplicationService implements BookingCatego
 
     @Override
     public Optional<BookingCategoryAggregate> createByAttributeData(FinancialLedgerAggregate financialLedgerAggregate, BookingCategoryAttributeData data) {
-        Optional<BookingCategory> optionalBookingCategory = bookingCategoryDomainService.createByAttributeData(data);
-        if (!optionalBookingCategory.isPresent()) return Optional.empty();
         BookingCategoryAggregate bookingCategoryAggregate = BookingCategoryAggregate.builder()
                 .id(UUID.randomUUID())
-                .bookingCategoryId(optionalBookingCategory.get().getId())
-                .bookingCategory(optionalBookingCategory.get())
                 .financialLedgerAggregate(financialLedgerAggregate)
                 .financialLedgerId(financialLedgerAggregate.getId())
                 .build();
-        return Optional.of(save(bookingCategoryAggregate));
+        return updateByAttributeData(bookingCategoryAggregate, data);
     }
 
     @Override
@@ -50,9 +43,8 @@ public class BookingCategoryAggregateApplicationService implements BookingCatego
 
     @Override
     public Optional<BookingCategoryAggregate> updateByAttributeData(BookingCategoryAggregate bookingCategoryAggregate, BookingCategoryAttributeData data) {
-        Optional<BookingCategory> optionalBookingCategory = bookingCategoryDomainService.updateByAttributeData(bookingCategoryAggregate.getBookingCategory(), data);
-        if (!optionalBookingCategory.isPresent()) return Optional.empty();
-        return findById(bookingCategoryAggregate.getId());
+        bookingCategoryAggregate.setTitle(data.getTitle());
+        return Optional.of(save(bookingCategoryAggregate));
     }
 
 }

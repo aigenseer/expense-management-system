@@ -1,10 +1,8 @@
 package de.dhbw.ems.application.domain.service.bookingcategory.aggregate;
 
-import de.dhbw.ems.application.domain.service.bookingcategory.entity.BookingCategoryAttributeData;
-import de.dhbw.ems.application.domain.service.bookingcategory.entity.BookingCategoryDomainService;
+import de.dhbw.ems.application.domain.service.bookingcategory.data.BookingCategoryAttributeData;
 import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
 import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregateRepository;
-import de.dhbw.ems.domain.bookingcategory.entity.BookingCategory;
 import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,20 +25,14 @@ import static org.mockito.Mockito.when;
 public class BookingCategoryAggregateApplicationServiceTest {
 
     private final BookingCategoryAggregateRepository repository = Mockito.mock(BookingCategoryAggregateRepository.class);
-    private final BookingCategoryDomainService domainService = Mockito.mock(BookingCategoryDomainService.class);
     private BookingCategoryAggregateApplicationService aggregateApplicationService;
 
     private final FinancialLedgerAggregate financialLedgerAggregateMock = Mockito.mock(FinancialLedgerAggregate.class);
 
-    private final BookingCategory entity = BookingCategory.builder()
-            .id(UUID.randomUUID())
-            .title("NewTitle")
-            .build();
 
     private final BookingCategoryAggregate aggregate = BookingCategoryAggregate.builder()
             .id(UUID.randomUUID())
-            .bookingCategoryId(entity.getId())
-            .bookingCategory(entity)
+            .title("NewTitle")
             .financialLedgerId(UUID.randomUUID())
             .financialLedgerAggregate(financialLedgerAggregateMock)
             .build();
@@ -51,7 +43,7 @@ public class BookingCategoryAggregateApplicationServiceTest {
 
     @Before
     public void setup(){
-        aggregateApplicationService = Mockito.spy(new BookingCategoryAggregateApplicationService(repository, domainService));
+        aggregateApplicationService = Mockito.spy(new BookingCategoryAggregateApplicationService(repository));
         when(repository.save(aggregate)).thenReturn(aggregate);
         when(repository.findById(aggregate.getId())).thenReturn(Optional.of(aggregate));
         when(financialLedgerAggregateMock.getId()).thenReturn(aggregate.getFinancialLedgerId());
@@ -78,19 +70,16 @@ public class BookingCategoryAggregateApplicationServiceTest {
 
     private void checkAggregate(BookingCategoryAggregate expectedAggregate, BookingCategoryAggregate actualAggregate){
         assertEquals(expectedAggregate.getId(), actualAggregate.getId());
-        assertEquals(expectedAggregate.getBookingCategory().getId(), actualAggregate.getBookingCategory().getId());
         assertEquals(expectedAggregate.getFinancialLedgerId(), actualAggregate.getFinancialLedgerId());
     }
 
     @Test
     public void testCreateByAttributeData() {
-        when(domainService.createByAttributeData(attributeData)).thenReturn(Optional.of(entity));
         when(repository.save(any())).thenReturn(aggregate);
 
         Optional<BookingCategoryAggregate> optionalBookingCategoryAggregate = aggregateApplicationService.createByAttributeData(financialLedgerAggregateMock, attributeData);
         assertTrue(optionalBookingCategoryAggregate.isPresent());
 
-        verify(domainService).createByAttributeData(attributeData);
         verify(repository).save(argThat(aggregate -> {
             checkAttributeData(attributeData, aggregate);
             return true;
@@ -99,15 +88,18 @@ public class BookingCategoryAggregateApplicationServiceTest {
 
     @Test
     public void testUpdateByAttributeData() {
-        when(domainService.updateByAttributeData(entity, attributeData)).thenReturn(Optional.of(entity));
+        when(repository.save(any())).thenReturn(aggregate);
         when(repository.findById(aggregate.getId())).thenReturn(Optional.of(aggregate));
         Optional<BookingCategoryAggregate> optionalBookingCategoryAggregate = aggregateApplicationService.updateByAttributeData(aggregate, attributeData);
         assertTrue(optionalBookingCategoryAggregate.isPresent());
-        verify(domainService).updateByAttributeData(entity, attributeData);
+        verify(repository).save(argThat(aggregate -> {
+            checkAttributeData(attributeData, aggregate);
+            return true;
+        }));
     }
 
     private void checkAttributeData(BookingCategoryAttributeData attributeData, BookingCategoryAggregate aggregate) {
-        assertEquals(attributeData.getTitle(), aggregate.getBookingCategory().getTitle());
+        assertEquals(attributeData.getTitle(), aggregate.getTitle());
     }
 
 }

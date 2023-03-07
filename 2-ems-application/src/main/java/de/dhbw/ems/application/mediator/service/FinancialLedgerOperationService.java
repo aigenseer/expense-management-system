@@ -2,7 +2,6 @@ package de.dhbw.ems.application.mediator.service;
 
 import de.dhbw.ems.application.domain.service.financialledger.aggregate.FinancialLedgerAggregateDomainService;
 import de.dhbw.ems.application.domain.service.financialledger.data.FinancialLedgerAttributeData;
-import de.dhbw.ems.application.domain.service.financialledger.entity.FinancialLedgerDomainService;
 import de.dhbw.ems.application.domain.service.financialledger.link.UserFinancialLedgerLinkDomainService;
 import de.dhbw.ems.application.mediator.ConcreteApplicationMediator;
 import de.dhbw.ems.application.mediator.colleage.FinancialLedgerColleague;
@@ -27,10 +26,9 @@ public class FinancialLedgerOperationService extends FinancialLedgerColleague im
             final ConcreteApplicationMediator mediator,
             final UserDomainService userDomainService,
             final FinancialLedgerAggregateDomainService financialLedgerAggregateDomainService,
-            final FinancialLedgerDomainService financialLedgerDomainService,
             final UserFinancialLedgerLinkDomainService userFinancialLedgerLinkDomainService
     ) {
-        super(mediator, financialLedgerAggregateDomainService, financialLedgerDomainService, userFinancialLedgerLinkDomainService);
+        super(mediator, financialLedgerAggregateDomainService, userFinancialLedgerLinkDomainService);
         this.userDomainService = userDomainService;
         this.financialLedgerAggregateDomainService = financialLedgerAggregateDomainService;
         this.userFinancialLedgerLinkDomainService = userFinancialLedgerLinkDomainService;

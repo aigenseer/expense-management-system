@@ -3,10 +3,8 @@ package de.dhbw.ems.application.domain.service.booking.aggregate;
 import de.dhbw.ems.abstractioncode.valueobject.money.CurrencyType;
 import de.dhbw.ems.abstractioncode.valueobject.money.Money;
 import de.dhbw.ems.application.domain.service.booking.data.BookingAggregateAttributeData;
-import de.dhbw.ems.application.domain.service.booking.entity.BookingDomainService;
 import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
 import de.dhbw.ems.domain.booking.aggregate.BookingAggregateRepository;
-import de.dhbw.ems.domain.booking.entity.Booking;
 import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
 import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
 import de.dhbw.ems.domain.user.User;
@@ -32,23 +30,16 @@ import static org.mockito.Mockito.when;
 public class BookingAggregateApplicationServiceTest {
 
     private final BookingAggregateRepository repository = Mockito.mock(BookingAggregateRepository.class);
-    private final BookingDomainService domainService = Mockito.mock(BookingDomainService.class);
     private BookingAggregateApplicationService aggregateApplicationService;
 
     private final User userMock = Mockito.mock(User.class);
     private final FinancialLedgerAggregate financialLedgerAggregateMock = Mockito.mock(FinancialLedgerAggregate.class);
     private final BookingCategoryAggregate bookingCategoryAggregateMock = Mockito.mock(BookingCategoryAggregate.class);
 
-    private final Booking entity = Booking.builder()
+    private final BookingAggregate aggregate = BookingAggregate.builder()
             .id(UUID.randomUUID())
             .title("NewTitle")
             .money(new Money(19.99, CurrencyType.EURO))
-            .build();
-
-    private final BookingAggregate aggregate = BookingAggregate.builder()
-            .id(UUID.randomUUID())
-            .booking(entity)
-            .bookingId(entity.getId())
             .categoryAggregateId(UUID.randomUUID())
             .categoryAggregate(bookingCategoryAggregateMock)
             .creationDate(LocalDate.now())
@@ -67,7 +58,7 @@ public class BookingAggregateApplicationServiceTest {
 
     @Before
     public void setup(){
-        aggregateApplicationService = Mockito.spy(new BookingAggregateApplicationService(repository, domainService));
+        aggregateApplicationService = Mockito.spy(new BookingAggregateApplicationService(repository));
         when(repository.save(aggregate)).thenReturn(aggregate);
         when(repository.findById(aggregate.getId())).thenReturn(Optional.of(aggregate));
         when(userMock.getId()).thenReturn(aggregate.getCreatorId());
@@ -96,18 +87,16 @@ public class BookingAggregateApplicationServiceTest {
 
     private void checkAggregate(BookingAggregate expectedAggregate, BookingAggregate actualAggregate){
         assertEquals(expectedAggregate.getId(), actualAggregate.getId());
-        assertEquals(expectedAggregate.getBooking().getTitle(), actualAggregate.getBooking().getTitle());
+        assertEquals(expectedAggregate.getTitle(), actualAggregate.getTitle());
     }
 
     @Test
     public void testCreateByAttributeData() {
-        when(domainService.createByAttributeData(attributeAggregateData)).thenReturn(Optional.of(entity));
         when(repository.save(any())).thenReturn(aggregate);
 
         Optional<BookingAggregate> optionalBookingAggregate = aggregateApplicationService.createByAttributeData(aggregate.getCreator(), aggregate.getFinancialLedgerAggregate(), attributeAggregateData);
         assertTrue(optionalBookingAggregate.isPresent());
 
-        verify(domainService).createByAttributeData(attributeAggregateData);
         verify(repository).save(argThat(aggregate -> {
             checkAttributeData(attributeAggregateData, aggregate);
             return true;
@@ -116,22 +105,20 @@ public class BookingAggregateApplicationServiceTest {
 
     @Test
     public void testUpdateByAttributeData() {
-        when(domainService.updateByAttributeData(entity, attributeAggregateData)).thenReturn(Optional.of(entity));
         when(repository.save(any())).thenReturn(aggregate);
 
         Optional<BookingAggregate> optionalBookingAggregate = aggregateApplicationService.updateByAttributeData(aggregate, attributeAggregateData);
         assertTrue(optionalBookingAggregate.isPresent());
 
-        verify(domainService).updateByAttributeData(entity, attributeAggregateData);
-        verify(aggregateApplicationService).save(argThat(aggregate -> {
+        verify(repository).save(argThat(aggregate -> {
             checkAttributeData(attributeAggregateData, aggregate);
             return true;
         }));
     }
 
     private void checkAttributeData(BookingAggregateAttributeData attributeData, BookingAggregate aggregate) {
-        assertEquals(attributeData.getTitle(), aggregate.getBooking().getTitle());
-        assertEquals(attributeData.getMoney(), aggregate.getBooking().getMoney());
+        assertEquals(attributeData.getTitle(), aggregate.getTitle());
+        assertEquals(attributeData.getMoney(), aggregate.getMoney());
         assertEquals(attributeData.getBookingCategoryAggregate(), aggregate.getCategoryAggregate());
     }
 

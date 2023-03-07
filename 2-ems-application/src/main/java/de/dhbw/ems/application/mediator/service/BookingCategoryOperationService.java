@@ -1,8 +1,7 @@
 package de.dhbw.ems.application.mediator.service;
 
 import de.dhbw.ems.application.domain.service.bookingcategory.aggregate.BookingCategoryAggregateDomainService;
-import de.dhbw.ems.application.domain.service.bookingcategory.entity.BookingCategoryAttributeData;
-import de.dhbw.ems.application.domain.service.bookingcategory.entity.BookingCategoryDomainService;
+import de.dhbw.ems.application.domain.service.bookingcategory.data.BookingCategoryAttributeData;
 import de.dhbw.ems.application.domain.service.financialledger.aggregate.FinancialLedgerAggregateDomainService;
 import de.dhbw.ems.application.mediator.ConcreteApplicationMediator;
 import de.dhbw.ems.application.mediator.colleage.BookingCategoryColleague;
@@ -26,10 +25,9 @@ public class BookingCategoryOperationService extends BookingCategoryColleague im
             final ConcreteApplicationMediator mediator,
             final FinancialLedgerService financialLedgerService,
             final FinancialLedgerAggregateDomainService financialLedgerAggregateDomainService,
-            final BookingCategoryAggregateDomainService bookingCategoryAggregateDomainService,
-            final BookingCategoryDomainService bookingCategoryDomainService
+            final BookingCategoryAggregateDomainService bookingCategoryAggregateDomainService
             ) {
-        super(mediator, bookingCategoryAggregateDomainService, bookingCategoryDomainService);
+        super(mediator, bookingCategoryAggregateDomainService);
         this.financialLedgerService = financialLedgerService;
         this.financialLedgerAggregateDomainService = financialLedgerAggregateDomainService;
         this.bookingCategoryAggregateDomainService = bookingCategoryAggregateDomainService;

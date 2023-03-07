@@ -2,7 +2,6 @@ package de.dhbw.ems.application.mediator.service;
 
 import de.dhbw.ems.application.domain.service.booking.aggregate.BookingAggregateDomainService;
 import de.dhbw.ems.application.domain.service.booking.data.BookingAggregateAttributeData;
-import de.dhbw.ems.application.domain.service.booking.entity.BookingDomainService;
 import de.dhbw.ems.application.domain.service.booking.reference.BookingReferenceDomainService;
 import de.dhbw.ems.application.mediator.ConcreteApplicationMediator;
 import de.dhbw.ems.application.mediator.colleage.BookingColleague;
@@ -30,10 +29,9 @@ public class BookingOperationService extends BookingColleague implements Booking
             final UserDomainService userDomainService,
             final FinancialLedgerService financialLedgerService,
             final BookingAggregateDomainService bookingAggregateDomainService,
-            final BookingDomainService bookingDomainService,
             final BookingReferenceDomainService bookingReferenceDomainService
             ) {
-        super(mediator, bookingAggregateDomainService, bookingDomainService, bookingReferenceDomainService);
+        super(mediator, bookingAggregateDomainService, bookingReferenceDomainService);
         this.userDomainService = userDomainService;
         this.financialLedgerService = financialLedgerService;
         this.bookingAggregateDomainService = bookingAggregateDomainService;

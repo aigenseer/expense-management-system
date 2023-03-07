@@ -1,7 +1,6 @@
 package de.dhbw.ems.application.mediator.colleage;
 
 import de.dhbw.ems.application.domain.service.financialledger.aggregate.FinancialLedgerAggregateDomainService;
-import de.dhbw.ems.application.domain.service.financialledger.entity.FinancialLedgerDomainService;
 import de.dhbw.ems.application.domain.service.financialledger.link.UserFinancialLedgerLinkDomainService;
 import de.dhbw.ems.application.mediator.ConcreteApplicationMediator;
 import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
@@ -15,18 +14,15 @@ import java.util.Optional;
 public class FinancialLedgerColleague extends Colleague {
 
     private final FinancialLedgerAggregateDomainService financialLedgerAggregateDomainService;
-    private final FinancialLedgerDomainService financialLedgerDomainService;
     private final UserFinancialLedgerLinkDomainService userFinancialLedgerLinkDomainService;
 
     public FinancialLedgerColleague(
             final ConcreteApplicationMediator mediator,
             final FinancialLedgerAggregateDomainService financialLedgerAggregateDomainService,
-            final FinancialLedgerDomainService financialLedgerDomainService,
             final UserFinancialLedgerLinkDomainService userFinancialLedgerLinkDomainService
     ) {
         super(mediator);
         this.financialLedgerAggregateDomainService = financialLedgerAggregateDomainService;
-        this.financialLedgerDomainService = financialLedgerDomainService;
         this.userFinancialLedgerLinkDomainService = userFinancialLedgerLinkDomainService;
     }
 
@@ -64,7 +60,6 @@ public class FinancialLedgerColleague extends Colleague {
             userFinancialLedgerLinkDomainService.deleteById(link.getUser().getId(), link.getFinancialLedgerAggregate().getId());
         });
         financialLedgerAggregateDomainService.deleteById(financialLedgerAggregate.getId());
-        financialLedgerDomainService.deleteById(financialLedgerAggregate.getFinancialLedgerId());
     }
 
     @Override

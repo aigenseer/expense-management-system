@@ -1,10 +1,8 @@
 package de.dhbw.ems.application.domain.service.booking.aggregate;
 
 import de.dhbw.ems.application.domain.service.booking.data.BookingAggregateAttributeData;
-import de.dhbw.ems.application.domain.service.booking.entity.BookingDomainService;
 import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
 import de.dhbw.ems.domain.booking.aggregate.BookingAggregateRepository;
-import de.dhbw.ems.domain.booking.entity.Booking;
 import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
 import de.dhbw.ems.domain.user.User;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +18,6 @@ import java.util.UUID;
 public class BookingAggregateApplicationService implements BookingAggregateDomainService {
 
     private final BookingAggregateRepository repository;
-    private final BookingDomainService bookingDomainService;
 
     public Optional<BookingAggregate> findById(UUID id) {
         return repository.findById(id);
@@ -39,13 +36,8 @@ public class BookingAggregateApplicationService implements BookingAggregateDomai
     }
 
     public Optional<BookingAggregate> createByAttributeData(User user, FinancialLedgerAggregate financialLedgerAggregate, BookingAggregateAttributeData attributeData){
-        Optional<Booking> optionalBooking = bookingDomainService.createByAttributeData(attributeData);
-        if (!optionalBooking.isPresent()) return Optional.empty();
-
         BookingAggregate.BookingAggregateBuilder bookingAggregateBuilder = BookingAggregate.builder()
                 .id(UUID.randomUUID())
-                .booking(optionalBooking.get())
-                .bookingId(optionalBooking.get().getId())
                 .creatorId(user.getId())
                 .creator(user)
                 .creationDate(LocalDate.now())
@@ -56,12 +48,16 @@ public class BookingAggregateApplicationService implements BookingAggregateDomai
             bookingAggregateBuilder.categoryAggregateId(attributeData.getBookingCategoryAggregate().getId());
             bookingAggregateBuilder.categoryAggregate(attributeData.getBookingCategoryAggregate());
         }
-        return Optional.of(save(bookingAggregateBuilder.build()));
+        return updateByAttributeData(bookingAggregateBuilder.build(), attributeData);
     }
 
     public Optional<BookingAggregate> updateByAttributeData(BookingAggregate bookingAggregate, BookingAggregateAttributeData attributeData){
-        Optional<Booking> optionalBooking = bookingDomainService.updateByAttributeData(bookingAggregate.getBooking(), attributeData);
-        if (!optionalBooking.isPresent()) return Optional.empty();
+        if (attributeData.getTitle() != null){
+            bookingAggregate.setTitle(attributeData.getTitle());
+        }
+        if (attributeData.getMoney() != null){
+            bookingAggregate.setMoney(attributeData.getMoney());
+        }
 
         if (attributeData.getBookingCategoryAggregateActive() && attributeData.getBookingCategoryAggregate() != null){
             bookingAggregate.setCategoryAggregateId(attributeData.getBookingCategoryAggregate().getId());

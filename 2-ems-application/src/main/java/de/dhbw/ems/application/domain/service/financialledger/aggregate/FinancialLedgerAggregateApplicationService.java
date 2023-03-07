@@ -1,10 +1,8 @@
 package de.dhbw.ems.application.domain.service.financialledger.aggregate;
 
 import de.dhbw.ems.application.domain.service.financialledger.data.FinancialLedgerAttributeData;
-import de.dhbw.ems.application.domain.service.financialledger.entity.FinancialLedgerDomainService;
 import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
 import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregateRepository;
-import de.dhbw.ems.domain.financialledger.entity.FinancialLedger;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +16,6 @@ import java.util.UUID;
 public class FinancialLedgerAggregateApplicationService implements FinancialLedgerAggregateDomainService {
 
     private final FinancialLedgerAggregateRepository repository;
-    private final FinancialLedgerDomainService financialLedgerDomainService;
 
     public List<FinancialLedgerAggregate> findAll() {
         return repository.findAll();
@@ -37,21 +34,16 @@ public class FinancialLedgerAggregateApplicationService implements FinancialLedg
     }
 
     public Optional<FinancialLedgerAggregate> createByAttributeData(FinancialLedgerAttributeData data){
-        Optional<FinancialLedger> optionalFinancialLedger = financialLedgerDomainService.createByAttributeData(data);
-        if (!optionalFinancialLedger.isPresent()) return Optional.empty();
         FinancialLedgerAggregate financialLedgerAggregate = FinancialLedgerAggregate.builder()
                 .id(UUID.randomUUID())
-                .financialLedger(optionalFinancialLedger.get())
-                .financialLedgerId(optionalFinancialLedger.get().getId())
                 .userFinancialLedgerLinks(new HashSet<>())
                 .build();
-        return Optional.of(save(financialLedgerAggregate));
+        return updateByAttributeData(financialLedgerAggregate, data);
     }
 
     public Optional<FinancialLedgerAggregate> updateByAttributeData(FinancialLedgerAggregate financialLedgerAggregate, FinancialLedgerAttributeData data){
-        Optional<FinancialLedger> optionalFinancialLedger = financialLedgerDomainService.updateByAttributeData(financialLedgerAggregate.getFinancialLedger(), data);
-        if (!optionalFinancialLedger.isPresent()) return Optional.empty();
-        return findById(financialLedgerAggregate.getId());
+        financialLedgerAggregate.setTitle(data.getName());
+        return Optional.of(save(financialLedgerAggregate));
     }
 
 }
