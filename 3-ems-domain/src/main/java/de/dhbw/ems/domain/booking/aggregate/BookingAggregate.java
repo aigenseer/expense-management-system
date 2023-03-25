@@ -6,10 +6,10 @@ import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
 import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
 import de.dhbw.ems.domain.user.User;
 import lombok.*;
+import org.apache.commons.lang3.Validate;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Set;
 import java.util.UUID;
@@ -68,6 +68,23 @@ public class BookingAggregate {
 
     public Set<User> getReferencedUsers(){
         return bookingReferences.stream().map(BookingReference::getUser).collect(Collectors.toSet());
+    }
+
+    public static BookingAggregate.BookingAggregateBuilder builder() {
+        return new CustomBuilder();
+    }
+
+    private static class CustomBuilder extends BookingAggregate.BookingAggregateBuilder {
+        public BookingAggregate build() {
+            BookingAggregate object = super.build();
+            Validate.notNull(object.getId());
+            Validate.notBlank(object.getTitle());
+            Validate.notNull(object.getMoney());
+            Validate.notNull(object.getCreatorId());
+            Validate.notNull(object.getCreationDate());
+            Validate.notNull(object.getFinancialLedgerId());
+            return object;
+        }
     }
 
 }
