@@ -30,6 +30,7 @@ public class BookingCategoryAggregateApplicationService implements BookingCatego
     public Optional<BookingCategoryAggregate> createByAttributeData(FinancialLedgerAggregate financialLedgerAggregate, BookingCategoryAttributeData data) {
         BookingCategoryAggregate bookingCategoryAggregate = BookingCategoryAggregate.builder()
                 .id(UUID.randomUUID())
+                .title(data.getTitle())
                 .financialLedgerAggregate(financialLedgerAggregate)
                 .financialLedgerId(financialLedgerAggregate.getId())
                 .build();

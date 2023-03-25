@@ -38,11 +38,13 @@ public class BookingAggregateApplicationService implements BookingAggregateDomai
     public Optional<BookingAggregate> createByAttributeData(User user, FinancialLedgerAggregate financialLedgerAggregate, BookingAggregateAttributeData attributeData){
         BookingAggregate.BookingAggregateBuilder bookingAggregateBuilder = BookingAggregate.builder()
                 .id(UUID.randomUUID())
+                .title(attributeData.getTitle())
+                .money(attributeData.getMoney())
                 .creatorId(user.getId())
                 .creator(user)
                 .creationDate(LocalDate.now())
                 .financialLedgerId(financialLedgerAggregate.getId())
-                .financialLedgerAggregate(financialLedgerAggregate);
+                .financialLedgerAggregate(financialLedgerAggregate);;
 
         if (attributeData.getBookingCategoryAggregate() != null){
             bookingAggregateBuilder.categoryAggregateId(attributeData.getBookingCategoryAggregate().getId());
