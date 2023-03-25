@@ -6,6 +6,7 @@ import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
 import de.dhbw.ems.domain.booking.reference.BookingReference;
 import de.dhbw.ems.domain.financialledger.link.UserFinancialLedgerLink;
 import lombok.*;
+import org.apache.commons.lang3.Validate;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -46,5 +47,19 @@ public class User {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", targetEntity = UserFinancialLedgerLink.class, cascade = CascadeType.REMOVE)
     private Set<UserFinancialLedgerLink> userFinancialLedgerLinks;
 
+    public static UserBuilder builder() {
+        return new CustomBuilder();
+    }
+
+    private static class CustomBuilder extends UserBuilder {
+        public User build() {
+            User object = super.build();
+            Validate.notNull(object.getId());
+            Validate.notBlank(object.getName());
+            Validate.notNull(object.getId());
+            Validate.notNull(object.getEmail());
+            return object;
+        }
+    }
     
 }

@@ -5,8 +5,7 @@ import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
 import de.dhbw.ems.domain.financialledger.link.UserFinancialLedgerLink;
 import de.dhbw.ems.domain.user.User;
 import lombok.*;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import org.apache.commons.lang3.Validate;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -42,6 +41,19 @@ public class FinancialLedgerAggregate {
 
     public Set<User> getAuthorizedUser(){
         return userFinancialLedgerLinks.stream().map(UserFinancialLedgerLink::getUser).collect(Collectors.toSet());
+    }
+
+    public static FinancialLedgerAggregateBuilder builder() {
+        return new CustomBuilder();
+    }
+
+    private static class CustomBuilder extends FinancialLedgerAggregate.FinancialLedgerAggregateBuilder {
+        public FinancialLedgerAggregate build() {
+            FinancialLedgerAggregate object = super.build();
+            Validate.notNull(object.getId());
+            Validate.notBlank(object.getTitle());
+            return object;
+        }
     }
 
 }
