@@ -32,7 +32,7 @@ public class UserApplicationService implements UserDomainService {
     }
 
     public Optional<User> createByAttributeData(UserAttributeData userData){
-        User user = User.builder().id(UUID.randomUUID()).build();
+        User user = User.builder().id(UUID.randomUUID()).name(userData.getName()).email(userData.getEmail()).build();
         return updateByAttributeData(user, userData);
     }
 
