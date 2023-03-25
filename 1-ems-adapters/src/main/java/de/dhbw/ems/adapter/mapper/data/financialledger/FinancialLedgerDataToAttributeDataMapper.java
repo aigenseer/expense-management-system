@@ -14,7 +14,7 @@ public class FinancialLedgerDataToAttributeDataMapper implements FinancialLedger
     }
 
     private FinancialLedgerAttributeData map(final IFinancialLedgerData data) {
-        return FinancialLedgerAttributeData.builder().name(data.getTitle()).build();
+        return FinancialLedgerAttributeData.builder().title(data.getTitle()).build();
     }
 
 }

@@ -6,5 +6,5 @@ import lombok.Data;
 @Data
 @Builder
 public class FinancialLedgerAttributeData {
-    private String name;
+    private String title;
 }

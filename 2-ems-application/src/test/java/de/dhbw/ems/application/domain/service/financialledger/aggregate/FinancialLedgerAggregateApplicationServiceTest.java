@@ -31,7 +31,7 @@ public class FinancialLedgerAggregateApplicationServiceTest {
             .build();
 
     private final FinancialLedgerAttributeData attributeData = FinancialLedgerAttributeData.builder()
-            .name(aggregate.getTitle())
+            .title(aggregate.getTitle())
             .build();
 
     private final List<FinancialLedgerAggregate> aggregates = new ArrayList<FinancialLedgerAggregate>(){{ add(aggregate); }};
@@ -102,7 +102,7 @@ public class FinancialLedgerAggregateApplicationServiceTest {
     }
 
     private void checkAttributeData(FinancialLedgerAttributeData attributeData, FinancialLedgerAggregate actualAggregate) {
-        assertEquals(attributeData.getName(), actualAggregate.getTitle());
+        assertEquals(attributeData.getTitle(), actualAggregate.getTitle());
     }
 
 }

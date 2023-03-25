@@ -37,12 +37,13 @@ public class FinancialLedgerAggregateApplicationService implements FinancialLedg
         FinancialLedgerAggregate financialLedgerAggregate = FinancialLedgerAggregate.builder()
                 .id(UUID.randomUUID())
                 .userFinancialLedgerLinks(new HashSet<>())
+                .title(data.getTitle())
                 .build();
         return updateByAttributeData(financialLedgerAggregate, data);
     }
 
     public Optional<FinancialLedgerAggregate> updateByAttributeData(FinancialLedgerAggregate financialLedgerAggregate, FinancialLedgerAttributeData data){
-        financialLedgerAggregate.setTitle(data.getName());
+        financialLedgerAggregate.setTitle(data.getTitle());
         return Optional.of(save(financialLedgerAggregate));
     }
 
