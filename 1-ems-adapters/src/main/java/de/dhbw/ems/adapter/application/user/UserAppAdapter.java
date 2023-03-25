@@ -1,8 +1,8 @@
 package de.dhbw.ems.adapter.application.user;
 
-import de.dhbw.ems.application.mediator.service.impl.UserServicePort;
 import de.dhbw.ems.application.domain.service.user.UserAttributeData;
 import de.dhbw.ems.application.domain.service.user.UserDomainServicePort;
+import de.dhbw.ems.application.mediator.service.impl.UserServicePort;
 import de.dhbw.ems.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

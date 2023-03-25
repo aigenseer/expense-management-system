@@ -5,7 +5,6 @@ import de.dhbw.ems.domain.user.User;
 import lombok.*;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
 @Table(name = "ems_user_to_financial_ledger_aggregate")

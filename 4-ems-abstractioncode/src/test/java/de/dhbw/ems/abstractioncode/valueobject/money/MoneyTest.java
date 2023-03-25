@@ -3,8 +3,6 @@ package de.dhbw.ems.abstractioncode.valueobject.money;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.Optional;
-
 public class MoneyTest {
 
     private final Double amount = 19.99;
