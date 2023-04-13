@@ -44,7 +44,7 @@ public class BookingAggregateApplicationService implements BookingAggregateDomai
                 .creator(user)
                 .creationDate(LocalDate.now())
                 .financialLedgerId(financialLedgerAggregate.getId())
-                .financialLedgerAggregate(financialLedgerAggregate);;
+                .financialLedgerAggregate(financialLedgerAggregate);
 
         if (attributeData.getBookingCategoryAggregate() != null){
             bookingAggregateBuilder.categoryAggregateId(attributeData.getBookingCategoryAggregate().getId());
