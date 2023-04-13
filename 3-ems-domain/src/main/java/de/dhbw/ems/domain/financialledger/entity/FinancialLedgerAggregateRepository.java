@@ -1,4 +1,4 @@
-package de.dhbw.ems.domain.financialledger.aggregate;
+package de.dhbw.ems.domain.financialledger.entity;
 
 import java.util.List;
 import java.util.Optional;
