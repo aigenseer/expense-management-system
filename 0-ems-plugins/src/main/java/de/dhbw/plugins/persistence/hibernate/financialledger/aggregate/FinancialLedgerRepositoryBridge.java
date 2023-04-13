@@ -1,7 +1,7 @@
 package de.dhbw.plugins.persistence.hibernate.financialledger.aggregate;
 
 import de.dhbw.ems.domain.financialledger.entity.FinancialLedger;
-import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregateRepository;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @RequiredArgsConstructor
 @Repository
-public class FinancialLedgerAggregateRepositoryBridge implements FinancialLedgerAggregateRepository {
+public class FinancialLedgerRepositoryBridge implements FinancialLedgerRepository {
 
     private final SpringDataFinancialLedgerAggregateRepository springDataFinancialLedgerAggregateRepository;
 
