@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @Getter
 @Setter
-public class FinancialLedgerAggregate {
+public class FinancialLedger {
 
     @Id
     @Column(name = "id", nullable = false)
@@ -43,13 +43,13 @@ public class FinancialLedgerAggregate {
         return userFinancialLedgerLinks.stream().map(UserFinancialLedgerLink::getUser).collect(Collectors.toSet());
     }
 
-    public static FinancialLedgerAggregateBuilder builder() {
+    public static FinancialLedgerBuilder builder() {
         return new CustomBuilder();
     }
 
-    private static class CustomBuilder extends FinancialLedgerAggregate.FinancialLedgerAggregateBuilder {
-        public FinancialLedgerAggregate build() {
-            FinancialLedgerAggregate object = super.build();
+    private static class CustomBuilder extends FinancialLedger.FinancialLedgerBuilder {
+        public FinancialLedger build() {
+            FinancialLedger object = super.build();
             Validate.notNull(object.getId());
             Validate.notBlank(object.getTitle());
             return object;
