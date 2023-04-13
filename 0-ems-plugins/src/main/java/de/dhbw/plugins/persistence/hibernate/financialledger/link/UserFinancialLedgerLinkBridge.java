@@ -17,7 +17,7 @@ public class UserFinancialLedgerLinkBridge implements UserFinancialLedgerLinkRep
     private final SpringDataUserFinancialLedgerLinkRepository repository;
 
     private UserFinancialLedgerAggregateId createUserFinancialLedgerAggregateId(UUID userId, UUID userFinancialLedgerAggregateId){
-        return UserFinancialLedgerAggregateId.builder().userId(userId).financialLedgerAggregateId(userFinancialLedgerAggregateId).build();
+        return UserFinancialLedgerAggregateId.builder().userId(userId).financialLedgerId(userFinancialLedgerAggregateId).build();
     }
 
     @Override
@@ -45,12 +45,12 @@ public class UserFinancialLedgerLinkBridge implements UserFinancialLedgerLinkRep
 
     @Override
     public void deleteById(UUID userId, UUID userFinancialLedgerAggregateId) {
-        repository.deleteById(UserFinancialLedgerAggregateId.builder().userId(userId).financialLedgerAggregateId(userFinancialLedgerAggregateId).build());
+        repository.deleteById(UserFinancialLedgerAggregateId.builder().userId(userId).financialLedgerId(userFinancialLedgerAggregateId).build());
     }
 
     @Override
     public boolean exists(UUID userId, UUID userFinancialLedgerAggregateId) {
-        return repository.existsById(UserFinancialLedgerAggregateId.builder().userId(userId).financialLedgerAggregateId(userFinancialLedgerAggregateId).build());
+        return repository.existsById(UserFinancialLedgerAggregateId.builder().userId(userId).financialLedgerId(userFinancialLedgerAggregateId).build());
     }
 
 }

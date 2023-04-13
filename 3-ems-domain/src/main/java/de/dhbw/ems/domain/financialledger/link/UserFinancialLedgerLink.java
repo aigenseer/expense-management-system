@@ -7,7 +7,7 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "ems_user_to_financial_ledger_aggregate")
+@Table(name = "ems_user_to_financial_ledger")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,7 +23,7 @@ public class UserFinancialLedgerLink {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "financial_ledger_aggregate_id", nullable = false, updatable = false, insertable = false)
+    @JoinColumn(name = "financial_ledger_id", nullable = false, updatable = false, insertable = false)
     private FinancialLedger financialLedger;
 
 }

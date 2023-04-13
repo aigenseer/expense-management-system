@@ -14,7 +14,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Entity
-@Table(name = "financial_ledger_aggregate")
+@Table(name = "financial_ledger")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -30,13 +30,13 @@ public class FinancialLedger {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy="financialLedgerAggregate", targetEntity = BookingAggregate.class, cascade = CascadeType.REMOVE)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="financialLedger", targetEntity = BookingAggregate.class, cascade = CascadeType.REMOVE)
     private Set<BookingAggregate> bookingAggregates;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy="financialLedgerAggregate", targetEntity = BookingCategoryAggregate.class, cascade = CascadeType.REMOVE)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="financialLedger", targetEntity = BookingCategoryAggregate.class, cascade = CascadeType.REMOVE)
     private Set<BookingCategoryAggregate> bookingCategoriesAggregates;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "financialLedgerAggregate", targetEntity = UserFinancialLedgerLink.class, cascade = CascadeType.REMOVE)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "financialLedger", targetEntity = UserFinancialLedgerLink.class, cascade = CascadeType.REMOVE)
     private Set<UserFinancialLedgerLink> userFinancialLedgerLinks;
 
     public Set<User> getAuthorizedUser(){

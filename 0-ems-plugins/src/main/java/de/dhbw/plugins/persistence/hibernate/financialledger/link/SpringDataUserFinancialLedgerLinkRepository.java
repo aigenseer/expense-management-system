@@ -13,7 +13,7 @@ public interface SpringDataUserFinancialLedgerLinkRepository extends JpaReposito
     @Query("SELECT l FROM UserFinancialLedgerLink l WHERE l.id.userId = ?1")
     List<UserFinancialLedgerLink> findByUserId(UUID userId);
 
-    @Query("SELECT l FROM UserFinancialLedgerLink l WHERE l.id.financialLedgerAggregateId = ?1")
+    @Query("SELECT l FROM UserFinancialLedgerLink l WHERE l.id.financialLedgerId = ?1")
     List<UserFinancialLedgerLink> findByBookingAggregateId(UUID financialLedgerAggregateId);
 
 }

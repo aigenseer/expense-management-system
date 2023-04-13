@@ -36,7 +36,7 @@ public class BookingAggregate {
     @Column(name = "title", nullable = false)
     private Money money;
 
-    @Column(name="financial_ledger_aggregate_id", nullable=false)
+    @Column(name="financial_ledger_id", nullable=false)
     @Type(type="uuid-char")
     private UUID financialLedgerId;
 
@@ -49,7 +49,7 @@ public class BookingAggregate {
     private UUID creatorId;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "financial_ledger_aggregate_id", nullable = false, updatable = false, insertable = false)
+    @JoinColumn(name = "financial_ledger_id", nullable = false, updatable = false, insertable = false)
     private FinancialLedger financialLedger;
 
     @Column(name = "creation_date", nullable = false)

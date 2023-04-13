@@ -19,9 +19,9 @@ import java.util.UUID;
 @Embeddable
 public class UserFinancialLedgerAggregateId implements Serializable {
 
-    @Column(name="financial_ledger_aggregate_id", nullable=false)
+    @Column(name="financial_ledger_id", nullable=false)
     @Type(type="uuid-char")
-    UUID financialLedgerAggregateId;
+    UUID financialLedgerId;
 
     @Column(name="ems_user_id", nullable=false)
     @Type(type="uuid-char")
@@ -32,12 +32,12 @@ public class UserFinancialLedgerAggregateId implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserFinancialLedgerAggregateId that = (UserFinancialLedgerAggregateId) o;
-        return Objects.equals(financialLedgerAggregateId, that.financialLedgerAggregateId) && Objects.equals(userId, that.userId);
+        return Objects.equals(financialLedgerId, that.financialLedgerId) && Objects.equals(userId, that.userId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(financialLedgerAggregateId, userId);
+        return Objects.hash(financialLedgerId, userId);
     }
 
 }
