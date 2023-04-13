@@ -1,7 +1,7 @@
 package de.dhbw.plugins.persistence.hibernate;
 
 import de.dhbw.ems.domain.financialledger.entity.FinancialLedger;
-import de.dhbw.plugins.persistence.hibernate.financialledger.aggregate.FinancialLedgerAggregateRepositoryBridge;
+import de.dhbw.plugins.persistence.hibernate.financialledger.aggregate.FinancialLedgerRepositoryBridge;
 import de.dhbw.plugins.persistence.hibernate.financialledger.aggregate.SpringDataFinancialLedgerAggregateRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,7 +30,7 @@ public class FinancialLedgerRepositoryBridgeTest {
     private SpringDataFinancialLedgerAggregateRepository springDataRepository;
 
     @InjectMocks
-    private FinancialLedgerAggregateRepositoryBridge repositoryBridge;
+    private FinancialLedgerRepositoryBridge repositoryBridge;
 
     private final FinancialLedger entity = FinancialLedger.builder().id(UUID.randomUUID()).build();
     private final List<FinancialLedger> entities = new ArrayList<FinancialLedger>(){{ add(entity); }};

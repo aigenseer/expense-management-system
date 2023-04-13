@@ -3,7 +3,7 @@ package de.dhbw.ems.application.domain.service.financialledger.aggregate;
 import de.dhbw.ems.application.domain.service.financialledger.data.FinancialLedgerAttributeData;
 import de.dhbw.ems.application.domain.service.financialledger.entity.FinancialLedgerApplicationService;
 import de.dhbw.ems.domain.financialledger.entity.FinancialLedger;
-import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregateRepository;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,7 +23,7 @@ import static org.mockito.Mockito.*;
 @RunWith(SpringRunner.class)
 public class FinancialLedgerApplicationServiceTest {
 
-    private final FinancialLedgerAggregateRepository repository = Mockito.mock(FinancialLedgerAggregateRepository.class);
+    private final FinancialLedgerRepository repository = Mockito.mock(FinancialLedgerRepository.class);
     private FinancialLedgerApplicationService aggregateApplicationService;
 
     private final FinancialLedger aggregate = FinancialLedger.builder()

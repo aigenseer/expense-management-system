@@ -2,7 +2,7 @@ package de.dhbw.ems.application.domain.service.financialledger.entity;
 
 import de.dhbw.ems.application.domain.service.financialledger.data.FinancialLedgerAttributeData;
 import de.dhbw.ems.domain.financialledger.entity.FinancialLedger;
-import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregateRepository;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +15,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class FinancialLedgerApplicationService implements FinancialLedgerDomainService {
 
-    private final FinancialLedgerAggregateRepository repository;
+    private final FinancialLedgerRepository repository;
 
     public List<FinancialLedger> findAll() {
         return repository.findAll();
