@@ -1,6 +1,6 @@
 package de.dhbw.plugins.rest.mapper.controller.model.financialledger;
 
-import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregate;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedger;
 import de.dhbw.plugins.rest.controller.financialledger.FinancialLedgerController;
 import de.dhbw.plugins.rest.mapper.model.financialledger.preview.FinancialLedgerAggregateToFinancialLedgerPreviewModelMapper;
 import de.dhbw.plugins.rest.mapper.model.financialledger.preview.FinancialLedgerPreviewModel;
@@ -27,7 +27,7 @@ public class FinancialLedgerToFinancialLedgerPreviewMapper implements Function<F
     @Builder
     static class Context{
         private final UUID userId;
-        private final FinancialLedgerAggregate financialLedgerAggregate;
+        private final FinancialLedger financialLedger;
     }
 
     private final FinancialLedgerAggregateToFinancialLedgerPreviewModelMapper financialLedgerToFinancialLedgerPreviewModelMapper;
@@ -38,8 +38,8 @@ public class FinancialLedgerToFinancialLedgerPreviewMapper implements Function<F
     }
 
     private FinancialLedgerPreviewModel map(final FinancialLedgerToFinancialLedgerPreviewMapper.Context context) {
-        FinancialLedgerPreviewModel preview = financialLedgerToFinancialLedgerPreviewModelMapper.apply(context.getFinancialLedgerAggregate());
-        Link selfLink = WebMvcLinkBuilder.linkTo(methodOn(FinancialLedgerController.class).findOne(context.getUserId(), context.getFinancialLedgerAggregate().getId())).withSelfRel();
+        FinancialLedgerPreviewModel preview = financialLedgerToFinancialLedgerPreviewModelMapper.apply(context.getFinancialLedger());
+        Link selfLink = WebMvcLinkBuilder.linkTo(methodOn(FinancialLedgerController.class).findOne(context.getUserId(), context.getFinancialLedger().getId())).withSelfRel();
         preview.add(selfLink);
         return preview;
     }

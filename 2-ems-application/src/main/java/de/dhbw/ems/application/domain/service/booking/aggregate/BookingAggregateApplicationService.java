@@ -3,7 +3,7 @@ package de.dhbw.ems.application.domain.service.booking.aggregate;
 import de.dhbw.ems.application.domain.service.booking.data.BookingAggregateAttributeData;
 import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
 import de.dhbw.ems.domain.booking.aggregate.BookingAggregateRepository;
-import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregate;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedger;
 import de.dhbw.ems.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -35,7 +35,7 @@ public class BookingAggregateApplicationService implements BookingAggregateDomai
         repository.deleteById(id);
     }
 
-    public Optional<BookingAggregate> createByAttributeData(User user, FinancialLedgerAggregate financialLedgerAggregate, BookingAggregateAttributeData attributeData){
+    public Optional<BookingAggregate> createByAttributeData(User user, FinancialLedger financialLedger, BookingAggregateAttributeData attributeData){
         BookingAggregate.BookingAggregateBuilder bookingAggregateBuilder = BookingAggregate.builder()
                 .id(UUID.randomUUID())
                 .title(attributeData.getTitle())
@@ -43,8 +43,8 @@ public class BookingAggregateApplicationService implements BookingAggregateDomai
                 .creatorId(user.getId())
                 .creator(user)
                 .creationDate(LocalDate.now())
-                .financialLedgerId(financialLedgerAggregate.getId())
-                .financialLedgerAggregate(financialLedgerAggregate);
+                .financialLedgerId(financialLedger.getId())
+                .financialLedger(financialLedger);
 
         if (attributeData.getBookingCategoryAggregate() != null){
             bookingAggregateBuilder.categoryAggregateId(attributeData.getBookingCategoryAggregate().getId());

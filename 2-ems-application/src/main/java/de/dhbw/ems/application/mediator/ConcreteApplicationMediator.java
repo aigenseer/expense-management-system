@@ -3,7 +3,7 @@ package de.dhbw.ems.application.mediator;
 import de.dhbw.ems.application.mediator.colleage.Colleague;
 import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
 import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
-import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregate;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedger;
 import de.dhbw.ems.domain.user.User;
 import org.springframework.stereotype.Service;
 
@@ -20,16 +20,16 @@ public class ConcreteApplicationMediator implements Mediator {
     }
 
     @Override
-    public void onLinkUserToFinancialLedger(User user, FinancialLedgerAggregate financialLedgerAggregate, Colleague colleague) {
+    public void onLinkUserToFinancialLedger(User user, FinancialLedger financialLedger, Colleague colleague) {
         for (Colleague item : colleagues) {
-            if (!item.equals(colleague)) item.onLinkUserToFinancialLedger(user, financialLedgerAggregate);
+            if (!item.equals(colleague)) item.onLinkUserToFinancialLedger(user, financialLedger);
         }
     }
 
     @Override
-    public void onUnlinkUserToFinancialLedger(User user, FinancialLedgerAggregate financialLedgerAggregate, Colleague colleague) {
+    public void onUnlinkUserToFinancialLedger(User user, FinancialLedger financialLedger, Colleague colleague) {
         for (Colleague item : colleagues) {
-            if (!item.equals(colleague)) item.onUnlinkUserToFinancialLedger(user, financialLedgerAggregate);
+            if (!item.equals(colleague)) item.onUnlinkUserToFinancialLedger(user, financialLedger);
         }
     }
 

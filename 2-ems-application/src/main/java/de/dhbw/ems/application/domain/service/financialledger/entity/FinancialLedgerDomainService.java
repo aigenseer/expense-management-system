@@ -1,7 +1,7 @@
 package de.dhbw.ems.application.domain.service.financialledger.entity;
 
 import de.dhbw.ems.application.domain.service.financialledger.data.FinancialLedgerAttributeData;
-import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregate;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedger;
 
 import java.util.List;
 import java.util.Optional;
@@ -9,14 +9,14 @@ import java.util.UUID;
 
 public interface FinancialLedgerDomainService extends FinancialLedgerDomainServicePort {
 
-    List<FinancialLedgerAggregate> findAll();
+    List<FinancialLedger> findAll();
 
-    Optional<FinancialLedgerAggregate> findById(UUID id);
+    Optional<FinancialLedger> findById(UUID id);
 
-    FinancialLedgerAggregate save(FinancialLedgerAggregate financialLedgerAggregate);
+    FinancialLedger save(FinancialLedger financialLedger);
 
     void deleteById(UUID id);
 
-    Optional<FinancialLedgerAggregate> createByAttributeData(FinancialLedgerAttributeData data);
+    Optional<FinancialLedger> createByAttributeData(FinancialLedgerAttributeData data);
 
 }

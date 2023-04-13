@@ -2,7 +2,7 @@ package de.dhbw.plugins.rest.controller.financialledger.csv;
 
 import de.dhbw.ems.adapter.application.financialledger.FinancialLedgerApplicationAdapter;
 import de.dhbw.ems.application.archive.core.TmpFile;
-import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregate;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedger;
 import lombok.AllArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
@@ -30,7 +30,7 @@ public class FinancialLedgerCSVController {
 
     @GetMapping
     public ResponseEntity<Resource> findOne(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerAggregateId") UUID financialLedgerAggregateId) throws IOException {
-        Optional<FinancialLedgerAggregate> optionalFinancialLedgerAggregate = financialLedgerApplicationAdapter.find(userId, financialLedgerAggregateId);
+        Optional<FinancialLedger> optionalFinancialLedgerAggregate = financialLedgerApplicationAdapter.find(userId, financialLedgerAggregateId);
         if (!optionalFinancialLedgerAggregate.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         try (TmpFile tmpFile = financialLedgerApplicationAdapter.createTmpZipArchive(optionalFinancialLedgerAggregate.get())){
 

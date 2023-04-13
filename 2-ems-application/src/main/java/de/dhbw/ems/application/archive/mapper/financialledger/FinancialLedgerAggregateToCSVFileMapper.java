@@ -3,7 +3,7 @@ package de.dhbw.ems.application.archive.mapper.financialledger;
 import de.dhbw.ems.application.archive.core.TmpFile;
 import de.dhbw.ems.application.archive.mapper.CSVFactory;
 import de.dhbw.ems.application.archive.mapper.CSVFileMapper;
-import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregate;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedger;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -16,14 +16,14 @@ public class FinancialLedgerAggregateToCSVFileMapper extends CSVFileMapper imple
     }
 
     @Override
-    public TmpFile apply(final FinancialLedgerAggregate financialLedgerAggregate) {
-        return map(financialLedgerAggregate);
+    public TmpFile apply(final FinancialLedger financialLedger) {
+        return map(financialLedger);
     }
 
-    private TmpFile map(final FinancialLedgerAggregate financialLedgerAggregate) {
+    private TmpFile map(final FinancialLedger financialLedger) {
         String[] headers = {"Name"};
         return createCSVFile(headers, writer -> {
-            writer.addRecord(financialLedgerAggregate.getTitle());
+            writer.addRecord(financialLedger.getTitle());
         });
     }
 }

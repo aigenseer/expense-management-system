@@ -3,7 +3,7 @@ package de.dhbw.plugins.rest.controller.financialledger;
 import de.dhbw.ems.adapter.application.financialledger.FinancialLedgerApplicationAdapter;
 import de.dhbw.ems.adapter.mapper.data.financialledger.FinancialLedgerDataToFinancialLedgerAttributeDataAdapterMapper;
 import de.dhbw.ems.application.domain.service.financialledger.data.FinancialLedgerAttributeData;
-import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregate;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedger;
 import de.dhbw.plugins.rest.controller.financialledgers.data.FinancialLedgerData;
 import de.dhbw.plugins.rest.controller.utils.WebMvcLinkBuilderUtils;
 import de.dhbw.plugins.rest.mapper.controller.factory.financialledger.FinancialLedgerModelFactory;
@@ -33,7 +33,7 @@ public class FinancialLedgerController {
 
     @GetMapping
     public ResponseEntity<FinancialLedgerModel> findOne(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerAggregateId") UUID financialLedgerAggregateId) {
-        Optional<FinancialLedgerAggregate> optionalFinancialLedgerAggregate = financialLedgerApplicationAdapter.find(userId, financialLedgerAggregateId);
+        Optional<FinancialLedger> optionalFinancialLedgerAggregate = financialLedgerApplicationAdapter.find(userId, financialLedgerAggregateId);
         if (!optionalFinancialLedgerAggregate.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         FinancialLedgerModel financialLedgerModel = financialLedgerModelFactory.create(userId, optionalFinancialLedgerAggregate.get());
         return ResponseEntity.ok(financialLedgerModel);
@@ -41,7 +41,7 @@ public class FinancialLedgerController {
 
     @PutMapping
     public ResponseEntity<Void> update(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerAggregateId") UUID financialLedgerAggregateId, @Valid @RequestBody FinancialLedgerData data) {
-        Optional<FinancialLedgerAggregate> optionalFinancialLedgerAggregate = financialLedgerApplicationAdapter.find(userId, financialLedgerAggregateId);
+        Optional<FinancialLedger> optionalFinancialLedgerAggregate = financialLedgerApplicationAdapter.find(userId, financialLedgerAggregateId);
         if (!optionalFinancialLedgerAggregate.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         FinancialLedgerAttributeData financialLedgerAttributeData = adapterMapper.apply(data);
         optionalFinancialLedgerAggregate = financialLedgerApplicationAdapter.updateByAttributeData(optionalFinancialLedgerAggregate.get(), financialLedgerAttributeData);

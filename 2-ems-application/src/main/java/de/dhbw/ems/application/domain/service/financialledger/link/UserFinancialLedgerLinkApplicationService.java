@@ -1,6 +1,6 @@
 package de.dhbw.ems.application.domain.service.financialledger.link;
 
-import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregate;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedger;
 import de.dhbw.ems.domain.financialledger.link.UserFinancialLedgerLink;
 import de.dhbw.ems.domain.financialledger.link.UserFinancialLedgerLinkRepository;
 import lombok.RequiredArgsConstructor;
@@ -48,7 +48,7 @@ public class UserFinancialLedgerLinkApplicationService implements UserFinancialL
     }
 
     @Override
-    public List<FinancialLedgerAggregate> findFinancialLedgerAggregatesByUserId(UUID userId) {
-        return findByUserId(userId).stream().map(UserFinancialLedgerLink::getFinancialLedgerAggregate).collect(Collectors.toList());
+    public List<FinancialLedger> findFinancialLedgerAggregatesByUserId(UUID userId) {
+        return findByUserId(userId).stream().map(UserFinancialLedgerLink::getFinancialLedger).collect(Collectors.toList());
     }
 }

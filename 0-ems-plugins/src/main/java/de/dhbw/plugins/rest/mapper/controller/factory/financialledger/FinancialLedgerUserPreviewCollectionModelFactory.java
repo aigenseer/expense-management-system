@@ -1,6 +1,6 @@
 package de.dhbw.plugins.rest.mapper.controller.factory.financialledger;
 
-import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregate;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedger;
 import de.dhbw.plugins.rest.controller.financialledger.user.FinancialLedgerUserController;
 import de.dhbw.plugins.rest.controller.financialledger.users.FinancialLedgerUsersController;
 import de.dhbw.plugins.rest.mapper.controller.model.user.UsersToUserPreviewCollectionMapper;
@@ -19,16 +19,16 @@ public class FinancialLedgerUserPreviewCollectionModelFactory {
 
     private final UsersToUserPreviewCollectionMapper usersToUserPreviewCollectionMapper;
 
-    public UserPreviewCollectionModel create(UUID userId, FinancialLedgerAggregate financialLedgerAggregate){
-        UserPreviewCollectionModel previewCollectionModel = usersToUserPreviewCollectionMapper.apply(financialLedgerAggregate.getAuthorizedUser());
+    public UserPreviewCollectionModel create(UUID userId, FinancialLedger financialLedger){
+        UserPreviewCollectionModel previewCollectionModel = usersToUserPreviewCollectionMapper.apply(financialLedger.getAuthorizedUser());
         previewCollectionModel.getContent().forEach(userPreview -> {
-            Link selfLink = linkTo(methodOn(FinancialLedgerUserController.class).findOne(financialLedgerAggregate.getId(), userPreview.getId())).withSelfRel();
+            Link selfLink = linkTo(methodOn(FinancialLedgerUserController.class).findOne(financialLedger.getId(), userPreview.getId())).withSelfRel();
             userPreview.removeLinks();
             userPreview.add(selfLink);
         });
 
-        Link selfLink = linkTo(methodOn(FinancialLedgerUsersController.class).listAll(userId, financialLedgerAggregate.getId())).withSelfRel()
-                .andAffordance(afford(methodOn(FinancialLedgerUsersController.class).create(userId, financialLedgerAggregate.getId(), null)));
+        Link selfLink = linkTo(methodOn(FinancialLedgerUsersController.class).listAll(userId, financialLedger.getId())).withSelfRel()
+                .andAffordance(afford(methodOn(FinancialLedgerUsersController.class).create(userId, financialLedger.getId(), null)));
         previewCollectionModel.add(selfLink);
         return previewCollectionModel;
     }

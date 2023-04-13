@@ -9,7 +9,7 @@ import de.dhbw.ems.application.archive.mapper.bookings.BookingUserReferencesToCS
 import de.dhbw.ems.application.archive.mapper.financialledger.FinancialLedgerAggregateToCSVFileMapperFunction;
 import de.dhbw.ems.application.archive.mapper.user.UsersToCSVFileMapperFunction;
 import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
-import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregate;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedger;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -30,14 +30,14 @@ public class FinancialLedgerArchiveFactory extends TmpFileFactory implements Fin
     private final BookingCategoryAggregatesToCSVFileMapperFunction bookingCategoryAggregatesToCSVFileMapperFunction;
 
     @Override
-    public TmpFile createTmpZipArchive(FinancialLedgerAggregate financialLedgerAggregate) {
+    public TmpFile createTmpZipArchive(FinancialLedger financialLedger) {
         TmpFile tmpFile = createTempCSVFile(".zip");
         try(ZipOutputStream out = new ZipOutputStream(new FileOutputStream(tmpFile.getFile()))){
-            appendFileToZip(out, "booking-categories.csv", bookingCategoryAggregatesToCSVFileMapperFunction.apply(financialLedgerAggregate.getBookingCategoriesAggregates()));
-            appendFileToZip(out, "bookings.csv", bookingAggregatesToCSVFileMapperFunction.apply(financialLedgerAggregate.getBookingAggregates()));
-            appendFileToZip(out, "authorized-users.csv", usersToCSVFileMapperFunction.apply(financialLedgerAggregate.getAuthorizedUser()));
-            appendFileToZip(out, "financial-ledger.csv", financialLedgerAggregateToCSVFileMapperFunction.apply(financialLedgerAggregate));
-            for (BookingAggregate bookingAggregate : financialLedgerAggregate.getBookingAggregates()) {
+            appendFileToZip(out, "booking-categories.csv", bookingCategoryAggregatesToCSVFileMapperFunction.apply(financialLedger.getBookingCategoriesAggregates()));
+            appendFileToZip(out, "bookings.csv", bookingAggregatesToCSVFileMapperFunction.apply(financialLedger.getBookingAggregates()));
+            appendFileToZip(out, "authorized-users.csv", usersToCSVFileMapperFunction.apply(financialLedger.getAuthorizedUser()));
+            appendFileToZip(out, "financial-ledger.csv", financialLedgerAggregateToCSVFileMapperFunction.apply(financialLedger));
+            for (BookingAggregate bookingAggregate : financialLedger.getBookingAggregates()) {
                 appendFileToZip(out, "BookingReferences", String.format("%s.csv", bookingAggregate.getTitle()), bookingUserReferencesToCSVFileMapperFunction.apply(bookingAggregate));
             }
         } catch (IOException e) {

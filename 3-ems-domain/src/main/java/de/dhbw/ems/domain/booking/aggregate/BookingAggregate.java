@@ -3,7 +3,7 @@ package de.dhbw.ems.domain.booking.aggregate;
 import de.dhbw.ems.abstractioncode.valueobject.money.Money;
 import de.dhbw.ems.domain.booking.reference.BookingReference;
 import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
-import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregate;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedger;
 import de.dhbw.ems.domain.user.User;
 import lombok.*;
 import org.apache.commons.lang3.Validate;
@@ -50,7 +50,7 @@ public class BookingAggregate {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "financial_ledger_aggregate_id", nullable = false, updatable = false, insertable = false)
-    private FinancialLedgerAggregate financialLedgerAggregate;
+    private FinancialLedger financialLedger;
 
     @Column(name = "creation_date", nullable = false)
     private LocalDate creationDate;

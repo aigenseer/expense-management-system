@@ -1,6 +1,6 @@
 package de.dhbw.plugins.persistence.hibernate.financialledger.aggregate;
 
-import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregate;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedger;
 import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregateRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -16,17 +16,17 @@ public class FinancialLedgerAggregateRepositoryBridge implements FinancialLedger
     private final SpringDataFinancialLedgerAggregateRepository springDataFinancialLedgerAggregateRepository;
 
     @Override
-    public List<FinancialLedgerAggregate> findAll() {
+    public List<FinancialLedger> findAll() {
         return springDataFinancialLedgerAggregateRepository.findAll();
     }
 
     @Override
-    public Optional<FinancialLedgerAggregate> findById(UUID id) {
+    public Optional<FinancialLedger> findById(UUID id) {
         return springDataFinancialLedgerAggregateRepository.findById(id);
     }
 
     @Override
-    public FinancialLedgerAggregate save(FinancialLedgerAggregate user) {
+    public FinancialLedger save(FinancialLedger user) {
         return springDataFinancialLedgerAggregateRepository.save(user);
     }
 

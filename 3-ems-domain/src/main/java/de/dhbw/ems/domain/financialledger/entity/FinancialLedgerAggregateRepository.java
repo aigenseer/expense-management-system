@@ -6,11 +6,11 @@ import java.util.UUID;
 
 public interface FinancialLedgerAggregateRepository {
 
-    List<FinancialLedgerAggregate> findAll();
+    List<FinancialLedger> findAll();
 
-    Optional<FinancialLedgerAggregate> findById(UUID id);
+    Optional<FinancialLedger> findById(UUID id);
 
-    FinancialLedgerAggregate save(FinancialLedgerAggregate user);
+    FinancialLedger save(FinancialLedger user);
 
     void deleteById(UUID id);
 

@@ -1,7 +1,7 @@
 package de.dhbw.plugins.rest.controller.financialledger.users;
 
 import de.dhbw.ems.adapter.application.financialledger.FinancialLedgerApplicationAdapter;
-import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregate;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedger;
 import de.dhbw.plugins.rest.controller.booking.users.data.AppendUserData;
 import de.dhbw.plugins.rest.controller.financialledger.user.FinancialLedgerUserController;
 import de.dhbw.plugins.rest.controller.utils.WebMvcLinkBuilderUtils;
@@ -29,20 +29,20 @@ public class FinancialLedgerUsersController {
 
     @GetMapping
     public ResponseEntity<UserPreviewCollectionModel> listAll(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerAggregateId") UUID financialLedgerAggregateId) {
-        Optional<FinancialLedgerAggregate> optionalFinancialLedgerAggregate = financialLedgerApplicationAdapter.find(userId, financialLedgerAggregateId);
+        Optional<FinancialLedger> optionalFinancialLedgerAggregate = financialLedgerApplicationAdapter.find(userId, financialLedgerAggregateId);
         if (!optionalFinancialLedgerAggregate.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        FinancialLedgerAggregate financialLedgerAggregate = optionalFinancialLedgerAggregate.get();
-        return ResponseEntity.ok(financialLedgerUserPreviewCollectionModelFactory.create(userId, financialLedgerAggregate));
+        FinancialLedger financialLedger = optionalFinancialLedgerAggregate.get();
+        return ResponseEntity.ok(financialLedgerUserPreviewCollectionModelFactory.create(userId, financialLedger));
     }
 
     @PostMapping
     public ResponseEntity<Void> create(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerAggregateId") UUID financialLedgerAggregateId, @Valid @RequestBody AppendUserData data) {
-        Optional<FinancialLedgerAggregate> optionalFinancialLedgerAggregate = financialLedgerApplicationAdapter.find(userId, financialLedgerAggregateId);
+        Optional<FinancialLedger> optionalFinancialLedgerAggregate = financialLedgerApplicationAdapter.find(userId, financialLedgerAggregateId);
         if (!optionalFinancialLedgerAggregate.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        FinancialLedgerAggregate financialLedgerAggregate = optionalFinancialLedgerAggregate.get();
+        FinancialLedger financialLedger = optionalFinancialLedgerAggregate.get();
         UUID financialLedgerUserId = UUID.fromString(data.getUserId());
-        if (!financialLedgerApplicationAdapter.appendUser(financialLedgerUserId, financialLedgerAggregate.getId())) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        WebMvcLinkBuilder uriComponents = WebMvcLinkBuilder.linkTo(methodOn(FinancialLedgerUserController.class).findOne(financialLedgerAggregate.getId(), financialLedgerUserId));
+        if (!financialLedgerApplicationAdapter.appendUser(financialLedgerUserId, financialLedger.getId())) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        WebMvcLinkBuilder uriComponents = WebMvcLinkBuilder.linkTo(methodOn(FinancialLedgerUserController.class).findOne(financialLedger.getId(), financialLedgerUserId));
         return new ResponseEntity<>(WebMvcLinkBuilderUtils.createLocationHeader(uriComponents), HttpStatus.CREATED);
     }
 

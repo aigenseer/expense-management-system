@@ -1,6 +1,6 @@
 package de.dhbw.plugins.rest.mapper.controller.factory.financialledger;
 
-import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregate;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedger;
 import de.dhbw.plugins.rest.controller.bookingcategories.BookingCategoriesController;
 import de.dhbw.plugins.rest.controller.bookings.BookingsController;
 import de.dhbw.plugins.rest.controller.financialledger.FinancialLedgerController;
@@ -30,32 +30,32 @@ public class FinancialLedgerModelFactory {
     private final BookingCategoryAggregateToBookingCategoryPreviewCollectionMapper bookingCategoriesToBookingCategoryPreviewCollectionMapper;
     private final BookingsToBookingPreviewCollectionMapper bookingsToBookingPreviewCollectionMapper;
 
-    public FinancialLedgerModel create(final UUID userId, final FinancialLedgerAggregate financialLedgerAggregate) {
-        FinancialLedgerModel model = modelMapper.apply(financialLedgerAggregate);
+    public FinancialLedgerModel create(final UUID userId, final FinancialLedger financialLedger) {
+        FinancialLedgerModel model = modelMapper.apply(financialLedger);
 
-        UserPreviewCollectionModel userPreviewCollectionModel = usersToUserPreviewCollectionMapper.apply(financialLedgerAggregate.getAuthorizedUser());
-        Link selfLink = linkTo(methodOn(FinancialLedgerUsersController.class).listAll(userId, financialLedgerAggregate.getId())).withSelfRel();
+        UserPreviewCollectionModel userPreviewCollectionModel = usersToUserPreviewCollectionMapper.apply(financialLedger.getAuthorizedUser());
+        Link selfLink = linkTo(methodOn(FinancialLedgerUsersController.class).listAll(userId, financialLedger.getId())).withSelfRel();
         userPreviewCollectionModel.add(selfLink);
 
         BookingCategoryPreviewCollectionModel bookingCategoryPreviewCollectionModel = bookingCategoriesToBookingCategoryPreviewCollectionMapper
                 .apply(BookingCategoryAggregateToBookingCategoryPreviewCollectionMapper.Context.builder()
                         .userId(userId)
-                        .bookingCategoryAggregates(financialLedgerAggregate.getBookingCategoriesAggregates())
+                        .bookingCategoryAggregates(financialLedger.getBookingCategoriesAggregates())
                         .build());
-        selfLink = linkTo(methodOn(BookingCategoriesController.class).listAll(userId, financialLedgerAggregate.getId())).withSelfRel();
+        selfLink = linkTo(methodOn(BookingCategoriesController.class).listAll(userId, financialLedger.getId())).withSelfRel();
         bookingCategoryPreviewCollectionModel.add(selfLink);
 
         BookingPreviewCollectionModel bookingPreviewCollectionModel = bookingsToBookingPreviewCollectionMapper.apply(BookingsToBookingPreviewCollectionMapper
                 .Context.builder()
                 .userId(userId)
-                .bookingAggregates(financialLedgerAggregate.getBookingAggregates())
+                .bookingAggregates(financialLedger.getBookingAggregates())
                 .build());
-        selfLink = linkTo(methodOn(BookingsController.class).listAll(userId, financialLedgerAggregate.getId())).withSelfRel();
+        selfLink = linkTo(methodOn(BookingsController.class).listAll(userId, financialLedger.getId())).withSelfRel();
         bookingPreviewCollectionModel.add(selfLink);
 
-        selfLink = linkTo(methodOn(FinancialLedgerController.class).findOne(userId, financialLedgerAggregate.getId())).withSelfRel()
-                .andAffordance(afford(methodOn(FinancialLedgerController.class).update(userId, financialLedgerAggregate.getId(), null)))
-                .andAffordance(afford(methodOn(FinancialLedgerController.class).delete(userId, financialLedgerAggregate.getId())));
+        selfLink = linkTo(methodOn(FinancialLedgerController.class).findOne(userId, financialLedger.getId())).withSelfRel()
+                .andAffordance(afford(methodOn(FinancialLedgerController.class).update(userId, financialLedger.getId(), null)))
+                .andAffordance(afford(methodOn(FinancialLedgerController.class).delete(userId, financialLedger.getId())));
         model.add(selfLink);
 
         model.setUserPreviewCollectionModel(userPreviewCollectionModel);

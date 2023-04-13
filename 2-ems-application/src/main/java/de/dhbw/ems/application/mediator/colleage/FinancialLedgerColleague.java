@@ -3,7 +3,7 @@ package de.dhbw.ems.application.mediator.colleage;
 import de.dhbw.ems.application.domain.service.financialledger.entity.FinancialLedgerDomainService;
 import de.dhbw.ems.application.domain.service.financialledger.link.UserFinancialLedgerLinkDomainService;
 import de.dhbw.ems.application.mediator.ConcreteApplicationMediator;
-import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregate;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedger;
 import de.dhbw.ems.domain.user.User;
 
 public class FinancialLedgerColleague extends Colleague {
@@ -22,28 +22,28 @@ public class FinancialLedgerColleague extends Colleague {
     }
 
     @Override
-    public void onLinkUserToFinancialLedger(User user, FinancialLedgerAggregate financialLedgerAggregate) {
-        userFinancialLedgerLinkDomainService.create(user.getId(), financialLedgerAggregate.getId());
+    public void onLinkUserToFinancialLedger(User user, FinancialLedger financialLedger) {
+        userFinancialLedgerLinkDomainService.create(user.getId(), financialLedger.getId());
     }
 
     @Override
-    public void onUnlinkUserToFinancialLedger(User user, FinancialLedgerAggregate financialLedgerAggregate) {
-        if (userFinancialLedgerLinkDomainService.exists(user.getId(), financialLedgerAggregate.getId())){
-            financialLedgerAggregate.getUserFinancialLedgerLinks().removeIf(link -> link.getId().getUserId().equals(user.getId()));
-            userFinancialLedgerLinkDomainService.deleteById(user.getId(), financialLedgerAggregate.getId());
+    public void onUnlinkUserToFinancialLedger(User user, FinancialLedger financialLedger) {
+        if (userFinancialLedgerLinkDomainService.exists(user.getId(), financialLedger.getId())){
+            financialLedger.getUserFinancialLedgerLinks().removeIf(link -> link.getId().getUserId().equals(user.getId()));
+            userFinancialLedgerLinkDomainService.deleteById(user.getId(), financialLedger.getId());
         }
-        if (financialLedgerAggregate.getUserFinancialLedgerLinks().size() == 0){
-            onDeleteFinancialLedger(financialLedgerAggregate);
+        if (financialLedger.getUserFinancialLedgerLinks().size() == 0){
+            onDeleteFinancialLedger(financialLedger);
         }
     }
 
     @Override
     public void onDeleteUser(User user) {
-        userFinancialLedgerLinkDomainService.findByUserId(user.getId()).forEach(r -> onUnlinkUserToFinancialLedger(r.getUser(), r.getFinancialLedgerAggregate()));
+        userFinancialLedgerLinkDomainService.findByUserId(user.getId()).forEach(r -> onUnlinkUserToFinancialLedger(r.getUser(), r.getFinancialLedger()));
     }
 
-    public void onDeleteFinancialLedger(FinancialLedgerAggregate financialLedgerAggregate) {
-        financialLedgerDomainService.deleteById(financialLedgerAggregate.getId());
+    public void onDeleteFinancialLedger(FinancialLedger financialLedger) {
+        financialLedgerDomainService.deleteById(financialLedger.getId());
     }
 
 }

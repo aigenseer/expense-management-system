@@ -1,7 +1,7 @@
 package de.dhbw.plugins.rest.mapper.controller.model.financialledger;
 
 import de.dhbw.ems.adapter.application.financialledger.FinancialLedgerAppAdapter;
-import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregate;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedger;
 import de.dhbw.plugins.rest.mapper.model.financialledger.preview.FinancialLedgerPreviewCollectionModel;
 import de.dhbw.plugins.rest.mapper.model.financialledger.preview.FinancialLedgerPreviewModel;
 import lombok.RequiredArgsConstructor;
@@ -26,12 +26,12 @@ public class FinancialLedgersToFinancialLedgerPreviewCollectionMapper implements
     }
 
     private FinancialLedgerPreviewCollectionModel map(final  UUID userId) {
-        List<FinancialLedgerAggregate> financialLedgerAggregates = financialLedgerAppAdapter.findFinancialLedgerAggregatesByUserId(userId);
-        List<FinancialLedgerPreviewModel> previewModels = financialLedgerAggregates.stream()
+        List<FinancialLedger> financialLedgers = financialLedgerAppAdapter.findFinancialLedgerAggregatesByUserId(userId);
+        List<FinancialLedgerPreviewModel> previewModels = financialLedgers.stream()
                 .map(financialLedger -> financialLedgerToFinancialLedgerPreviewMapper
                             .apply(FinancialLedgerToFinancialLedgerPreviewMapper.Context.builder()
                                     .userId(userId)
-                                    .financialLedgerAggregate(financialLedger)
+                                    .financialLedger(financialLedger)
                         .build())
                 )
                 .collect(Collectors.toList());

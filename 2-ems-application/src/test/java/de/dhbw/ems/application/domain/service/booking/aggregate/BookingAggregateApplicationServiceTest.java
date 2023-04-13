@@ -6,7 +6,7 @@ import de.dhbw.ems.application.domain.service.booking.data.BookingAggregateAttri
 import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
 import de.dhbw.ems.domain.booking.aggregate.BookingAggregateRepository;
 import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
-import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregate;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedger;
 import de.dhbw.ems.domain.user.User;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,7 +33,7 @@ public class BookingAggregateApplicationServiceTest {
     private BookingAggregateApplicationService aggregateApplicationService;
 
     private final User userMock = Mockito.mock(User.class);
-    private final FinancialLedgerAggregate financialLedgerAggregateMock = Mockito.mock(FinancialLedgerAggregate.class);
+    private final FinancialLedger financialLedgerMock = Mockito.mock(FinancialLedger.class);
     private final BookingCategoryAggregate bookingCategoryAggregateMock = Mockito.mock(BookingCategoryAggregate.class);
 
     private final BookingAggregate aggregate = BookingAggregate.builder()
@@ -46,7 +46,7 @@ public class BookingAggregateApplicationServiceTest {
             .creatorId(UUID.randomUUID())
             .creator(userMock)
             .financialLedgerId(UUID.randomUUID())
-            .financialLedgerAggregate(financialLedgerAggregateMock)
+            .financialLedger(financialLedgerMock)
             .build();
 
     private final BookingAggregateAttributeData attributeAggregateData = BookingAggregateAttributeData.builder()
@@ -63,7 +63,7 @@ public class BookingAggregateApplicationServiceTest {
         when(repository.findById(aggregate.getId())).thenReturn(Optional.of(aggregate));
         when(userMock.getId()).thenReturn(aggregate.getCreatorId());
         when(bookingCategoryAggregateMock.getId()).thenReturn(aggregate.getCategoryAggregateId());
-        when(financialLedgerAggregateMock.getId()).thenReturn(aggregate.getFinancialLedgerId());
+        when(financialLedgerMock.getId()).thenReturn(aggregate.getFinancialLedgerId());
     }
 
     @Test
@@ -94,7 +94,7 @@ public class BookingAggregateApplicationServiceTest {
     public void testCreateByAttributeData() {
         when(repository.save(any())).thenReturn(aggregate);
 
-        Optional<BookingAggregate> optionalBookingAggregate = aggregateApplicationService.createByAttributeData(aggregate.getCreator(), aggregate.getFinancialLedgerAggregate(), attributeAggregateData);
+        Optional<BookingAggregate> optionalBookingAggregate = aggregateApplicationService.createByAttributeData(aggregate.getCreator(), aggregate.getFinancialLedger(), attributeAggregateData);
         assertTrue(optionalBookingAggregate.isPresent());
 
         verify(repository).save(argThat(aggregate -> {

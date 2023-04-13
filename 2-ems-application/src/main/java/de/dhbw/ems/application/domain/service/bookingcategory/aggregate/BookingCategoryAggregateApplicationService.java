@@ -3,7 +3,7 @@ package de.dhbw.ems.application.domain.service.bookingcategory.aggregate;
 import de.dhbw.ems.application.domain.service.bookingcategory.data.BookingCategoryAttributeData;
 import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
 import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregateRepository;
-import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregate;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedger;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,12 +27,12 @@ public class BookingCategoryAggregateApplicationService implements BookingCatego
     }
 
     @Override
-    public Optional<BookingCategoryAggregate> createByAttributeData(FinancialLedgerAggregate financialLedgerAggregate, BookingCategoryAttributeData data) {
+    public Optional<BookingCategoryAggregate> createByAttributeData(FinancialLedger financialLedger, BookingCategoryAttributeData data) {
         BookingCategoryAggregate bookingCategoryAggregate = BookingCategoryAggregate.builder()
                 .id(UUID.randomUUID())
                 .title(data.getTitle())
-                .financialLedgerAggregate(financialLedgerAggregate)
-                .financialLedgerId(financialLedgerAggregate.getId())
+                .financialLedger(financialLedger)
+                .financialLedgerId(financialLedger.getId())
                 .build();
         return updateByAttributeData(bookingCategoryAggregate, data);
     }

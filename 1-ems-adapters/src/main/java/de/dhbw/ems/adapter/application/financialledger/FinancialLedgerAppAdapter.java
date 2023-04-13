@@ -6,7 +6,7 @@ import de.dhbw.ems.application.domain.service.financialledger.entity.FinancialLe
 import de.dhbw.ems.application.domain.service.financialledger.data.FinancialLedgerAttributeData;
 import de.dhbw.ems.application.domain.service.financialledger.link.UserFinancialLedgerLinkDomainServicePort;
 import de.dhbw.ems.application.mediator.service.impl.FinancialLedgerServicePort;
-import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregate;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedger;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,12 +25,12 @@ public class FinancialLedgerAppAdapter implements FinancialLedgerApplicationAdap
 
 
     @Override
-    public Optional<FinancialLedgerAggregate> create(UUID userId, FinancialLedgerAttributeData attributeData) {
+    public Optional<FinancialLedger> create(UUID userId, FinancialLedgerAttributeData attributeData) {
         return financialLedgerServicePort.create(userId, attributeData);
     }
 
     @Override
-    public Optional<FinancialLedgerAggregate> find(UUID id, UUID financialLedgerAggregateId) {
+    public Optional<FinancialLedger> find(UUID id, UUID financialLedgerAggregateId) {
         return financialLedgerServicePort.find(id, financialLedgerAggregateId);
     }
 
@@ -55,17 +55,17 @@ public class FinancialLedgerAppAdapter implements FinancialLedgerApplicationAdap
     }
 
     @Override
-    public Optional<FinancialLedgerAggregate> updateByAttributeData(FinancialLedgerAggregate financialLedgerAggregate, FinancialLedgerAttributeData data) {
-        return financialLedgerDomainServicePort.updateByAttributeData(financialLedgerAggregate, data);
+    public Optional<FinancialLedger> updateByAttributeData(FinancialLedger financialLedger, FinancialLedgerAttributeData data) {
+        return financialLedgerDomainServicePort.updateByAttributeData(financialLedger, data);
     }
 
     @Override
-    public TmpFile createTmpZipArchive(FinancialLedgerAggregate financialLedgerAggregate) {
-        return financialLedgerArchiveFactoryDomainServicePort.createTmpZipArchive(financialLedgerAggregate);
+    public TmpFile createTmpZipArchive(FinancialLedger financialLedger) {
+        return financialLedgerArchiveFactoryDomainServicePort.createTmpZipArchive(financialLedger);
     }
 
     @Override
-    public List<FinancialLedgerAggregate> findFinancialLedgerAggregatesByUserId(UUID userId) {
+    public List<FinancialLedger> findFinancialLedgerAggregatesByUserId(UUID userId) {
         return userFinancialLedgerLinkDomainServicePort.findFinancialLedgerAggregatesByUserId(userId);
     }
 

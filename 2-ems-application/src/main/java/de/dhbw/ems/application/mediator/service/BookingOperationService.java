@@ -9,7 +9,7 @@ import de.dhbw.ems.application.mediator.colleage.BookingColleague;
 import de.dhbw.ems.application.mediator.service.impl.BookingService;
 import de.dhbw.ems.application.mediator.service.impl.FinancialLedgerService;
 import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
-import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregate;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedger;
 import de.dhbw.ems.domain.user.User;
 import org.springframework.stereotype.Service;
 
@@ -40,7 +40,7 @@ public class BookingOperationService extends BookingColleague implements Booking
     }
 
     public Optional<BookingAggregate> find(UUID userId, UUID financialLedgerAggregateId, UUID bookingAggregateId){
-        Optional<FinancialLedgerAggregate> optionalFinancialLedgerAggregate = financialLedgerService.find(userId, financialLedgerAggregateId);
+        Optional<FinancialLedger> optionalFinancialLedgerAggregate = financialLedgerService.find(userId, financialLedgerAggregateId);
         if (!optionalFinancialLedgerAggregate.isPresent()) return Optional.empty();
         return optionalFinancialLedgerAggregate.get().getBookingAggregates().stream().filter(b -> b.getFinancialLedgerId().equals(financialLedgerAggregateId) && b.getId().equals(bookingAggregateId)).findFirst();
     }
@@ -49,7 +49,7 @@ public class BookingOperationService extends BookingColleague implements Booking
     public Optional<BookingAggregate> create(UUID userId, UUID financialLedgerAggregateId, BookingAggregateAttributeData attributeData){
         Optional<User> optionalUser = userDomainService.findById(userId);
         if (!optionalUser.isPresent()) return Optional.empty();
-        Optional<FinancialLedgerAggregate> optionalFinancialLedgerAggregate = financialLedgerService.find(userId, financialLedgerAggregateId);
+        Optional<FinancialLedger> optionalFinancialLedgerAggregate = financialLedgerService.find(userId, financialLedgerAggregateId);
         if (!optionalFinancialLedgerAggregate.isPresent()) return Optional.empty();
         Optional<BookingAggregate> optionalBookingAggregate = bookingAggregateDomainService.createByAttributeData(optionalUser.get(), optionalFinancialLedgerAggregate.get(), attributeData);
         if (!optionalBookingAggregate.isPresent()) return Optional.empty();

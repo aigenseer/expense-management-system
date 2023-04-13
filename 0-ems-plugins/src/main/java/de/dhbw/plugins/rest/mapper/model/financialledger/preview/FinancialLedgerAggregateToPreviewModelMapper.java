@@ -1,19 +1,19 @@
 package de.dhbw.plugins.rest.mapper.model.financialledger.preview;
 
-import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregate;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedger;
 import org.springframework.stereotype.Component;
 
 @Component
 public class FinancialLedgerAggregateToPreviewModelMapper implements FinancialLedgerAggregateToFinancialLedgerPreviewModelMapper {
 
     @Override
-    public FinancialLedgerPreviewModel apply(final FinancialLedgerAggregate financialLedgerAggregate) {
-        return map(financialLedgerAggregate);
+    public FinancialLedgerPreviewModel apply(final FinancialLedger financialLedger) {
+        return map(financialLedger);
     }
 
-    private FinancialLedgerPreviewModel map(final FinancialLedgerAggregate financialLedgerAggregate) {
+    private FinancialLedgerPreviewModel map(final FinancialLedger financialLedger) {
         return FinancialLedgerPreviewModel.builder()
-                .name(financialLedgerAggregate.getTitle())
+                .name(financialLedger.getTitle())
                 .build();
     }
 }

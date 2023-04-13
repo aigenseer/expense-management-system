@@ -1,7 +1,7 @@
 package de.dhbw.ems.application.domain.service.financialledger.entity;
 
 import de.dhbw.ems.application.domain.service.financialledger.data.FinancialLedgerAttributeData;
-import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregate;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedger;
 import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregateRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,34 +17,34 @@ public class FinancialLedgerApplicationService implements FinancialLedgerDomainS
 
     private final FinancialLedgerAggregateRepository repository;
 
-    public List<FinancialLedgerAggregate> findAll() {
+    public List<FinancialLedger> findAll() {
         return repository.findAll();
     }
 
-    public Optional<FinancialLedgerAggregate> findById(UUID id) {
+    public Optional<FinancialLedger> findById(UUID id) {
         return repository.findById(id);
     }
 
-    public FinancialLedgerAggregate save(FinancialLedgerAggregate financialLedgerAggregate) {
-        return repository.save(financialLedgerAggregate);
+    public FinancialLedger save(FinancialLedger financialLedger) {
+        return repository.save(financialLedger);
     }
 
     public void deleteById(UUID id) {
         repository.deleteById(id);
     }
 
-    public Optional<FinancialLedgerAggregate> createByAttributeData(FinancialLedgerAttributeData data){
-        FinancialLedgerAggregate financialLedgerAggregate = FinancialLedgerAggregate.builder()
+    public Optional<FinancialLedger> createByAttributeData(FinancialLedgerAttributeData data){
+        FinancialLedger financialLedger = FinancialLedger.builder()
                 .id(UUID.randomUUID())
                 .userFinancialLedgerLinks(new HashSet<>())
                 .title(data.getTitle())
                 .build();
-        return updateByAttributeData(financialLedgerAggregate, data);
+        return updateByAttributeData(financialLedger, data);
     }
 
-    public Optional<FinancialLedgerAggregate> updateByAttributeData(FinancialLedgerAggregate financialLedgerAggregate, FinancialLedgerAttributeData data){
-        financialLedgerAggregate.setTitle(data.getTitle());
-        return Optional.of(save(financialLedgerAggregate));
+    public Optional<FinancialLedger> updateByAttributeData(FinancialLedger financialLedger, FinancialLedgerAttributeData data){
+        financialLedger.setTitle(data.getTitle());
+        return Optional.of(save(financialLedger));
     }
 
 }

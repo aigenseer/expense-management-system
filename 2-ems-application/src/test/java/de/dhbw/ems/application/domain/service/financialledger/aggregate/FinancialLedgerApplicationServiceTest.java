@@ -2,7 +2,7 @@ package de.dhbw.ems.application.domain.service.financialledger.aggregate;
 
 import de.dhbw.ems.application.domain.service.financialledger.data.FinancialLedgerAttributeData;
 import de.dhbw.ems.application.domain.service.financialledger.entity.FinancialLedgerApplicationService;
-import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregate;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedger;
 import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregateRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,7 +26,7 @@ public class FinancialLedgerApplicationServiceTest {
     private final FinancialLedgerAggregateRepository repository = Mockito.mock(FinancialLedgerAggregateRepository.class);
     private FinancialLedgerApplicationService aggregateApplicationService;
 
-    private final FinancialLedgerAggregate aggregate = FinancialLedgerAggregate.builder()
+    private final FinancialLedger aggregate = FinancialLedger.builder()
             .id(UUID.randomUUID())
             .title("Example-Financial-Ledger")
             .build();
@@ -35,7 +35,7 @@ public class FinancialLedgerApplicationServiceTest {
             .title(aggregate.getTitle())
             .build();
 
-    private final List<FinancialLedgerAggregate> aggregates = new ArrayList<FinancialLedgerAggregate>(){{ add(aggregate); }};
+    private final List<FinancialLedger> aggregates = new ArrayList<FinancialLedger>(){{ add(aggregate); }};
 
     @Before
     public void setup(){
@@ -59,21 +59,21 @@ public class FinancialLedgerApplicationServiceTest {
 
     @Test
     public void testFindAll() {
-        List<FinancialLedgerAggregate> resultList = aggregateApplicationService.findAll();
+        List<FinancialLedger> resultList = aggregateApplicationService.findAll();
         assertEquals(1, resultList.size());
-        Optional<FinancialLedgerAggregate> result = resultList.stream().filter(user -> user.getId().equals(aggregate.getId())).findFirst();
+        Optional<FinancialLedger> result = resultList.stream().filter(user -> user.getId().equals(aggregate.getId())).findFirst();
         assertTrue(result.isPresent());
         checkAggregate(aggregate, result.get());
     }
 
     @Test
     public void testFindById() {
-        Optional<FinancialLedgerAggregate> result = aggregateApplicationService.findById(aggregate.getId());
+        Optional<FinancialLedger> result = aggregateApplicationService.findById(aggregate.getId());
         assertTrue(result.isPresent());
         checkAggregate(aggregate, result.get());
     }
 
-    private void checkAggregate(FinancialLedgerAggregate expectedAggregate, FinancialLedgerAggregate actualAggregate) {
+    private void checkAggregate(FinancialLedger expectedAggregate, FinancialLedger actualAggregate) {
         assertEquals(expectedAggregate.getId(), actualAggregate.getId());
         assertEquals(expectedAggregate.getTitle(), actualAggregate.getTitle());
     }
@@ -82,7 +82,7 @@ public class FinancialLedgerApplicationServiceTest {
     public void testCreateByAttributeData() {
         when(repository.save(any())).thenReturn(aggregate);
 
-        Optional<FinancialLedgerAggregate> optionalFinancialLedger = aggregateApplicationService.createByAttributeData(attributeData);
+        Optional<FinancialLedger> optionalFinancialLedger = aggregateApplicationService.createByAttributeData(attributeData);
         assertTrue(optionalFinancialLedger.isPresent());
 
         verify(repository).save(argThat(aggregate -> {
@@ -94,7 +94,7 @@ public class FinancialLedgerApplicationServiceTest {
     @Test
     public void testUpdateByAttributeData() {
         when(repository.save(any())).thenReturn(aggregate);
-        Optional<FinancialLedgerAggregate> optionalFinancialLedger = aggregateApplicationService.updateByAttributeData(aggregate, attributeData);
+        Optional<FinancialLedger> optionalFinancialLedger = aggregateApplicationService.updateByAttributeData(aggregate, attributeData);
         assertTrue(optionalFinancialLedger.isPresent());
         verify(repository).save(argThat(aggregate -> {
             checkAttributeData(attributeData, aggregate);
@@ -102,7 +102,7 @@ public class FinancialLedgerApplicationServiceTest {
         }));
     }
 
-    private void checkAttributeData(FinancialLedgerAttributeData attributeData, FinancialLedgerAggregate actualAggregate) {
+    private void checkAttributeData(FinancialLedgerAttributeData attributeData, FinancialLedger actualAggregate) {
         assertEquals(attributeData.getTitle(), actualAggregate.getTitle());
     }
 

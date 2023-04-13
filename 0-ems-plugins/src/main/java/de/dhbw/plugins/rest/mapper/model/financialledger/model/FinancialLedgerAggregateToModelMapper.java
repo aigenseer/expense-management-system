@@ -1,6 +1,6 @@
 package de.dhbw.plugins.rest.mapper.model.financialledger.model;
 
-import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregate;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedger;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -9,13 +9,13 @@ import org.springframework.stereotype.Component;
 public class FinancialLedgerAggregateToModelMapper implements FinancialLedgerAggregateToFinancialLedgerModelMapper {
 
     @Override
-    public FinancialLedgerModel apply(final FinancialLedgerAggregate financialLedgerAggregate) {
-        return map(financialLedgerAggregate);
+    public FinancialLedgerModel apply(final FinancialLedger financialLedger) {
+        return map(financialLedger);
     }
 
-    private FinancialLedgerModel map(final FinancialLedgerAggregate financialLedgerAggregate) {
+    private FinancialLedgerModel map(final FinancialLedger financialLedger) {
         FinancialLedgerModel.FinancialLedgerModelBuilder builder = FinancialLedgerModel.builder()
-                .name(financialLedgerAggregate.getTitle());
+                .name(financialLedger.getTitle());
         return builder.build();
     }
 }

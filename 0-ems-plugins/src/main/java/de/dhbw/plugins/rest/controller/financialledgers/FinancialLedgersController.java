@@ -4,7 +4,7 @@ import de.dhbw.ems.adapter.application.financialledger.FinancialLedgerApplicatio
 import de.dhbw.ems.adapter.application.user.UserApplicationAdapter;
 import de.dhbw.ems.adapter.mapper.data.financialledger.FinancialLedgerDataToFinancialLedgerAttributeDataAdapterMapper;
 import de.dhbw.ems.application.domain.service.financialledger.data.FinancialLedgerAttributeData;
-import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregate;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedger;
 import de.dhbw.ems.domain.user.User;
 import de.dhbw.plugins.rest.controller.financialledger.FinancialLedgerController;
 import de.dhbw.plugins.rest.controller.financialledgers.data.FinancialLedgerData;
@@ -46,10 +46,10 @@ public class FinancialLedgersController {
     @PostMapping
     public ResponseEntity<Void> create(@PathVariable("userId") UUID userId, @Valid @RequestBody FinancialLedgerData data) {
         FinancialLedgerAttributeData financialLedgerAttributeData = dataAdapterMapper.apply(data);
-        Optional<FinancialLedgerAggregate> optionalFinancialLedgerAggregate = financialLedgerApplicationAdapter.create(userId, financialLedgerAttributeData);
+        Optional<FinancialLedger> optionalFinancialLedgerAggregate = financialLedgerApplicationAdapter.create(userId, financialLedgerAttributeData);
         if (!optionalFinancialLedgerAggregate.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        FinancialLedgerAggregate financialLedgerAggregate = optionalFinancialLedgerAggregate.get();
-        WebMvcLinkBuilder uriComponents = WebMvcLinkBuilder.linkTo(methodOn(FinancialLedgerController.class).findOne(userId, financialLedgerAggregate.getId()));
+        FinancialLedger financialLedger = optionalFinancialLedgerAggregate.get();
+        WebMvcLinkBuilder uriComponents = WebMvcLinkBuilder.linkTo(methodOn(FinancialLedgerController.class).findOne(userId, financialLedger.getId()));
         return new ResponseEntity<>(WebMvcLinkBuilderUtils.createLocationHeader(uriComponents), HttpStatus.CREATED);
     }
 

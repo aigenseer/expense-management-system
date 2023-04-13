@@ -1,6 +1,6 @@
 package de.dhbw.ems.domain.financialledger.link;
 
-import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregate;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedger;
 import de.dhbw.ems.domain.user.User;
 import lombok.*;
 
@@ -24,6 +24,6 @@ public class UserFinancialLedgerLink {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "financial_ledger_aggregate_id", nullable = false, updatable = false, insertable = false)
-    private FinancialLedgerAggregate financialLedgerAggregate;
+    private FinancialLedger financialLedger;
 
 }

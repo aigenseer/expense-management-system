@@ -8,7 +8,7 @@ import de.dhbw.ems.application.mediator.colleage.BookingCategoryColleague;
 import de.dhbw.ems.application.mediator.service.impl.BookingCategoryService;
 import de.dhbw.ems.application.mediator.service.impl.FinancialLedgerService;
 import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
-import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregate;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedger;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -35,7 +35,7 @@ public class BookingCategoryOperationService extends BookingCategoryColleague im
     }
 
     public Optional<BookingCategoryAggregate> find(UUID userId, UUID financialLedgerAggregateId, UUID bookingCategoryAggregateId){
-        Optional<FinancialLedgerAggregate> optionalFinancialLedger = financialLedgerService.find(userId, financialLedgerAggregateId);
+        Optional<FinancialLedger> optionalFinancialLedger = financialLedgerService.find(userId, financialLedgerAggregateId);
         if (!optionalFinancialLedger.isPresent()) return Optional.empty();
         return optionalFinancialLedger.get().getBookingCategoriesAggregates().stream().filter(b -> b.getId().equals(bookingCategoryAggregateId)).findFirst();
     }
@@ -57,13 +57,13 @@ public class BookingCategoryOperationService extends BookingCategoryColleague im
 
     @Transactional
     public Optional<BookingCategoryAggregate> create(UUID userId, UUID financialLedgerAggregateId, BookingCategoryAttributeData attributeData){
-        Optional<FinancialLedgerAggregate> optionalFinancialLedger = financialLedgerService.find(userId, financialLedgerAggregateId);
+        Optional<FinancialLedger> optionalFinancialLedger = financialLedgerService.find(userId, financialLedgerAggregateId);
         if (!optionalFinancialLedger.isPresent()) return Optional.empty();
         Optional<BookingCategoryAggregate> optionalBookingCategoryAggregate = bookingCategoryAggregateDomainService.createByAttributeData(optionalFinancialLedger.get(), attributeData);
         if (optionalBookingCategoryAggregate.isPresent()){
-            FinancialLedgerAggregate financialLedgerAggregate = optionalFinancialLedger.get();
-            financialLedgerAggregate.getBookingCategoriesAggregates().add(optionalBookingCategoryAggregate.get());
-            financialLedgerDomainService.save(financialLedgerAggregate);
+            FinancialLedger financialLedger = optionalFinancialLedger.get();
+            financialLedger.getBookingCategoriesAggregates().add(optionalBookingCategoryAggregate.get());
+            financialLedgerDomainService.save(financialLedger);
             return find(userId, financialLedgerAggregateId, optionalBookingCategoryAggregate.get().getId());
         }
         return Optional.empty();

@@ -5,7 +5,7 @@ import de.dhbw.ems.adapter.application.financialledger.FinancialLedgerApplicatio
 import de.dhbw.ems.adapter.mapper.data.bookingcategory.BookingCategoryDataToBookingCategoryAttributeDataAdapterMapper;
 import de.dhbw.ems.application.domain.service.bookingcategory.data.BookingCategoryAttributeData;
 import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
-import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregate;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedger;
 import de.dhbw.plugins.rest.controller.bookingcategory.BookingCategoryController;
 import de.dhbw.plugins.rest.controller.bookingcategory.data.BookingCategoryData;
 import de.dhbw.plugins.rest.controller.utils.WebMvcLinkBuilderUtils;
@@ -35,7 +35,7 @@ public class BookingCategoriesController {
 
     @GetMapping
     public ResponseEntity<BookingCategoryPreviewCollectionModel> listAll(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerAggregateId") UUID financialLedgerAggregateId) {
-        Optional<FinancialLedgerAggregate> optionalFinancialLedgerAggregate = financialLedgerApplicationAdapter.find(userId, financialLedgerAggregateId);
+        Optional<FinancialLedger> optionalFinancialLedgerAggregate = financialLedgerApplicationAdapter.find(userId, financialLedgerAggregateId);
         if (!optionalFinancialLedgerAggregate.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         return ResponseEntity.ok(bookingCategoryPreviewCollectionModelFactory.create(userId, financialLedgerAggregateId, optionalFinancialLedgerAggregate.get().getBookingCategoriesAggregates()));
     }

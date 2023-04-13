@@ -3,15 +3,15 @@ package de.dhbw.ems.application.mediator;
 import de.dhbw.ems.application.mediator.colleage.Colleague;
 import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
 import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
-import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregate;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedger;
 import de.dhbw.ems.domain.user.User;
 
 
 public interface Mediator {
 
-    void onLinkUserToFinancialLedger(User user, FinancialLedgerAggregate financialLedgerAggregate, Colleague colleague);
+    void onLinkUserToFinancialLedger(User user, FinancialLedger financialLedger, Colleague colleague);
 
-    void onUnlinkUserToFinancialLedger(User user, FinancialLedgerAggregate financialLedgerAggregate, Colleague colleague);
+    void onUnlinkUserToFinancialLedger(User user, FinancialLedger financialLedger, Colleague colleague);
 
     void onReferenceUserToBooking(User user, BookingAggregate bookingAggregate, Colleague colleague);
 

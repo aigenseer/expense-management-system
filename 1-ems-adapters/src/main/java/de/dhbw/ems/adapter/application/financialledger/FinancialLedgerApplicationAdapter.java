@@ -2,7 +2,7 @@ package de.dhbw.ems.adapter.application.financialledger;
 
 import de.dhbw.ems.application.archive.core.TmpFile;
 import de.dhbw.ems.application.domain.service.financialledger.data.FinancialLedgerAttributeData;
-import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregate;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedger;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,9 +11,9 @@ import java.util.UUID;
 public interface FinancialLedgerApplicationAdapter {
 
 
-    Optional<FinancialLedgerAggregate> create(UUID userId, FinancialLedgerAttributeData attributeData);
+    Optional<FinancialLedger> create(UUID userId, FinancialLedgerAttributeData attributeData);
 
-    Optional<FinancialLedgerAggregate> find(UUID id, UUID financialLedgerAggregateId);
+    Optional<FinancialLedger> find(UUID id, UUID financialLedgerAggregateId);
 
     boolean unlinkUser(UUID id, UUID financialLedgerAggregateId);
 
@@ -23,10 +23,10 @@ public interface FinancialLedgerApplicationAdapter {
 
     boolean delete(UUID id, UUID financialLedgerAggregateId);
 
-    Optional<FinancialLedgerAggregate> updateByAttributeData(FinancialLedgerAggregate financialLedgerAggregate, FinancialLedgerAttributeData data);
+    Optional<FinancialLedger> updateByAttributeData(FinancialLedger financialLedger, FinancialLedgerAttributeData data);
 
-    TmpFile createTmpZipArchive(FinancialLedgerAggregate financialLedgerAggregate);
+    TmpFile createTmpZipArchive(FinancialLedger financialLedger);
 
-    List<FinancialLedgerAggregate> findFinancialLedgerAggregatesByUserId(UUID userId);
+    List<FinancialLedger> findFinancialLedgerAggregatesByUserId(UUID userId);
 
 }
