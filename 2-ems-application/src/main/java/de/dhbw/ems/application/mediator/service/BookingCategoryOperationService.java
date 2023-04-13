@@ -2,7 +2,7 @@ package de.dhbw.ems.application.mediator.service;
 
 import de.dhbw.ems.application.domain.service.bookingcategory.aggregate.BookingCategoryAggregateDomainService;
 import de.dhbw.ems.application.domain.service.bookingcategory.data.BookingCategoryAttributeData;
-import de.dhbw.ems.application.domain.service.financialledger.aggregate.FinancialLedgerAggregateDomainService;
+import de.dhbw.ems.application.domain.service.financialledger.entity.FinancialLedgerDomainService;
 import de.dhbw.ems.application.mediator.ConcreteApplicationMediator;
 import de.dhbw.ems.application.mediator.colleage.BookingCategoryColleague;
 import de.dhbw.ems.application.mediator.service.impl.BookingCategoryService;
@@ -19,18 +19,18 @@ import java.util.UUID;
 public class BookingCategoryOperationService extends BookingCategoryColleague implements BookingCategoryService {
 
     private final FinancialLedgerService financialLedgerService;
-    private final FinancialLedgerAggregateDomainService financialLedgerAggregateDomainService;
+    private final FinancialLedgerDomainService financialLedgerDomainService;
     private final BookingCategoryAggregateDomainService bookingCategoryAggregateDomainService;
 
     public BookingCategoryOperationService(
             final ConcreteApplicationMediator mediator,
             final FinancialLedgerService financialLedgerService,
-            final FinancialLedgerAggregateDomainService financialLedgerAggregateDomainService,
+            final FinancialLedgerDomainService financialLedgerDomainService,
             final BookingCategoryAggregateDomainService bookingCategoryAggregateDomainService
             ) {
         super(mediator, bookingCategoryAggregateDomainService);
         this.financialLedgerService = financialLedgerService;
-        this.financialLedgerAggregateDomainService = financialLedgerAggregateDomainService;
+        this.financialLedgerDomainService = financialLedgerDomainService;
         this.bookingCategoryAggregateDomainService = bookingCategoryAggregateDomainService;
     }
 
@@ -63,7 +63,7 @@ public class BookingCategoryOperationService extends BookingCategoryColleague im
         if (optionalBookingCategoryAggregate.isPresent()){
             FinancialLedgerAggregate financialLedgerAggregate = optionalFinancialLedger.get();
             financialLedgerAggregate.getBookingCategoriesAggregates().add(optionalBookingCategoryAggregate.get());
-            financialLedgerAggregateDomainService.save(financialLedgerAggregate);
+            financialLedgerDomainService.save(financialLedgerAggregate);
             return find(userId, financialLedgerAggregateId, optionalBookingCategoryAggregate.get().getId());
         }
         return Optional.empty();

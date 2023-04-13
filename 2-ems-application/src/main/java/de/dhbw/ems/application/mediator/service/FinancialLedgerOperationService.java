@@ -1,6 +1,6 @@
 package de.dhbw.ems.application.mediator.service;
 
-import de.dhbw.ems.application.domain.service.financialledger.aggregate.FinancialLedgerAggregateDomainService;
+import de.dhbw.ems.application.domain.service.financialledger.entity.FinancialLedgerDomainService;
 import de.dhbw.ems.application.domain.service.financialledger.data.FinancialLedgerAttributeData;
 import de.dhbw.ems.application.domain.service.financialledger.link.UserFinancialLedgerLinkDomainService;
 import de.dhbw.ems.application.domain.service.user.UserDomainService;
@@ -20,18 +20,18 @@ import java.util.UUID;
 public class FinancialLedgerOperationService extends FinancialLedgerColleague implements FinancialLedgerService {
 
     private final UserDomainService userDomainService;
-    private final FinancialLedgerAggregateDomainService financialLedgerAggregateDomainService;
+    private final FinancialLedgerDomainService financialLedgerDomainService;
     private final UserFinancialLedgerLinkDomainService userFinancialLedgerLinkDomainService;
 
     public FinancialLedgerOperationService(
             final ConcreteApplicationMediator mediator,
             final UserDomainService userDomainService,
-            final FinancialLedgerAggregateDomainService financialLedgerAggregateDomainService,
+            final FinancialLedgerDomainService financialLedgerDomainService,
             final UserFinancialLedgerLinkDomainService userFinancialLedgerLinkDomainService
     ) {
-        super(mediator, financialLedgerAggregateDomainService, userFinancialLedgerLinkDomainService);
+        super(mediator, financialLedgerDomainService, userFinancialLedgerLinkDomainService);
         this.userDomainService = userDomainService;
-        this.financialLedgerAggregateDomainService = financialLedgerAggregateDomainService;
+        this.financialLedgerDomainService = financialLedgerDomainService;
         this.userFinancialLedgerLinkDomainService = userFinancialLedgerLinkDomainService;
     }
 
@@ -39,7 +39,7 @@ public class FinancialLedgerOperationService extends FinancialLedgerColleague im
     public Optional<FinancialLedgerAggregate> create(UUID userId, FinancialLedgerAttributeData attributeData) {
         Optional<User> userOptional = userDomainService.findById(userId);
         if (userOptional.isPresent()) {
-            Optional<FinancialLedgerAggregate> optionalFinancialLedgerAggregate = financialLedgerAggregateDomainService.createByAttributeData(attributeData);
+            Optional<FinancialLedgerAggregate> optionalFinancialLedgerAggregate = financialLedgerDomainService.createByAttributeData(attributeData);
             if (optionalFinancialLedgerAggregate.isPresent()) {
                 getMediator().onLinkUserToFinancialLedger(userOptional.get(), optionalFinancialLedgerAggregate.get(), this);
                 onLinkUserToFinancialLedger(userOptional.get(), optionalFinancialLedgerAggregate.get());
@@ -61,7 +61,7 @@ public class FinancialLedgerOperationService extends FinancialLedgerColleague im
     public boolean unlinkUser(UUID userId, UUID financialLedgerAggregateId) {
         Optional<User> optionalUser = userDomainService.findById(userId);
         if (optionalUser.isPresent()) {
-            Optional<FinancialLedgerAggregate> optionalFinancialLedgerAggregate = financialLedgerAggregateDomainService.findById(financialLedgerAggregateId);
+            Optional<FinancialLedgerAggregate> optionalFinancialLedgerAggregate = financialLedgerDomainService.findById(financialLedgerAggregateId);
             if (optionalFinancialLedgerAggregate.isPresent()) {
                 User user = optionalUser.get();
                 FinancialLedgerAggregate financialLedgerAggregate = optionalFinancialLedgerAggregate.get();
@@ -83,7 +83,7 @@ public class FinancialLedgerOperationService extends FinancialLedgerColleague im
     public boolean appendUser(UUID userId, UUID financialLedgerAggregateId) {
         Optional<User> userOptional = userDomainService.findById(userId);
         if (userOptional.isPresent()) {
-            Optional<FinancialLedgerAggregate> optionalFinancialLedgerAggregate = financialLedgerAggregateDomainService.findById(financialLedgerAggregateId);
+            Optional<FinancialLedgerAggregate> optionalFinancialLedgerAggregate = financialLedgerDomainService.findById(financialLedgerAggregateId);
             if (optionalFinancialLedgerAggregate.isPresent()) {
                 getMediator().onLinkUserToFinancialLedger(userOptional.get(), optionalFinancialLedgerAggregate.get(), this);
                 onLinkUserToFinancialLedger(userOptional.get(), optionalFinancialLedgerAggregate.get());

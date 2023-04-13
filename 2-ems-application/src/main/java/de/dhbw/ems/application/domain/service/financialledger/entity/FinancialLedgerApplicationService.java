@@ -1,4 +1,4 @@
-package de.dhbw.ems.application.domain.service.financialledger.aggregate;
+package de.dhbw.ems.application.domain.service.financialledger.entity;
 
 import de.dhbw.ems.application.domain.service.financialledger.data.FinancialLedgerAttributeData;
 import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class FinancialLedgerAggregateApplicationService implements FinancialLedgerAggregateDomainService {
+public class FinancialLedgerApplicationService implements FinancialLedgerDomainService {
 
     private final FinancialLedgerAggregateRepository repository;
 

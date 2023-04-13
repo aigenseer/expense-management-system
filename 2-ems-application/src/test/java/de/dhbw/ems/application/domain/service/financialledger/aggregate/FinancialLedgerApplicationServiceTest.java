@@ -1,6 +1,7 @@
 package de.dhbw.ems.application.domain.service.financialledger.aggregate;
 
 import de.dhbw.ems.application.domain.service.financialledger.data.FinancialLedgerAttributeData;
+import de.dhbw.ems.application.domain.service.financialledger.entity.FinancialLedgerApplicationService;
 import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
 import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregateRepository;
 import org.junit.Before;
@@ -20,10 +21,10 @@ import static org.mockito.Mockito.*;
 
 
 @RunWith(SpringRunner.class)
-public class FinancialLedgerAggregateApplicationServiceTest {
+public class FinancialLedgerApplicationServiceTest {
 
     private final FinancialLedgerAggregateRepository repository = Mockito.mock(FinancialLedgerAggregateRepository.class);
-    private FinancialLedgerAggregateApplicationService aggregateApplicationService;
+    private FinancialLedgerApplicationService aggregateApplicationService;
 
     private final FinancialLedgerAggregate aggregate = FinancialLedgerAggregate.builder()
             .id(UUID.randomUUID())
@@ -38,7 +39,7 @@ public class FinancialLedgerAggregateApplicationServiceTest {
 
     @Before
     public void setup(){
-        aggregateApplicationService = new FinancialLedgerAggregateApplicationService(repository);
+        aggregateApplicationService = new FinancialLedgerApplicationService(repository);
         when(repository.save(aggregate)).thenReturn(aggregate);
         when(repository.findAll()).thenReturn(aggregates);
         when(repository.findById(aggregate.getId())).thenReturn(Optional.of(aggregate));

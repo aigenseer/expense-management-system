@@ -2,7 +2,7 @@ package de.dhbw.ems.adapter.application.financialledger;
 
 import de.dhbw.ems.application.archive.core.TmpFile;
 import de.dhbw.ems.application.archive.service.FinancialLedgerArchiveFactoryDomainServicePort;
-import de.dhbw.ems.application.domain.service.financialledger.aggregate.FinancialLedgerDomainServicePort;
+import de.dhbw.ems.application.domain.service.financialledger.entity.FinancialLedgerDomainServicePort;
 import de.dhbw.ems.application.domain.service.financialledger.data.FinancialLedgerAttributeData;
 import de.dhbw.ems.application.domain.service.financialledger.link.UserFinancialLedgerLinkDomainServicePort;
 import de.dhbw.ems.application.mediator.service.impl.FinancialLedgerServicePort;

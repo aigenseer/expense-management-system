@@ -1,4 +1,4 @@
-package de.dhbw.ems.application.domain.service.financialledger.aggregate;
+package de.dhbw.ems.application.domain.service.financialledger.entity;
 
 import de.dhbw.ems.application.domain.service.financialledger.data.FinancialLedgerAttributeData;
 import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface FinancialLedgerAggregateDomainService extends FinancialLedgerDomainServicePort {
+public interface FinancialLedgerDomainService extends FinancialLedgerDomainServicePort {
 
     List<FinancialLedgerAggregate> findAll();
 
