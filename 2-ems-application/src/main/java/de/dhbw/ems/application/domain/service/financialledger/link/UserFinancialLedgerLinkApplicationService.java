@@ -18,13 +18,13 @@ public class UserFinancialLedgerLinkApplicationService implements UserFinancialL
     private final UserFinancialLedgerLinkRepository repository;
 
     @Override
-    public Optional<UserFinancialLedgerLink> findById(UUID userId, UUID financialLedgerAggregateId) {
-        return repository.findByIds(userId, financialLedgerAggregateId);
+    public Optional<UserFinancialLedgerLink> findById(UUID userId, UUID financialLedgerId) {
+        return repository.findByIds(userId, financialLedgerId);
     }
 
     @Override
-    public Optional<UserFinancialLedgerLink> create(UUID userId, UUID financialLedgerAggregateId) {
-        return Optional.of(repository.create(userId, financialLedgerAggregateId));
+    public Optional<UserFinancialLedgerLink> create(UUID userId, UUID financialLedgerId) {
+        return Optional.of(repository.create(userId, financialLedgerId));
     }
 
     @Override
@@ -33,22 +33,22 @@ public class UserFinancialLedgerLinkApplicationService implements UserFinancialL
     }
 
     @Override
-    public List<UserFinancialLedgerLink> findByBookingAggregateId(UUID financialLedgerAggregateId) {
-        return repository.findByBookingAggregateId(financialLedgerAggregateId);
+    public List<UserFinancialLedgerLink> findByBookingAggregateId(UUID financialLedgerId) {
+        return repository.findByBookingAggregateId(financialLedgerId);
     }
 
     @Override
-    public void deleteById(UUID userId, UUID financialLedgerAggregateId) {
-        repository.deleteById(userId, financialLedgerAggregateId);
+    public void deleteById(UUID userId, UUID financialLedgerId) {
+        repository.deleteById(userId, financialLedgerId);
     }
 
     @Override
-    public boolean exists(UUID userId, UUID financialLedgerAggregateId) {
-        return repository.exists(userId, financialLedgerAggregateId);
+    public boolean exists(UUID userId, UUID financialLedgerId) {
+        return repository.exists(userId, financialLedgerId);
     }
 
     @Override
-    public List<FinancialLedger> findFinancialLedgerAggregatesByUserId(UUID userId) {
+    public List<FinancialLedger> findFinancialLedgersByUserId(UUID userId) {
         return findByUserId(userId).stream().map(UserFinancialLedgerLink::getFinancialLedger).collect(Collectors.toList());
     }
 }

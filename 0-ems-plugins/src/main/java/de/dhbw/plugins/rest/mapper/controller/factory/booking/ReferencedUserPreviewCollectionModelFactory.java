@@ -19,15 +19,15 @@ public class ReferencedUserPreviewCollectionModelFactory {
 
     private final UsersToUserPreviewCollectionMapper usersToUserPreviewCollectionMapper;
 
-    public UserPreviewCollectionModel create(UUID userId, UUID financialLedgerAggregateId, UUID bookingAggregateId, Iterable<User> users){
+    public UserPreviewCollectionModel create(UUID userId, UUID financialLedgerId, UUID bookingAggregateId, Iterable<User> users){
         UserPreviewCollectionModel previewCollectionModel = usersToUserPreviewCollectionMapper.apply(users);
         previewCollectionModel.getContent().forEach(userPreview -> {
-            Link selfLink = linkTo(methodOn(BookingReferencedUserController.class).findOne(userId, financialLedgerAggregateId, bookingAggregateId, userPreview.getId())).withSelfRel();
+            Link selfLink = linkTo(methodOn(BookingReferencedUserController.class).findOne(userId, financialLedgerId, bookingAggregateId, userPreview.getId())).withSelfRel();
             userPreview.removeLinks();
             userPreview.add(selfLink);
         });
-        Link selfLink = linkTo(methodOn(BookingReferencedUsersController.class).listAll(userId, financialLedgerAggregateId, bookingAggregateId)).withSelfRel()
-                .andAffordance(afford(methodOn(BookingReferencedUsersController.class).create(userId, financialLedgerAggregateId, bookingAggregateId, null)));
+        Link selfLink = linkTo(methodOn(BookingReferencedUsersController.class).listAll(userId, financialLedgerId, bookingAggregateId)).withSelfRel()
+                .andAffordance(afford(methodOn(BookingReferencedUsersController.class).create(userId, financialLedgerId, bookingAggregateId, null)));
         previewCollectionModel.add(selfLink);
         return previewCollectionModel;
     }

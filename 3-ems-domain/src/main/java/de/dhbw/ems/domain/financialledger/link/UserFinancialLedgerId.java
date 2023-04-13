@@ -17,7 +17,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Embeddable
-public class UserFinancialLedgerAggregateId implements Serializable {
+public class UserFinancialLedgerId implements Serializable {
 
     @Column(name="financial_ledger_id", nullable=false)
     @Type(type="uuid-char")
@@ -31,7 +31,7 @@ public class UserFinancialLedgerAggregateId implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        UserFinancialLedgerAggregateId that = (UserFinancialLedgerAggregateId) o;
+        UserFinancialLedgerId that = (UserFinancialLedgerId) o;
         return Objects.equals(financialLedgerId, that.financialLedgerId) && Objects.equals(userId, that.userId);
     }
 

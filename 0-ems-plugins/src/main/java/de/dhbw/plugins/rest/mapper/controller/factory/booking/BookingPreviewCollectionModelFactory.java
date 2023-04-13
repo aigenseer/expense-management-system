@@ -18,15 +18,15 @@ public class BookingPreviewCollectionModelFactory {
 
     private final BookingsToBookingPreviewCollectionMapper bookingsToBookingPreviewCollectionMapper;
 
-    public BookingPreviewCollectionModel create(UUID userId, UUID financialLedgerAggregateId, Iterable<BookingAggregate> bookingAggregates){
+    public BookingPreviewCollectionModel create(UUID userId, UUID financialLedgerId, Iterable<BookingAggregate> bookingAggregates){
         BookingPreviewCollectionModel previewCollectionModel = bookingsToBookingPreviewCollectionMapper.apply(BookingsToBookingPreviewCollectionMapper
                 .Context.builder()
                 .userId(userId)
                 .bookingAggregates(bookingAggregates)
                 .build());
 
-        Link selfLink = linkTo(methodOn(BookingsController.class).listAll(userId, financialLedgerAggregateId)).withSelfRel()
-                .andAffordance(afford(methodOn(BookingsController.class).create(userId, financialLedgerAggregateId, null)));
+        Link selfLink = linkTo(methodOn(BookingsController.class).listAll(userId, financialLedgerId)).withSelfRel()
+                .andAffordance(afford(methodOn(BookingsController.class).create(userId, financialLedgerId, null)));
         previewCollectionModel.add(selfLink);
         return previewCollectionModel;
     }

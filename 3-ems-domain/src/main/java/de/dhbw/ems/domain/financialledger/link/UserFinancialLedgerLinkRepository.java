@@ -6,15 +6,15 @@ import java.util.UUID;
 
 public interface UserFinancialLedgerLinkRepository {
 
-    Optional<UserFinancialLedgerLink> findByIds(UUID userId, UUID financialLedgerAggregateId);
+    Optional<UserFinancialLedgerLink> findByIds(UUID userId, UUID financialLedgerId);
 
     List<UserFinancialLedgerLink> findByUserId(UUID userId);
 
-    List<UserFinancialLedgerLink> findByBookingAggregateId(UUID financialLedgerAggregateId);
+    List<UserFinancialLedgerLink> findByBookingAggregateId(UUID financialLedgerId);
 
-    UserFinancialLedgerLink create(UUID userId, UUID financialLedgerAggregateId);
+    UserFinancialLedgerLink create(UUID userId, UUID financialLedgerId);
 
-    void deleteById(UUID userId, UUID financialLedgerAggregateId);
+    void deleteById(UUID userId, UUID financialLedgerId);
 
-    boolean exists(UUID userId, UUID financialLedgerAggregateId);
+    boolean exists(UUID userId, UUID financialLedgerId);
 }

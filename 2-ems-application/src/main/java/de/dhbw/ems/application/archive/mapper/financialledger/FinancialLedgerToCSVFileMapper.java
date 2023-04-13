@@ -7,9 +7,9 @@ import de.dhbw.ems.domain.financialledger.entity.FinancialLedger;
 import org.springframework.stereotype.Component;
 
 @Component
-public class FinancialLedgerAggregateToCSVFileMapper extends CSVFileMapper implements FinancialLedgerAggregateToCSVFileMapperFunction {
+public class FinancialLedgerToCSVFileMapper extends CSVFileMapper implements FinancialLedgerToCSVFileMapperFunction {
 
-    public FinancialLedgerAggregateToCSVFileMapper(
+    public FinancialLedgerToCSVFileMapper(
             final CSVFactory csvFactory
     ){
         super(csvFactory);

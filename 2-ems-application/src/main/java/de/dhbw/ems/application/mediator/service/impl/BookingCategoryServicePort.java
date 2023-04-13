@@ -8,12 +8,12 @@ import java.util.UUID;
 
 public interface BookingCategoryServicePort {
 
-    Optional<BookingCategoryAggregate> find(UUID userId, UUID financialLedgerAggregateId, UUID bookingCategoryAggregateId);
+    Optional<BookingCategoryAggregate> find(UUID userId, UUID financialLedgerId, UUID bookingCategoryAggregateId);
 
-    boolean exists(UUID userId, UUID financialLedgerAggregateId, UUID bookingCategoryAggregateId);
+    boolean exists(UUID userId, UUID financialLedgerId, UUID bookingCategoryAggregateId);
 
-    boolean delete(UUID userId, UUID financialLedgerAggregateId, UUID bookingCategoryAggregateId);
+    boolean delete(UUID userId, UUID financialLedgerId, UUID bookingCategoryAggregateId);
 
-    Optional<BookingCategoryAggregate> create(UUID userId, UUID financialLedgerAggregateId, BookingCategoryAttributeData attributeData);
+    Optional<BookingCategoryAggregate> create(UUID userId, UUID financialLedgerId, BookingCategoryAttributeData attributeData);
 
 }

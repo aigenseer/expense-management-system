@@ -16,7 +16,7 @@ import javax.persistence.*;
 public class UserFinancialLedgerLink {
 
     @EmbeddedId
-    private UserFinancialLedgerAggregateId id;
+    private UserFinancialLedgerId id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "ems_user_id", nullable = false, updatable = false, insertable = false)

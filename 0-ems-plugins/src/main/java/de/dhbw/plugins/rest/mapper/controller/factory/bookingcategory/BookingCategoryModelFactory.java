@@ -21,15 +21,15 @@ public class BookingCategoryModelFactory {
     private final BookingCategoryAggregateToBookingCategoryModelMapper bookingCategoryAggregateToBookingCategoryModelMapper;
     private final BookingPreviewCollectionModelFactory bookingPreviewCollectionModelFactory;
 
-    public BookingCategoryModel create(UUID userId, UUID financialLedgerAggregateId, BookingCategoryAggregate bookingCategoryAggregate){
-        BookingPreviewCollectionModel previewCollectionModel = bookingPreviewCollectionModelFactory.create(userId, financialLedgerAggregateId, bookingCategoryAggregate.getBookingAggregates());
+    public BookingCategoryModel create(UUID userId, UUID financialLedgerId, BookingCategoryAggregate bookingCategoryAggregate){
+        BookingPreviewCollectionModel previewCollectionModel = bookingPreviewCollectionModelFactory.create(userId, financialLedgerId, bookingCategoryAggregate.getBookingAggregates());
 
         BookingCategoryModel model = bookingCategoryAggregateToBookingCategoryModelMapper.apply(bookingCategoryAggregate);
         model.setBookingPreviewCollectionModel(previewCollectionModel);
 
-        Link selfLink = linkTo(methodOn(BookingCategoryController.class).findOne(userId, financialLedgerAggregateId, bookingCategoryAggregate.getId())).withSelfRel()
-                .andAffordance(afford(methodOn(BookingCategoryController.class).update(userId, financialLedgerAggregateId, bookingCategoryAggregate.getId(), null)))
-                .andAffordance(afford(methodOn(BookingCategoryController.class).delete(userId, financialLedgerAggregateId, bookingCategoryAggregate.getId())));
+        Link selfLink = linkTo(methodOn(BookingCategoryController.class).findOne(userId, financialLedgerId, bookingCategoryAggregate.getId())).withSelfRel()
+                .andAffordance(afford(methodOn(BookingCategoryController.class).update(userId, financialLedgerId, bookingCategoryAggregate.getId(), null)))
+                .andAffordance(afford(methodOn(BookingCategoryController.class).delete(userId, financialLedgerId, bookingCategoryAggregate.getId())));
         model.add(selfLink);
         return model;
     }

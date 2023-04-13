@@ -7,6 +7,6 @@ import java.util.UUID;
 
 public interface UserFinancialLedgerLinkDomainServicePort {
 
-    List<FinancialLedger> findFinancialLedgerAggregatesByUserId(UUID userId);
+    List<FinancialLedger> findFinancialLedgersByUserId(UUID userId);
 
 }

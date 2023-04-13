@@ -20,7 +20,7 @@ import java.util.UUID;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
-@RequestMapping(value = "/api/{userId}/financialledger/{financialLedgerAggregateId}/booking/{bookingAggregateId}/users", produces = "application/vnd.siren+json")
+@RequestMapping(value = "/api/{userId}/financialledger/{financialLedgerId}/booking/{bookingAggregateId}/users", produces = "application/vnd.siren+json")
 @RequiredArgsConstructor
 public class BookingReferencedUsersController {
 
@@ -28,17 +28,17 @@ public class BookingReferencedUsersController {
     private final ReferencedUserPreviewCollectionModelFactory referencedUserPreviewCollectionModelFactory;
 
     @GetMapping
-    public ResponseEntity<UserPreviewCollectionModel> listAll(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerAggregateId") UUID financialLedgerAggregateId, @PathVariable("bookingAggregateId") UUID bookingAggregateId) {
-        Optional<BookingAggregate> optionalBooking = bookingApplicationAdapter.find(userId, financialLedgerAggregateId, bookingAggregateId);
+    public ResponseEntity<UserPreviewCollectionModel> listAll(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId, @PathVariable("bookingAggregateId") UUID bookingAggregateId) {
+        Optional<BookingAggregate> optionalBooking = bookingApplicationAdapter.find(userId, financialLedgerId, bookingAggregateId);
         if (!optionalBooking.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        return ResponseEntity.ok(referencedUserPreviewCollectionModelFactory.create(userId, financialLedgerAggregateId, bookingAggregateId, optionalBooking.get().getReferencedUsers()));
+        return ResponseEntity.ok(referencedUserPreviewCollectionModelFactory.create(userId, financialLedgerId, bookingAggregateId, optionalBooking.get().getReferencedUsers()));
     }
 
     @PostMapping
-    public ResponseEntity<Void> create(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerAggregateId") UUID financialLedgerAggregateId, @PathVariable("bookingAggregateId") UUID bookingAggregateId, @Valid @RequestBody AppendUserData data) {
+    public ResponseEntity<Void> create(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId, @PathVariable("bookingAggregateId") UUID bookingAggregateId, @Valid @RequestBody AppendUserData data) {
         UUID referencedUserId = UUID.fromString(data.getUserId());
-        if (!bookingApplicationAdapter.referenceUser(userId, financialLedgerAggregateId, bookingAggregateId, referencedUserId)) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        WebMvcLinkBuilder uriComponents = WebMvcLinkBuilder.linkTo(methodOn(BookingReferencedUserController.class).findOne(userId, financialLedgerAggregateId, bookingAggregateId, referencedUserId));
+        if (!bookingApplicationAdapter.referenceUser(userId, financialLedgerId, bookingAggregateId, referencedUserId)) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        WebMvcLinkBuilder uriComponents = WebMvcLinkBuilder.linkTo(methodOn(BookingReferencedUserController.class).findOne(userId, financialLedgerId, bookingAggregateId, referencedUserId));
         return new ResponseEntity<>(WebMvcLinkBuilderUtils.createLocationHeader(uriComponents), HttpStatus.CREATED);
     }
 

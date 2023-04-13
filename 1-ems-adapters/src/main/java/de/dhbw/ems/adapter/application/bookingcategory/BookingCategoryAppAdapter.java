@@ -18,23 +18,23 @@ public class BookingCategoryAppAdapter implements BookingCategoryApplicationAdap
     private final BookingCategoryDomainServicePort bookingCategoryDomainServicePort;
 
     @Override
-    public Optional<BookingCategoryAggregate> find(UUID id, UUID financialLedgerAggregateId, UUID bookingCategoryAggregateId) {
-        return bookingCategoryServicePort.find(id, financialLedgerAggregateId, bookingCategoryAggregateId);
+    public Optional<BookingCategoryAggregate> find(UUID id, UUID financialLedgerId, UUID bookingCategoryAggregateId) {
+        return bookingCategoryServicePort.find(id, financialLedgerId, bookingCategoryAggregateId);
     }
 
     @Override
-    public boolean exists(UUID id, UUID financialLedgerAggregateId, UUID bookingCategoryAggregateId) {
-        return bookingCategoryServicePort.exists(id, financialLedgerAggregateId, bookingCategoryAggregateId);
+    public boolean exists(UUID id, UUID financialLedgerId, UUID bookingCategoryAggregateId) {
+        return bookingCategoryServicePort.exists(id, financialLedgerId, bookingCategoryAggregateId);
     }
 
     @Override
-    public boolean delete(UUID id, UUID financialLedgerAggregateId, UUID bookingCategoryAggregateId) {
-        return bookingCategoryServicePort.delete(id, financialLedgerAggregateId, bookingCategoryAggregateId);
+    public boolean delete(UUID id, UUID financialLedgerId, UUID bookingCategoryAggregateId) {
+        return bookingCategoryServicePort.delete(id, financialLedgerId, bookingCategoryAggregateId);
     }
 
     @Override
-    public Optional<BookingCategoryAggregate> create(UUID id, UUID financialLedgerAggregateId, BookingCategoryAttributeData attributeData) {
-        return bookingCategoryServicePort.create(id, financialLedgerAggregateId, attributeData);
+    public Optional<BookingCategoryAggregate> create(UUID id, UUID financialLedgerId, BookingCategoryAttributeData attributeData) {
+        return bookingCategoryServicePort.create(id, financialLedgerId, attributeData);
     }
 
     @Override

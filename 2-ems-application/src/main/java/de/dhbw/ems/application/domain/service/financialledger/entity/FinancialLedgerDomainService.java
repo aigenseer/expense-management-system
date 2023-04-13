@@ -1,6 +1,6 @@
 package de.dhbw.ems.application.domain.service.financialledger.entity;
 
-import de.dhbw.ems.application.domain.service.financialledger.data.FinancialLedgerAttributeData;
+import de.dhbw.ems.application.domain.service.financialledger.data.FinancialLedgerData;
 import de.dhbw.ems.domain.financialledger.entity.FinancialLedger;
 
 import java.util.List;
@@ -17,6 +17,6 @@ public interface FinancialLedgerDomainService extends FinancialLedgerDomainServi
 
     void deleteById(UUID id);
 
-    Optional<FinancialLedger> createByAttributeData(FinancialLedgerAttributeData data);
+    Optional<FinancialLedger> createByAttributeData(FinancialLedgerData data);
 
 }

@@ -14,7 +14,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(value = "/api/{userId}/financialledger/{financialLedgerAggregateId}/booking/{bookingAggregateId}/user/{referencedUserId}", produces = "application/vnd.siren+json")
+@RequestMapping(value = "/api/{userId}/financialledger/{financialLedgerId}/booking/{bookingAggregateId}/user/{referencedUserId}", produces = "application/vnd.siren+json")
 @RequiredArgsConstructor
 public class BookingReferencedUserController {
 
@@ -22,19 +22,19 @@ public class BookingReferencedUserController {
     private final ReferencedUserPreviewModelFactory referencedUserPreviewModelFactory;
 
     @GetMapping
-    public ResponseEntity<UserPreview> findOne(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerAggregateId") UUID financialLedgerAggregateId, @PathVariable("bookingAggregateId") UUID bookingAggregateId, @PathVariable("referencedUserId") UUID referencedUserId) {
-        Optional<BookingAggregate> optionalBookingAggregate = bookingApplicationAdapter.find(userId, financialLedgerAggregateId, bookingAggregateId);
+    public ResponseEntity<UserPreview> findOne(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId, @PathVariable("bookingAggregateId") UUID bookingAggregateId, @PathVariable("referencedUserId") UUID referencedUserId) {
+        Optional<BookingAggregate> optionalBookingAggregate = bookingApplicationAdapter.find(userId, financialLedgerId, bookingAggregateId);
         if (!optionalBookingAggregate.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         BookingAggregate bookingAggregate = optionalBookingAggregate.get();
         Optional<User> optionalReferencedUser = bookingAggregate.getReferencedUsers().stream().filter(user -> user.getId().equals(referencedUserId)).findFirst();
         if (!optionalReferencedUser.isPresent()) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        return ResponseEntity.ok(referencedUserPreviewModelFactory.create(userId, financialLedgerAggregateId, bookingAggregateId, optionalReferencedUser.get()));
+        return ResponseEntity.ok(referencedUserPreviewModelFactory.create(userId, financialLedgerId, bookingAggregateId, optionalReferencedUser.get()));
     }
 
     @DeleteMapping("/")
-    public ResponseEntity<Void> delete(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerAggregateId") UUID financialLedgerAggregateId, @PathVariable("bookingAggregateId") UUID bookingAggregateId, @PathVariable("referencedUserId") UUID referencedUserId) {
-        if (!bookingApplicationAdapter.exists(userId, financialLedgerAggregateId, bookingAggregateId)) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        if (!bookingApplicationAdapter.deleteUserReference(userId, financialLedgerAggregateId, bookingAggregateId, referencedUserId)) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public ResponseEntity<Void> delete(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId, @PathVariable("bookingAggregateId") UUID bookingAggregateId, @PathVariable("referencedUserId") UUID referencedUserId) {
+        if (!bookingApplicationAdapter.exists(userId, financialLedgerId, bookingAggregateId)) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        if (!bookingApplicationAdapter.deleteUserReference(userId, financialLedgerId, bookingAggregateId, referencedUserId)) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 

@@ -1,7 +1,7 @@
 package de.dhbw.ems.application.mediator.service;
 
 import de.dhbw.ems.application.domain.service.financialledger.entity.FinancialLedgerDomainService;
-import de.dhbw.ems.application.domain.service.financialledger.data.FinancialLedgerAttributeData;
+import de.dhbw.ems.application.domain.service.financialledger.data.FinancialLedgerData;
 import de.dhbw.ems.application.domain.service.financialledger.link.UserFinancialLedgerLinkDomainService;
 import de.dhbw.ems.application.domain.service.user.UserDomainService;
 import de.dhbw.ems.application.mediator.ConcreteApplicationMediator;
@@ -36,21 +36,21 @@ public class FinancialLedgerOperationService extends FinancialLedgerColleague im
     }
 
     @Transactional
-    public Optional<FinancialLedger> create(UUID userId, FinancialLedgerAttributeData attributeData) {
+    public Optional<FinancialLedger> create(UUID userId, FinancialLedgerData attributeData) {
         Optional<User> userOptional = userDomainService.findById(userId);
         if (userOptional.isPresent()) {
-            Optional<FinancialLedger> optionalFinancialLedgerAggregate = financialLedgerDomainService.createByAttributeData(attributeData);
-            if (optionalFinancialLedgerAggregate.isPresent()) {
-                getMediator().onLinkUserToFinancialLedger(userOptional.get(), optionalFinancialLedgerAggregate.get(), this);
-                onLinkUserToFinancialLedger(userOptional.get(), optionalFinancialLedgerAggregate.get());
-                return optionalFinancialLedgerAggregate;
+            Optional<FinancialLedger> optionalFinancialLedger = financialLedgerDomainService.createByAttributeData(attributeData);
+            if (optionalFinancialLedger.isPresent()) {
+                getMediator().onLinkUserToFinancialLedger(userOptional.get(), optionalFinancialLedger.get(), this);
+                onLinkUserToFinancialLedger(userOptional.get(), optionalFinancialLedger.get());
+                return optionalFinancialLedger;
             }
         }
         return Optional.empty();
     }
 
-    public Optional<FinancialLedger> find(UUID userId, UUID financialLedgerAggregateId) {
-        Optional<UserFinancialLedgerLink> userFinancialLedgerLink = userFinancialLedgerLinkDomainService.findById(userId, financialLedgerAggregateId);
+    public Optional<FinancialLedger> find(UUID userId, UUID financialLedgerId) {
+        Optional<UserFinancialLedgerLink> userFinancialLedgerLink = userFinancialLedgerLinkDomainService.findById(userId, financialLedgerId);
         if (userFinancialLedgerLink.isPresent()) {
             return Optional.of(userFinancialLedgerLink.get().getFinancialLedger());
         }
@@ -58,13 +58,13 @@ public class FinancialLedgerOperationService extends FinancialLedgerColleague im
     }
 
     @Transactional
-    public boolean unlinkUser(UUID userId, UUID financialLedgerAggregateId) {
+    public boolean unlinkUser(UUID userId, UUID financialLedgerId) {
         Optional<User> optionalUser = userDomainService.findById(userId);
         if (optionalUser.isPresent()) {
-            Optional<FinancialLedger> optionalFinancialLedgerAggregate = financialLedgerDomainService.findById(financialLedgerAggregateId);
-            if (optionalFinancialLedgerAggregate.isPresent()) {
+            Optional<FinancialLedger> optionalFinancialLedger = financialLedgerDomainService.findById(financialLedgerId);
+            if (optionalFinancialLedger.isPresent()) {
                 User user = optionalUser.get();
-                FinancialLedger financialLedger = optionalFinancialLedgerAggregate.get();
+                FinancialLedger financialLedger = optionalFinancialLedger.get();
                 if (financialLedger.getAuthorizedUser().contains(user)) {
                     getMediator().onUnlinkUserToFinancialLedger(user, financialLedger, this);
                     onUnlinkUserToFinancialLedger(user, financialLedger);
@@ -75,18 +75,18 @@ public class FinancialLedgerOperationService extends FinancialLedgerColleague im
         return false;
     }
 
-    public boolean hasUserPermission(UUID userId, UUID financialLedgerAggregateId) {
-        return find(userId, financialLedgerAggregateId).isPresent();
+    public boolean hasUserPermission(UUID userId, UUID financialLedgerId) {
+        return find(userId, financialLedgerId).isPresent();
     }
 
     @Transactional
-    public boolean appendUser(UUID userId, UUID financialLedgerAggregateId) {
+    public boolean appendUser(UUID userId, UUID financialLedgerId) {
         Optional<User> userOptional = userDomainService.findById(userId);
         if (userOptional.isPresent()) {
-            Optional<FinancialLedger> optionalFinancialLedgerAggregate = financialLedgerDomainService.findById(financialLedgerAggregateId);
-            if (optionalFinancialLedgerAggregate.isPresent()) {
-                getMediator().onLinkUserToFinancialLedger(userOptional.get(), optionalFinancialLedgerAggregate.get(), this);
-                onLinkUserToFinancialLedger(userOptional.get(), optionalFinancialLedgerAggregate.get());
+            Optional<FinancialLedger> optionalFinancialLedger = financialLedgerDomainService.findById(financialLedgerId);
+            if (optionalFinancialLedger.isPresent()) {
+                getMediator().onLinkUserToFinancialLedger(userOptional.get(), optionalFinancialLedger.get(), this);
+                onLinkUserToFinancialLedger(userOptional.get(), optionalFinancialLedger.get());
                 return true;
             }
         }
@@ -94,10 +94,10 @@ public class FinancialLedgerOperationService extends FinancialLedgerColleague im
     }
 
     @Transactional
-    public boolean delete(UUID userId, UUID financialLedgerAggregateId) {
-        Optional<FinancialLedger> optionalFinancialLedgerAggregate = find(userId, financialLedgerAggregateId);
-        if (optionalFinancialLedgerAggregate.isPresent()) {
-            onDeleteFinancialLedger(optionalFinancialLedgerAggregate.get());
+    public boolean delete(UUID userId, UUID financialLedgerId) {
+        Optional<FinancialLedger> optionalFinancialLedger = find(userId, financialLedgerId);
+        if (optionalFinancialLedger.isPresent()) {
+            onDeleteFinancialLedger(optionalFinancialLedger.get());
             return true;
         }
         return false;

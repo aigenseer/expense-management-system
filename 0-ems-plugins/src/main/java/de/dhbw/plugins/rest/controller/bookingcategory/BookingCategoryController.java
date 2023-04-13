@@ -22,7 +22,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
-@RequestMapping(value = "/api/{userId}/financialledger/{financialLedgerAggregateId}/category/{bookingCategoryAggregateId}", produces = "application/vnd.siren+json")
+@RequestMapping(value = "/api/{userId}/financialledger/{financialLedgerId}/category/{bookingCategoryAggregateId}", produces = "application/vnd.siren+json")
 @RequiredArgsConstructor
 public class BookingCategoryController {
 
@@ -32,15 +32,15 @@ public class BookingCategoryController {
     private final BookingCategoryDataToBookingCategoryAttributeDataAdapterMapper bookingCategoryDataToBookingCategoryAttributeDataAdapterMapper;
 
     @GetMapping
-    public ResponseEntity<BookingCategoryModel> findOne(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerAggregateId") UUID financialLedgerAggregateId, @PathVariable("bookingCategoryAggregateId") UUID bookingCategoryAggregateId) {
-        Optional<BookingCategoryAggregate> optionalBookingCategoryAggregate = bookingCategoryApplicationAdapter.find(userId, financialLedgerAggregateId, bookingCategoryAggregateId);
+    public ResponseEntity<BookingCategoryModel> findOne(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId, @PathVariable("bookingCategoryAggregateId") UUID bookingCategoryAggregateId) {
+        Optional<BookingCategoryAggregate> optionalBookingCategoryAggregate = bookingCategoryApplicationAdapter.find(userId, financialLedgerId, bookingCategoryAggregateId);
         if (!optionalBookingCategoryAggregate.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        return ResponseEntity.ok(bookingCategoryModelFactory.create(userId, financialLedgerAggregateId, optionalBookingCategoryAggregate.get()));
+        return ResponseEntity.ok(bookingCategoryModelFactory.create(userId, financialLedgerId, optionalBookingCategoryAggregate.get()));
     }
 
     @PutMapping
-    public ResponseEntity<Void> update(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerAggregateId") UUID financialLedgerAggregateId, @PathVariable("bookingCategoryAggregateId") UUID bookingCategoryAggregateId, @Valid @RequestBody BookingCategoryData data) {
-        Optional<BookingCategoryAggregate> optionalBookingCategoryAggregate = bookingCategoryApplicationAdapter.find(userId, financialLedgerAggregateId, bookingCategoryAggregateId);
+    public ResponseEntity<Void> update(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId, @PathVariable("bookingCategoryAggregateId") UUID bookingCategoryAggregateId, @Valid @RequestBody BookingCategoryData data) {
+        Optional<BookingCategoryAggregate> optionalBookingCategoryAggregate = bookingCategoryApplicationAdapter.find(userId, financialLedgerId, bookingCategoryAggregateId);
         if (!optionalBookingCategoryAggregate.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         BookingCategoryAggregate bookingCategoryAggregate = optionalBookingCategoryAggregate.get();
 
@@ -48,15 +48,15 @@ public class BookingCategoryController {
         optionalBookingCategoryAggregate = bookingCategoryApplicationAdapter.updateByAttributeData(bookingCategoryAggregate, attributeData);
         if (!optionalBookingCategoryAggregate.isPresent()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-        WebMvcLinkBuilder uriComponents = linkTo(methodOn(this.getClass()).findOne(userId, financialLedgerAggregateId, bookingCategoryAggregateId));
+        WebMvcLinkBuilder uriComponents = linkTo(methodOn(this.getClass()).findOne(userId, financialLedgerId, bookingCategoryAggregateId));
         return new ResponseEntity<>(WebMvcLinkBuilderUtils.createLocationHeader(uriComponents), HttpStatus.ACCEPTED);
     }
 
 
     @DeleteMapping("/")
-    public ResponseEntity<Void> delete(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerAggregateId") UUID financialLedgerAggregateId, @PathVariable("bookingCategoryAggregateId") UUID bookingCategoryAggregateId) {
-        if (!bookingCategoryApplicationAdapter.exists(userId, financialLedgerAggregateId, bookingCategoryAggregateId)) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        bookingCategoryApplicationAdapter.delete(userId, financialLedgerAggregateId, bookingCategoryAggregateId);
+    public ResponseEntity<Void> delete(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId, @PathVariable("bookingCategoryAggregateId") UUID bookingCategoryAggregateId) {
+        if (!bookingCategoryApplicationAdapter.exists(userId, financialLedgerId, bookingCategoryAggregateId)) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        bookingCategoryApplicationAdapter.delete(userId, financialLedgerId, bookingCategoryAggregateId);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 

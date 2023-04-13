@@ -1,6 +1,6 @@
 package de.dhbw.plugins.persistence.hibernate.financialledger.link;
 
-import de.dhbw.ems.domain.financialledger.link.UserFinancialLedgerAggregateId;
+import de.dhbw.ems.domain.financialledger.link.UserFinancialLedgerId;
 import de.dhbw.ems.domain.financialledger.link.UserFinancialLedgerLink;
 import de.dhbw.ems.domain.financialledger.link.UserFinancialLedgerLinkRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,13 +16,13 @@ public class UserFinancialLedgerLinkBridge implements UserFinancialLedgerLinkRep
 
     private final SpringDataUserFinancialLedgerLinkRepository repository;
 
-    private UserFinancialLedgerAggregateId createUserFinancialLedgerAggregateId(UUID userId, UUID userFinancialLedgerAggregateId){
-        return UserFinancialLedgerAggregateId.builder().userId(userId).financialLedgerId(userFinancialLedgerAggregateId).build();
+    private UserFinancialLedgerId createUserFinancialLedgerId(UUID userId, UUID userFinancialLedgerId){
+        return UserFinancialLedgerId.builder().userId(userId).financialLedgerId(userFinancialLedgerId).build();
     }
 
     @Override
-    public Optional<UserFinancialLedgerLink> findByIds(UUID userId, UUID userFinancialLedgerAggregateId) {
-        return repository.findById(createUserFinancialLedgerAggregateId(userId, userFinancialLedgerAggregateId));
+    public Optional<UserFinancialLedgerLink> findByIds(UUID userId, UUID financialLedgerId) {
+        return repository.findById(createUserFinancialLedgerId(userId, financialLedgerId));
     }
 
     @Override
@@ -31,26 +31,26 @@ public class UserFinancialLedgerLinkBridge implements UserFinancialLedgerLinkRep
     }
 
     @Override
-    public List<UserFinancialLedgerLink> findByBookingAggregateId(UUID userFinancialLedgerLinkId) {
-        return repository.findByBookingAggregateId(userFinancialLedgerLinkId);
+    public List<UserFinancialLedgerLink> findByBookingAggregateId(UUID financialLedgerId) {
+        return repository.findByBookingAggregateId(financialLedgerId);
     }
 
     @Override
-    public UserFinancialLedgerLink create(UUID userId, UUID userFinancialLedgerAggregateId) {
+    public UserFinancialLedgerLink create(UUID userId, UUID financialLedgerId) {
         UserFinancialLedgerLink userFinancialLedgerLink = UserFinancialLedgerLink.builder()
-                .id(createUserFinancialLedgerAggregateId(userId, userFinancialLedgerAggregateId))
+                .id(createUserFinancialLedgerId(userId, financialLedgerId))
                 .build();
         return repository.save(userFinancialLedgerLink);
     }
 
     @Override
-    public void deleteById(UUID userId, UUID userFinancialLedgerAggregateId) {
-        repository.deleteById(UserFinancialLedgerAggregateId.builder().userId(userId).financialLedgerId(userFinancialLedgerAggregateId).build());
+    public void deleteById(UUID userId, UUID financialLedgerId) {
+        repository.deleteById(UserFinancialLedgerId.builder().userId(userId).financialLedgerId(financialLedgerId).build());
     }
 
     @Override
-    public boolean exists(UUID userId, UUID userFinancialLedgerAggregateId) {
-        return repository.existsById(UserFinancialLedgerAggregateId.builder().userId(userId).financialLedgerId(userFinancialLedgerAggregateId).build());
+    public boolean exists(UUID userId, UUID financialLedgerId) {
+        return repository.existsById(UserFinancialLedgerId.builder().userId(userId).financialLedgerId(financialLedgerId).build());
     }
 
 }

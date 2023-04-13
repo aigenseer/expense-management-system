@@ -1,6 +1,6 @@
 package de.dhbw.ems.application.domain.service.financialledger.aggregate;
 
-import de.dhbw.ems.application.domain.service.financialledger.data.FinancialLedgerAttributeData;
+import de.dhbw.ems.application.domain.service.financialledger.data.FinancialLedgerData;
 import de.dhbw.ems.application.domain.service.financialledger.entity.FinancialLedgerApplicationService;
 import de.dhbw.ems.domain.financialledger.entity.FinancialLedger;
 import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerRepository;
@@ -31,7 +31,7 @@ public class FinancialLedgerApplicationServiceTest {
             .title("Example-Financial-Ledger")
             .build();
 
-    private final FinancialLedgerAttributeData attributeData = FinancialLedgerAttributeData.builder()
+    private final FinancialLedgerData attributeData = FinancialLedgerData.builder()
             .title(aggregate.getTitle())
             .build();
 
@@ -102,7 +102,7 @@ public class FinancialLedgerApplicationServiceTest {
         }));
     }
 
-    private void checkAttributeData(FinancialLedgerAttributeData attributeData, FinancialLedger actualAggregate) {
+    private void checkAttributeData(FinancialLedgerData attributeData, FinancialLedger actualAggregate) {
         assertEquals(attributeData.getTitle(), actualAggregate.getTitle());
     }
 

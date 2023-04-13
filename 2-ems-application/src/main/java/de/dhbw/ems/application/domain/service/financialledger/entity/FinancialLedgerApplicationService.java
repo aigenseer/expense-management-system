@@ -1,6 +1,6 @@
 package de.dhbw.ems.application.domain.service.financialledger.entity;
 
-import de.dhbw.ems.application.domain.service.financialledger.data.FinancialLedgerAttributeData;
+import de.dhbw.ems.application.domain.service.financialledger.data.FinancialLedgerData;
 import de.dhbw.ems.domain.financialledger.entity.FinancialLedger;
 import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerRepository;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +33,7 @@ public class FinancialLedgerApplicationService implements FinancialLedgerDomainS
         repository.deleteById(id);
     }
 
-    public Optional<FinancialLedger> createByAttributeData(FinancialLedgerAttributeData data){
+    public Optional<FinancialLedger> createByAttributeData(FinancialLedgerData data){
         FinancialLedger financialLedger = FinancialLedger.builder()
                 .id(UUID.randomUUID())
                 .userFinancialLedgerLinks(new HashSet<>())
@@ -42,7 +42,7 @@ public class FinancialLedgerApplicationService implements FinancialLedgerDomainS
         return updateByAttributeData(financialLedger, data);
     }
 
-    public Optional<FinancialLedger> updateByAttributeData(FinancialLedger financialLedger, FinancialLedgerAttributeData data){
+    public Optional<FinancialLedger> updateByAttributeData(FinancialLedger financialLedger, FinancialLedgerData data){
         financialLedger.setTitle(data.getTitle());
         return Optional.of(save(financialLedger));
     }

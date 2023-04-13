@@ -8,16 +8,16 @@ import java.util.UUID;
 
 public interface UserFinancialLedgerLinkDomainService extends UserFinancialLedgerLinkDomainServicePort {
 
-    Optional<UserFinancialLedgerLink> findById(UUID userId, UUID financialLedgerAggregateId);
+    Optional<UserFinancialLedgerLink> findById(UUID userId, UUID financialLedgerId);
 
-    Optional<UserFinancialLedgerLink> create(UUID userId, UUID financialLedgerAggregateId);
+    Optional<UserFinancialLedgerLink> create(UUID userId, UUID financialLedgerId);
 
     List<UserFinancialLedgerLink> findByUserId(UUID userId);
 
-    List<UserFinancialLedgerLink> findByBookingAggregateId(UUID financialLedgerAggregateId);
+    List<UserFinancialLedgerLink> findByBookingAggregateId(UUID financialLedgerId);
 
-    void deleteById(UUID userId, UUID financialLedgerAggregateId);
+    void deleteById(UUID userId, UUID financialLedgerId);
 
-    boolean exists(UUID userId, UUID financialLedgerAggregateId);
+    boolean exists(UUID userId, UUID financialLedgerId);
 
 }

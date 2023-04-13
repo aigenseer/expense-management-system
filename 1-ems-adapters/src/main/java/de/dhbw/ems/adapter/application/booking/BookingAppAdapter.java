@@ -21,33 +21,33 @@ public class BookingAppAdapter implements BookingApplicationAdapter {
     private final BookingAggregateDomainServicePort bookingAggregateDomainServicePort;
 
     @Override
-    public Optional<BookingAggregate> find(UUID userId, UUID financialLedgerAggregateId, UUID bookingAggregateId) {
-        return bookingServicePort.find(userId, financialLedgerAggregateId, bookingAggregateId);
+    public Optional<BookingAggregate> find(UUID userId, UUID financialLedgerId, UUID bookingAggregateId) {
+        return bookingServicePort.find(userId, financialLedgerId, bookingAggregateId);
     }
 
     @Override
-    public Optional<BookingAggregate> create(UUID userId, UUID financialLedgerAggregateId, BookingAggregateAttributeData attributeData) {
-        return bookingServicePort.create(userId, financialLedgerAggregateId, attributeData);
+    public Optional<BookingAggregate> create(UUID userId, UUID financialLedgerId, BookingAggregateAttributeData attributeData) {
+        return bookingServicePort.create(userId, financialLedgerId, attributeData);
     }
 
     @Override
-    public boolean exists(UUID userId, UUID financialLedgerAggregateId, UUID bookingAggregateId) {
-        return bookingServicePort.exists(userId, financialLedgerAggregateId, bookingAggregateId);
+    public boolean exists(UUID userId, UUID financialLedgerId, UUID bookingAggregateId) {
+        return bookingServicePort.exists(userId, financialLedgerId, bookingAggregateId);
     }
 
     @Override
-    public boolean delete(UUID userId, UUID financialLedgerAggregateId, UUID bookingAggregateId) {
-        return bookingServicePort.delete(userId, financialLedgerAggregateId, bookingAggregateId);
+    public boolean delete(UUID userId, UUID financialLedgerId, UUID bookingAggregateId) {
+        return bookingServicePort.delete(userId, financialLedgerId, bookingAggregateId);
     }
 
     @Override
-    public boolean referenceUser(UUID userId, UUID financialLedgerAggregateId, UUID bookingAggregateId, UUID referenceUserId) {
-        return bookingServicePort.referenceUser(userId, financialLedgerAggregateId, bookingAggregateId, referenceUserId);
+    public boolean referenceUser(UUID userId, UUID financialLedgerId, UUID bookingAggregateId, UUID referenceUserId) {
+        return bookingServicePort.referenceUser(userId, financialLedgerId, bookingAggregateId, referenceUserId);
     }
 
     @Override
-    public boolean deleteUserReference(UUID userId, UUID financialLedgerAggregateId, UUID bookingAggregateId, UUID referenceUserId) {
-        return bookingServicePort.deleteUserReference(userId, financialLedgerAggregateId, bookingAggregateId, referenceUserId);
+    public boolean deleteUserReference(UUID userId, UUID financialLedgerId, UUID bookingAggregateId, UUID referenceUserId) {
+        return bookingServicePort.deleteUserReference(userId, financialLedgerId, bookingAggregateId, referenceUserId);
     }
 
     @Override
@@ -56,8 +56,8 @@ public class BookingAppAdapter implements BookingApplicationAdapter {
     }
 
     @Override
-    public boolean exchangeCurrencyOfBooking(UUID id, UUID financialLedgerAggregateId, UUID bookingAggregateId, CurrencyType targetCurrencyType) {
-        return exchangeCurrencyServicePort.exchangeCurrencyOfBooking(id, financialLedgerAggregateId, bookingAggregateId, targetCurrencyType);
+    public boolean exchangeCurrencyOfBooking(UUID id, UUID financialLedgerId, UUID bookingAggregateId, CurrencyType targetCurrencyType) {
+        return exchangeCurrencyServicePort.exchangeCurrencyOfBooking(id, financialLedgerId, bookingAggregateId, targetCurrencyType);
     }
 
 }

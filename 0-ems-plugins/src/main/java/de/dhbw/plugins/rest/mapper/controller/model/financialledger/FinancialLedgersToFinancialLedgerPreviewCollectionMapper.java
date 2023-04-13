@@ -26,7 +26,7 @@ public class FinancialLedgersToFinancialLedgerPreviewCollectionMapper implements
     }
 
     private FinancialLedgerPreviewCollectionModel map(final  UUID userId) {
-        List<FinancialLedger> financialLedgers = financialLedgerAppAdapter.findFinancialLedgerAggregatesByUserId(userId);
+        List<FinancialLedger> financialLedgers = financialLedgerAppAdapter.findFinancialLedgersByUserId(userId);
         List<FinancialLedgerPreviewModel> previewModels = financialLedgers.stream()
                 .map(financialLedger -> financialLedgerToFinancialLedgerPreviewMapper
                             .apply(FinancialLedgerToFinancialLedgerPreviewMapper.Context.builder()

@@ -20,7 +20,7 @@ import java.util.UUID;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
-@RequestMapping(value = "/api/user/{userId}/financialledger/{financialLedgerAggregateId}/users", produces = "application/vnd.siren+json")
+@RequestMapping(value = "/api/user/{userId}/financialledger/{financialLedgerId}/users", produces = "application/vnd.siren+json")
 @RequiredArgsConstructor
 public class FinancialLedgerUsersController {
 
@@ -28,18 +28,18 @@ public class FinancialLedgerUsersController {
     private final FinancialLedgerUserPreviewCollectionModelFactory financialLedgerUserPreviewCollectionModelFactory;
 
     @GetMapping
-    public ResponseEntity<UserPreviewCollectionModel> listAll(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerAggregateId") UUID financialLedgerAggregateId) {
-        Optional<FinancialLedger> optionalFinancialLedgerAggregate = financialLedgerApplicationAdapter.find(userId, financialLedgerAggregateId);
-        if (!optionalFinancialLedgerAggregate.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        FinancialLedger financialLedger = optionalFinancialLedgerAggregate.get();
+    public ResponseEntity<UserPreviewCollectionModel> listAll(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId) {
+        Optional<FinancialLedger> optionalFinancialLedger = financialLedgerApplicationAdapter.find(userId, financialLedgerId);
+        if (!optionalFinancialLedger.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        FinancialLedger financialLedger = optionalFinancialLedger.get();
         return ResponseEntity.ok(financialLedgerUserPreviewCollectionModelFactory.create(userId, financialLedger));
     }
 
     @PostMapping
-    public ResponseEntity<Void> create(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerAggregateId") UUID financialLedgerAggregateId, @Valid @RequestBody AppendUserData data) {
-        Optional<FinancialLedger> optionalFinancialLedgerAggregate = financialLedgerApplicationAdapter.find(userId, financialLedgerAggregateId);
-        if (!optionalFinancialLedgerAggregate.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        FinancialLedger financialLedger = optionalFinancialLedgerAggregate.get();
+    public ResponseEntity<Void> create(@PathVariable("userId") UUID userId, @PathVariable("financialLedgerId") UUID financialLedgerId, @Valid @RequestBody AppendUserData data) {
+        Optional<FinancialLedger> optionalFinancialLedger = financialLedgerApplicationAdapter.find(userId, financialLedgerId);
+        if (!optionalFinancialLedger.isPresent()) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        FinancialLedger financialLedger = optionalFinancialLedger.get();
         UUID financialLedgerUserId = UUID.fromString(data.getUserId());
         if (!financialLedgerApplicationAdapter.appendUser(financialLedgerUserId, financialLedger.getId())) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         WebMvcLinkBuilder uriComponents = WebMvcLinkBuilder.linkTo(methodOn(FinancialLedgerUserController.class).findOne(financialLedger.getId(), financialLedgerUserId));

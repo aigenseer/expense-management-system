@@ -6,6 +6,6 @@ import java.util.UUID;
 
 public interface ExchangeCurrencyServicePort {
 
-    boolean exchangeCurrencyOfBooking(UUID userId, UUID financialLedgerAggregateId, UUID bookingAggregateId, CurrencyType targetCurrencyType);
+    boolean exchangeCurrencyOfBooking(UUID userId, UUID financialLedgerId, UUID bookingAggregateId, CurrencyType targetCurrencyType);
 
 }

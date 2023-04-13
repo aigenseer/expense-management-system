@@ -13,26 +13,26 @@ import java.util.UUID;
 @Repository
 public class FinancialLedgerRepositoryBridge implements FinancialLedgerRepository {
 
-    private final SpringDataFinancialLedgerAggregateRepository springDataFinancialLedgerAggregateRepository;
+    private final SpringDataFinancialLedgerRepository springDataFinancialLedgerRepository;
 
     @Override
     public List<FinancialLedger> findAll() {
-        return springDataFinancialLedgerAggregateRepository.findAll();
+        return springDataFinancialLedgerRepository.findAll();
     }
 
     @Override
     public Optional<FinancialLedger> findById(UUID id) {
-        return springDataFinancialLedgerAggregateRepository.findById(id);
+        return springDataFinancialLedgerRepository.findById(id);
     }
 
     @Override
     public FinancialLedger save(FinancialLedger user) {
-        return springDataFinancialLedgerAggregateRepository.save(user);
+        return springDataFinancialLedgerRepository.save(user);
     }
 
     @Override
     public void deleteById(UUID id) {
-        springDataFinancialLedgerAggregateRepository.deleteById(id);
+        springDataFinancialLedgerRepository.deleteById(id);
     }
 
 

@@ -6,7 +6,7 @@ import de.dhbw.ems.application.archive.core.TmpFileFactory;
 import de.dhbw.ems.application.archive.mapper.bookingcategories.BookingCategoryAggregatesToCSVFileMapperFunction;
 import de.dhbw.ems.application.archive.mapper.bookings.BookingAggregatesToCSVFileMapperFunction;
 import de.dhbw.ems.application.archive.mapper.bookings.BookingUserReferencesToCSVFileMapperFunction;
-import de.dhbw.ems.application.archive.mapper.financialledger.FinancialLedgerAggregateToCSVFileMapperFunction;
+import de.dhbw.ems.application.archive.mapper.financialledger.FinancialLedgerToCSVFileMapperFunction;
 import de.dhbw.ems.application.archive.mapper.user.UsersToCSVFileMapperFunction;
 import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
 import de.dhbw.ems.domain.financialledger.entity.FinancialLedger;
@@ -25,7 +25,7 @@ public class FinancialLedgerArchiveFactory extends TmpFileFactory implements Fin
 
     private final BookingAggregatesToCSVFileMapperFunction bookingAggregatesToCSVFileMapperFunction;
     private final UsersToCSVFileMapperFunction usersToCSVFileMapperFunction;
-    private final FinancialLedgerAggregateToCSVFileMapperFunction financialLedgerAggregateToCSVFileMapperFunction;
+    private final FinancialLedgerToCSVFileMapperFunction financialLedgerToCSVFileMapperFunction;
     private final BookingUserReferencesToCSVFileMapperFunction bookingUserReferencesToCSVFileMapperFunction;
     private final BookingCategoryAggregatesToCSVFileMapperFunction bookingCategoryAggregatesToCSVFileMapperFunction;
 
@@ -36,7 +36,7 @@ public class FinancialLedgerArchiveFactory extends TmpFileFactory implements Fin
             appendFileToZip(out, "booking-categories.csv", bookingCategoryAggregatesToCSVFileMapperFunction.apply(financialLedger.getBookingCategoriesAggregates()));
             appendFileToZip(out, "bookings.csv", bookingAggregatesToCSVFileMapperFunction.apply(financialLedger.getBookingAggregates()));
             appendFileToZip(out, "authorized-users.csv", usersToCSVFileMapperFunction.apply(financialLedger.getAuthorizedUser()));
-            appendFileToZip(out, "financial-ledger.csv", financialLedgerAggregateToCSVFileMapperFunction.apply(financialLedger));
+            appendFileToZip(out, "financial-ledger.csv", financialLedgerToCSVFileMapperFunction.apply(financialLedger));
             for (BookingAggregate bookingAggregate : financialLedger.getBookingAggregates()) {
                 appendFileToZip(out, "BookingReferences", String.format("%s.csv", bookingAggregate.getTitle()), bookingUserReferencesToCSVFileMapperFunction.apply(bookingAggregate));
             }

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class FinancialLedgerAggregateToModelMapper implements FinancialLedgerAggregateToFinancialLedgerModelMapper {
+public class FinancialLedgerToModelMapper implements FinancialLedgerToFinancialLedgerModelMapper {
 
     @Override
     public FinancialLedgerModel apply(final FinancialLedger financialLedger) {

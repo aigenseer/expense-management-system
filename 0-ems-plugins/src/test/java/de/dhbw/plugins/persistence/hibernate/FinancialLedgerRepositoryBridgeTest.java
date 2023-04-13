@@ -2,7 +2,7 @@ package de.dhbw.plugins.persistence.hibernate;
 
 import de.dhbw.ems.domain.financialledger.entity.FinancialLedger;
 import de.dhbw.plugins.persistence.hibernate.financialledger.aggregate.FinancialLedgerRepositoryBridge;
-import de.dhbw.plugins.persistence.hibernate.financialledger.aggregate.SpringDataFinancialLedgerAggregateRepository;
+import de.dhbw.plugins.persistence.hibernate.financialledger.aggregate.SpringDataFinancialLedgerRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,7 +27,7 @@ import static org.mockito.Mockito.when;
 public class FinancialLedgerRepositoryBridgeTest {
 
     @Mock
-    private SpringDataFinancialLedgerAggregateRepository springDataRepository;
+    private SpringDataFinancialLedgerRepository springDataRepository;
 
     @InjectMocks
     private FinancialLedgerRepositoryBridge repositoryBridge;
