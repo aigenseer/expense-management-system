@@ -1,6 +1,6 @@
 package de.dhbw.plugins.persistence.hibernate;
 
-import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregate;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedger;
 import de.dhbw.plugins.persistence.hibernate.financialledger.aggregate.FinancialLedgerAggregateRepositoryBridge;
 import de.dhbw.plugins.persistence.hibernate.financialledger.aggregate.SpringDataFinancialLedgerAggregateRepository;
 import org.junit.Before;
@@ -24,7 +24,7 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 @ComponentScan("de.dhbw.plugins.persistence.hibernate")
-public class FinancialLedgerAggregateRepositoryBridgeTest {
+public class FinancialLedgerRepositoryBridgeTest {
 
     @Mock
     private SpringDataFinancialLedgerAggregateRepository springDataRepository;
@@ -32,8 +32,8 @@ public class FinancialLedgerAggregateRepositoryBridgeTest {
     @InjectMocks
     private FinancialLedgerAggregateRepositoryBridge repositoryBridge;
 
-    private final FinancialLedgerAggregate entity = FinancialLedgerAggregate.builder().id(UUID.randomUUID()).build();
-    private final List<FinancialLedgerAggregate> entities = new ArrayList<FinancialLedgerAggregate>(){{ add(entity); }};
+    private final FinancialLedger entity = FinancialLedger.builder().id(UUID.randomUUID()).build();
+    private final List<FinancialLedger> entities = new ArrayList<FinancialLedger>(){{ add(entity); }};
 
     @Before()
     public void setup(){
@@ -55,7 +55,7 @@ public class FinancialLedgerAggregateRepositoryBridgeTest {
 
     @Test
     public void testFindAll(){
-        List<FinancialLedgerAggregate> result = repositoryBridge.findAll();
+        List<FinancialLedger> result = repositoryBridge.findAll();
         assertEquals(1, result.size());
         assertTrue(result.contains(entity));
         verify(springDataRepository).findAll();
@@ -63,7 +63,7 @@ public class FinancialLedgerAggregateRepositoryBridgeTest {
 
     @Test
     public void testFindById(){
-        Optional<FinancialLedgerAggregate> result = repositoryBridge.findById(entity.getId());
+        Optional<FinancialLedger> result = repositoryBridge.findById(entity.getId());
         assertTrue(result.isPresent());
         assertEquals(entity, result.get());
         verify(springDataRepository).findById(entity.getId());
