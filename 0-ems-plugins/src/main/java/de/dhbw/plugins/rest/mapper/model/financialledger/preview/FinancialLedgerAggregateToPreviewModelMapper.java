@@ -1,6 +1,6 @@
 package de.dhbw.plugins.rest.mapper.model.financialledger.preview;
 
-import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregate;
 import org.springframework.stereotype.Component;
 
 @Component

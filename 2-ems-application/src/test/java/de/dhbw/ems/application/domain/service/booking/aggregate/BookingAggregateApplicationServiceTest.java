@@ -6,7 +6,7 @@ import de.dhbw.ems.application.domain.service.booking.data.BookingAggregateAttri
 import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
 import de.dhbw.ems.domain.booking.aggregate.BookingAggregateRepository;
 import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
-import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregate;
 import de.dhbw.ems.domain.user.User;
 import org.junit.Before;
 import org.junit.Test;

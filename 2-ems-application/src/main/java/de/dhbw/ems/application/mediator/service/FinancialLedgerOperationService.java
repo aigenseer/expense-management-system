@@ -7,7 +7,7 @@ import de.dhbw.ems.application.domain.service.user.UserDomainService;
 import de.dhbw.ems.application.mediator.ConcreteApplicationMediator;
 import de.dhbw.ems.application.mediator.colleage.FinancialLedgerColleague;
 import de.dhbw.ems.application.mediator.service.impl.FinancialLedgerService;
-import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregate;
 import de.dhbw.ems.domain.financialledger.link.UserFinancialLedgerLink;
 import de.dhbw.ems.domain.user.User;
 import org.springframework.stereotype.Service;

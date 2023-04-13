@@ -3,7 +3,7 @@ package de.dhbw.ems.domain.booking.aggregate;
 import de.dhbw.ems.abstractioncode.valueobject.money.Money;
 import de.dhbw.ems.domain.booking.reference.BookingReference;
 import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
-import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregate;
 import de.dhbw.ems.domain.user.User;
 import lombok.*;
 import org.apache.commons.lang3.Validate;

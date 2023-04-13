@@ -1,6 +1,6 @@
 package de.dhbw.plugins.rest.mapper.controller.factory.financialledger;
 
-import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregate;
 import de.dhbw.plugins.rest.controller.bookingcategories.BookingCategoriesController;
 import de.dhbw.plugins.rest.controller.bookings.BookingsController;
 import de.dhbw.plugins.rest.controller.financialledger.FinancialLedgerController;

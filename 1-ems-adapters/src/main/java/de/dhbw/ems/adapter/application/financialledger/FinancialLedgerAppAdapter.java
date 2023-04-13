@@ -6,7 +6,7 @@ import de.dhbw.ems.application.domain.service.financialledger.entity.FinancialLe
 import de.dhbw.ems.application.domain.service.financialledger.data.FinancialLedgerAttributeData;
 import de.dhbw.ems.application.domain.service.financialledger.link.UserFinancialLedgerLinkDomainServicePort;
 import de.dhbw.ems.application.mediator.service.impl.FinancialLedgerServicePort;
-import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

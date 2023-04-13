@@ -9,7 +9,7 @@ import de.dhbw.ems.application.archive.mapper.bookings.BookingUserReferencesToCS
 import de.dhbw.ems.application.archive.mapper.financialledger.FinancialLedgerAggregateToCSVFileMapperFunction;
 import de.dhbw.ems.application.archive.mapper.user.UsersToCSVFileMapperFunction;
 import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
-import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

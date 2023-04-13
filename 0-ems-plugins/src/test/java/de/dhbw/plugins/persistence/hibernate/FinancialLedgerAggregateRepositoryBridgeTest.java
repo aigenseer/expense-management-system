@@ -1,6 +1,6 @@
 package de.dhbw.plugins.persistence.hibernate;
 
-import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregate;
 import de.dhbw.plugins.persistence.hibernate.financialledger.aggregate.FinancialLedgerAggregateRepositoryBridge;
 import de.dhbw.plugins.persistence.hibernate.financialledger.aggregate.SpringDataFinancialLedgerAggregateRepository;
 import org.junit.Before;

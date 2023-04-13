@@ -8,7 +8,7 @@ import de.dhbw.ems.application.mediator.colleage.BookingCategoryColleague;
 import de.dhbw.ems.application.mediator.service.impl.BookingCategoryService;
 import de.dhbw.ems.application.mediator.service.impl.FinancialLedgerService;
 import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
-import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregate;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;

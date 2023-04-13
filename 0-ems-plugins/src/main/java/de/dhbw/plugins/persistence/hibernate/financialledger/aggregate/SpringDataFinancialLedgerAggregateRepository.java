@@ -1,6 +1,6 @@
 package de.dhbw.plugins.persistence.hibernate.financialledger.aggregate;
 
-import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregate;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;

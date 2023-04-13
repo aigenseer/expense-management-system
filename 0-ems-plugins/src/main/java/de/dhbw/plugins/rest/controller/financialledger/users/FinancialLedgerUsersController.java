@@ -1,7 +1,7 @@
 package de.dhbw.plugins.rest.controller.financialledger.users;
 
 import de.dhbw.ems.adapter.application.financialledger.FinancialLedgerApplicationAdapter;
-import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregate;
 import de.dhbw.plugins.rest.controller.booking.users.data.AppendUserData;
 import de.dhbw.plugins.rest.controller.financialledger.user.FinancialLedgerUserController;
 import de.dhbw.plugins.rest.controller.utils.WebMvcLinkBuilderUtils;

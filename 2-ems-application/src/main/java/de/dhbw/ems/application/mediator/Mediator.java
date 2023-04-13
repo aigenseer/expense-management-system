@@ -3,7 +3,7 @@ package de.dhbw.ems.application.mediator;
 import de.dhbw.ems.application.mediator.colleage.Colleague;
 import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
 import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
-import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregate;
 import de.dhbw.ems.domain.user.User;
 
 

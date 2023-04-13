@@ -9,7 +9,7 @@ import de.dhbw.ems.application.mediator.colleage.BookingColleague;
 import de.dhbw.ems.application.mediator.service.impl.BookingService;
 import de.dhbw.ems.application.mediator.service.impl.FinancialLedgerService;
 import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
-import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregate;
 import de.dhbw.ems.domain.user.User;
 import org.springframework.stereotype.Service;
 

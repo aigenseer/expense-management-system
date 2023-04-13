@@ -1,6 +1,6 @@
 package de.dhbw.ems.domain.financialledger.link;
 
-import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregate;
 import de.dhbw.ems.domain.user.User;
 import lombok.*;
 

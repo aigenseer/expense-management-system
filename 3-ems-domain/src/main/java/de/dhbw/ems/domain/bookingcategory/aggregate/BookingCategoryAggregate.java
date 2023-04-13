@@ -1,7 +1,7 @@
 package de.dhbw.ems.domain.bookingcategory.aggregate;
 
 import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
-import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregate;
 import lombok.*;
 import org.apache.commons.lang3.Validate;
 import org.hibernate.annotations.Type;

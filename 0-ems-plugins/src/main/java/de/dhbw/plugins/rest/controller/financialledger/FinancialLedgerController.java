@@ -3,7 +3,7 @@ package de.dhbw.plugins.rest.controller.financialledger;
 import de.dhbw.ems.adapter.application.financialledger.FinancialLedgerApplicationAdapter;
 import de.dhbw.ems.adapter.mapper.data.financialledger.FinancialLedgerDataToFinancialLedgerAttributeDataAdapterMapper;
 import de.dhbw.ems.application.domain.service.financialledger.data.FinancialLedgerAttributeData;
-import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregate;
 import de.dhbw.plugins.rest.controller.financialledgers.data.FinancialLedgerData;
 import de.dhbw.plugins.rest.controller.utils.WebMvcLinkBuilderUtils;
 import de.dhbw.plugins.rest.mapper.controller.factory.financialledger.FinancialLedgerModelFactory;

@@ -3,7 +3,7 @@ package de.dhbw.ems.application.domain.service.bookingcategory.aggregate;
 import de.dhbw.ems.application.domain.service.bookingcategory.data.BookingCategoryAttributeData;
 import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregate;
 import de.dhbw.ems.domain.bookingcategory.aggregate.BookingCategoryAggregateRepository;
-import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregate;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

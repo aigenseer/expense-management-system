@@ -1,8 +1,8 @@
 package de.dhbw.ems.application.domain.service.financialledger.entity;
 
 import de.dhbw.ems.application.domain.service.financialledger.data.FinancialLedgerAttributeData;
-import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
-import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregateRepository;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregate;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregateRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

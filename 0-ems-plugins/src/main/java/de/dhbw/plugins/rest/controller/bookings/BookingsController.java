@@ -5,7 +5,7 @@ import de.dhbw.ems.adapter.application.financialledger.FinancialLedgerApplicatio
 import de.dhbw.ems.adapter.mapper.data.booking.BookingUnsafeDataToBookingAttributeDataAdapterMapper;
 import de.dhbw.ems.application.domain.service.booking.data.BookingAggregateAttributeData;
 import de.dhbw.ems.domain.booking.aggregate.BookingAggregate;
-import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregate;
 import de.dhbw.plugins.rest.controller.booking.BookingController;
 import de.dhbw.plugins.rest.controller.booking.data.BookingData;
 import de.dhbw.plugins.rest.controller.utils.WebMvcLinkBuilderUtils;

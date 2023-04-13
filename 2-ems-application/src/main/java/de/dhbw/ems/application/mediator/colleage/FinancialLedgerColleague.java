@@ -3,7 +3,7 @@ package de.dhbw.ems.application.mediator.colleage;
 import de.dhbw.ems.application.domain.service.financialledger.entity.FinancialLedgerDomainService;
 import de.dhbw.ems.application.domain.service.financialledger.link.UserFinancialLedgerLinkDomainService;
 import de.dhbw.ems.application.mediator.ConcreteApplicationMediator;
-import de.dhbw.ems.domain.financialledger.aggregate.FinancialLedgerAggregate;
+import de.dhbw.ems.domain.financialledger.entity.FinancialLedgerAggregate;
 import de.dhbw.ems.domain.user.User;
 
 public class FinancialLedgerColleague extends Colleague {
